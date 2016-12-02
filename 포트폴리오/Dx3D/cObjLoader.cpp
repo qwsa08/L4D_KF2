@@ -116,7 +116,7 @@ void cObjLoader::Load( IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D
 	}
 }
 
-LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
+LPD3DXMESH cObjLoader::Load(OUT std::vector<ST_PNT_VERTEX>& vecVertexs,
 	IN char* szPath,
 	OUT std::vector<cMtlTex*>& vecMtlTex,
 	IN D3DXMATRIXA16* pmat /*= NULL*/ )
@@ -183,6 +183,8 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 		}
 		else if(szBuf[0] == 'f')
 		{
+			std::vector<ST_PNT_VERTEX> vecTemp;
+
 			int aIndex[3][3];
 			sscanf_s(szBuf, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
 				&aIndex[0][0], &aIndex[0][1], &aIndex[0][2],
@@ -201,6 +203,19 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 					D3DXVec3TransformNormal(&v.n, &v.n, pmat);
 				}
 				vecVertex.push_back(v);
+				vecTemp.push_back(v);
+			}
+
+			std::map<int, std::string>::iterator iMapFloor;
+			iMapFloor = m_mapFloor.begin();
+			for (iMapFloor; iMapFloor != m_mapFloor.end(); iMapFloor++)
+			{
+				if (!strcmp(sMtlName.c_str(), iMapFloor->second.c_str()))
+				{
+					vecVertexs.push_back(vecTemp[0]);
+					vecVertexs.push_back(vecTemp[1]);
+					vecVertexs.push_back(vecTemp[2]);
+				}
 			}
 
 			vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
@@ -208,7 +223,10 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 	}
 
 	fclose(fp);
-	m_pTestObj->SetVertex(vecVertex);
+
+	//vecVertexs = vecVertex;
+
+	//m_pTestObj->SetVertex(vecVertex);
 	LPD3DXMESH pMesh = NULL;
 	D3DXCreateMeshFVF(vecVertex.size() / 3,
 		vecVertex.size(),
@@ -312,6 +330,8 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 	FILE* fp = NULL;
 
 	std::string sMtlName;
+	int nMtlNum = -1;
+	SetFloorMtrlNum(&m_mapFloor);
 
 	fopen_s(&fp, szPath, "r");
 
@@ -327,6 +347,8 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 		}
 		else if(szBuf[0] == 'n')
 		{
+			nMtlNum++;
+
 			char szMtlName[1024];
 			sscanf_s(szBuf, "%*s %s", szMtlName, 1024);
 			sMtlName = std::string(szMtlName);
@@ -334,6 +356,14 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 			m_mapMtlTex[sMtlName] = new cMtlTex;
 			m_mapMtlTex[sMtlName]->SetAttrID(vecMtlTex.size());
 			vecMtlTex.push_back(m_mapMtlTex[sMtlName]);
+
+			for (int i = 0; i < m_mapFloor.size(); ++i)
+			{
+				if (m_mapFloor.find(nMtlNum) != m_mapFloor.end())
+				{
+					m_mapFloor[nMtlNum] = sMtlName;
+				}
+			}
 		}
 		else if(szBuf[0] == 'K')
 		{
@@ -364,6 +394,33 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 	}
 
 	fclose(fp);
+}
+
+void cObjLoader::SetFloorMtrlNum(OUT std::map<int, std::string>* mapFloor)
+{
+	std::vector<int> vecNum;
+	vecNum.push_back(3);
+	vecNum.push_back(13);
+	vecNum.push_back(18);
+	vecNum.push_back(21);
+	vecNum.push_back(27);
+	vecNum.push_back(29);
+	vecNum.push_back(47);
+	vecNum.push_back(49);
+	vecNum.push_back(63);
+	vecNum.push_back(65);
+	vecNum.push_back(67);
+	vecNum.push_back(68);
+	vecNum.push_back(76);
+	vecNum.push_back(145);
+
+
+	std::string s("");
+
+	for (int i = 0; i < vecNum.size(); ++i)
+	{
+		(*mapFloor)[vecNum[i]] = s;
+	}
 }
 
 

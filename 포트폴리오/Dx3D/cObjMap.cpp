@@ -27,7 +27,7 @@ cObjMap::~cObjMap(void)
 void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 {
 	cObjLoader l;
-	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
+	m_Map = l.Load(m_vecVertex, szMap, m_pMtltex, pmat);
 	std::vector<D3DXVECTOR3>	vecV;
 
 	FILE* fp = NULL;
@@ -52,6 +52,8 @@ void cObjMap::Render()
 
 bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 {
+	std::vector<float> vY;
+
 	D3DXVECTOR3 vRayPos(x, 1000, z);
 	D3DXVECTOR3 vRayDir( 0,-1, 0);
 	float u, v, d;
@@ -62,9 +64,23 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 		D3DXVECTOR3 v2 = m_vecVertex[i + 2].p;
 		if(D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
 		{
-			y = 1000 - d;
-			return true;
+			//y = 1000 - d;
+			//return true;
+			vY.push_back(1000 - d);
 		}
+	}
+	if (vY.size() > 0)
+	{
+		float hMax = vY[0];
+		for (int i = 0; i < vY.size(); ++i)
+		{
+			if (hMax < vY[i])
+			{
+				hMax = vY[i];
+			}
+		}
+		y = hMax;
+		return true;
 	}
 	y = 0;
 	return false;
