@@ -129,6 +129,9 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 
 	std::string					sMtlName;
 
+	std::vector<ST_PNT_VERTEX>	vecFloorVertex;
+	char szMtlName[1024];
+
 	cGroup* pGroup = NULL;
 
 	FILE* fp = NULL;
@@ -153,7 +156,6 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 		}
 		else if(szBuf[0] == 'u')
 		{
-			char szMtlName[1024];
 			sscanf_s(szBuf, "%*s %s", szMtlName, 1024);
 			sMtlName = std::string(szMtlName);
 		}
@@ -201,6 +203,17 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 					D3DXVec3TransformNormal(&v.n, &v.n, pmat);
 				}
 				vecVertex.push_back(v);
+				if (!strcmp(szMtlName, "texture_3") ||
+					!strcmp(szMtlName, "texture_13") ||
+					!strcmp(szMtlName, "texture_18") ||
+					!strcmp(szMtlName, "texture_21") ||
+					!strcmp(szMtlName, "texture_29") ||
+					!strcmp(szMtlName, "texture_47") || 
+					!strcmp(szMtlName, "texture_63") || 
+					!strcmp(szMtlName, "texture_68") ||
+					!strcmp(szMtlName, "texture_145"))
+					vecFloorVertex.push_back(v);
+
 			}
 
 			vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
@@ -208,7 +221,7 @@ LPD3DXMESH cObjLoader::Load(cObjMap* m_pTestObj,
 	}
 
 	fclose(fp);
-	m_pTestObj->SetVertex(vecVertex);
+	m_pTestObj->SetVertex(vecFloorVertex);
 	LPD3DXMESH pMesh = NULL;
 	D3DXCreateMeshFVF(vecVertex.size() / 3,
 		vecVertex.size(),

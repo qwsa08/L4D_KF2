@@ -67,7 +67,7 @@ void cMainGame::Setup()
 	//거리 = D3DXPlaneDotCoord(평면, 점) 앞:양수, 뒤:음수
 
 
-	m_pSkinnedMesh = new cSkinnedMesh("Zombie/Crawler/", "ZED_Crawler.X");
+	m_pSkinnedMesh = new cSkinnedMesh("Zombie/Bloat/", "ZED_Bloat.X");
 	//m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0,2));

@@ -6,6 +6,7 @@
 
 cObjMap::cObjMap(void)
 	:m_Map(NULL)
+	
 {
 }
 
@@ -13,6 +14,7 @@ cObjMap::cObjMap(void)
 cObjMap::~cObjMap(void)
 {
 	SAFE_RELEASE(m_Map);
+	
 	for each(auto p in m_vecGroup)
 	{
 		SAFE_DELETE(p);
@@ -30,7 +32,9 @@ void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
 	std::vector<D3DXVECTOR3>	vecV;
 
-	FILE* fp = NULL;
+
+	
+
 
 	int b = m_vecVertex.size();
 }
@@ -48,6 +52,7 @@ void cObjMap::Render()
 		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
 		m_Map->DrawSubset(i);
 	}
+
 }
 
 bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
