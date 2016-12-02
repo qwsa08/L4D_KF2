@@ -24,7 +24,7 @@ cObjMap::~cObjMap(void)
 	}
 }
 
-void cObjMap::Load( char* szMap, char* szSurface, D3DXMATRIXA16* pmat /*= NULL*/ )
+void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 {
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
@@ -32,63 +32,6 @@ void cObjMap::Load( char* szMap, char* szSurface, D3DXMATRIXA16* pmat /*= NULL*/
 
 	FILE* fp = NULL;
 
-	fopen_s(&fp, szSurface, "r");
-
-	while(!feof(fp))
-	{
-		char szBuf[1024] = {'\0', };
-		fgets(szBuf, 1024, fp);
-		if (strlen(szBuf) == 0) continue;
-
-		if (szBuf[0] == '#') 
-		{
-			continue;
-		}
-		else if(szBuf[0] == 'm')
-		{
-		}
-		else if(szBuf[0] == 'u')
-		{
-		}
-		else if(szBuf[0] == 'g')
-		{
-		}
-		else if(szBuf[0] == 'v')
-		{
-			if(szBuf[1] == 't')
-			{
-			}
-			else if(szBuf[1] == 'n')
-			{
-			}
-			else
-			{
-				float x, y, z;
-				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
-				vecV.push_back(D3DXVECTOR3(x, y, z));
-			}
-		}
-		else if(szBuf[0] == 'f')
-		{
-			int aIndex[3];
-			sscanf_s(szBuf, "%*s %d/%*d/%*d %d/%*d/%*d %d/%*d/%*d",
-				&aIndex[0], &aIndex[1], &aIndex[2]);
-
-			for (int i = 0; i < 3; ++i)
-			{
-				D3DXVECTOR3 p = vecV[aIndex[i] - 1];
-				if(pmat)
-				{
-					D3DXVec3TransformCoord(&p, &p, pmat);
-				}
-				m_vecSurface.push_back(p);
-			}
-		}
-	}
-
-	fclose(fp);
-
-	
 	int b = m_vecVertex.size();
 }
 
