@@ -18,7 +18,7 @@ public:
 	cObjMap(void);
 	virtual ~cObjMap(void);
 
-	virtual void Load(char* szMap, char* szSurface, D3DXMATRIXA16* pmat = NULL);
+	virtual void Load(char* szMap, D3DXMATRIXA16* pmat = NULL);
 
 	// iMap
 	virtual void Render() override;

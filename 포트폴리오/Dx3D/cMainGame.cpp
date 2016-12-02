@@ -82,7 +82,7 @@ void cMainGame::Setup()
 	D3DXMatrixIdentity(&mat);
 
 	cObjMap* pObjMap = new cObjMap;
-	pObjMap->Load("./Map/House14.obj", "./Map/House14.obj", &mat);
+	pObjMap->Load("./Map/House14.ptop",&mat);
 	m_pMap = pObjMap;
 
 	/*cMapXfile* m_pMapXFile = new cMapXfile;
