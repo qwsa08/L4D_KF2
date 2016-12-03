@@ -2,7 +2,7 @@
 
 class cMtlTex;
 class cGroup;
-//class cObjMap;
+class cObjMap;
 
 class cObjLoader
 {
@@ -10,13 +10,14 @@ private:
 	std::map<std::string, cMtlTex*>	m_mapMtlTex;
 	std::vector<ST_PNT_VERTEX>		m_vecVertex;
 	std::map<int, std::string>		m_mapFloor;
+	std::map<int, std::string>		m_mapWall;
 
 public:
 	cObjLoader(void);
 	~cObjLoader(void);
 
 	void Load(IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIXA16* pmat = NULL);
-	LPD3DXMESH Load(OUT std::vector<ST_PNT_VERTEX>& vecVertex,
+	LPD3DXMESH Load(OUT cObjMap* ObjMap,
 	IN char* szPath,
 	OUT std::vector<cMtlTex*>& vecMtlTex,
 	IN D3DXMATRIXA16* pmat = NULL);
@@ -26,5 +27,6 @@ private:
 	void LoadMtlLib(char* szPath);
 	void LoadMtlLib(char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex);
 	void SetFloorMtrlNum(OUT std::map<int, std::string>* mapFloor);
+	void SetWallMtrlNum(OUT std::map<int, std::string>* mapWall);
 };
 

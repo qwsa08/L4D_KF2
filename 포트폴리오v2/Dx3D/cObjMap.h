@@ -3,6 +3,16 @@
 class cMtlTex;
 class cGroup;
 
+struct BoundingBox
+{
+	BoundingBox();
+	bool isPointInside(D3DXVECTOR3& p);
+	D3DXVECTOR3 _min;
+	D3DXVECTOR3 _max;
+};
+
+
+
 class cObjMap : public iMap
 {
 protected:
@@ -11,8 +21,12 @@ protected:
 
 	std::vector<cMtlTex*>		m_pMtltex;
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVertex, Vertex);
-	
+	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVerWall, VerWall);
+
 	LPD3DXMESH					m_Map;
+
+	LPD3DXMESH					m_pWallMesh;
+	BoundingBox*				m_box;
 
 public:
 	cObjMap(void);
