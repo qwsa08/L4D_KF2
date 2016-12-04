@@ -81,22 +81,57 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 	D3DXVECTOR3 vPos(x, y, z);
 	float Range;
 	
-	for (int i = 0; i < m_line.size(); i++)
+
+	for (int i = 0; i < m_vecVerWall.size(); i+=3)
 	{
-		D3DXVECTOR3 _line;
-		_line = vPos - m_Start[i];
-		D3DXVECTOR3 _lineNomal;
-		D3DXVec3Normalize(&_lineNomal, &m_line[i]);
 
-		D3DXVECTOR3 m_Spot;
-		m_Spot = m_Start[i] + D3DXVec3Dot(&_lineNomal, &_line) * m_line[i];
+		float LineMag;
+		float U;
+		D3DXVECTOR3 vIntersection;
+		D3DXVECTOR3 _halfSpot;
+		_halfSpot = (m_vecVerWall[i + 1].p + m_vecVerWall[i + 2].p) / 2;
 
-		m_Spot = vPos - m_Spot;
-		Range = D3DXVec3Length(&m_Spot);
+		LineMag = D3DXVec3Length(&(_halfSpot - m_vecVerWall[i].p));
 
-		if (fabs(Range) < 100) return false;
+		U = (
+			((vPos.x - m_vecVerWall[i].p.x) * (_halfSpot.x - m_vecVerWall[i].p.x)) +
+			((vPos.y - m_vecVerWall[i].p.y) * (_halfSpot.y - m_vecVerWall[i].p.y)) +
+			((vPos.z - m_vecVerWall[i].p.z) * (_halfSpot.z - m_vecVerWall[i].p.z))
+			) / (LineMag * LineMag);
+
+		if (U < 0.f || U >1.f) continue;
+
+		vIntersection.x = m_vecVerWall[i].p.x + U *(_halfSpot.x - m_vecVerWall[i].p.x);
+		vIntersection.y = m_vecVerWall[i].p.y + U *(_halfSpot.y - m_vecVerWall[i].p.y);
+		vIntersection.z = m_vecVerWall[i].p.z + U *(_halfSpot.z - m_vecVerWall[i].p.z);
+
+		Range = D3DXVec3Length(&(vIntersection - vPos));
+
+		if (Range < 50.f)
+		{
+			return false;
+		}
 	}
-	
+
+	//for (int i = 0; i < m_line.size(); i++)
+	//{
+	//	D3DXVECTOR3 _line;
+	//	_line = vPos - m_Start[i];
+	//	D3DXVECTOR3 _lineNomal;
+	//	D3DXVec3Normalize(&_lineNomal, &m_line[i]);
+
+	//	D3DXVECTOR3 m_Spot , m_test;
+	//	float numtest;
+	//	numtest = D3DXVec3Dot(&_lineNomal, &_line);// *m_line[i];
+	//	m_Spot = m_Start[i] + D3DXVec3Dot(&_lineNomal, &_line) * m_line[i];
+
+
+	//	m_Spot = vPos - m_Spot;
+	//	Range = D3DXVec3Length(&m_Spot);
+
+	//	if (fabs(Range) < 100) return false;
+	//}
+	//
 	for (size_t i = 0; i < m_vecVertex.size(); i += 3)
 	{
 		D3DXVECTOR3 v0 = m_vecVertex[i].p;
