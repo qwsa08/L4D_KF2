@@ -73,7 +73,7 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 	if(pBoundingSphereMesh == NULL)
 	{
 		D3DXCreateSphere(g_pD3DDevice, 
-			m_stBoundingSphere.fRadius,
+			(m_stBoundingSphere.fRadius/3) *2,
 			20, 
 			20, 
 			&pBoundingSphereMesh,
@@ -105,6 +105,8 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 	if(m_pRootFrame)
 	{
 		D3DXMATRIXA16 mat , matI;
+		D3DXMatrixIdentity(&mat);
+		D3DXMatrixIdentity(&matI);
 		if(pmat)
 		{
 			mat = (*pScal) * *pmat;
@@ -120,10 +122,11 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		Render(m_pRootFrame);
 		if(pBoundingSphereMesh)
 		{
-			D3DXMatrixTranslation(&mat, 
+			D3DXMatrixTranslation(&matI,
 				m_stBoundingSphere.vCenter.x,
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
+			mat *= matI;
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			pBoundingSphereMesh->DrawSubset(0);

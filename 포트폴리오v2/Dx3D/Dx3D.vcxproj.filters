@@ -162,6 +162,9 @@
     <ClInclude Include="cMapXfile.h">
       <Filter>.</Filter>
     </ClInclude>
+    <ClInclude Include="cObjManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -247,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="cMapXfile.cpp">
       <Filter>.</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjManager.cpp">
+      <Filter>MANAGER</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
