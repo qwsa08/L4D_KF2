@@ -101,6 +101,7 @@
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
@@ -133,6 +134,7 @@
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
