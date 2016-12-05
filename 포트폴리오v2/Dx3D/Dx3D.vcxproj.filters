@@ -58,6 +58,9 @@
     <Filter Include=".">
       <UniqueIdentifier>{4eba1b57-3e1c-4ed8-9dfd-ee5cd2742a27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="캐릭&amp;몬스터">
+      <UniqueIdentifier>{84c7d716-5e8a-4ab3-ad9c-0ae25b23aabd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -165,6 +168,12 @@
     <ClInclude Include="cObjManager.h">
       <Filter>MANAGER</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>캐릭&amp;몬스터</Filter>
+    </ClInclude>
+    <ClInclude Include="cZed.h">
+      <Filter>캐릭&amp;몬스터</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="cObjManager.cpp">
       <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>캐릭&amp;몬스터</Filter>
+    </ClCompile>
+    <ClCompile Include="cZed.cpp">
+      <Filter>캐릭&amp;몬스터</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

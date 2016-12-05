@@ -134,7 +134,39 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		}
 	}
 }
+void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
+{
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, pmat);
+	RenderPlayer(m_pRootFrame);
+}
 
+void cSkinnedMesh::RenderPlayer(ST_BONE* pBone)
+{
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+		while (pBoneMesh)
+		{
+			for (size_t i = 0; i < pBoneMesh->vecMaterial.size(); ++i)
+			{
+				g_pD3DDevice->SetMaterial(&pBoneMesh->vecMaterial[i]);
+				g_pD3DDevice->SetTexture(0, pBoneMesh->vecTexture[i]);
+				pBoneMesh->pWorkingMesh->DrawSubset(i);
+			}
+			pBoneMesh = (ST_BONE_MESH*)pBoneMesh->pNextMeshContainer;
+		}
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		Render((ST_BONE*)pBone->pFrameFirstChild);
+	}
+
+	if (pBone->pFrameSibling)
+	{
+		Render((ST_BONE*)pBone->pFrameSibling);
+	}
+}
 void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 {
 	assert(pBone);
@@ -278,7 +310,14 @@ LPD3DXEFFECT cSkinnedMesh::LoadEffect( char* szFilename )
 
 	return pEffect;
 }
+void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
+{
+	if (m_pRootFrame == NULL) return;
 
+	Update(m_pRootFrame, pmat);
+	SetupBoneMatrixPtrs(m_pRootFrame);
+	
+}
 void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent )
 {
 	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;

@@ -22,6 +22,8 @@ public:
 
 	D3DXMATRIXA16* GetViewMatrix();
 	D3DXMATRIXA16* GetProjMatrix();
+
+	float GetAngle() { return m_fAngleY; }
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 
