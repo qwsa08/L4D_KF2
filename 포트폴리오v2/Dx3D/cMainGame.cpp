@@ -24,8 +24,7 @@ cMainGame::cMainGame(void)
 	, m_pMapMesh(NULL)
 	, m_pPlayer(NULL)
 	, m_pZombie(NULL)
-	
-	
+	, m_pBoundingBox(NULL)
 {
 }
 
@@ -47,6 +46,8 @@ cMainGame::~cMainGame(void)
 
 	SAFE_DELETE(m_pPlayer);
 	SAFE_DELETE(m_pZombie);
+
+	SAFE_RELEASE(m_pBoundingBox);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -84,7 +85,14 @@ void cMainGame::Setup()
 
 	m_pZombie = new cZed;
 	m_pZombie->SetUp();
-		
+	
+	//================================//
+	m_pBoundingBox = new cObjMap;
+	D3DXMatrixTranslation(&matT, 45, 0, 370);
+	mat *= matT;
+	m_pBoundingBox->Load("./Map/BoundingBox.obj", test, &mat);
+
+
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -107,10 +115,10 @@ void cMainGame::Update()
 	
 
 	if(m_pController)
-		m_pController->Update(m_pCamera->GetAngle(),m_pMap);
+		m_pController->Update(m_pMap);
 
 	if(m_pCamera)
-		m_pCamera->Update(m_pController->GetCamera());
+		m_pCamera->Update(m_pController->GetPosition(),&m_pController->GetDirection());
 	/*if(m_pPyramid)
 	{
 		m_pPyramid->SetDirection(m_pController->GetDirection());
@@ -164,6 +172,17 @@ void cMainGame::Render()
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pMap->Render();
 	
+
+
+	if (test.size() > 0)
+	{
+		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+			test.size() / 3,
+			&test[0],
+			sizeof(D3DXVECTOR3));
+	}
+
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
@@ -174,6 +193,10 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	if (m_pCamera)
 	{
 		m_pCamera->WndProc(hWnd, message, wParam, lParam);
+	}
+	if (m_pController)
+	{
+		m_pController->WndProc(hWnd, message, wParam, lParam);
 	}
 
 	switch(message)

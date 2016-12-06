@@ -31,6 +31,7 @@ public:
 public:
 	SYNTHESIZE(std::string, m_sDirectory, Directory);
 	SYNTHESIZE(ST_SPHERE, m_stSphere, BoundingSphere);
+	SYNTHESIZE(ST_BoundingBox, m_stBox, BoundingBox);
 	SYNTHESIZE(DWORD, m_dwDefaultPaletteSize, DefaultPaletteSize);
 	SYNTHESIZE(DWORD, m_dwMaxPaletteSize, MaxPaletteSize);
 

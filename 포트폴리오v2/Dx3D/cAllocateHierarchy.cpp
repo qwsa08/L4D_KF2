@@ -106,6 +106,14 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			D3DXGetFVFVertexSize(ST_PNT_VERTEX::FVF),
 			&(m_stSphere.vCenter),
 			&(m_stSphere.fRadius));
+
+		
+		D3DXComputeBoundingBox((D3DXVECTOR3*)pV,
+			pMeshData->pMesh->GetNumVertices(),
+			D3DXGetFVFVertexSize(ST_PNT_VERTEX::FVF),
+			&m_stBox._min,
+			&m_stBox._max);
+
 		pMeshData->pMesh->UnlockVertexBuffer();
 		
 

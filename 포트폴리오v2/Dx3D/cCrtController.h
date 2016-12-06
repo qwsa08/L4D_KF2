@@ -9,14 +9,17 @@ private:
 	float						m_fAngle;
 	D3DXVECTOR3					m_vPosition;
 	D3DXMATRIXA16				m_matWorld;
-	D3DXVECTOR3					m_Camera;
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDirection, Direction);
+	POINT						m_ptPrevMouse;
+	float						m_fAngleX;
+	float						m_fAngleY;
+
 public:
 	cCrtController(void);
 	~cCrtController(void);
 
 	void Setup();
-	void Update(float Angle, iMap* pMap = NULL);
+	void Update(iMap* pMap = NULL);
 	D3DXVECTOR3* GetPosition()
 	{
 		return &m_vPosition;
@@ -25,10 +28,6 @@ public:
 	{
 		return &m_matWorld;
 	}
-
-	D3DXVECTOR3* GetCamera()
-	{
-		return &m_Camera;
-	}
+	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 

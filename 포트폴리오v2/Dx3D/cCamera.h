@@ -7,7 +7,7 @@ private:
 	D3DXVECTOR3				m_vUp;
 	D3DXMATRIXA16			m_matView;
 	D3DXMATRIXA16			m_matProj;
-	POINT					m_ptPrevMouse;
+	POINT					m_ptMouse;
 	bool					m_isLButtonDown;
 	float					m_fAngleX;
 	float					m_fAngleY;
@@ -18,12 +18,10 @@ public:
 	~cCamera(void);
 
 	void Setup();
-	void Update(D3DXVECTOR3* pTarget);
+	void Update(D3DXVECTOR3* pTarget, D3DXVECTOR3* pDirection);
 
 	D3DXMATRIXA16* GetViewMatrix();
 	D3DXMATRIXA16* GetProjMatrix();
-
-	float GetAngle() { return m_fAngleY; }
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 

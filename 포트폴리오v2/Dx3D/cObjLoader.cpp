@@ -12,16 +12,14 @@ cObjLoader::~cObjLoader(void)
 {
 }
 
-void cObjLoader::Load( IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIXA16* pmat /*= NULL*/)
+void cObjLoader::Load(IN char* szPath, OUT std::vector<D3DXVECTOR3>& vecBoundingBox, IN D3DXMATRIXA16* pmat /*= NULL*/)
 {
 	std::vector<D3DXVECTOR3>	vecV;
 	std::vector<D3DXVECTOR3>	vecVN;
 	std::vector<D3DXVECTOR2>	vecVT;
 	std::vector<ST_PNT_VERTEX>	vecVertex;
-	std::string					sMtlName;
-
-	
-	cGroup* pGroup = NULL;
+	//std::string					sMtlName;
+	//cGroup* pGroup = NULL;
 
 	FILE* fp = NULL;
 
@@ -39,41 +37,20 @@ void cObjLoader::Load( IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D
 		}
 		else if(szBuf[0] == 'm')
 		{
-			char szMtlPath[1024];
-			sscanf_s(szBuf, "%*s %s", szMtlPath, 1024);
-			LoadMtlLib(szMtlPath);
 		}
 		else if(szBuf[0] == 'u')
 		{
-			char szMtlName[1024];
-			sscanf_s(szBuf, "%*s %s", szMtlName, 1024);
-			sMtlName = std::string(szMtlName);
 		}
 		else if(szBuf[0] == 'g')
 		{
-			if (!vecVertex.empty())
-			{
-				pGroup = new cGroup;
-				pGroup->SetVertex(vecVertex);
-				pGroup->SetMtlTex(m_mapMtlTex[sMtlName]);
-				vecGroup.push_back(pGroup);
-				vecVertex.clear();
-				
-			}
 		}
 		else if(szBuf[0] == 'v')
 		{
 			if(szBuf[1] == 't')
 			{
-				float u, v;
-				sscanf_s(szBuf, "%*s %f %f %*f", &u, &v);
-				vecVT.push_back(D3DXVECTOR2(u, v));
 			}
 			else if(szBuf[1] == 'n')
 			{
-				float x, y, z;
-				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
-				vecVN.push_back(D3DXVECTOR3(x, y, z));
 			}
 			else
 			{
@@ -94,21 +71,20 @@ void cObjLoader::Load( IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D
 			{
 				ST_PNT_VERTEX v;
 				v.p = vecV[aIndex[i][0] - 1];
-				v.t = vecVT[aIndex[i][1] - 1];
-				v.n = vecVN[aIndex[i][2] - 1];
 				if(pmat)
 				{
 					D3DXVec3TransformCoord(&v.p, &v.p, pmat);
 					D3DXVec3TransformNormal(&v.n, &v.n, pmat);
 				}
-				vecVertex.push_back(v);
-				m_vecVertex.push_back(v);
+				vecBoundingBox.push_back(v.p);
+				//m_vecVertex.push_back(v);
 			}
 		}
 	}
 	
 	
 	fclose(fp);
+	
 
 	for each(auto it in m_mapMtlTex)
 	{
@@ -454,9 +430,24 @@ void cObjLoader::SetFloorMtrlNum(OUT std::map<int, std::string>* mapFloor)
 void cObjLoader::SetWallMtrlNum(OUT std::map<int, std::string>* mapWall)
 {
 	std::vector<int> vecNum;
-	vecNum.push_back(7);
-	vecNum.push_back(6);
-	vecNum.push_back(0);
+	
+	vecNum.push_back(10);
+	vecNum.push_back(28);
+	vecNum.push_back(31);
+	vecNum.push_back(33);
+	vecNum.push_back(37);
+	vecNum.push_back(42);
+	vecNum.push_back(50);
+	vecNum.push_back(52);
+	vecNum.push_back(53);
+	vecNum.push_back(19);
+	vecNum.push_back(88);
+	vecNum.push_back(115);
+	vecNum.push_back(116);
+	vecNum.push_back(118);
+	vecNum.push_back(126);
+	vecNum.push_back(120);
+	vecNum.push_back(59);
 	std::string s("");
 
 	for (int i = 0; i < vecNum.size(); ++i)

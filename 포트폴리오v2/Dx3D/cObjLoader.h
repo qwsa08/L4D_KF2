@@ -16,7 +16,7 @@ public:
 	cObjLoader(void);
 	~cObjLoader(void);
 
-	void Load(IN char* szPath, OUT std::vector<cGroup*>& vecGroup, IN D3DXMATRIXA16* pmat = NULL);
+	void Load(IN char* szPath, OUT std::vector<D3DXVECTOR3>& vecBoundingBox, IN D3DXMATRIXA16* pmat = NULL);
 	LPD3DXMESH Load(OUT cObjMap* ObjMap,
 	IN char* szPath,
 	OUT std::vector<cMtlTex*>& vecMtlTex,

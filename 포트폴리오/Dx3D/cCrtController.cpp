@@ -70,7 +70,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_matWorld = matR * matT;
+	m_matWorld =  matT;
 }
 
 void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

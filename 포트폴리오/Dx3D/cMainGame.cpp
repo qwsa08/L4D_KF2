@@ -181,7 +181,7 @@ void cMainGame::Render()
 	{
 		if(m_pFrustum->IsIn(p->GetBoundingSphere()))
 		{
-			p->UpdateAndRender(m_pController->GetWorldTM(),&matS);
+			p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
 		}
 	}
 

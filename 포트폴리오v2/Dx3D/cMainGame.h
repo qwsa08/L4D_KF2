@@ -10,6 +10,8 @@ class cMtlTex;
 class cPlayer;
 class cZed;
 
+class cObjMap;
+
 class cMainGame
 {
 private:
@@ -29,6 +31,9 @@ private:
 	cPlayer*					m_pPlayer;
 	cZed*						m_pZombie;
 
+	cObjMap*					m_pBoundingBox;
+	//========================================
+	std::vector<D3DXVECTOR3>	test;
 public:
 	cMainGame(void);
 	~cMainGame(void);

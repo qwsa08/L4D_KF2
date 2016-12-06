@@ -41,10 +41,15 @@ void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 		m_line.push_back(_halfSpot - m_vecVerWall[i].p);
 		m_Start.push_back(m_vecVerWall[i].p);
 	}
-	
-	int a = 0;
 }
 
+void cObjMap::Load(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
+{
+	cObjLoader l;
+	//==여기서 매개변수로 받은걸로 처리할수있게 !!
+	l.Load(szMap, vecBoungdingBox, pmat);
+
+}
 void cObjMap::Render()
 {
 	D3DXMATRIXA16 matI;
@@ -60,14 +65,15 @@ void cObjMap::Render()
 		m_Map->DrawSubset(i);
 	}
 	
-	for (int i = 3981; i <3987; i += 3)
-	{
+
+	
+	/*{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-			1,
-			&m_vecVerWall[i],
+			m_vecVerWall.size()/3,
+			&m_vecVerWall[0],
 			sizeof(ST_PNT_VERTEX));
-	}
+	}*/
 }
 
 bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
@@ -77,7 +83,7 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 	D3DXVECTOR3 vRayPos(x, y + 100, z);
 	D3DXVECTOR3 vRayDir( 0,-1, 0);
 	float u, v, d;
-	
+
 	D3DXVECTOR3 vPos(x, y + 50, z);
 	float Range;
 	
@@ -125,6 +131,8 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 			vY.push_back(y+100 -d);
 		}
 	}
+	//한계값 받기 
+
 	if (vY.size() > 0)
 	{
 		float hMax = vY[0];
@@ -135,29 +143,11 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 				hMax = vY[i];
 			}
 		}
-		y = hMax;
+		y = hMax +100;
 		return true;
+		
 	}
 	y = 0;
 	return false;
 	
-}
-bool cObjMap::Plane(D3DXVECTOR3 center, float radius)
-{
-	D3DXVECTOR3 V2_0;
-	D3DXVECTOR3 V1_0;
-	D3DXVECTOR3 vCross;
-	float Range;
-	for (int i = 0; i < m_vecVerWall.size(); i += 3)
-	{
-		V2_0 = m_vecVerWall[2].p - m_vecVerWall[0].p;
-		V1_0 = m_vecVerWall[1].p - m_vecVerWall[0].p;
-		D3DXVec3Cross(&vCross, &V2_0, &V1_0);
-		D3DXVec3Normalize(&vCross, &vCross);
-
-		Range = D3DXVec3Dot(&center, &vCross);
-
-		if (Range < radius) return false;
-	}
-	return true;
 }

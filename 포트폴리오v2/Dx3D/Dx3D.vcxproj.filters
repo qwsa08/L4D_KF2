@@ -61,6 +61,12 @@
     <Filter Include="캐릭&amp;몬스터">
       <UniqueIdentifier>{84c7d716-5e8a-4ab3-ad9c-0ae25b23aabd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="XFile\플레이어">
+      <UniqueIdentifier>{b07b9af1-05bf-488f-9f22-7d0ee8b9269a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XFile\좀비">
+      <UniqueIdentifier>{a540d0f9-db66-441a-8d91-4aad1e31a931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -104,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="cActionRepeat.h">
       <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>XFile</Filter>
     </ClInclude>
     <ClInclude Include="cCamera.h">
       <Filter>Camera</Filter>
@@ -153,9 +156,6 @@
     <ClInclude Include="cPyramid.h">
       <Filter>Etc\Pyramid</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>XFile</Filter>
-    </ClInclude>
     <ClInclude Include="cRay.h">
       <Filter>Ray</Filter>
     </ClInclude>
@@ -173,6 +173,12 @@
     </ClInclude>
     <ClInclude Include="cZed.h">
       <Filter>캐릭&amp;몬스터</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>XFile\좀비</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>XFile\좀비</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,9 +205,6 @@
     </ClCompile>
     <ClCompile Include="cActionSeq.cpp">
       <Filter>Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>XFile</Filter>
     </ClCompile>
     <ClCompile Include="cCamera.cpp">
       <Filter>Camera</Filter>
@@ -251,9 +254,6 @@
     <ClCompile Include="cFrustum.cpp">
       <Filter>Etc\Frustum</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>XFile</Filter>
-    </ClCompile>
     <ClCompile Include="cGroup.cpp">
       <Filter>ObjFile</Filter>
     </ClCompile>
@@ -268,6 +268,12 @@
     </ClCompile>
     <ClCompile Include="cZed.cpp">
       <Filter>캐릭&amp;몬스터</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>XFile\좀비</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>XFile\좀비</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

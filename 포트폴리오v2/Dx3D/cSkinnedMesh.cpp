@@ -1,10 +1,11 @@
 #include "StdAfx.h"
 #include "cSkinnedMesh.h"
 #include "cAllocateHierarchy.h"
+//#include "cPAllocateHierarchy.h"
 #include "cSkinnedMeshManager.h"
 
 static LPD3DXMESH			pBoundingSphereMesh;
-
+static LPD3DXMESH			pBoundingBoxMesh;
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	: m_pRootFrame(NULL)
 	, m_pAnimController(NULL)
@@ -20,6 +21,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
 	m_pEffect = pSkinnedMesh->m_pEffect;
 	m_stBoundingSphere = pSkinnedMesh->m_stBoundingSphere;
+	m_stBoundingBox = pSkinnedMesh->m_stBoundingBox;
 
 	pSkinnedMesh->m_pAnimController->CloneAnimationController(
 		pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
@@ -42,6 +44,7 @@ cSkinnedMesh::~cSkinnedMesh(void)
 {
 	SAFE_RELEASE(m_pAnimController);
 	SAFE_RELEASE(pBoundingSphereMesh);
+	SAFE_RELEASE(pBoundingBoxMesh);
 }
 
 void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
@@ -70,13 +73,25 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 	//m_stBoundingSphere.vCenter = (ah.GetMin() + ah.GetMax()) / 2.0f;
 	//m_stBoundingSphere.fRadius = D3DXVec3Length( &(ah.GetMin() - ah.GetMax()) );
 
+	//-------------------바운딩 박스
+	m_stBoundingBox = ah.GetBoundingBox();
+
 	if(pBoundingSphereMesh == NULL)
 	{
 		D3DXCreateSphere(g_pD3DDevice, 
-			(m_stBoundingSphere.fRadius/3) *2,
+			m_stBoundingSphere.fRadius,
 			20, 
 			20, 
 			&pBoundingSphereMesh,
+			NULL);
+	}
+	if (pBoundingBoxMesh == NULL)
+	{
+		D3DXCreateBox(g_pD3DDevice,
+			m_stBoundingBox._max.x - m_stBoundingBox._min.x,
+			m_stBoundingBox._max.y - m_stBoundingBox._min.y,
+			m_stBoundingBox._max.z - m_stBoundingBox._min.z,
+			&pBoundingBoxMesh,
 			NULL);
 	}
 
@@ -132,12 +147,14 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 			pBoundingSphereMesh->DrawSubset(0);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
+		if (pBoundingBoxMesh)
+		{
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+			pBoundingBoxMesh->DrawSubset(0);
+			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		}
 	}
-}
-void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
-{
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, pmat);
-	RenderPlayer(m_pRootFrame);
 }
 
 void cSkinnedMesh::RenderPlayer(ST_BONE* pBone)
@@ -310,14 +327,7 @@ LPD3DXEFFECT cSkinnedMesh::LoadEffect( char* szFilename )
 
 	return pEffect;
 }
-void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
-{
-	if (m_pRootFrame == NULL) return;
 
-	Update(m_pRootFrame, pmat);
-	SetupBoneMatrixPtrs(m_pRootFrame);
-	
-}
 void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent )
 {
 	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
@@ -399,4 +409,49 @@ void cSkinnedMesh::Destroy()
 void cSkinnedMesh::SetRandomTrackPosition()
 {
 	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
+}
+
+
+void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
+{
+	D3DXMATRIXA16 mat, matI;
+	D3DXMatrixIdentity(&mat);
+	D3DXMatrixIdentity(&matI);
+	if (pmat)
+	{
+		mat = *pmat;
+	}
+	RenderPlayer(m_pRootFrame);
+	if (pBoundingSphereMesh)
+	{
+		//이걸하면 반대방향으로 원운동함
+
+		D3DXMatrixTranslation(&matI,
+		m_stBoundingSphere.vCenter.x,
+		m_stBoundingSphere.vCenter.y,
+		m_stBoundingSphere.vCenter.z);
+		mat *= matI;
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		pBoundingSphereMesh->DrawSubset(0);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+	if (pBoundingBoxMesh)
+	{
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		pBoundingBoxMesh->DrawSubset(0);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
+
+}
+void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
+{
+	if (m_pRootFrame == NULL) return;
+
+	Update(m_pRootFrame, pmat);
+	SetupBoneMatrixPtrs(m_pRootFrame);
+
 }
