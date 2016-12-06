@@ -1,0 +1,1248 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 05.12.2016 17:48:26
+
+newmtl _c5m1_Waterfrontmaterial_0
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_0.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_0.tga
+
+newmtl _c5m1_Waterfrontmaterial_1
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_1.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_1.tga
+
+newmtl _c5m1_Waterfrontmaterial_2
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_2.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_2.tga
+
+newmtl _c5m1_Waterfrontmaterial_3
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_3.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_3.tga
+
+newmtl _c5m1_Waterfrontmaterial_4
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_4.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_4.tga
+
+newmtl _c5m1_Waterfrontmaterial_5
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_5.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_5.tga
+
+newmtl _c5m1_Waterfrontmaterial_6
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_6.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_6.tga
+
+newmtl _c5m1_Waterfrontmaterial_7
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_7.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_7.tga
+
+newmtl _c5m1_Waterfrontmaterial_8
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_8.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_8.tga
+
+newmtl _c5m1_Waterfrontmaterial_9
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_9.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_9.tga
+
+newmtl _c5m1_Waterfrontmaterial_10
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_10.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_10.tga
+
+newmtl _c5m1_Waterfrontmaterial_11
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_11.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_11.tga
+
+newmtl _c5m1_Waterfrontmaterial_12
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_12.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_12.tga
+
+newmtl _c5m1_Waterfrontmaterial_13
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_13.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_13.tga
+
+newmtl _c5m1_Waterfrontmaterial_14
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_14.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_14.tga
+
+newmtl _c5m1_Waterfrontmaterial_15
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_15.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_15.tga
+
+newmtl _c5m1_Waterfrontmaterial_16
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_16.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_16.tga
+
+newmtl _c5m1_Waterfrontmaterial_17
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_17.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_17.tga
+
+newmtl _c5m1_Waterfrontmaterial_18
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_18.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_18.tga
+
+newmtl _c5m1_Waterfrontmaterial_19
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_19.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_19.tga
+
+newmtl _c5m1_Waterfrontmaterial_20
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_20.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_20.tga
+
+newmtl _c5m1_Waterfrontmaterial_21
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_21.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_21.tga
+
+newmtl _c5m1_Waterfrontmaterial_22
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_22.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_22.tga
+
+newmtl _c5m1_Waterfrontmaterial_23
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_23.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_23.tga
+
+newmtl _c5m1_Waterfrontmaterial_24
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_24.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_24.tga
+
+newmtl _c5m1_Waterfrontmaterial_25
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_25.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_25.tga
+
+newmtl _c5m1_Waterfrontmaterial_26
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_26.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_26.tga
+
+newmtl _c5m1_Waterfrontmaterial_27
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_27.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_27.tga
+
+newmtl _c5m1_Waterfrontmaterial_28
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_28.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_28.tga
+
+newmtl _c5m1_Waterfrontmaterial_29
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_29.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_29.tga
+
+newmtl _c5m1_Waterfrontmaterial_30
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_30.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_30.tga
+
+newmtl _c5m1_Waterfrontmaterial_31
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_31.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_31.tga
+
+newmtl _c5m1_Waterfrontmaterial_32
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_32.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_32.tga
+
+newmtl _c5m1_Waterfrontmaterial_33
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_33.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_33.tga
+
+newmtl _c5m1_Waterfrontmaterial_34
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_34.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_34.tga
+
+newmtl _c5m1_Waterfrontmaterial_35
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_35.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_35.tga
+
+newmtl _c5m1_Waterfrontmaterial_36
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_36.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_36.tga
+
+newmtl _c5m1_Waterfrontmaterial_37
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_37.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_37.tga
+
+newmtl _c5m1_Waterfrontmaterial_38
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_38.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_38.tga
+
+newmtl _c5m1_Waterfrontmaterial_39
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_39.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_39.tga
+
+newmtl _c5m1_Waterfrontmaterial_40
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_40.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_40.tga
+
+newmtl _c5m1_Waterfrontmaterial_41
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_41.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_41.tga
+
+newmtl _c5m1_Waterfrontmaterial_42
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_42.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_42.tga
+
+newmtl _c5m1_Waterfrontmaterial_43
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_43.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_43.tga
+
+newmtl _c5m1_Waterfrontmaterial_44
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_44.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_44.tga
+
+newmtl _c5m1_Waterfrontmaterial_45
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_45.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_45.tga
+
+newmtl _c5m1_Waterfrontmaterial_46
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_46.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_46.tga
+
+newmtl _c5m1_Waterfrontmaterial_47
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_47.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_47.tga
+
+newmtl _c5m1_Waterfrontmaterial_48
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_48.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_48.tga
+
+newmtl _c5m1_Waterfrontmaterial_49
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_49.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_49.tga
+
+newmtl _c5m1_Waterfrontmaterial_50
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_50.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_50.tga
+
+newmtl _c5m1_Waterfrontmaterial_51
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_51.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_51.tga
+
+newmtl _c5m1_Waterfrontmaterial_52
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_52.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_52.tga
+
+newmtl _c5m1_Waterfrontmaterial_53
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_53.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_53.tga
+
+newmtl _c5m1_Waterfrontmaterial_54
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_54.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_54.tga
+
+newmtl _c5m1_Waterfrontmaterial_55
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_55.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_55.tga
+
+newmtl _c5m1_Waterfrontmaterial_56
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_56.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_56.tga
+
+newmtl _c5m1_Waterfrontmaterial_57
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_57.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_57.tga
+
+newmtl _c5m1_Waterfrontmaterial_58
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_58.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_58.tga
+
+newmtl _c5m1_Waterfrontmaterial_59
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_59.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_59.tga
+
+newmtl _c5m1_Waterfrontmaterial_60
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_60.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_60.tga
+
+newmtl _c5m1_Waterfrontmaterial_61
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_61.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_61.tga
+
+newmtl _c5m1_Waterfrontmaterial_62
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_62.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_62.tga
+
+newmtl _c5m1_Waterfrontmaterial_63
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_63.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_63.tga
+
+newmtl _c5m1_Waterfrontmaterial_67
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_67.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_67.tga
+
+newmtl _c5m1_Waterfrontmaterial_68
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_68.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_68.tga
+
+newmtl _c5m1_Waterfrontmaterial_69
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_69.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_69.tga
+
+newmtl _c5m1_Waterfrontmaterial_70
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_70.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_70.tga
+
+newmtl _c5m1_Waterfrontmaterial_71
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_71.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_71.tga
+
+newmtl _c5m1_Waterfrontmaterial_72
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_72.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_72.tga
+
+newmtl _c5m1_Waterfrontmaterial_73
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_73.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_73.tga
+
+newmtl _c5m1_Waterfrontmaterial_74
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_74.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_74.tga
+
+newmtl _c5m1_Waterfrontmaterial_75
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_75.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_75.tga
+
+newmtl _c5m1_Waterfrontmaterial_76
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_76.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_76.tga
+
+newmtl _c5m1_Waterfrontmaterial_77
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_77.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_77.tga
+
+newmtl _c5m1_Waterfrontmaterial_78
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_78.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_78.tga
+
+newmtl _c5m1_Waterfrontmaterial_79
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_79.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_79.tga
+
+newmtl _c5m1_Waterfrontmaterial_80
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_80.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_80.tga
+
+newmtl _c5m1_Waterfrontmaterial_81
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_81.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_81.tga
+
+newmtl _c5m1_Waterfrontmaterial_82
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_82.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_82.tga
+
+newmtl _c5m1_Waterfrontmaterial_83
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_83.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_83.tga
+
+newmtl _c5m1_Waterfrontmaterial_84
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_84.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_84.tga
+
+newmtl _c5m1_Waterfrontmaterial_85
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_85.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_85.tga
+
+newmtl _c5m1_Waterfrontmaterial_86
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_86.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_86.tga
+
+newmtl _c5m1_Waterfrontmaterial_87
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_87.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_87.tga
+
+newmtl _c5m1_Waterfrontmaterial_88
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_88.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_88.tga
+
+newmtl _c5m1_Waterfrontmaterial_89
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_89.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_89.tga
+
+newmtl _c5m1_Waterfrontmaterial_90
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_90.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_90.tga
+
+newmtl _c5m1_Waterfrontmaterial_91
+Ns 30.0000
+Ni 1.5000
+d 1.0000
+Tr 0.0000
+Tf 1.0000 1.0000 1.0000 
+illum 2
+Ka 0.5500 0.5500 0.5500
+Kd 1.0000 1.0000 1.0000
+Ks 0.0000 0.0000 0.0000
+Ke 0.0000 0.0000 0.0000
+map_Ka ./Map2/maps/c5m1_Waterfront_material_91.tga
+map_Kd ./Map2/maps/c5m1_Waterfront_material_91.tga

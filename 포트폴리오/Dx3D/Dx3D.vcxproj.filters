@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="XFile">
+      <UniqueIdentifier>{bda37fbb-5b41-4e62-896a-960c070ba6ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjFile">
+      <UniqueIdentifier>{0e31da8b-1e23-4ada-ab0f-068748c18348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MANAGER">
+      <UniqueIdentifier>{55d8d76e-c480-4db1-94fe-8929998caab8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{1d47f8cf-ad70-43d4-8314-d42ed43bf473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{4585dff6-9d45-4207-94ff-019c54907bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Action">
+      <UniqueIdentifier>{e123f5a4-67d1-4d75-90e3-290975ad0edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{5864f733-b8f1-40a5-889e-eef29da8c187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\Cube">
+      <UniqueIdentifier>{125e4ab8-a84e-4fe6-974c-0ba6abcb0ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\AseLoader">
+      <UniqueIdentifier>{627a8ee7-a06f-4141-b441-ccd2c09240eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\Pyramid">
+      <UniqueIdentifier>{8574282c-75f2-4981-830e-d546acbaff44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ray">
+      <UniqueIdentifier>{1ec37ea1-7809-40d4-86dc-f2161384a89c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\Grid">
+      <UniqueIdentifier>{0960aa27-e7c2-48b1-8b42-13aa46c9c3ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\MtlTex">
+      <UniqueIdentifier>{b57a1158-c131-4114-86a0-5a160c7fd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc\Frustum">
+      <UniqueIdentifier>{96a083e6-6e5b-4af6-8f21-086c192e2dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".">
+      <UniqueIdentifier>{4eba1b57-3e1c-4ed8-9dfd-ee5cd2742a27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Dx3D.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx3D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cMainGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Asciitok.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cAutoReleasePool.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cActionSeq.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="cAction.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="cActionMove.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="cActionRepeat.h">
+      <Filter>Action</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>XFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="cDeviceManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cTimeManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cCrtController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>Etc\Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjLoader.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjMap.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="iMap.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cGrid.h">
+      <Filter>Etc\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="cMtlTex.h">
+      <Filter>Etc\MtlTex</Filter>
+    </ClInclude>
+    <ClInclude Include="cPyramid.h">
+      <Filter>Etc\Pyramid</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>XFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cRay.h">
+      <Filter>Ray</Filter>
+    </ClInclude>
+    <ClInclude Include="cGroup.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapXfile.h">
+      <Filter>.</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjManager.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx3D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cAutoReleasePool.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cAction.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionMove.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionRepeat.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="cActionSeq.cpp">
+      <Filter>Action</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>XFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="cCrtController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjLoader.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjMap.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimeManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cDeviceManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="iMap.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cPyramid.cpp">
+      <Filter>Etc\Pyramid</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>Ray</Filter>
+    </ClCompile>
+    <ClCompile Include="cGrid.cpp">
+      <Filter>Etc\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="cMtlTex.cpp">
+      <Filter>Etc\MtlTex</Filter>
+    </ClCompile>
+    <ClCompile Include="cFrustum.cpp">
+      <Filter>Etc\Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>XFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cGroup.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapXfile.cpp">
+      <Filter>.</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Dx3D.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
