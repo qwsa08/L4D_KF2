@@ -456,6 +456,7 @@ void cObjLoader::SetWallMtrlNum(OUT std::map<int, std::string>* mapWall)
 	std::vector<int> vecNum;
 	vecNum.push_back(7);
 	vecNum.push_back(6);
+	vecNum.push_back(0);
 	std::string s("");
 
 	for (int i = 0; i < vecNum.size(); ++i)

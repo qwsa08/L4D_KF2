@@ -23,6 +23,10 @@ public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
 	~cSkinnedMesh(void);
 	
+	//================플레이어===============
+	void Update(D3DXMATRIXA16* pmat, int state);
+	void Render(D3DXMATRIXA16* pmat);
+
 	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL, D3DXMATRIXA16* pScal =NULL);
 	void SetAnimationIndex(int nIndex);
 
@@ -42,6 +46,7 @@ private:
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void Render(ST_BONE* pBone = NULL);
+	void RenderPlayer(ST_BONE* pBone = NULL);
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 };

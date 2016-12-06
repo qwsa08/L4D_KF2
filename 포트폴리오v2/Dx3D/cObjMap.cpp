@@ -60,14 +60,14 @@ void cObjMap::Render()
 		m_Map->DrawSubset(i);
 	}
 	
-	/*for (int i = 0; i <36; i += 3)
+	for (int i = 3981; i <3987; i += 3)
 	{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 			1,
 			&m_vecVerWall[i],
 			sizeof(ST_PNT_VERTEX));
-	}*/
+	}
 }
 
 bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
@@ -78,7 +78,7 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 	D3DXVECTOR3 vRayDir( 0,-1, 0);
 	float u, v, d;
 	
-	D3DXVECTOR3 vPos(x, y, z);
+	D3DXVECTOR3 vPos(x, y + 50, z);
 	float Range;
 	
 
@@ -107,31 +107,13 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 
 		Range = D3DXVec3Length(&(vIntersection - vPos));
 
-		if (Range < 50.f)
+		if (Range < 35.f)
 		{
 			return false;
 		}
 	}
 
-	//for (int i = 0; i < m_line.size(); i++)
-	//{
-	//	D3DXVECTOR3 _line;
-	//	_line = vPos - m_Start[i];
-	//	D3DXVECTOR3 _lineNomal;
-	//	D3DXVec3Normalize(&_lineNomal, &m_line[i]);
-
-	//	D3DXVECTOR3 m_Spot , m_test;
-	//	float numtest;
-	//	numtest = D3DXVec3Dot(&_lineNomal, &_line);// *m_line[i];
-	//	m_Spot = m_Start[i] + D3DXVec3Dot(&_lineNomal, &_line) * m_line[i];
-
-
-	//	m_Spot = vPos - m_Spot;
-	//	Range = D3DXVec3Length(&m_Spot);
-
-	//	if (fabs(Range) < 100) return false;
-	//}
-	//
+	
 	for (size_t i = 0; i < m_vecVertex.size(); i += 3)
 	{
 		D3DXVECTOR3 v0 = m_vecVertex[i].p;

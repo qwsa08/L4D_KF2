@@ -9,9 +9,8 @@
 #include "cMtlTex.h"
 #include "cObjLoader.h"
 #include "cAllocateHierarchy.h"
-#include "cSkinnedMesh.h"
-#include "cFrustum.h"
-#include "cMapXfile.h"
+#include "cPlayer.h"
+#include "cZed.h"
 
 #define RADIUS 0.3f
 
@@ -23,8 +22,10 @@ cMainGame::cMainGame(void)
 	, m_pMap(NULL)
 	, m_pMesh(NULL)
 	, m_pMapMesh(NULL)
-	, m_pFrustum(NULL)
-	, m_pSkinnedMesh(NULL)
+	, m_pPlayer(NULL)
+	, m_pZombie(NULL)
+	
+	
 {
 }
 
@@ -33,12 +34,7 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pController);
-	for each(auto p in m_vecSkinnedMesh)
-	{
-		SAFE_DELETE(p);
-	}
-	SAFE_DELETE(m_pFrustum);
-
+	
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pMesh);
@@ -49,8 +45,8 @@ cMainGame::~cMainGame(void)
 		SAFE_RELEASE(p);
 	}
 
-	//SAFE_DELETE(m_pSkinnedMesh);
-
+	SAFE_DELETE(m_pPlayer);
+	SAFE_DELETE(m_pZombie);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -60,37 +56,19 @@ cMainGame::~cMainGame(void)
 
 void cMainGame::Setup()
 {
-	m_pFrustum = new cFrustum;
 
 	//D3DXPLANE
 	//D3DXPlaneFromPoints(평면, 점1, 점2, 점3);
 	//거리 = D3DXPlaneDotCoord(평면, 점) 앞:양수, 뒤:음수
 
-
-	m_pSkinnedMesh = new cSkinnedMesh("Zombie/BOSS_Patriarch/", "ZED_BOSS_Patriarch.X");
-	//m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
-	m_pSkinnedMesh->SetRandomTrackPosition();
-	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 0,2));
-	m_vecSkinnedMesh.push_back(m_pSkinnedMesh);
-
 	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
-	/*D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
-	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
-	mat = matS * matR;*/
 	D3DXMatrixIdentity(&mat);
 
 	cObjMap* pObjMap = new cObjMap;
 	pObjMap->Load("./Map/House14.ptop",&mat);
 	m_pMap = pObjMap;
-
-	/*cMapXfile* m_pMapXFile = new cMapXfile;
-	m_pMapXFile->Setup("house08/house_08.X");
-	m_pMap = m_pMapXFile;*/
-
-//	cObjLoader objloader;
-//	m_pMapMesh = objloader.Load("obj/Map.obj", m_vecMtlTex, &mat);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -101,8 +79,12 @@ void cMainGame::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
 
-	
-	
+	m_pPlayer = new cPlayer;
+	m_pPlayer->SetUp();
+
+	m_pZombie = new cZed;
+	m_pZombie->SetUp();
+		
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -123,9 +105,12 @@ void cMainGame::Update()
 {
 	g_pTimeManager->Update();
 	
-	if(m_pController)
-		m_pController->Update(m_pMap);
 
+	if(m_pController)
+		m_pController->Update(m_pCamera->GetAngle(),m_pMap);
+
+	if(m_pCamera)
+		m_pCamera->Update(m_pController->GetCamera());
 	/*if(m_pPyramid)
 	{
 		m_pPyramid->SetDirection(m_pController->GetDirection());
@@ -133,16 +118,9 @@ void cMainGame::Update()
 		m_pPyramid->Update();
 	}*/
 
-	if(m_pCamera)
-		m_pCamera->Update(m_pController->GetPosition());
 	
-	if(m_pFrustum)
-	{
-		if (GetKeyState(VK_SPACE) & 0x8000)
-		{
-		//	m_pFrustum->Update();
-		}
-	}
+	
+	m_pPlayer->Update(m_pController->GetWorldTM());
 
 	g_pAutoReleasePool->Drain();
 }
@@ -163,20 +141,24 @@ void cMainGame::Render()
 	
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
 	D3DXMatrixIdentity(&matI);
+	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
-	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
+	//D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
 
 	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	for each(auto p in m_vecSkinnedMesh)
+	
+	if (m_pPlayer)
 	{
-		if(m_pFrustum->IsIn(p->GetBoundingSphere()))
-		{
-			p->UpdateAndRender(m_pController->GetWorldTM(),&matS);
-		}
+		m_pPlayer->Render();
+	}
+
+	if (m_pZombie)
+	{
+		m_pZombie->Render(&matI);
 	}
 
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
@@ -203,8 +185,6 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 			case VK_SPACE:
 				{
 					static int n = 0;
-					m_pSkinnedMesh->SetAnimationIndex(++n % 10);
-					
 				}
 				break;
 			}
