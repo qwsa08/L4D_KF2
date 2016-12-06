@@ -29,7 +29,6 @@ private:
 	cFrustum*					m_pFrustum;
 	//cMapXfile*					m_pMapXFile;
 	cSkinnedMesh*				m_pSkinnedMesh;
-	D3DXVECTOR3					m_vCameraTarget;
 
 public:
 	cMainGame(void);

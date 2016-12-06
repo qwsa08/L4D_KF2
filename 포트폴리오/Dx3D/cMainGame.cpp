@@ -25,7 +25,6 @@ cMainGame::cMainGame(void)
 	, m_pMapMesh(NULL)
 	, m_pFrustum(NULL)
 	, m_pSkinnedMesh(NULL)
-	, m_vCameraTarget(0, 0, 0)
 {
 }
 
@@ -68,7 +67,7 @@ void cMainGame::Setup()
 	//거리 = D3DXPlaneDotCoord(평면, 점) 앞:양수, 뒤:음수
 
 
-	m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "9mm_gun.X");
+	m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "center.X");
 	//m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
 	m_pSkinnedMesh->SetRandomTrackPosition();
 	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 10, 0));
@@ -195,51 +194,27 @@ void cMainGame::Render()
 
 void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-	if (m_pCamera)
-	{
-		m_pCamera->WndProc(hWnd, message, wParam, lParam);
-	}
 	if (m_pController)
 	{
 		m_pController->WndProc(hWnd, message, wParam, lParam);
 	}
-	switch(message)
+
+	switch (message)
 	{
 	case WM_KEYDOWN:
-		{
-			switch(wParam)
-			{
-			case VK_SPACE:
-				{
-					static int n = 0;
-					m_pSkinnedMesh->SetAnimationIndex(++n % 10);
-					
-				}
-				break;
-			}
-		}
-		break;
-
-	case WM_LBUTTONDOWN:
-		{
-			int x = LOWORD(lParam);
-			int y = HIWORD(lParam);
-			cRay r = cRay::RayAtWorldSpace(x, y);
-			for (size_t i = 0; i < m_vecSphere.size(); ++i)
-			{
-				m_vecSphere[i].isPicked = r.IsPicked(m_vecSphere[i]);
-			}
-		}
-		break;
-
-	case WM_MOUSEMOVE:
 	{
-		float x = LOWORD(lParam);
-		float y = HIWORD(lParam);
+		switch (wParam)
+		{
+		case VK_SPACE:
+		{
+			static int n = 0;
+			m_pSkinnedMesh->SetAnimationIndex(++n % 10);
 
-		m_vCameraTarget = D3DXVECTOR3(-x, -y, -100);
-	}
+		}
 		break;
+		}
+	}
+	break;
 	}
 }
 
