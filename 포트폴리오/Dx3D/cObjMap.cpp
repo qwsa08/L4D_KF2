@@ -41,10 +41,15 @@ void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 		m_line.push_back(_halfSpot - m_vecVerWall[i].p);
 		m_Start.push_back(m_vecVerWall[i].p);
 	}
-	
-	int a = 0;
 }
 
+void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
+{
+	cObjLoader l;
+	//==여기서 매개변수로 받은걸로 처리할수있게 !!
+	l.Load(szMap, vecBoungdingBox, pmat);
+
+}
 void cObjMap::Render()
 {
 	D3DXMATRIXA16 matI;
@@ -55,38 +60,36 @@ void cObjMap::Render()
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
-		if (true)
-		{
-			g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
-			g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
-			m_Map->DrawSubset(i);
-		}
-		
+		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
+		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
+		m_Map->DrawSubset(i);
 	}
 	
-	/*for (int i = 0; i <36; i += 3)
-	{
+
+	
+	/*{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-			1,
-			&m_vecVerWall[i],
+			m_vecVerWall.size()/3,
+			&m_vecVerWall[0],
 			sizeof(ST_PNT_VERTEX));
 	}*/
 }
 
 bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 {
+
 	std::vector<float> vY;
 
-	D3DXVECTOR3 vRayPos(x, y + 100, z);
-	D3DXVECTOR3 vRayDir( 0,-1, 0);
+	D3DXVECTOR3 vRayPos(x, y + 70, z);
+	D3DXVECTOR3 vRayDir(0, -1, 0);
 	float u, v, d;
-	
+
 	D3DXVECTOR3 vPos(x, y, z);
 	float Range;
-	
 
-	for (int i = 0; i < m_vecVerWall.size(); i+=3)
+
+	for (int i = 0; i < m_vecVerWall.size(); i += 3)
 	{
 
 		float LineMag;
@@ -124,7 +127,7 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 		D3DXVECTOR3 _lineNomal;
 		D3DXVec3Normalize(&_lineNomal, &m_line[i]);
 
-		D3DXVECTOR3 m_Spot , m_test;
+		D3DXVECTOR3 m_Spot, m_test;
 		float numtest;
 		numtest = D3DXVec3Dot(&_lineNomal, &_line);// *m_line[i];
 		m_Spot = m_Start[i] + D3DXVec3Dot(&_lineNomal, &_line) * m_line[i];
@@ -138,16 +141,16 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 			return false;
 		}
 	}
-	
+
 	for (size_t i = 0; i < m_vecVertex.size(); i += 3)
 	{
 		D3DXVECTOR3 v0 = m_vecVertex[i].p;
 		D3DXVECTOR3 v1 = m_vecVertex[i + 1].p;
 		D3DXVECTOR3 v2 = m_vecVertex[i + 2].p;
-		if(D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
+		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
 		{
 			//return true;
-			vY.push_back(y+100 -d);
+			vY.push_back(y + 70 - d);
 		}
 	}
 	if (vY.size() > 0)
@@ -166,23 +169,4 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 	y = 0;
 	return false;
 	
-}
-bool cObjMap::Plane(D3DXVECTOR3 center, float radius)
-{
-	D3DXVECTOR3 V2_0;
-	D3DXVECTOR3 V1_0;
-	D3DXVECTOR3 vCross;
-	float Range;
-	for (int i = 0; i < m_vecVerWall.size(); i += 3)
-	{
-		V2_0 = m_vecVerWall[2].p - m_vecVerWall[0].p;
-		V1_0 = m_vecVerWall[1].p - m_vecVerWall[0].p;
-		D3DXVec3Cross(&vCross, &V2_0, &V1_0);
-		D3DXVec3Normalize(&vCross, &vCross);
-
-		Range = D3DXVec3Dot(&center, &vCross);
-
-		if (Range < radius) return false;
-	}
-	return true;
 }

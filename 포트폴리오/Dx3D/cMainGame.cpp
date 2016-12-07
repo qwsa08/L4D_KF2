@@ -27,6 +27,7 @@ cMainGame::cMainGame(void)
 	, m_pFrustum(NULL)
 //	, m_pSkinnedMesh(NULL)
 	, m_pPlayer(NULL)
+	, m_pBoundingBox(NULL)
 {
 }
 
@@ -46,6 +47,8 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
+	SAFE_RELEASE(m_pBoundingBox);
+
 
 	for each (auto p in m_vecMtlTex)
 	{
@@ -106,7 +109,11 @@ void cMainGame::Setup()
 	m_pGrid->Setup(30);
 
 	
-	
+	m_pBoundingBox = new cObjMap;
+	D3DXMatrixTranslation(&matT, 45, 0, 370);
+	mat *= matT;
+	m_pBoundingBox->BoxLoad("./Map/BoundingBox.ptop", test, &mat);
+
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -178,7 +185,15 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
+	if (test.size() > 0)
+	{
+		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+			test.size() / 3,
+			&test[0],
+			sizeof(D3DXVECTOR3));
 
+	}
 	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);

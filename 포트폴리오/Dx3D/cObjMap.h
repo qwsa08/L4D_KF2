@@ -24,7 +24,7 @@ protected:
 	BoundingBox*				m_box;
 
 	
-	std::vector<D3DXVECTOR3>    m_vecPlane;
+	std::vector<D3DXVECTOR3>  m_vecBoundingBox;
 	LPD3DXMESH					m_Map;
 	std::vector<D3DXVECTOR3>	m_line;
 	std::vector<D3DXVECTOR3>	m_Start;
@@ -38,14 +38,12 @@ public:
 	virtual ~cObjMap(void);
 
 	virtual void Load(char* szMap, D3DXMATRIXA16* pmat = NULL);
-
+	virtual void BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3> &vecBoungdingBox, D3DXMATRIXA16* pmat = NULL);
 	// iMap
 	virtual void Render() override;
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 
 
-	std::vector<D3DXVECTOR3> GetPlane() { return m_vecPlane; }
-	bool Plane(D3DXVECTOR3 center, float radius);
 
 };
 

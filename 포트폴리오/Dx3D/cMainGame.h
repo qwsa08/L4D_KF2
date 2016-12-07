@@ -11,6 +11,7 @@ class cFrustum;
 class cMapXfile;
 
 class cPlayer;
+class cObjMap;
 
 class cMainGame
 {
@@ -32,7 +33,8 @@ private:
 	//cMapXfile*					m_pMapXFile;
 	//cSkinnedMesh*				m_pSkinnedMesh;
 	cPlayer*					m_pPlayer;
-
+	cObjMap*					m_pBoundingBox;
+	std::vector<D3DXVECTOR3>	test;
 public:
 	cMainGame(void);
 	~cMainGame(void);
