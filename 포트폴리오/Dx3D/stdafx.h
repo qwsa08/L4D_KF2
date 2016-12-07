@@ -175,3 +175,4 @@ struct ST_OBB
 #include "cAutoReleasePool.h"
 #include "cObject.h"
 #include "cGameObject.h"
+#include "cShader.h"
