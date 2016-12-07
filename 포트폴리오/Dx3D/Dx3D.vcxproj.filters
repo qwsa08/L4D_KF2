@@ -184,7 +184,7 @@
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
     <ClInclude Include="cShader.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MANAGER</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -288,7 +288,7 @@
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="cShader.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MANAGER</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
