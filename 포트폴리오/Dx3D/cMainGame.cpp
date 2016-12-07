@@ -121,17 +121,22 @@ void cMainGame::Setup()
 	
 	D3DXVECTOR3 min;
 	D3DXVECTOR3 max;
-	min = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
-	max = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
-	for (int i = 178; i < 214; i++)
-	{
-		D3DXVec3Minimize(&min, &min, &test[i]);	//26
-		D3DXVec3Maximize(&max, &max, &test[i]); //3
-	}
 	
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(min, max, m_stWall);
-
+	for (int j = 0; j < 8; j++)
+	{
+		int t = 36 * j;
+		min = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+		max = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+		for (int i = t; i < 36 + t; i++)
+		{
+			D3DXVec3Minimize(&min, &min, &test[i]);	//26
+			D3DXVec3Maximize(&max, &max, &test[i]); //3
+		}
+		m_pOBB->Setup(min, max, m_stWall[j]);
+	}
+	
+	int a = 0;
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -181,8 +186,9 @@ void cMainGame::Update()
 	}
 
 	
+	for (int i = 0; i < 8;i++)
 	{
-		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall))
+		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
 		{
 			//m_pController->SetCrush(true);
 			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);

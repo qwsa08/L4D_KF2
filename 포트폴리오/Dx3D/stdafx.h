@@ -141,7 +141,7 @@ struct ST_BoundingBox
 	D3DXVECTOR3 _min;
 	D3DXVECTOR3 _max;
 
-	ST_BoundingBox() : vCenter(0, 0, 0), _min(D3DXVECTOR3(0, 0, 0)), _max(D3DXVECTOR3(0, 0, 0)) {}
+	ST_BoundingBox() : vCenter(0, 0, 0), _min(D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX)), _max(D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX)) {}
 	ST_BoundingBox(D3DXVECTOR3 _vCenter, D3DXVECTOR3 min, D3DXVECTOR3 max)
 		: vCenter(_vCenter), _min(min), _max(max) {}
 };

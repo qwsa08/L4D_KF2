@@ -38,7 +38,7 @@ private:
 	std::vector<D3DXVECTOR3>	test;
 	//====³ªÁß¿¡ ³ª´²Áà¾ßÇÑ´Ù.
 	cOBB*						m_pOBB;
-	ST_OBB						m_stWall;
+	ST_OBB						m_stWall[8];
 	D3DCOLOR					m_cPaint;
 	
 	
