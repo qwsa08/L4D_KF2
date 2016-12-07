@@ -8,10 +8,6 @@ private:
 	D3DXMATRIXA16			m_matView;
 	D3DXMATRIXA16			m_matProj;
 	POINT					m_ptMouse;
-	bool					m_isLButtonDown;
-	float					m_fAngleX;
-	float					m_fAngleY;
-	float					m_fDistance;
 
 public:
 	cCamera(void);

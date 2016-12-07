@@ -99,6 +99,7 @@
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
     <ClInclude Include="cMtlTex.h" />
+    <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjManager.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
+    <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjManager.cpp" />

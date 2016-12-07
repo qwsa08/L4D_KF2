@@ -14,6 +14,7 @@ private:
 	LPD3DXEFFECT				m_pEffect;
 	ST_SPHERE					m_stBoundingSphere;
 	ST_BoundingBox				m_stBoundingBox;
+	ST_OBB						m_stOBB;
 
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
@@ -38,6 +39,7 @@ public:
 		m_vPosition = v;
 		m_stBoundingSphere.vCenter += v;
 		m_stBoundingBox.vCenter += v;
+		//m_stOBB.m_vOrgCenterPos += v;
 	}
 	ST_SPHERE* GetBoundingSphere()
 	{
@@ -46,6 +48,10 @@ public:
 	ST_BoundingBox* GetBoundingBox()
 	{
 		return &m_stBoundingBox;
+	}
+	ST_OBB*	GetOBB()
+	{
+		return &m_stOBB;
 	}
 private:
 	cSkinnedMesh();

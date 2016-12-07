@@ -67,6 +67,9 @@
     <Filter Include="XFile\좀비">
       <UniqueIdentifier>{a540d0f9-db66-441a-8d91-4aad1e31a931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="충돌">
+      <UniqueIdentifier>{3d9de3ef-3b6c-4a08-9944-dff5028bc92a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -180,6 +183,9 @@
     <ClInclude Include="cSkinnedMesh.h">
       <Filter>XFile\좀비</Filter>
     </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>충돌</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -274,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="cSkinnedMesh.cpp">
       <Filter>XFile\좀비</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>충돌</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
