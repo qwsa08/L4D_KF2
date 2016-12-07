@@ -108,6 +108,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
+    <ClInclude Include="cShader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
     <ClInclude Include="cTextureManager.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
     <ClCompile Include="cTextureManager.cpp" />

@@ -183,6 +183,9 @@
     <ClInclude Include="cZombie.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
+    <ClInclude Include="cShader.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="cZombie.cpp">
       <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>MANAGER</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
