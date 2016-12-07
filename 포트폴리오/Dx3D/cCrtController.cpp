@@ -5,7 +5,7 @@
 #define SENSITIVITY	0.015f
 
 cCrtController::cCrtController(void)
-	: m_vPosition(0, 0, 0)
+	: m_vPosition(60, 0, 60)
 	, m_vDirection(0, 0, 1)
 	, m_fSpeed(4.f)
 	, m_fAngleX(0.0f)

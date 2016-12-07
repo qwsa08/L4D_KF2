@@ -19,7 +19,7 @@ cPlayer::~cPlayer()
 void cPlayer::SetUp()
 {
 	m_pPlayer = new cSkinnedMesh("Weapon X File/test/", "center.X");
-	m_pPlayer->SetPosition(D3DXVECTOR3(0, 0, 10));
+	m_pPlayer->SetPosition(D3DXVECTOR3(0, 0, 0));
 
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pPlayer->GetBoundingBox()->_min, m_pPlayer->GetBoundingBox()->_max, m_pPlayerBox);
