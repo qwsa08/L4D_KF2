@@ -13,7 +13,8 @@
 #include "cFrustum.h"
 #include "cMapXfile.h"
 #include "cPlayer.h"
-#include "cOBB.h"
+#include "cZombie.h"
+#include "cBloat.h"
 
 #define RADIUS 0.3f
 
@@ -29,8 +30,7 @@ cMainGame::cMainGame(void)
 //	, m_pSkinnedMesh(NULL)
 	, m_pPlayer(NULL)
 	, m_pBoundingBox(NULL)
-	, m_pOBB(NULL)
-	, m_cPaint(NULL)
+	, m_pBloat(NULL)
 {
 }
 
@@ -45,14 +45,14 @@ cMainGame::~cMainGame(void)
 //	}
 	SAFE_DELETE(m_pFrustum);
 	SAFE_DELETE(m_pPlayer);
+	SAFE_DELETE(m_pBloat);
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
-	SAFE_DELETE(m_pOBB);
-	
+
 
 	for each (auto p in m_vecMtlTex)
 	{
@@ -78,6 +78,8 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
+	m_pBloat = new cBloat;
+	m_pBloat->Setup();
 	//m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "center.X");
 	////m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
 	//m_pSkinnedMesh->SetRandomTrackPosition();
@@ -113,7 +115,7 @@ void cMainGame::Setup()
 	m_pGrid->Setup(30);
 
 	
-	/*
+	m_pBoundingBox = new cObjMap;
 	D3DXMatrixTranslation(&matT, 45, 0, 370);
 	mat *= matT;*/
 	m_pBoundingBox = new cObjMap;
@@ -221,7 +223,7 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	if(test.size() > 0)
+	/*if (test.size() > 0)
 	{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
@@ -229,18 +231,23 @@ void cMainGame::Render()
 			&test[0],
 			sizeof(D3DXVECTOR3));
 
-	}
-	if (m_pOBB)
-	{
-		m_pOBB->DebugRender(m_cPaint);
-	}
+	}*/
+	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	
+	//for each(auto p in m_vecSkinnedMesh)
+	//{
+	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
+	//	{
+	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
+	//	}
 	if (m_pPlayer)
 		m_pPlayer->Render();
-	
+
+	if (m_pBloat)
+		m_pBloat->UpdateAndRender(&matI, &matI);
+	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pMap->Render();
 	
 	g_pD3DDevice->EndScene();

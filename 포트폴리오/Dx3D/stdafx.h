@@ -168,18 +168,6 @@ struct ST_OBB
 	}
 };
 
-struct ST_OBBbox
-{
-	D3DXVECTOR3 _min;
-	D3DXVECTOR3 _max;
-	ST_OBB     OBB;
-
-	ST_OBBbox() : _min(0, 0, 0), _max(0, 0, 0), OBB() {}
-	ST_OBBbox(D3DXVECTOR3 min, D3DXVECTOR3 max, ST_OBB _OBB)
-		:_min(min), _max(max), OBB(_OBB) {}
-
-};
-
 #include "cDeviceManager.h"
 #include "cTimeManager.h"
 #include "cTextureManager.h"
@@ -187,4 +175,3 @@ struct ST_OBBbox
 #include "cAutoReleasePool.h"
 #include "cObject.h"
 #include "cGameObject.h"
-#include "cShader.h"

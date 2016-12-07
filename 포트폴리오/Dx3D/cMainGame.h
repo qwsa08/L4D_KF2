@@ -12,7 +12,7 @@ class cMapXfile;
 
 class cPlayer;
 class cObjMap;
-class cOBB;
+class cZombie;
 
 class cMainGame
 {
@@ -36,6 +36,8 @@ private:
 	cPlayer*					m_pPlayer;
 	cObjMap*					m_pBoundingBox;
 	std::vector<D3DXVECTOR3>	test;
+	cZombie*					m_pBloat;
+
 	//====³ªÁß¿¡ ³ª´²Áà¾ßÇÑ´Ù.
 	cOBB*						m_pOBB;
 	ST_OBB						m_stWall[8];

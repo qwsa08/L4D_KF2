@@ -18,6 +18,5 @@ public:
 	void SetUp();
 	void Update(D3DXMATRIXA16* pmat);
 	void Render();
-	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
 };
 

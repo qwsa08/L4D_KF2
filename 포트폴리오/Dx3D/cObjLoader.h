@@ -4,8 +4,6 @@ class cMtlTex;
 class cGroup;
 class cObjMap;
 
-
-
 class cObjLoader
 {
 private:

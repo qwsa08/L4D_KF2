@@ -5,9 +5,8 @@
 #include "cMtlTex.h"
 
 cObjMap::cObjMap(void)
-	: m_Map(NULL)
+	:m_Map(NULL)
 	, m_pWallMesh(NULL)
-	, m_pTextureMappingShader(NULL)
 {
 }
 
@@ -16,8 +15,6 @@ cObjMap::~cObjMap(void)
 {
 	SAFE_RELEASE(m_Map);
 	SAFE_RELEASE(m_pWallMesh);
-	SAFE_RELEASE(m_pTextureMappingShader);
-
 	for each(auto p in m_vecGroup)
 	{
 		SAFE_DELETE(p);
@@ -44,8 +41,6 @@ void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
 		m_line.push_back(_halfSpot - m_vecVerWall[i].p);
 		m_Start.push_back(m_vecVerWall[i].p);
 	}
-
-	m_pTextureMappingShader = g_pShader->LoadShader("TextureMapping.fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -60,44 +55,17 @@ void cObjMap::Render()
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//
-
-	//for (int i = 0; i < m_pMtltex.size(); i++)
-	//{
-	//	g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
-	//	g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
-	//	m_Map->DrawSubset(i);
-	//}
-
-	D3DXMATRIXA16 matView, matProj, matWorld;
-
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
-
-	m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
-	m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
-	m_pTextureMappingShader->SetMatrix("gProjectionMatrix", &matProj);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
-		UINT numPasses = 0;
-		m_pTextureMappingShader->SetTexture("cs_havana_texture_0_Tex", m_pMtltex[i]->GetTexture());
-
-		m_pTextureMappingShader->Begin(&numPasses, NULL);
-		{
-			for (UINT j = 0; j < numPasses; ++j)
-			{
-				m_pTextureMappingShader->BeginPass(j);
-				{
-					m_Map->DrawSubset(i);
-				}
-				m_pTextureMappingShader->EndPass();
-			}
-		}
-		m_pTextureMappingShader->End();
+		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
+		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
+		m_Map->DrawSubset(i);
 	}
+	
+
 	
 	/*{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);

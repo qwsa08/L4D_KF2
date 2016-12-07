@@ -32,7 +32,7 @@ protected:
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVertex, Vertex);
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVerWall, VerWall);
 	
-	LPD3DXEFFECT			m_pTextureMappingShader;
+
 public:
 	cObjMap(void);
 	virtual ~cObjMap(void);

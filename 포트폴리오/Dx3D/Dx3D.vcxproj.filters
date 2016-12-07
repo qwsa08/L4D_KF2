@@ -61,6 +61,9 @@
     <Filter Include="L4D">
       <UniqueIdentifier>{22829fd0-235d-41bc-8164-ab5974adb2b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="L4D\Zombie">
+      <UniqueIdentifier>{9ea0ab82-2f01-4037-8b28-5dd82754640a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -171,14 +174,14 @@
     <ClInclude Include="cPlayer.h">
       <Filter>L4D</Filter>
     </ClInclude>
-    <ClInclude Include="cZombie.h">
-      <Filter>L4D</Filter>
-    </ClInclude>
     <ClInclude Include="cOBB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cShader.h">
-      <Filter>MANAGER</Filter>
+    <ClInclude Include="cBloat.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cZombie.h">
+      <Filter>L4D\Zombie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,14 +275,14 @@
     <ClCompile Include="cPlayer.cpp">
       <Filter>L4D</Filter>
     </ClCompile>
-    <ClCompile Include="cZombie.cpp">
-      <Filter>L4D</Filter>
-    </ClCompile>
     <ClCompile Include="cOBB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cShader.cpp">
-      <Filter>MANAGER</Filter>
+    <ClCompile Include="cBloat.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cZombie.cpp">
+      <Filter>L4D\Zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

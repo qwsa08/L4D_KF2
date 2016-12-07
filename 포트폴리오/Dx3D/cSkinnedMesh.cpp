@@ -31,7 +31,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
 		&m_pAnimController);
 
-	
+	m_stOBB = *pSkinnedMesh->GetOBB();
 }
 
 cSkinnedMesh::cSkinnedMesh()
@@ -98,6 +98,19 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 			NULL);
 
 	}
+		
+	//m_stOBB.m_vOrgCenterPos = (m_stBoundingBox._min + m_stBoundingBox._max) / 2.f;
+		m_stOBB.m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+		m_stOBB.m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+		m_stOBB.m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+		m_stOBB.fAxisLen[0] = fabs(m_stBoundingBox._max.x - m_stBoundingBox._min.x);
+		m_stOBB.fAxisLen[1] = fabs(m_stBoundingBox._max.y - m_stBoundingBox._min.y);
+		m_stOBB.fAxisLen[2] = fabs(m_stBoundingBox._max.z - m_stBoundingBox._min.z);
+
+		m_stOBB.fAxisHalfLen[0] = m_stOBB.fAxisLen[0] / 2.f;
+		m_stOBB.fAxisHalfLen[1] = m_stOBB.fAxisLen[1] / 2.f;
+		m_stOBB.fAxisHalfLen[2] = m_stOBB.fAxisLen[2] / 2.f;
 	
 	if( m_pmWorkingPalette )
 		delete [] m_pmWorkingPalette;
@@ -114,8 +127,7 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 }
 
 void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
-{
-	
+{	
 	if(m_pAnimController)
 	{
 		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
@@ -126,14 +138,16 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		D3DXMATRIXA16 mat , matI;
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixIdentity(&matI);
+		
+		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		if(pmat)
 		{
-			mat = (*pScal) * *pmat;
+			mat *= (*pScal) * *pmat;
 		}
-		else
-		{
-			D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-		}
+	//	else
+	//	{
+	//		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+	//	}
 		
 		
 
@@ -141,11 +155,12 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		Render(m_pRootFrame);
 		if(pBoundingSphereMesh)
 		{
+			D3DXVec3TransformCoord(&m_stBoundingSphere.vCenter, &m_stBoundingSphere.vCenter, &matI);
 			D3DXMatrixTranslation(&matI,
 				m_stBoundingSphere.vCenter.x,
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
-			mat *= matI;
+			//mat *= matI;
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			pBoundingSphereMesh->DrawSubset(0);
@@ -153,7 +168,20 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		}
 		if (pBoundingBoxMesh)
 		{
-			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+			for (int i = 0; i < 3; ++i)
+			{
+				D3DXVec3TransformNormal(
+					&m_stOBB.vAxisDir[i],
+					&m_stOBB.vAxisDir[i],
+					&mat);
+			}
+
+			D3DXVec3TransformCoord(
+				&m_stOBB.vCenter,
+				&m_vPosition,
+				&mat);
+
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			pBoundingBoxMesh->DrawSubset(0);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);

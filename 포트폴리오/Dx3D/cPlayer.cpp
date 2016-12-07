@@ -22,7 +22,6 @@ void cPlayer::SetUp()
 	m_pPlayer->SetPosition(D3DXVECTOR3(0, 0, 0));
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pPlayer->GetBoundingBox()->_min, m_pPlayer->GetBoundingBox()->_max, m_pPlayerBox);
 
 }
 void cPlayer::Update(D3DXMATRIXA16* pmat)
@@ -39,10 +38,8 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 		m_Position = matS;
 
 	m_pPlayer->Update(&m_Position, 0);
-	m_pOBB->Update(&m_Position, m_pPlayerBox);
 }
 void cPlayer::Render()
 {
 	m_pPlayer->Render(&m_Position);
-	m_pOBB->DebugRender(D3DCOLOR_XRGB(255, 0, 255));
 }
