@@ -12,6 +12,7 @@ class cMapXfile;
 
 class cPlayer;
 class cObjMap;
+class cOBB;
 
 class cMainGame
 {
@@ -35,6 +36,12 @@ private:
 	cPlayer*					m_pPlayer;
 	cObjMap*					m_pBoundingBox;
 	std::vector<D3DXVECTOR3>	test;
+	//====³ªÁß¿¡ ³ª´²Áà¾ßÇÑ´Ù.
+	cOBB*						m_pOBB;
+	ST_OBB						m_stWall;
+	D3DCOLOR					m_cPaint;
+	
+	
 public:
 	cMainGame(void);
 	~cMainGame(void);

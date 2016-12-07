@@ -31,7 +31,7 @@ void cCamera::Update(D3DXVECTOR3* pTarget, D3DXVECTOR3* pDirection)
 
 	if (pTarget)
 	{
-		m_vEye = *pTarget;
+		m_vEye = *pTarget ;
 		m_vLookAt = m_vEye + *pDirection;
 	}
 

@@ -146,6 +146,40 @@ struct ST_BoundingBox
 		: vCenter(_vCenter), _min(min), _max(max) {}
 };
 
+struct ST_OBB
+{
+	D3DXVECTOR3 vCenter;
+	D3DXVECTOR3 m_vOrgCenterPos;
+	D3DXVECTOR3 vAxisDir[3];
+	D3DXVECTOR3 m_vOrgAxisDir[3];
+	float fAxisLen[3];
+	float fAxisHalfLen[3];
+	ST_OBB()
+	{
+		vCenter = D3DXVECTOR3(0, 0, 0);
+		m_vOrgCenterPos = D3DXVECTOR3(0, 0, 0);
+		for (int i = 0; i < 3; i++)
+		{
+			vAxisDir[i] = D3DXVECTOR3(0, 0, 0);
+			m_vOrgAxisDir[i] = D3DXVECTOR3(0, 0, 0);
+			fAxisHalfLen[i] = 0.f;
+			fAxisLen[i] = 0.f;
+		}
+	}
+};
+
+struct ST_OBBbox
+{
+	D3DXVECTOR3 _min;
+	D3DXVECTOR3 _max;
+	ST_OBB     OBB;
+
+	ST_OBBbox() : _min(0, 0, 0), _max(0, 0, 0), OBB() {}
+	ST_OBBbox(D3DXVECTOR3 min, D3DXVECTOR3 max, ST_OBB _OBB)
+		:_min(min), _max(max), OBB(_OBB) {}
+
+};
+
 #include "cDeviceManager.h"
 #include "cTimeManager.h"
 #include "cTextureManager.h"
