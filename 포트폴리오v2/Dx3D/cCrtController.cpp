@@ -2,11 +2,12 @@
 #include "cCrtController.h"
 #include "iMap.h"
 
+#define SENSITIVITY	0.015f
+
 cCrtController::cCrtController(void)
 	: m_vPosition(0, 0, 0)
 	, m_vDirection(0, 0, 1)
 	, m_fSpeed(4.f)
-	, m_fAngle(0.0f)
 	, m_fAngleX(0.0f)
 	, m_fAngleY(0.0f)
 {
@@ -32,7 +33,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 	matR = matX * matY;
 
 	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(0, 0, 1), &matR);
-	//m_vDirection = D3DXVECTOR3(0, 0, 1);
+
 	if (GetKeyState('W') & 0x8000)
 	{
 		vPosition = m_vPosition + (m_vDirection * m_fSpeed);
@@ -42,7 +43,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 	{
 		vPosition = m_vPosition - (m_vDirection * m_fSpeed);
 	}
-	//m_vDirection = D3DXVECTOR3(1, 0, 0);
+
 	D3DXVECTOR3 v(0, 0, 1);
 	D3DXMatrixRotationY(&mat, D3DX_PI / 2.0f);
 	D3DXVec3TransformNormal(&v, &m_vDirection, &mat);
@@ -66,13 +67,10 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 		m_vPosition = vPosition;
 	}
 
-	//m_vPosition += D3DXVECTOR3(0, 100, 0);
 
-	D3DXMATRIXA16 matT ,matR2;
+	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	D3DXMatrixRotationY(&matR2, D3DX_PI);
-
-	m_matWorld = matY* matR2* matT;
+	m_matWorld = matR * matT;
 }
 
 void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -88,14 +86,14 @@ void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		int nDeltaX = pt.x - m_ptPrevMouse.x;
 		int nDeltaY = pt.y - m_ptPrevMouse.y;
 
-		m_fAngleX += nDeltaY * 0.01f;
+		m_fAngleX += nDeltaY * SENSITIVITY;
 		if (m_fAngleX > D3DX_PI / 2.0f - EPSILON)
 			m_fAngleX = D3DX_PI / 2.0f - EPSILON;
 
 		if (m_fAngleX < -D3DX_PI / 2.0f + EPSILON)
 			m_fAngleX = -D3DX_PI / 2.0f + EPSILON;
 
-		m_fAngleY += nDeltaX * 0.01f;
+		m_fAngleY += nDeltaX * SENSITIVITY;
 
 		m_ptPrevMouse = pt;
 	}

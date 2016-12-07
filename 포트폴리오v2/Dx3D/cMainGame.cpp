@@ -11,6 +11,7 @@
 #include "cAllocateHierarchy.h"
 #include "cPlayer.h"
 #include "cZed.h"
+#include "cOBB.h"
 
 #define RADIUS 0.3f
 
@@ -25,6 +26,8 @@ cMainGame::cMainGame(void)
 	, m_pPlayer(NULL)
 	, m_pZombie(NULL)
 	, m_pBoundingBox(NULL)
+	, m_pOBB(NULL)
+	, m_cPaint(0)
 {
 }
 
@@ -48,6 +51,7 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pZombie);
 
 	SAFE_RELEASE(m_pBoundingBox);
+	SAFE_DELETE(m_pOBB);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -91,6 +95,21 @@ void cMainGame::Setup()
 	D3DXMatrixTranslation(&matT, 45, 0, 370);
 	mat *= matT;
 	m_pBoundingBox->Load("./Map/BoundingBox.obj", test, &mat);
+	D3DXVECTOR3 min;
+	min = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+	D3DXVECTOR3 max;
+	max = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+	for (int i = 0; i < 36; i++)
+	{
+		D3DXVec3Minimize(&min, &min, &test[i]);
+		D3DXVec3Maximize(&max, &max, &test[i]);
+	}
+	int a = 0;
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(min, max, m_stWall);
+
+
 
 
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
@@ -112,13 +131,26 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
-	
-
-	if(m_pController)
+	if (m_pController)
+	{
 		m_pController->Update(m_pMap);
-
+	}
 	if(m_pCamera)
 		m_pCamera->Update(m_pController->GetPosition(),&m_pController->GetDirection());
+	
+	m_pPlayer->Update(m_pController->GetWorldTM());
+
+	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall))
+	{
+		//m_pController->SetCrush(true);
+		m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
+	}
+	else
+	{
+		m_cPaint = D3DCOLOR_XRGB(0, 0, 0);
+	}
+	
+
 	/*if(m_pPyramid)
 	{
 		m_pPyramid->SetDirection(m_pController->GetDirection());
@@ -128,7 +160,6 @@ void cMainGame::Update()
 
 	
 	
-	m_pPlayer->Update(m_pController->GetWorldTM());
 
 	g_pAutoReleasePool->Drain();
 }
@@ -170,19 +201,24 @@ void cMainGame::Render()
 	}
 
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pMap->Render();
+	//m_pMap->Render();
 	
+	if (m_pOBB)
+	{
+		m_pOBB->DebugRender(m_cPaint);
+	}
 
-
-	if (test.size() > 0)
+	
+	/*if (test.size() > 0)
 	{
 		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-			test.size() / 3,
+			test.size()/3,
 			&test[0],
 			sizeof(D3DXVECTOR3));
-	}
-
+		
+	}*/
+	
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

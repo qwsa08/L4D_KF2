@@ -143,7 +143,7 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 				hMax = vY[i];
 			}
 		}
-		y = hMax +100;
+		y = hMax;
 		return true;
 		
 	}

@@ -114,6 +114,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			&m_stBox._min,
 			&m_stBox._max);
 
+
 		pMeshData->pMesh->UnlockVertexBuffer();
 		
 

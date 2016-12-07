@@ -6,7 +6,6 @@ class cCrtController
 {
 private:
 	float						m_fSpeed;
-	float						m_fAngle;
 	D3DXVECTOR3					m_vPosition;
 	D3DXMATRIXA16				m_matWorld;
 	SYNTHESIZE_PASS_BY_REF(D3DXVECTOR3, m_vDirection, Direction);
