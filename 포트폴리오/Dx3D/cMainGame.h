@@ -13,6 +13,7 @@ class cMapXfile;
 class cPlayer;
 class cObjMap;
 class cZombie;
+class cOBB;
 
 class cMainGame
 {

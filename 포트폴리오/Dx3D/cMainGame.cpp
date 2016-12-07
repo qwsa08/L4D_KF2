@@ -15,7 +15,7 @@
 #include "cPlayer.h"
 #include "cZombie.h"
 #include "cBloat.h"
-
+#include "cOBB.h"
 #define RADIUS 0.3f
 
 cMainGame::cMainGame(void)
@@ -115,9 +115,6 @@ void cMainGame::Setup()
 	m_pGrid->Setup(30);
 
 	
-	m_pBoundingBox = new cObjMap;
-	D3DXMatrixTranslation(&matT, 45, 0, 370);
-	mat *= matT;*/
 	m_pBoundingBox = new cObjMap;
 	m_pBoundingBox->BoxLoad("./Map/Wall.ptop", test, &mat);
 	

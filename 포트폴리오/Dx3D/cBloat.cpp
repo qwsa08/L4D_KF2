@@ -25,7 +25,6 @@ void cBloat::Setup()
 
 void cBloat::UpdateAndRender(D3DXMATRIXA16 * pmat, D3DXMATRIXA16 * pScal)
 {
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	for each(auto p in m_vecSkinnedMesh)
 	{
 		D3DXVECTOR3 vPosition = m_vPosition;
@@ -39,5 +38,4 @@ void cBloat::UpdateAndRender(D3DXMATRIXA16 * pmat, D3DXMATRIXA16 * pScal)
 			p->UpdateAndRender(&matT, pScal);
 		}
 	}
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 }
