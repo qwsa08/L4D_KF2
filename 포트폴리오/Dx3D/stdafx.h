@@ -187,3 +187,4 @@ struct ST_OBBbox
 #include "cAutoReleasePool.h"
 #include "cObject.h"
 #include "cGameObject.h"
+#include "cShader.h"
