@@ -58,6 +58,9 @@
     <Filter Include=".">
       <UniqueIdentifier>{4eba1b57-3e1c-4ed8-9dfd-ee5cd2742a27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="L4D2">
+      <UniqueIdentifier>{22829fd0-235d-41bc-8164-ab5974adb2b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -165,6 +168,12 @@
     <ClInclude Include="cObjManager.h">
       <Filter>MANAGER</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>L4D2</Filter>
+    </ClInclude>
+    <ClInclude Include="cZombies.h">
+      <Filter>L4D2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +262,12 @@
     </ClCompile>
     <ClCompile Include="cObjManager.cpp">
       <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>L4D2</Filter>
+    </ClCompile>
+    <ClCompile Include="cZombies.cpp">
+      <Filter>L4D2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

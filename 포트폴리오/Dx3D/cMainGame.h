@@ -6,9 +6,11 @@ class cCrtController;
 class cPyramid;
 class iMap;
 class cMtlTex;
-class cSkinnedMesh;
+//class cSkinnedMesh;
 class cFrustum;
 class cMapXfile;
+
+class cPlayer;
 
 class cMainGame
 {
@@ -25,10 +27,11 @@ private:
 	D3DMATERIAL9				m_stMtlPicked;
 	std::vector<cMtlTex*>		m_vecMtlTex;
 	LPD3DXMESH					m_pMapMesh;
-	std::vector<cSkinnedMesh*>	m_vecSkinnedMesh;
+	//std::vector<cSkinnedMesh*>	m_vecSkinnedMesh;
 	cFrustum*					m_pFrustum;
 	//cMapXfile*					m_pMapXFile;
-	cSkinnedMesh*				m_pSkinnedMesh;
+	//cSkinnedMesh*				m_pSkinnedMesh;
+	cPlayer*					m_pPlayer;
 
 public:
 	cMainGame(void);

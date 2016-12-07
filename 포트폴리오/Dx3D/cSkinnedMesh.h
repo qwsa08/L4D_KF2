@@ -7,13 +7,13 @@ class cSkinnedMesh
 	friend class cSkinnedMeshManager;
 
 private:
-
 	//하나만 생성
-	ST_BONE*					m_pRootFrame;			
+	ST_BONE*					m_pRootFrame;
 	DWORD						m_dwWorkingPaletteSize;
 	D3DXMATRIX*					m_pmWorkingPalette;
 	LPD3DXEFFECT				m_pEffect;
 	ST_SPHERE					m_stBoundingSphere;
+	ST_BoundingBox				m_stBoundingBox;
 
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
@@ -21,9 +21,15 @@ private:
 
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
+
 	~cSkinnedMesh(void);
-	
-	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL, D3DXMATRIXA16* pScal =NULL);
+
+	//================플레이어===============
+	void Update(D3DXMATRIXA16* pmat, int state);
+	void Render(D3DXMATRIXA16* pmat);
+
+	//=======================================
+	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL, D3DXMATRIXA16* pScal = NULL);
 	void SetAnimationIndex(int nIndex);
 
 	void SetRandomTrackPosition(); // 테스트용
@@ -31,10 +37,15 @@ public:
 	{
 		m_vPosition = v;
 		m_stBoundingSphere.vCenter += v;
+		m_stBoundingBox.vCenter += v;
 	}
 	ST_SPHERE* GetBoundingSphere()
 	{
 		return &m_stBoundingSphere;
+	}
+	ST_BoundingBox* GetBoundingBox()
+	{
+		return &m_stBoundingBox;
 	}
 private:
 	cSkinnedMesh();
@@ -42,6 +53,7 @@ private:
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void Render(ST_BONE* pBone = NULL);
+	void RenderPlayer(ST_BONE* pBone = NULL);
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
 	void Destroy();
 };

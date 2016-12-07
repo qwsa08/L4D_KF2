@@ -31,6 +31,7 @@ public:
 public:
 	SYNTHESIZE(std::string, m_sDirectory, Directory);
 	SYNTHESIZE(ST_SPHERE, m_stSphere, BoundingSphere);
+	SYNTHESIZE(ST_BoundingBox, m_stBox, BoundingBox);
 	SYNTHESIZE(DWORD, m_dwDefaultPaletteSize, DefaultPaletteSize);
 	SYNTHESIZE(DWORD, m_dwMaxPaletteSize, MaxPaletteSize);
 
@@ -48,7 +49,7 @@ public:
 	//		Returns the created frame object
 	//
 	//------------------------------------------------------------------------
-	STDMETHOD(CreateFrame)(THIS_ LPCSTR Name, 
+	STDMETHOD(CreateFrame)(THIS_ LPCSTR Name,
 		LPD3DXFRAME *ppNewFrame) override;
 
 	//------------------------------------------------------------------------
@@ -82,14 +83,14 @@ public:
 	//		Array of matrices, one for each bone in the skinned mesh.
 	//
 	//------------------------------------------------------------------------
-	STDMETHOD(CreateMeshContainer)(THIS_ 
-		LPCSTR Name, 
-		CONST D3DXMESHDATA *pMeshData, 
-		CONST D3DXMATERIAL *pMaterials, 
-		CONST D3DXEFFECTINSTANCE *pEffectInstances, 
-		DWORD NumMaterials, 
-		CONST DWORD *pAdjacency, 
-		LPD3DXSKININFO pSkinInfo, 
+	STDMETHOD(CreateMeshContainer)(THIS_
+		LPCSTR Name,
+		CONST D3DXMESHDATA *pMeshData,
+		CONST D3DXMATERIAL *pMaterials,
+		CONST D3DXEFFECTINSTANCE *pEffectInstances,
+		DWORD NumMaterials,
+		CONST DWORD *pAdjacency,
+		LPD3DXSKININFO pSkinInfo,
 		LPD3DXMESHCONTAINER *ppNewMeshContainer) override;
 
 	//------------------------------------------------------------------------
@@ -102,7 +103,7 @@ public:
 	//		Pointer to the frame to be de-allocated
 	//
 	//------------------------------------------------------------------------
-	STDMETHOD(DestroyFrame)(THIS_ LPD3DXFRAME pFrameToFree) override; 
+	STDMETHOD(DestroyFrame)(THIS_ LPD3DXFRAME pFrameToFree) override;
 
 	//------------------------------------------------------------------------
 	// DestroyMeshContainer:
@@ -114,6 +115,6 @@ public:
 	//		Pointer to the mesh container object to be de-allocated
 	//
 	//------------------------------------------------------------------------
-	STDMETHOD(DestroyMeshContainer)(THIS_ LPD3DXMESHCONTAINER pMeshContainerToFree) override; 
+	STDMETHOD(DestroyMeshContainer)(THIS_ LPD3DXMESHCONTAINER pMeshContainerToFree) override;
 };
 

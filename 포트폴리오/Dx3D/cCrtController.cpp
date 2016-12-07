@@ -45,7 +45,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 	}
 
 	D3DXVECTOR3 v(0, 0, 1);
-	D3DXMatrixRotationY(&mat, PI / 2.0f);
+	D3DXMatrixRotationY(&mat, D3DX_PI / 2.0f);
 	D3DXVec3TransformNormal(&v, &m_vDirection, &mat);
 	if(GetKeyState('A') & 0x8000)
 	{
@@ -70,7 +70,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-	m_matWorld = matY * matT;
+	m_matWorld = matR * matT;
 }
 
 void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

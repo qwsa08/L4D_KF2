@@ -31,7 +31,6 @@
 
 extern HWND	g_hWnd;
 
-#define PI		3.141592f
 #define EPSILON 0.00001f
 
 #define SAFE_ADD_REF(p) if(p) { (p)->AddRef(); }
@@ -134,6 +133,17 @@ struct ST_SPHERE
 	ST_SPHERE() : vCenter(0, 0, 0), fRadius(0.0f), isPicked(false) {}
 	ST_SPHERE(D3DXVECTOR3 _vCenter, float _fRadius, bool _isPicked)
 		: vCenter(_vCenter), fRadius(_fRadius), isPicked(_isPicked) {}
+};
+
+struct ST_BoundingBox
+{
+	D3DXVECTOR3 vCenter;
+	D3DXVECTOR3 _min;
+	D3DXVECTOR3 _max;
+
+	ST_BoundingBox() : vCenter(0, 0, 0), _min(D3DXVECTOR3(0, 0, 0)), _max(D3DXVECTOR3(0, 0, 0)) {}
+	ST_BoundingBox(D3DXVECTOR3 _vCenter, D3DXVECTOR3 min, D3DXVECTOR3 max)
+		: vCenter(_vCenter), _min(min), _max(max) {}
 };
 
 #include "cDeviceManager.h"

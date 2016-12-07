@@ -14,12 +14,12 @@ cAllocateHierarchy::~cAllocateHierarchy(void)
 {
 }
 
-STDMETHODIMP cAllocateHierarchy::CreateFrame( THIS_ LPCSTR Name, LPD3DXFRAME *ppNewFrame )
+STDMETHODIMP cAllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME *ppNewFrame)
 {
 	ST_BONE* pBone = new ST_BONE;
 
 	pBone->Name = NULL;
-	if(Name)
+	if (Name)
 	{
 		int nLen = strlen(Name) + 1;
 		pBone->Name = new char[nLen];
@@ -27,8 +27,8 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame( THIS_ LPCSTR Name, LPD3DXFRAME *pp
 	}
 
 	pBone->pFrameFirstChild = NULL;
-	pBone->pFrameSibling	= NULL;
-	pBone->pMeshContainer	= NULL;
+	pBone->pFrameSibling = NULL;
+	pBone->pMeshContainer = NULL;
 
 	D3DXMatrixIdentity(&pBone->TransformationMatrix);
 	D3DXMatrixIdentity(&pBone->CombinedTransformationMatrix);
@@ -38,14 +38,14 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame( THIS_ LPCSTR Name, LPD3DXFRAME *pp
 	return S_OK;
 }
 
-STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
+STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_ LPCSTR Name,
 	CONST D3DXMESHDATA *pMeshData,
 	CONST D3DXMATERIAL *pMaterials,
 	CONST D3DXEFFECTINSTANCE *pEffectInstances,
-	DWORD NumMaterials, 
+	DWORD NumMaterials,
 	CONST DWORD *pAdjacency,
 	LPD3DXSKININFO pSkinInfo,
-	LPD3DXMESHCONTAINER *ppNewMeshContainer )
+	LPD3DXMESHCONTAINER *ppNewMeshContainer)
 {
 	assert(pMeshData && pMeshData->Type == D3DXMESHTYPE_MESH);
 
@@ -60,7 +60,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 	for (DWORD i = 0; i < NumMaterials; ++i)
 	{
 		// 재질정보 저장
-		pBoneMesh->vecMaterial.push_back(pMaterials[i].MatD3D); 
+		pBoneMesh->vecMaterial.push_back(pMaterials[i].MatD3D);
 
 		// 텍스쳐 정보 저장.
 		std::string sFilename(pMaterials[i].pTextureFilename);
@@ -73,13 +73,13 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 	pBoneMesh->pEffects = NULL;
 
 	// 인접정보 복사
-	if(pAdjacency)
+	if (pAdjacency)
 	{
 		DWORD dwNumFaces = pMeshData->pMesh->GetNumFaces();
-		pBoneMesh->pAdjacency = new DWORD[ 3 * dwNumFaces ];
-		memcpy( pBoneMesh->pAdjacency, pAdjacency, 3 * sizeof( DWORD ) * dwNumFaces );
+		pBoneMesh->pAdjacency = new DWORD[3 * dwNumFaces];
+		memcpy(pBoneMesh->pAdjacency, pAdjacency, 3 * sizeof(DWORD) * dwNumFaces);
 	}
-	
+
 	// pSkinInfo 저장
 	SAFE_ADD_REF(pSkinInfo);
 	pBoneMesh->pSkinInfo = pSkinInfo;
@@ -97,7 +97,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 	};
 
 	// pMeshData->pMesh를 원본 메쉬에 복사
-	if(pMeshData && pMeshData->pMesh)
+	if (pMeshData && pMeshData->pMesh)
 	{
 		LPVOID pV = NULL;
 		pMeshData->pMesh->LockVertexBuffer(0, &pV);
@@ -106,8 +106,16 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			D3DXGetFVFVertexSize(ST_PNT_VERTEX::FVF),
 			&(m_stSphere.vCenter),
 			&(m_stSphere.fRadius));
+
+
+		D3DXComputeBoundingBox((D3DXVECTOR3*)pV,
+			pMeshData->pMesh->GetNumVertices(),
+			D3DXGetFVFVertexSize(ST_PNT_VERTEX::FVF),
+			&m_stBox._min,
+			&m_stBox._max);
+
 		pMeshData->pMesh->UnlockVertexBuffer();
-		
+
 
 		//클론매쉬 FVF가 아니다 FVF가 아니라!!
 		pMeshData->pMesh->CloneMesh(
@@ -115,10 +123,10 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			vertexDecl,
 			g_pD3DDevice,
 			&pBoneMesh->pOrigMesh);
-		
+
 	}
 
-	if(pSkinInfo)
+	if (pSkinInfo)
 	{
 		// pSkinInfo->GetNumBones()를 통해 영향력을 미치는 모든 본에 대한 매트릭스 들을 세팅
 		// ppBoneMatrixPtrs, pBoneOffsetMatrices를 동적할당
@@ -139,17 +147,17 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 		// 메쉬에 영향을 주는 팔레트의 개수는 
 		// m_dwDefaultPaletteSize와 pSkinInfo->GetNumBones()보다 클 수 없다.
 		// m_dwDefaultPaletteSize는 쉐이더에 정의되어있다.
-		pBoneMesh->dwNumPaletteEntries = min( m_dwDefaultPaletteSize, pSkinInfo->GetNumBones() );
+		pBoneMesh->dwNumPaletteEntries = min(m_dwDefaultPaletteSize, pSkinInfo->GetNumBones());
 
 		// 최대 팔레트 사이즈 업데이트
-		if(m_dwMaxPaletteSize < pBoneMesh->dwNumPaletteEntries)
+		if (m_dwMaxPaletteSize < pBoneMesh->dwNumPaletteEntries)
 		{
 			m_dwMaxPaletteSize = pBoneMesh->dwNumPaletteEntries;
 		}
 
 
 		// blend weights와 인덱스를 이용해 pWorkingMesh 생성.
-		
+
 		pBoneMesh->pSkinInfo->ConvertToIndexedBlendedMesh(
 			pBoneMesh->pOrigMesh,
 			D3DXMESH_MANAGED | D3DXMESHOPT_VERTEXCACHE,
@@ -161,7 +169,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			&pBoneMesh->dwMaxNumFaceInfls,
 			&pBoneMesh->dwNumAttrGroups,
 			&pBoneMesh->pBufBoneCombos,
-			&pBoneMesh->pWorkingMesh );
+			&pBoneMesh->pWorkingMesh);
 
 		// 기존 메쉬의 FVF가 버텍스 블랜딩 정보를 전달 할 수 없는 경우 FVF를 변경한다
 		//DWORD dwOldFVF = pBoneMesh->pWorkingMesh->GetFVF();
@@ -199,28 +207,28 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 		// blend indices to a D3DCOLOR semantic, and later in the shader convert
 		// it back using the D3DCOLORtoUBYTE4() intrinsic.  Note that we don't
 		// convert any data, just the declaration.
-		D3DVERTEXELEMENT9 pDecl[ MAX_FVF_DECL_SIZE ];
+		D3DVERTEXELEMENT9 pDecl[MAX_FVF_DECL_SIZE];
 		D3DVERTEXELEMENT9 * pDeclCur;
-		pBoneMesh->pWorkingMesh->GetDeclaration( pDecl );
+		pBoneMesh->pWorkingMesh->GetDeclaration(pDecl);
 
 		pDeclCur = pDecl;
-		while( pDeclCur->Stream != 0xff )
+		while (pDeclCur->Stream != 0xff)
 		{
-			if( ( pDeclCur->Usage == D3DDECLUSAGE_BLENDINDICES ) &&
-				( pDeclCur->UsageIndex == 0 ) )
+			if ((pDeclCur->Usage == D3DDECLUSAGE_BLENDINDICES) &&
+				(pDeclCur->UsageIndex == 0))
 				pDeclCur->Type = D3DDECLTYPE_D3DCOLOR;
 			pDeclCur++;
 		}
 
-		pBoneMesh->pWorkingMesh->UpdateSemantics( pDecl );
+		pBoneMesh->pWorkingMesh->UpdateSemantics(pDecl);
 	}
-	
+
 	*ppNewMeshContainer = pBoneMesh;
 
 	return S_OK;
 }
 
-STDMETHODIMP cAllocateHierarchy::DestroyFrame( THIS_ LPD3DXFRAME pFrameToFree )
+STDMETHODIMP cAllocateHierarchy::DestroyFrame(THIS_ LPD3DXFRAME pFrameToFree)
 {
 	ST_BONE* pBone = (ST_BONE*)pFrameToFree;
 	SAFE_DELETE_ARRAY(pBone->Name);
@@ -229,10 +237,10 @@ STDMETHODIMP cAllocateHierarchy::DestroyFrame( THIS_ LPD3DXFRAME pFrameToFree )
 	return S_OK;
 }
 
-STDMETHODIMP cAllocateHierarchy::DestroyMeshContainer( THIS_ LPD3DXMESHCONTAINER pMeshContainerToFree )
+STDMETHODIMP cAllocateHierarchy::DestroyMeshContainer(THIS_ LPD3DXMESHCONTAINER pMeshContainerToFree)
 {
 	ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pMeshContainerToFree;
-	
+
 	SAFE_RELEASE(pBoneMesh->pSkinInfo);
 	SAFE_RELEASE(pBoneMesh->pWorkingMesh);
 	SAFE_RELEASE(pBoneMesh->pOrigMesh);
@@ -242,7 +250,7 @@ STDMETHODIMP cAllocateHierarchy::DestroyMeshContainer( THIS_ LPD3DXMESHCONTAINER
 	SAFE_DELETE_ARRAY(pBoneMesh->pAdjacency);
 	SAFE_DELETE_ARRAY(pBoneMesh->ppBoneMatrixPtrs);
 	SAFE_DELETE_ARRAY(pBoneMesh->pBoneOffsetMatrices);
-	
+
 	SAFE_DELETE(pMeshContainerToFree);
 
 	return S_OK;

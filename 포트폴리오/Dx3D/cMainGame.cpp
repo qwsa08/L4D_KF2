@@ -9,9 +9,10 @@
 #include "cMtlTex.h"
 #include "cObjLoader.h"
 #include "cAllocateHierarchy.h"
-#include "cSkinnedMesh.h"
+//#include "cSkinnedMesh.h"
 #include "cFrustum.h"
 #include "cMapXfile.h"
+#include "cPlayer.h"
 
 #define RADIUS 0.3f
 
@@ -24,7 +25,8 @@ cMainGame::cMainGame(void)
 	, m_pMesh(NULL)
 	, m_pMapMesh(NULL)
 	, m_pFrustum(NULL)
-	, m_pSkinnedMesh(NULL)
+//	, m_pSkinnedMesh(NULL)
+	, m_pPlayer(NULL)
 {
 }
 
@@ -33,11 +35,12 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pCamera);
 	SAFE_DELETE(m_pGrid);
 	SAFE_DELETE(m_pController);
-	for each(auto p in m_vecSkinnedMesh)
-	{
-		SAFE_DELETE(p);
-	}
+//	for each(auto p in m_vecSkinnedMesh)
+//	{
+//		SAFE_DELETE(p);
+//	}
 	SAFE_DELETE(m_pFrustum);
+	SAFE_DELETE(m_pPlayer);
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
@@ -65,13 +68,14 @@ void cMainGame::Setup()
 	//D3DXPLANE
 	//D3DXPlaneFromPoints(평면, 점1, 점2, 점3);
 	//거리 = D3DXPlaneDotCoord(평면, 점) 앞:양수, 뒤:음수
+	m_pPlayer = new cPlayer;
+	m_pPlayer->SetUp();
 
-
-	m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "center.X");
-	//m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
-	m_pSkinnedMesh->SetRandomTrackPosition();
-	m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 10, 0));
-	m_vecSkinnedMesh.push_back(m_pSkinnedMesh);
+	//m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "center.X");
+	////m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
+	//m_pSkinnedMesh->SetRandomTrackPosition();
+	//m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 10, 0));
+	//m_vecSkinnedMesh.push_back(m_pSkinnedMesh);
 
 	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 
@@ -137,6 +141,9 @@ void cMainGame::Update()
 		m_pPyramid->Update();
 	}*/
 
+	if (m_pPlayer)
+		m_pPlayer->Update(m_pController->GetWorldTM());
+
 	if (m_pCamera)
 		m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
 
@@ -176,13 +183,14 @@ void cMainGame::Render()
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	for each(auto p in m_vecSkinnedMesh)
-	{
-		if(m_pFrustum->IsIn(p->GetBoundingSphere()))
-		{
-			p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
-		}
-	}
+	//for each(auto p in m_vecSkinnedMesh)
+	//{
+	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
+	//	{
+	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
+	//	}
+	if (m_pPlayer)
+		m_pPlayer->Render();
 
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pMap->Render();
@@ -208,7 +216,7 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		case VK_SPACE:
 		{
 			static int n = 0;
-			m_pSkinnedMesh->SetAnimationIndex(++n % 10);
+		//	m_pSkinnedMesh->SetAnimationIndex(++n % 10);
 
 		}
 		break;
