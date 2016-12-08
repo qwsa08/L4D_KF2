@@ -5,7 +5,7 @@ struct ST_BONE;
 class cSkinnedMesh
 {
 	friend class cSkinnedMeshManager;
-
+	
 private:
 	//하나만 생성
 	ST_BONE*					m_pRootFrame;			

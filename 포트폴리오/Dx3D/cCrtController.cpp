@@ -60,7 +60,10 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 	if (pMap)
 	{
 		if (pMap->GetHeight(vPosition.x, vPosition.y, vPosition.z))
+		{
+			vPosition.y += 70;
 			m_vPosition = vPosition;
+		}			
 	}
 	else
 	{
