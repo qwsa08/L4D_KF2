@@ -19,7 +19,7 @@ void cBloat::Setup()
 	cZombie::Setup();
 
 	cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh("Zombie/Bloat/", "ZED_Bloat.X");
-	pSkinnedMesh->SetPosition(D3DXVECTOR3(100, 0, 100));
+	pSkinnedMesh->SetPosition(D3DXVECTOR3(100, 0, 0));
 	m_vecSkinnedMesh.push_back(pSkinnedMesh);
 }
 
@@ -33,9 +33,10 @@ void cBloat::UpdateAndRender(D3DXMATRIXA16 * pmat, D3DXMATRIXA16 * pScal)
 			vPosition.y = -100;
 			m_vPosition = vPosition;
 
-			D3DXMATRIXA16 matT;
+			D3DXMATRIXA16 matT ,matS;
 			D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-			p->UpdateAndRender(&matT, pScal);
+			D3DXMatrixScaling(&matS, 0.7f, 0.7f, 0.7f);
+			p->UpdateAndRender(&matT, &matS);
 		}
 	}
 }

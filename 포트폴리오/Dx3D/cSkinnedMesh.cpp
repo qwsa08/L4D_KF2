@@ -31,6 +31,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 		pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
 		&m_pAnimController);
 
+
 }
 
 cSkinnedMesh::cSkinnedMesh()
@@ -141,12 +142,13 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		Render(m_pRootFrame);
 		if(pBoundingSphereMesh)
 		{
-			D3DXVec3TransformCoord(&m_stBoundingSphere.vCenter, &m_stBoundingSphere.vCenter, &matI);
+			//D3DXVec3TransformCoord(&m_stBoundingSphere.vCenter, &m_stBoundingSphere.vCenter, &matI);
 			D3DXMatrixTranslation(&matI,
 				m_stBoundingSphere.vCenter.x,
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
-			//mat *= matI;
+
+			mat *= matI;
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			pBoundingSphereMesh->DrawSubset(0);
