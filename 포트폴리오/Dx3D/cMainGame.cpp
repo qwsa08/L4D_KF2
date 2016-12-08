@@ -135,6 +135,10 @@ void cMainGame::Setup()
 
 	RECT rc;
 	GetWindowRect(g_hWnd, &rc);
+	rc.left += 10;
+	rc.right -= 10;
+	rc.top += 55;
+	rc.bottom -= 10;
 	SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);	//마우스 시작좌표 고정
 	ClipCursor(&rc);	//마우스 가두기
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
