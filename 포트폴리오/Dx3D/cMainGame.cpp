@@ -179,7 +179,7 @@ void cMainGame::Update()
 		}
 	}
 	
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetKeyState(VK_F1) & 0x8000)
 	{
 		if (!m_mouseCheck)
 		{
