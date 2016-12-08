@@ -113,7 +113,7 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 		SetupBoneMatrixPtrs(m_pRootFrame);
 }
 
-void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
+void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat)
 {	
 	if(m_pAnimController)
 	{
@@ -126,18 +126,16 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 		D3DXMatrixIdentity(&mat);
 		D3DXMatrixIdentity(&matI);
 		
-		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+		//D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 		if(pmat)
 		{
-			mat *= (*pScal) * *pmat;
+			mat = *pmat;
 		}
 	//	else
 	//	{
 	//		D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	//	}
 		
-		
-
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
 		if (m_stBoundingSphere.pBoundingSphereMesh)
@@ -154,8 +152,7 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 		if (m_stBoundingBox.pBoundingBoxMesh)
-		{
-	
+		{	
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);
