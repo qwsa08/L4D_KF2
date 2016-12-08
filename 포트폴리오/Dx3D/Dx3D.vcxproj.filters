@@ -85,9 +85,6 @@
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cOBB.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Dx3D.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -102,6 +99,15 @@
     </ClCompile>
     <ClCompile Include="cAutoReleasePool.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>충돌</Filter>
+    </ClCompile>
+    <ClCompile Include="cBulletCollision.cpp">
+      <Filter>충돌</Filter>
+    </ClCompile>
+    <ClCompile Include="cCrossHead.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +198,6 @@
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cOBB.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Dx3D.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -215,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>충돌</Filter>
+    </ClInclude>
+    <ClInclude Include="cBulletCollision.h">
+      <Filter>충돌</Filter>
+    </ClInclude>
+    <ClInclude Include="cCrossHead.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +292,12 @@
     </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{f29d9274-8fb3-41e5-8344-b98cf507ee1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="충돌">
+      <UniqueIdentifier>{4adf91c8-e0c6-44c2-990a-195e9d06734e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{ec9f2ba7-0aba-4004-88a8-f9f3d7490e82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
