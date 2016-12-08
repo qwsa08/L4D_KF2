@@ -7,6 +7,7 @@
 cZombie::cZombie()
 	: m_pMap(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_eMotion(IDLE)
 {
 }
 
