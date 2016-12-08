@@ -146,6 +146,7 @@ void cMainGame::Setup()
 
 	RECT rc;
 	GetWindowRect(g_hWnd, &rc);
+	//GetClientRect(g_hWnd, &rc);
 	rc.left += 10;
 	rc.right -= 10;
 	rc.top += 55;
