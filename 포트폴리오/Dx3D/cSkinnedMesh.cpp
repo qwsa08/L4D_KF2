@@ -4,8 +4,8 @@
 //#include "cPAllocateHierarchy.h"
 #include "cSkinnedMeshManager.h"
 
-static LPD3DXMESH			pBoundingSphereMesh;
-static LPD3DXMESH			pBoundingBoxMesh;
+//static LPD3DXMESH			pBoundingSphereMesh;
+//static LPD3DXMESH			pBoundingBoxMesh;
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	: m_pRootFrame(NULL)
 	, m_pAnimController(NULL)
@@ -46,8 +46,8 @@ cSkinnedMesh::cSkinnedMesh()
 cSkinnedMesh::~cSkinnedMesh(void)
 {
 	SAFE_RELEASE(m_pAnimController);
-	SAFE_RELEASE(pBoundingSphereMesh);
-	SAFE_RELEASE(pBoundingBoxMesh);
+	SAFE_RELEASE(m_stBoundingSphere.pBoundingSphereMesh);
+	SAFE_RELEASE(m_stBoundingBox.pBoundingBoxMesh);
 }
 
 void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
@@ -79,22 +79,22 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 	//-------------------바운딩 박스
 	m_stBoundingBox = ah.GetBoundingBox();
 
-	if(pBoundingSphereMesh == NULL)
+	if (m_stBoundingSphere.pBoundingSphereMesh == NULL)
 	{
 		D3DXCreateSphere(g_pD3DDevice, 
 			m_stBoundingSphere.fRadius,
 			20, 
 			20, 
-			&pBoundingSphereMesh,
+			&m_stBoundingSphere.pBoundingSphereMesh,
 			NULL);
 	}
-	if (pBoundingBoxMesh == NULL)
+	if (m_stBoundingBox.pBoundingBoxMesh == NULL)
 	{
 		D3DXCreateBox(g_pD3DDevice,
 			m_stBoundingBox._max.x - m_stBoundingBox._min.x,
 			m_stBoundingBox._max.y - m_stBoundingBox._min.y,
 			m_stBoundingBox._max.z - m_stBoundingBox._min.z,
-			&pBoundingBoxMesh,
+			&m_stBoundingBox.pBoundingBoxMesh,
 			NULL);
 
 	}
@@ -140,26 +140,25 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
-		if(pBoundingSphereMesh)
+		if (m_stBoundingSphere.pBoundingSphereMesh)
 		{
 			//D3DXVec3TransformCoord(&m_stBoundingSphere.vCenter, &m_stBoundingSphere.vCenter, &matI);
 			D3DXMatrixTranslation(&matI,
 				m_stBoundingSphere.vCenter.x,
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
-
 			mat *= matI;
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			pBoundingSphereMesh->DrawSubset(0);
+			m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
-		if (pBoundingBoxMesh)
+		if (m_stBoundingBox.pBoundingBoxMesh)
 		{
 	
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			pBoundingBoxMesh->DrawSubset(0);
+			m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 	}
@@ -430,7 +429,7 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 		mat = *pmat;
 	}
 	RenderPlayer(m_pRootFrame);
-	if (pBoundingSphereMesh)
+	if (m_stBoundingSphere.pBoundingSphereMesh)
 	{
 		//이걸하면 반대방향으로 원운동함
 
@@ -442,14 +441,14 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		pBoundingSphereMesh->DrawSubset(0);
+		m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
-	if (pBoundingBoxMesh)
+	if (m_stBoundingBox.pBoundingBoxMesh)
 	{
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		pBoundingBoxMesh->DrawSubset(0);
+		m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 

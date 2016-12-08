@@ -12,7 +12,6 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
-	SAFE_DELETE(m_pPlayer);
 }
 
 
