@@ -36,8 +36,8 @@ public:
 	void SetPosition(D3DXVECTOR3 v)
 	{
 		m_vPosition = v;
-		m_stBoundingSphere.vCenter += v;
-		m_stBoundingBox.vCenter += v;
+		//m_stBoundingSphere.vCenter += v;
+		//m_stBoundingBox.vCenter += v;
 	}
 	D3DXVECTOR3 GetPosition()
 	{

@@ -8,6 +8,6 @@ public:
 	virtual ~cBloat();
 
 	virtual void Setup();
-	virtual void UpdateAndRender(D3DXMATRIXA16* pmat = NULL, D3DXMATRIXA16* pScal = NULL);
+	virtual void UpdateAndRender();
 };
 

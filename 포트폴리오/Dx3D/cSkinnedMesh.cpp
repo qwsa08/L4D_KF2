@@ -146,7 +146,7 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat, D3DXMATRIXA16* pScal)
 				m_stBoundingSphere.vCenter.x,
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
-			//mat *= matI;
+			mat *= matI;
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			pBoundingSphereMesh->DrawSubset(0);

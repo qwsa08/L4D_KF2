@@ -43,7 +43,7 @@ private:
 	cOBB*						m_pOBB;
 	ST_OBB						m_stWall[8];
 	D3DCOLOR					m_cPaint;
-	
+	bool						m_mouseCheck;
 	
 public:
 	cMainGame(void);

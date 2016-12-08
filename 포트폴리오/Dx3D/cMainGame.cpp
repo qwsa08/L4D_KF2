@@ -31,6 +31,7 @@ cMainGame::cMainGame(void)
 	, m_pPlayer(NULL)
 	, m_pBoundingBox(NULL)
 	, m_pBloat(NULL)
+	, m_mouseCheck(false)
 {
 }
 
@@ -72,38 +73,20 @@ void cMainGame::Setup()
 {
 	m_pFrustum = new cFrustum;
 
-	//D3DXPLANE
-	//D3DXPlaneFromPoints(평면, 점1, 점2, 점3);
-	//거리 = D3DXPlaneDotCoord(평면, 점) 앞:양수, 뒤:음수
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
 	m_pBloat = new cBloat;
 	m_pBloat->Setup();
-	//m_pSkinnedMesh = new cSkinnedMesh("Weapon X File/test/", "center.X");
-	////m_pSkinnedMesh->SetAnimationIndex(rand() % 5);
-	//m_pSkinnedMesh->SetRandomTrackPosition();
-	//m_pSkinnedMesh->SetPosition(D3DXVECTOR3(0, 10, 0));
-	//m_vecSkinnedMesh.push_back(m_pSkinnedMesh);
 
 	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
-	/*D3DXMatrixScaling(&matS, 0.01f, 0.01f, 0.01f);
-	D3DXMatrixRotationX(&matR, -D3DX_PI / 2.0f);
-	mat = matS * matR;*/
 	D3DXMatrixIdentity(&mat);
 
 	cObjMap* pObjMap = new cObjMap;
 	pObjMap->Load("./Map/House14.ptop",&mat);
 	m_pMap = pObjMap;
-
-	/*cMapXfile* m_pMapXFile = new cMapXfile;
-	m_pMapXFile->Setup("house08/house_08.X");
-	m_pMap = m_pMapXFile;*/
-
-//	cObjLoader objloader;
-//	m_pMapMesh = objloader.Load("obj/Map.obj", m_vecMtlTex, &mat);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -113,8 +96,7 @@ void cMainGame::Setup()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
-
-	
+		
 	m_pBoundingBox = new cObjMap;
 	m_pBoundingBox->BoxLoad("./Map/Wall.ptop", test, &mat);
 	
@@ -153,7 +135,9 @@ void cMainGame::Setup()
 
 	RECT rc;
 	GetWindowRect(g_hWnd, &rc);
-	SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);
+	SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);	//마우스 시작좌표 고정
+	ClipCursor(&rc);	//마우스 가두기
+	ShowCursor(m_mouseCheck);	//마우스 숨기기
 }
 
 void cMainGame::Update()
@@ -162,13 +146,6 @@ void cMainGame::Update()
 	
 	if(m_pController)
 		m_pController->Update(m_pMap);
-
-	/*if(m_pPyramid)
-	{
-		m_pPyramid->SetDirection(m_pController->GetDirection());
-		m_pPyramid->SetPosition(*(m_pController->GetPosition()));
-		m_pPyramid->Update();
-	}*/
 
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
@@ -197,6 +174,20 @@ void cMainGame::Update()
 			m_cPaint = D3DCOLOR_XRGB(0, 0, 0);
 		}
 	}
+	
+	if (GetKeyState(VK_SPACE) & 0x8000)
+	{
+		if (!m_mouseCheck)
+		{
+			m_mouseCheck = true;
+		}
+		else
+		{
+			m_mouseCheck = false;
+		}
+
+		ShowCursor(m_mouseCheck);
+	}
 
 	g_pAutoReleasePool->Drain();
 }
@@ -220,16 +211,6 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	/*if (test.size() > 0)
-	{
-		g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-		g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-			test.size() / 3,
-			&test[0],
-			sizeof(D3DXVECTOR3));
-
-	}*/
-	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
@@ -243,7 +224,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pBloat)
-		m_pBloat->UpdateAndRender(&matI, &matI);
+		m_pBloat->UpdateAndRender();
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pMap->Render();
 	
