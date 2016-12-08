@@ -129,21 +129,21 @@ struct ST_SPHERE
 	D3DXVECTOR3 vCenter;
 	float		fRadius;
 	bool		isPicked;
-
-	ST_SPHERE() : vCenter(0, 0, 0), fRadius(0.0f), isPicked(false) {}
-	ST_SPHERE(D3DXVECTOR3 _vCenter, float _fRadius, bool _isPicked)
-		: vCenter(_vCenter), fRadius(_fRadius), isPicked(_isPicked) {}
+	LPD3DXMESH	pBoundingSphereMesh;
+	ST_SPHERE() : vCenter(0, 0, 0), fRadius(0.0f), isPicked(false), pBoundingSphereMesh(NULL){}
+	ST_SPHERE(D3DXVECTOR3 _vCenter, float _fRadius, bool _isPicked, LPD3DXMESH	SphereMesh)
+		: vCenter(_vCenter), fRadius(_fRadius), isPicked(_isPicked), pBoundingSphereMesh(SphereMesh){}
 };
 
 struct ST_BoundingBox
 {
-	D3DXVECTOR3 vCenter;
-	D3DXVECTOR3 _min;
-	D3DXVECTOR3 _max;
-
-	ST_BoundingBox() : vCenter(0, 0, 0), _min(D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX)), _max(D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX)) {}
-	ST_BoundingBox(D3DXVECTOR3 _vCenter, D3DXVECTOR3 min, D3DXVECTOR3 max)
-		: vCenter(_vCenter), _min(min), _max(max) {}
+	D3DXVECTOR3		vCenter;
+	D3DXVECTOR3		_min;
+	D3DXVECTOR3		_max;
+	LPD3DXMESH		pBoundingBoxMesh;
+	ST_BoundingBox() : vCenter(0, 0, 0), _min(D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX)), _max(D3DXVECTOR3(FLT_MIN, FLT_MIN, FLT_MIN)), pBoundingBoxMesh(NULL) {}
+	ST_BoundingBox(D3DXVECTOR3 _vCenter, D3DXVECTOR3 min, D3DXVECTOR3 max, LPD3DXMESH BoundingBox)
+		: vCenter(_vCenter), _min(min), _max(max), pBoundingBoxMesh(BoundingBox) {}
 };
 
 struct ST_OBB
