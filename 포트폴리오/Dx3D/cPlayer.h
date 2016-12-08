@@ -3,6 +3,7 @@
 class cSkinnedMesh;
 class cOBB;
 
+
 class cPlayer
 {
 private:
@@ -11,6 +12,7 @@ private:
 
 	ST_OBB				m_pPlayerBox;
 	cOBB*				m_pOBB;
+	
 public:
 	cPlayer();
 	~cPlayer();
@@ -19,5 +21,6 @@ public:
 	void Update(D3DXMATRIXA16* pmat);
 	void Render();
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
+	
 };
 

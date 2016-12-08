@@ -107,10 +107,10 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 
 	//========================= ¶¥ 
 	std::vector<ST_PNT_VERTEX> vecVertexs;
-	//========================= º®
-	std::vector<ST_PNT_VERTEX> vecVerWall;
-
-
+	//========================= 
+	//========================= ÀüÃ¼
+	std::vector<ST_PNT_VERTEX> vecMap;
+	
 	cGroup* pGroup = NULL;
 
 	FILE* fp = NULL;
@@ -186,6 +186,7 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 				}
 				vecVertex.push_back(v);
 				vecTemp.push_back(v);
+				vecMap.push_back(v);
 			}
 
 			
@@ -200,18 +201,6 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 					vecVertexs.push_back(vecTemp[2]);
 				}
 			}
-			
-
-			iMapFloor = m_mapWall.begin();
-			for (iMapFloor; iMapFloor != m_mapWall.end(); iMapFloor++)
-			{
-				if (!strcmp(sMtlName.c_str(), iMapFloor->second.c_str()))
-				{
-					vecVerWall.push_back(vecTemp[0]);
-					vecVerWall.push_back(vecTemp[1]);
-					vecVerWall.push_back(vecTemp[2]);
-				}
-			}
 
 			vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
 		}
@@ -219,7 +208,8 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 
 	fclose(fp);
 	ObjMap->SetVertex(vecVertexs);
-	ObjMap->SetVerWall(vecVerWall);
+	ObjMap->SetMap(vecMap);
+	
 	//vecVertexs = vecVertex;
 
 	//m_pTestObj->SetVertex(vecVertex);

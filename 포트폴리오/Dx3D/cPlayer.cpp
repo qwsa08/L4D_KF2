@@ -2,9 +2,11 @@
 #include "cPlayer.h"
 #include "cSkinnedMesh.h"
 #include "cOBB.h"
-
+#include "cCrossHead.h"
 cPlayer::cPlayer()
 	:m_pPlayer(NULL)
+	, m_pOBB(NULL)
+	
 {
 	D3DXMatrixIdentity(&m_Position);
 }
@@ -12,6 +14,8 @@ cPlayer::cPlayer()
 
 cPlayer::~cPlayer()
 {
+	SAFE_DELETE(m_pOBB);
+	
 }
 
 
@@ -26,6 +30,7 @@ void cPlayer::SetUp()
 }
 void cPlayer::Update(D3DXMATRIXA16* pmat)
 {
+
 	D3DXMATRIXA16 matS, matR;
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matR);
@@ -39,6 +44,8 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 
 	m_pPlayer->Update(&m_Position, 0);
 	m_pOBB->Update(&m_Position, m_pPlayerBox);
+
+
 }
 void cPlayer::Render()
 {

@@ -90,7 +90,9 @@
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBloat.h" />
+    <ClInclude Include="cBulletCollision.h" />
     <ClInclude Include="cCamera.h" />
+    <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cFrustum.h" />
@@ -128,7 +130,9 @@
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBloat.cpp" />
+    <ClCompile Include="cBulletCollision.cpp" />
     <ClCompile Include="cCamera.cpp" />
+    <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
