@@ -191,7 +191,7 @@ void cMainGame::Update()
 		}
 	}
 	
-	if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
+	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)
 		{
@@ -206,7 +206,7 @@ void cMainGame::Update()
 	}
 	
 	
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{

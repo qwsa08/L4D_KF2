@@ -1,7 +1,6 @@
 #pragma once
 
 class cSkinnedMesh;
-class iMap;
 
 enum ZOMBIE_MOTION
 {
@@ -12,19 +11,24 @@ enum ZOMBIE_MOTION
 	DIE
 };
 
+struct ST_ZOMBIE
+{
+	cSkinnedMesh*	pSkinnedMesh;
+	D3DXVECTOR3		vPosition;
+	float			fAngle;
+	ZOMBIE_MOTION	eMotion;
+};
+
 class cZombie
 {
 protected:
-	std::vector<cSkinnedMesh*>	m_vecSkinnedMesh;
-	iMap*						m_pMap;
-	D3DXVECTOR3					m_vPosition;
-	ZOMBIE_MOTION				m_eMotion;
+	std::vector<ST_ZOMBIE>	m_vecSkinnedMesh;
 
 public:
 	cZombie();
 	virtual ~cZombie();
 
-	virtual void Setup();
+	virtual void Setup() = 0;
 	virtual void UpdateAndRender() = 0;
 };
 

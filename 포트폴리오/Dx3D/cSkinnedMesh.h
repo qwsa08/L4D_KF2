@@ -29,7 +29,7 @@ public:
 	void Render(D3DXMATRIXA16* pmat);
 
 	//=======================================
-	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL, D3DXMATRIXA16* pScal =NULL);
+	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL);
 	void SetAnimationIndex(int nIndex);
 
 	void SetRandomTrackPosition(); // 테스트용
