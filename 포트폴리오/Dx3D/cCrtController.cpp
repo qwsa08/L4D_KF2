@@ -101,5 +101,10 @@ void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		m_ptPrevMouse = pt;
 	}
 	break;
+	default:
+	{
+		
+	}
+		break;
 	}
 }

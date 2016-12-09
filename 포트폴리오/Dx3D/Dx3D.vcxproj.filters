@@ -109,6 +109,9 @@
     <ClCompile Include="cCrossHead.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="cCrossHead.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>MANAGER</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

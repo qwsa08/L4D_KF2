@@ -182,6 +182,7 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
 		{
 			//return true;
+			if (d > 210) continue;
 			vY.push_back(y + 70 - d);
 		}
 	}

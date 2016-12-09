@@ -1,6 +1,7 @@
 #pragma once
 
 class cCrtController;
+class iMap;
 class cObjMap;
 
 struct ST_WallNear
@@ -26,6 +27,7 @@ public:
 	~cBulletCollision();
 
 	void SetUp(cObjMap* Map);
+	void Render();
 	bool PickBullet(cCrtController* Controller);
 
 	D3DXVECTOR3 GetBulletPosition() { return m_vBulletPoint; }

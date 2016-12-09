@@ -99,6 +99,7 @@
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
+    <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
     <ClInclude Include="cMtlTex.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
+    <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMtlTex.cpp" />

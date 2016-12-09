@@ -159,7 +159,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
-	
+
 	if(m_pController)
 		m_pController->Update(m_pMap);
 
@@ -191,7 +191,7 @@ void cMainGame::Update()
 		}
 	}
 	
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (g_pKeyManager->isOnceKeyDown(VK_SPACE))
 	{
 		if (!m_mouseCheck)
 		{
@@ -204,9 +204,9 @@ void cMainGame::Update()
 
 		ShowCursor(m_mouseCheck);
 	}
-
 	
-	if (GetKeyState(VK_LBUTTON) & 0x8000)
+	
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
@@ -214,6 +214,7 @@ void cMainGame::Update()
 		}
 	}
 
+	
 	g_pAutoReleasePool->Drain();
 }
 

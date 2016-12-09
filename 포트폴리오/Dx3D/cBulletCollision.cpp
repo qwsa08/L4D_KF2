@@ -17,6 +17,10 @@ void cBulletCollision::SetUp(cObjMap* Map)
 	m_pMap = Map->GetMap();
 }
 
+void cBulletCollision::Render()
+{
+
+}
 bool cBulletCollision::PickBullet(cCrtController* Controller)
 {
 	std::vector<ST_WallNear> vecWallNear;
