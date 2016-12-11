@@ -17,6 +17,8 @@ class cOBB;
 class cBulletCollision;
 class cCrossHead;
 
+class cDijkstra;
+
 class cMainGame
 {
 private:
@@ -48,6 +50,9 @@ private:
 	bool						m_mouseCheck;
 	bool						m_fire;
 	cCrossHead*					m_pCrossHead;
+
+	cDijkstra*					m_pDijkstra;
+
 public:
 	cMainGame(void);
 	~cMainGame(void);

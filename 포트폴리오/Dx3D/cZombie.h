@@ -29,6 +29,6 @@ public:
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender() = 0;
+	virtual void UpdateAndRender(D3DXVECTOR3* pTarget) = 0;
 };
 

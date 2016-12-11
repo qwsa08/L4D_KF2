@@ -30,7 +30,7 @@ void cBloat::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cBloat::UpdateAndRender()
+void cBloat::UpdateAndRender(D3DXVECTOR3* pTarget)
 {
 	for each(auto p in m_vecSkinnedMesh)
 	{
