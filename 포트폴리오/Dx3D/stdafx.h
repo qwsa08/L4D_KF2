@@ -176,3 +176,4 @@ struct ST_OBB
 #include "cObject.h"
 #include "cGameObject.h"
 #include "cShader.h"
+#include "cKeyManager.h"

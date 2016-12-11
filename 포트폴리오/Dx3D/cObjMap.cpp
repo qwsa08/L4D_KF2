@@ -5,9 +5,9 @@
 #include "cMtlTex.h"
 
 cObjMap::cObjMap(void)
-: m_Map(NULL)
-, m_pWallMesh(NULL)
-, m_pTextureMappingShader(NULL)
+	: m_Map(NULL)
+	, m_pWallMesh(NULL)
+	, m_pTextureMappingShader(NULL)
 {
 }
 
@@ -45,13 +45,13 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	//시작점과 직선
 
 
-	for (int i = 0; i < m_vecVerWall.size(); i += 3)
+	/*for (int i = 0; i < m_vecVerWall.size(); i += 3)
 	{
 		D3DXVECTOR3 _halfSpot;
 		_halfSpot = (m_vecVerWall[i + 1].p + m_vecVerWall[i + 2].p) / 2;
 		m_line.push_back(_halfSpot - m_vecVerWall[i].p);
 		m_Start.push_back(m_vecVerWall[i].p);
-	}
+	}*/
 
 	m_pTextureMappingShader = g_pShader->LoadShader("NomalMaping.fx");
 }
@@ -141,7 +141,7 @@ bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 	float Range;
 
 
-	for (int i = 0; i < m_vecVerWall.size(); i += 3)
+	/*for (int i = 0; i < m_vecVerWall.size(); i += 3)
 	{
 
 		float LineMag;
@@ -171,7 +171,7 @@ bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 			return false;
 		}
 	}
-
+*/
 	for (int i = 0; i < m_line.size(); i++)
 	{
 		D3DXVECTOR3 _line;
@@ -202,6 +202,7 @@ bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
 		{
 			//return true;
+			if (d > 210) continue;
 			vY.push_back(y + 70 - d);
 		}
 	}

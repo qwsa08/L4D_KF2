@@ -16,7 +16,11 @@
 #include "cZombie.h"
 #include "cBloat.h"
 #include "cOBB.h"
-#define RADIUS 0.3f
+#include "cBulletCollision.h"
+#include "cCrossHead.h"
+#include "cDijkstra.h"
+
+#define RADIUS 3.f
 
 cMainGame::cMainGame(void)
 	: m_pCamera(NULL)
@@ -32,6 +36,10 @@ cMainGame::cMainGame(void)
 	, m_pBoundingBox(NULL)
 	, m_pBloat(NULL)
 	, m_mouseCheck(false)
+	, m_pBulletCollision(NULL)
+	, m_fire(false)
+	, m_pCrossHead(NULL)
+	, m_pDijkstra(NULL)
 {
 }
 
@@ -47,14 +55,16 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pFrustum);
 	SAFE_DELETE(m_pPlayer);
 	SAFE_DELETE(m_pBloat);
+	SAFE_DELETE(m_pBulletCollision);
+	SAFE_DELETE(m_pCrossHead);
+
+	SAFE_DELETE(m_pDijkstra);
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
-
-
 	for each (auto p in m_vecMtlTex)
 	{
 		SAFE_RELEASE(p);
@@ -78,8 +88,6 @@ void cMainGame::Setup()
 
 	m_pBloat = new cBloat;
 	m_pBloat->Setup();
-
-	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -111,13 +119,21 @@ void cMainGame::Setup()
 		max = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 		for (int i = t; i < 36 + t; i++)
 		{
-			D3DXVec3Minimize(&min, &min, &test[i]);	//26
-			D3DXVec3Maximize(&max, &max, &test[i]); //3
+			D3DXVec3Minimize(&min, &min, &test[i]);
+			D3DXVec3Maximize(&max, &max, &test[i]);
 		}
 		m_pOBB->Setup(min, max, m_stWall[j]);
 	}
 	
-	int a = 0;
+	
+
+	m_pBulletCollision = new cBulletCollision;
+	//이걸 넣어야하나.. imap을 넣어야하나..
+	m_pBulletCollision->SetUp(pObjMap);
+
+	m_pCrossHead = new cCrossHead;
+
+
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -130,6 +146,9 @@ void cMainGame::Setup()
 
 	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
 	m_stMtlPicked.Ambient = m_stMtlPicked.Diffuse = m_stMtlPicked.Specular = D3DXCOLOR(0.8f, 0.0f, 0.0f, 1.0f);
+
+	m_pDijkstra = new cDijkstra;
+	m_pDijkstra->Setup();
 
 	SetLight();
 
@@ -148,7 +167,7 @@ void cMainGame::Setup()
 void cMainGame::Update()
 {
 	g_pTimeManager->Update();
-	
+
 	if(m_pController)
 		m_pController->Update(m_pMap);
 
@@ -180,7 +199,7 @@ void cMainGame::Update()
 		}
 	}
 	
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)
 		{
@@ -193,7 +212,17 @@ void cMainGame::Update()
 
 		ShowCursor(m_mouseCheck);
 	}
+	
+	
+	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	{
+		if (m_pBulletCollision->PickBullet(m_pController))
+		{
+			m_fire = true;
+		}
+	}
 
+	
 	g_pAutoReleasePool->Drain();
 }
 
@@ -229,10 +258,38 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pBloat)
-		m_pBloat->UpdateAndRender();
+		m_pBloat->UpdateAndRender(NULL);
+
+	if (m_fire)
+	{
+		D3DXCreateSphere(g_pD3DDevice,
+			RADIUS,
+			20,
+			20,
+			&m_pMesh,
+			NULL);
+
+		D3DXMATRIXA16 matB;
+		D3DXMatrixTranslation(&matB,
+			m_pBulletCollision->GetBulletPosition().x,
+			m_pBulletCollision->GetBulletPosition().y,
+			m_pBulletCollision->GetBulletPosition().z);
+
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pMesh->DrawSubset(0);
+		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+		
+		SAFE_RELEASE(m_pMesh);
+		m_fire = false;
+	}
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pMap->Render();
-	
+		
+	m_pCrossHead->Render();
+
+	m_pDijkstra->Render();
+
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
@@ -245,17 +302,16 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 		m_pController->WndProc(hWnd, message, wParam, lParam);
 	}
 
+
 	switch (message)
 	{
 	case WM_KEYDOWN:
 	{
 		switch (wParam)
 		{
-		case VK_SPACE:
+		case VK_LBUTTON:
 		{
-			static int n = 0;
-		//	m_pSkinnedMesh->SetAnimationIndex(++n % 10);
-
+			
 		}
 		break;
 		}
@@ -276,4 +332,3 @@ void cMainGame::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
-
