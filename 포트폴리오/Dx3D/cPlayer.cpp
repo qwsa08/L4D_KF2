@@ -35,7 +35,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matT);
-	D3DXMatrixTranslation(&matT, 3, 0, 12);
+	//D3DXMatrixTranslation(&matT, 3, 0, 12);
 	D3DXMatrixScaling(&matS, 1.5f, 1.5f, 1.5f);
 
 	if (pmat)

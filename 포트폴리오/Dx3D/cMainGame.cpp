@@ -88,7 +88,7 @@ void cMainGame::Setup()
 	D3DXMatrixIdentity(&mat);
 
 	cObjMap* pObjMap = new cObjMap;
-	pObjMap->Load("./Map/House14.ptop",&mat);
+	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
 
 	m_pCamera = new cCamera;
@@ -158,6 +158,7 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
+	
 	g_pTimeManager->Update();
 
 	if(m_pController)
@@ -184,11 +185,9 @@ void cMainGame::Update()
 		{
 			//m_pController->SetCrush(true);
 			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
+			//충돌
 		}
-		else
-		{
-			m_cPaint = D3DCOLOR_XRGB(0, 0, 0);
-		}
+	
 	}
 	
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
@@ -213,6 +212,10 @@ void cMainGame::Update()
 			m_fire = true;
 		}
 	}
+	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
+	{
+		m_fire = false;
+	}
 
 	
 	g_pAutoReleasePool->Drain();
@@ -229,6 +232,7 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
+
 	// 그림을 그린다.
 	m_pGrid->Render();
 	
@@ -237,8 +241,8 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	//for each(auto p in m_vecSkinnedMesh)
 	//{
@@ -252,31 +256,101 @@ void cMainGame::Render()
 	if (m_pBloat)
 		m_pBloat->UpdateAndRender();
 
+
 	if (m_fire)
 	{
-		D3DXCreateSphere(g_pD3DDevice,
+		/*D3DXCreateSphere(g_pD3DDevice,
 			RADIUS,
 			20,
 			20,
 			&m_pMesh,
-			NULL);
+			NULL);*/
+		D3DXCreateBox(g_pD3DDevice,
+			4, 4, 4, &m_pMesh, NULL);
 
-		D3DXMATRIXA16 matB;
+		D3DXMATRIXA16 matW , matB;
 		D3DXMatrixTranslation(&matB,
 			m_pBulletCollision->GetBulletPosition().x,
 			m_pBulletCollision->GetBulletPosition().y,
 			m_pBulletCollision->GetBulletPosition().z);
 
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
+		matW = m_pController->GetRotation() * matB;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pMesh->DrawSubset(0);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		
+		D3DXVECTOR3 BulletPosition = m_pBulletCollision->GetBulletPosition();
+		//D3DXVec3TransformCoord(&BulletPosition, &BulletPosition, &matW);
+		
+		float fAngleX = m_pController->m_fAngleY;
+
+		float x = 3.0f * cosf(fAngleX);
+		float z = 3.0f * -sinf(fAngleX);
+
+		D3DXVECTOR3 v0 = m_pBulletCollision->GetBulletPlane()[0].p;
+		D3DXVECTOR3 v1 = m_pBulletCollision->GetBulletPlane()[1].p;
+		D3DXVECTOR3 v2(0, 0, 0);
+		D3DXVec3Cross(&v2, &v0, &v1);
+		float CrossAngle = D3DXVec3Dot(m_pController->GetPosition(), &v2);
+		
+		D3DXMATRIXA16 matR;
+		D3DXMatrixRotationY(&matR, D3DX_PI - CrossAngle);
+
+		ST_PT_VERTEX temp[6];
+		temp[0] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y - 2.f, BulletPosition.z - z), D3DXVECTOR2(1, 0));
+		temp[1] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y + 2.f, BulletPosition.z - z), D3DXVECTOR2(0, 0));
+		temp[2] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y + 2.f, BulletPosition.z + z), D3DXVECTOR2(0, 1));
+		temp[3] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y - 2.f, BulletPosition.z - z), D3DXVECTOR2(1, 0));
+		temp[4] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y + 2.f, BulletPosition.z + z), D3DXVECTOR2(0, 1));
+		temp[5] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y - 2.f, BulletPosition.z + z), D3DXVECTOR2(1, 1));
+
+		for (int i = 0; i < 6; i++)
+		{
+			D3DXVec3TransformCoord(&temp[i].p, &temp[i].p, &matR);
+			m_vTexture.push_back(temp[i]);
+		}
+		
+		/*m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 0)));
+		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 0)));
+		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 1)));
+		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 0)));
+		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 1)));
+		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 1)));*/
 		SAFE_RELEASE(m_pMesh);
-		m_fire = false;
+
 	}
 	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	m_pMap->Render();
+
+	if (m_pMap)
+	{
+		
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		std::vector<ST_PNT_VERTEX> testMap;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		if (m_fire)
+		{	
+
+			g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+				m_vTexture.size() / 3,
+				&m_vTexture[0],
+				sizeof(ST_PT_VERTEX));
+		}
+		else
+		{
+			m_pMap->Render();
+			if (m_vTexture.size() > 0)
+			{
+				g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+					m_vTexture.size() / 3,
+					&m_vTexture[0],
+					sizeof(ST_PT_VERTEX));
+			}
+		}
+			
+	}
+
 		
 	m_pCrossHead->Render();
 	g_pD3DDevice->EndScene();

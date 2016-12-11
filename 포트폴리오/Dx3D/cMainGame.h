@@ -48,6 +48,10 @@ private:
 	bool						m_mouseCheck;
 	bool						m_fire;
 	cCrossHead*					m_pCrossHead;
+	std::vector<D3DXVECTOR3> temp;
+
+	//============테스트중=======================//
+	std::vector<ST_PT_VERTEX>	m_vTexture;
 public:
 	cMainGame(void);
 	~cMainGame(void);

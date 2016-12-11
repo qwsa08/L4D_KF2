@@ -18,6 +18,8 @@ public:
 
 	D3DXMATRIXA16* GetViewMatrix();
 	D3DXMATRIXA16* GetProjMatrix();
+
+	void Clipping(D3DXVECTOR3 Eye, D3DXVECTOR3 pDirection);
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
 

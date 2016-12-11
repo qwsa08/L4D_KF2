@@ -20,7 +20,7 @@ void cCamera::Setup()
 	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vLookAt, &m_vUp);
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &m_matView);
 	
-	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 50000);
+	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 10000);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
@@ -53,6 +53,16 @@ D3DXMATRIXA16* cCamera::GetViewMatrix()
 D3DXMATRIXA16* cCamera::GetProjMatrix()
 {
 	return &m_matProj;
+}
+void cCamera::Clipping(D3DXVECTOR3 Eye,D3DXVECTOR3 pDirection)
+{
+	m_vEye = Eye;
+	m_vLookAt = m_vEye + pDirection;
+	D3DXMatrixLookAtLH(&m_matView, &m_vEye, &m_vLookAt, &m_vUp);
+	g_pD3DDevice->SetTransform(D3DTS_VIEW, &m_matView);
+
+	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI/4.f, 2.f, 1, 100);
+	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
 }
 
 void cCamera::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )

@@ -13,6 +13,7 @@ private:
 	float						m_fAngleX;
 	float						m_fAngleY;
 
+	D3DXMATRIXA16				m_Rotation;
 public:
 	cCrtController(void);
 	~cCrtController(void);
@@ -26,6 +27,11 @@ public:
 	D3DXMATRIXA16* GetWorldTM()
 	{
 		return &m_matWorld;
+	}
+
+	D3DXMATRIXA16 GetRotation()
+	{
+		return m_Rotation;
 	}
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };
