@@ -12,6 +12,9 @@ private:
 	std::map<int, std::string>		m_mapFloor;
 	std::map<int, std::string>		m_mapWall;
 
+	SYNTHESIZE(std::vector<LPDIRECT3DTEXTURE9>, m_vecNomalMap, NomalMap);
+	SYNTHESIZE(std::vector<LPDIRECT3DTEXTURE9>, m_vecSpecularMap, SpecularMap);
+
 public:
 	cObjLoader(void);
 	~cObjLoader(void);

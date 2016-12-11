@@ -31,6 +31,9 @@ protected:
 
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVertex, Vertex);
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVerWall, VerWall);
+
+	std::vector<LPDIRECT3DTEXTURE9>	m_vecNomal;
+	std::vector<LPDIRECT3DTEXTURE9>	m_vecSpecular;
 	
 	LPD3DXEFFECT			m_pTextureMappingShader;
 public:
