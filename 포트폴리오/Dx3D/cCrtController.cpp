@@ -72,6 +72,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 
 
 	m_Rotation = matR;	
+	
 	D3DXMATRIXA16 matT;
 	D3DXMatrixTranslation(&matT, m_vPosition.x, m_vPosition.y, m_vPosition.z);
 	m_matWorld = matR * matT;

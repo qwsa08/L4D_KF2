@@ -13,7 +13,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_0.jpg
-map_Kd ./Map/maps/cs_havana_texture_0.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_0_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_0_SPEC.png
 
 newmtl texture_1
 Ns 30.0000
@@ -27,7 +28,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_1.jpg
-map_Kd ./Map/maps/cs_havana_texture_1.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_1_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_1_SPEC.png
 
 newmtl texture_2
 Ns 30.0000
@@ -41,7 +43,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_2.jpg
-map_Kd ./Map/maps/cs_havana_texture_2.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_2_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_2_SPEC.png
 
 newmtl texture_3
 Ns 30.0000
@@ -55,7 +58,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_3.jpg
-map_Kd ./Map/maps/cs_havana_texture_3.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_3_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_3_SPEC.png
 
 newmtl texture_4
 Ns 30.0000
@@ -69,7 +73,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_4.jpg
-map_Kd ./Map/maps/cs_havana_texture_4.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_4_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_4_SPEC.png
 
 newmtl texture_5
 Ns 30.0000
@@ -83,7 +88,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_5.jpg
-map_Kd ./Map/maps/cs_havana_texture_5.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_5_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_5_SPEC.png
 
 newmtl texture_6
 Ns 30.0000
@@ -97,7 +103,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_6.jpg
-map_Kd ./Map/maps/cs_havana_texture_6.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_6_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_6_SPEC.png
 
 newmtl texture_7
 Ns 30.0000
@@ -111,7 +118,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_7.jpg
-map_Kd ./Map/maps/cs_havana_texture_7.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_7_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_7_SPEC.png
 
 newmtl texture_8
 Ns 30.0000
@@ -125,7 +133,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_8.jpg
-map_Kd ./Map/maps/cs_havana_texture_8.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_8_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_8_SPEC.png
 
 newmtl texture_9
 Ns 30.0000
@@ -139,7 +148,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_9.jpg
-map_Kd ./Map/maps/cs_havana_texture_9.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_9_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_9_SPEC.png
 
 newmtl texture_10
 Ns 30.0000
@@ -153,7 +163,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_10.jpg
-map_Kd ./Map/maps/cs_havana_texture_10.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_10_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_10_SPEC.png
 
 newmtl texture_11
 Ns 30.0000
@@ -167,7 +178,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_11.jpg
-map_Kd ./Map/maps/cs_havana_texture_11.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_11_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_11_SPEC.png
 
 newmtl texture_12
 Ns 30.0000
@@ -181,7 +193,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_12.jpg
-map_Kd ./Map/maps/cs_havana_texture_12.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_12_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_12_SPEC.png
 
 newmtl texture_13
 Ns 30.0000
@@ -195,7 +208,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_13.jpg
-map_Kd ./Map/maps/cs_havana_texture_13.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_13_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_13_SPEC.png
 
 newmtl texture_14
 Ns 30.0000
@@ -209,7 +223,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_14.jpg
-map_Kd ./Map/maps/cs_havana_texture_14.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_14_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_14_SPEC.png
 
 newmtl texture_15
 Ns 30.0000
@@ -223,7 +238,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_15.jpg
-map_Kd ./Map/maps/cs_havana_texture_15.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_15_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_15_SPEC.png
 
 newmtl texture_16
 Ns 30.0000
@@ -237,7 +253,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_16.jpg
-map_Kd ./Map/maps/cs_havana_texture_16.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_16_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_16_SPEC.png
 
 newmtl texture_17
 Ns 30.0000
@@ -251,7 +268,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_17.jpg
-map_Kd ./Map/maps/cs_havana_texture_17.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_17_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_17_SPEC.png
 
 newmtl texture_18
 Ns 30.0000
@@ -265,7 +283,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_18.jpg
-map_Kd ./Map/maps/cs_havana_texture_18.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_18_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_18_SPEC.png
 
 newmtl texture_19
 Ns 30.0000
@@ -279,7 +298,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_19.jpg
-map_Kd ./Map/maps/cs_havana_texture_19.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_19_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_19_SPEC.png
 
 newmtl texture_20
 Ns 30.0000
@@ -293,7 +313,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_20.jpg
-map_Kd ./Map/maps/cs_havana_texture_20.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_20_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_20_SPEC.png
 
 newmtl texture_21
 Ns 30.0000
@@ -307,7 +328,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_21.jpg
-map_Kd ./Map/maps/cs_havana_texture_21.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_21_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_21_SPEC.png
 
 newmtl texture_22
 Ns 30.0000
@@ -321,7 +343,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_22.jpg
-map_Kd ./Map/maps/cs_havana_texture_22.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_21_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_21_SPEC.png
 
 newmtl texture_23
 Ns 30.0000
@@ -335,7 +358,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_23.jpg
-map_Kd ./Map/maps/cs_havana_texture_23.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_23_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_23_SPEC.png
 
 newmtl texture_24
 Ns 30.0000
@@ -349,7 +373,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_24.jpg
-map_Kd ./Map/maps/cs_havana_texture_24.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_24_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_24_SPEC.png
 
 newmtl texture_25
 Ns 30.0000
@@ -363,7 +388,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_25.jpg
-map_Kd ./Map/maps/cs_havana_texture_25.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_25_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_25_SPEC.png
 
 newmtl texture_26
 Ns 30.0000
@@ -377,7 +403,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_26.jpg
-map_Kd ./Map/maps/cs_havana_texture_26.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_26_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_26_SPEC.png
 
 newmtl texture_27
 Ns 30.0000
@@ -391,7 +418,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_27.jpg
-map_Kd ./Map/maps/cs_havana_texture_27.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_27_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_27_SPEC.png
 
 newmtl texture_28
 Ns 30.0000
@@ -405,7 +433,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_28.jpg
-map_Kd ./Map/maps/cs_havana_texture_28.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_28_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_28_SPEC.png
 
 newmtl texture_29
 Ns 30.0000
@@ -419,7 +448,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_29.jpg
-map_Kd ./Map/maps/cs_havana_texture_29.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_29_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_29_SPEC.png
 
 newmtl texture_30
 Ns 30.0000
@@ -433,7 +463,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_30.jpg
-map_Kd ./Map/maps/cs_havana_texture_30.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_30_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_30_SPEC.png
 
 newmtl texture_31
 Ns 30.0000
@@ -447,7 +478,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_31.jpg
-map_Kd ./Map/maps/cs_havana_texture_31.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_31_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_31_SPEC.png
 
 newmtl texture_32
 Ns 30.0000
@@ -461,7 +493,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_32.jpg
-map_Kd ./Map/maps/cs_havana_texture_32.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_32_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_32_SPEC.png
 
 newmtl texture_33
 Ns 30.0000
@@ -475,7 +508,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_33.jpg
-map_Kd ./Map/maps/cs_havana_texture_33.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_33_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_33_SPEC.png
 
 newmtl texture_34
 Ns 30.0000
@@ -489,7 +523,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_34.jpg
-map_Kd ./Map/maps/cs_havana_texture_34.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_34_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_34_SPEC.png
 
 newmtl texture_35
 Ns 30.0000
@@ -503,7 +538,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_35.jpg
-map_Kd ./Map/maps/cs_havana_texture_35.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_35_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_35_SPEC.png
 
 newmtl texture_36
 Ns 30.0000
@@ -517,7 +553,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_36.jpg
-map_Kd ./Map/maps/cs_havana_texture_36.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_36_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_36_SPEC.png
 
 newmtl texture_37
 Ns 30.0000
@@ -531,7 +568,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_37.jpg
-map_Kd ./Map/maps/cs_havana_texture_37.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_37_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_37_SPEC.png
 
 newmtl texture_38
 Ns 30.0000
@@ -545,7 +583,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_38.jpg
-map_Kd ./Map/maps/cs_havana_texture_38.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_38_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_38_SPEC.png
 
 newmtl texture_39
 Ns 30.0000
@@ -559,7 +598,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_39.jpg
-map_Kd ./Map/maps/cs_havana_texture_39.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_39_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_39_SPEC.png
 
 newmtl texture_40
 Ns 30.0000
@@ -573,7 +613,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_40.jpg
-map_Kd ./Map/maps/cs_havana_texture_40.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_40_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_40_SPEC.png
 
 newmtl texture_41
 Ns 30.0000
@@ -587,7 +628,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_41.jpg
-map_Kd ./Map/maps/cs_havana_texture_41.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_41_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_41_SPEC.png
 
 newmtl texture_42
 Ns 30.0000
@@ -601,7 +643,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_42.jpg
-map_Kd ./Map/maps/cs_havana_texture_42.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_42_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_42_SPEC.png
 
 newmtl texture_43
 Ns 30.0000
@@ -615,7 +658,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_43.jpg
-map_Kd ./Map/maps/cs_havana_texture_43.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_43_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_43_SPEC.png
 
 newmtl texture_44
 Ns 30.0000
@@ -629,7 +673,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_44.jpg
-map_Kd ./Map/maps/cs_havana_texture_44.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_44_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_44_SPEC.png
 
 newmtl texture_45
 Ns 30.0000
@@ -643,7 +688,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_45.jpg
-map_Kd ./Map/maps/cs_havana_texture_45.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_45_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_45_SPEC.png
 
 newmtl texture_46
 Ns 30.0000
@@ -657,7 +703,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_46.jpg
-map_Kd ./Map/maps/cs_havana_texture_46.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_46_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_46_SPEC.png
 
 newmtl texture_47
 Ns 30.0000
@@ -671,7 +718,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_47.jpg
-map_Kd ./Map/maps/cs_havana_texture_47.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_47_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_47_SPEC.png
 
 newmtl texture_48
 Ns 30.0000
@@ -685,7 +733,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_48.jpg
-map_Kd ./Map/maps/cs_havana_texture_48.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_48_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_48_SPEC.png
 
 newmtl texture_49
 Ns 30.0000
@@ -699,7 +748,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_49.jpg
-map_Kd ./Map/maps/cs_havana_texture_49.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_49_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_49_SPEC.png
 
 newmtl texture_50
 Ns 30.0000
@@ -713,7 +763,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_50.jpg
-map_Kd ./Map/maps/cs_havana_texture_50.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_50_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_50_SPEC.png
 
 newmtl texture_51
 Ns 30.0000
@@ -727,7 +778,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_51.jpg
-map_Kd ./Map/maps/cs_havana_texture_51.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_51_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_51_SPEC.png
 
 newmtl texture_52
 Ns 30.0000
@@ -741,7 +793,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_52.jpg
-map_Kd ./Map/maps/cs_havana_texture_52.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_52_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_52_SPEC.png
 
 newmtl texture_53
 Ns 30.0000
@@ -755,7 +808,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_53.jpg
-map_Kd ./Map/maps/cs_havana_texture_53.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_53_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_53_SPEC.png
 
 newmtl texture_54
 Ns 30.0000
@@ -769,7 +823,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_54.jpg
-map_Kd ./Map/maps/cs_havana_texture_54.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_54_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_54_SPEC.png
 
 newmtl texture_55
 Ns 30.0000
@@ -783,7 +838,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_55.jpg
-map_Kd ./Map/maps/cs_havana_texture_55.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_55_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_55_SPEC.png
 
 newmtl texture_56
 Ns 30.0000
@@ -797,7 +853,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_56.jpg
-map_Kd ./Map/maps/cs_havana_texture_56.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_56_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_56_SPEC.png
 
 newmtl texture_57
 Ns 30.0000
@@ -811,7 +868,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_57.jpg
-map_Kd ./Map/maps/cs_havana_texture_57.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_57_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_57_SPEC.png
 
 newmtl texture_58
 Ns 30.0000
@@ -825,7 +883,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_58.jpg
-map_Kd ./Map/maps/cs_havana_texture_58.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_58_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_58_SPEC.png
 
 newmtl texture_59
 Ns 30.0000
@@ -839,7 +898,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_59.jpg
-map_Kd ./Map/maps/cs_havana_texture_59.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_59_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_59_SPEC.png
 
 newmtl texture_60
 Ns 30.0000
@@ -853,7 +913,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_60.jpg
-map_Kd ./Map/maps/cs_havana_texture_60.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_60_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_60_SPEC.png
 
 newmtl texture_61
 Ns 30.0000
@@ -867,7 +928,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_61.jpg
-map_Kd ./Map/maps/cs_havana_texture_61.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_61_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_61_SPEC.png
 
 newmtl texture_62
 Ns 30.0000
@@ -881,7 +943,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_62.jpg
-map_Kd ./Map/maps/cs_havana_texture_62.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_62_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_62_SPEC.png
 
 newmtl texture_63
 Ns 30.0000
@@ -895,7 +958,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_63.jpg
-map_Kd ./Map/maps/cs_havana_texture_63.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_63_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_63_SPEC.png
 
 newmtl texture_64
 Ns 30.0000
@@ -909,7 +973,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_64.jpg
-map_Kd ./Map/maps/cs_havana_texture_64.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_64_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_64_SPEC.png
 
 newmtl texture_65
 Ns 30.0000
@@ -923,7 +988,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_65.jpg
-map_Kd ./Map/maps/cs_havana_texture_65.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_65_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_65_SPEC.png
 
 newmtl texture_66
 Ns 30.0000
@@ -937,7 +1003,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_66.jpg
-map_Kd ./Map/maps/cs_havana_texture_66.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_66_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_66_SPEC.png
 
 newmtl texture_67
 Ns 30.0000
@@ -951,7 +1018,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_67.jpg
-map_Kd ./Map/maps/cs_havana_texture_67.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_67_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_67_SPEC.png
 
 newmtl texture_68
 Ns 30.0000
@@ -965,7 +1033,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_68.jpg
-map_Kd ./Map/maps/cs_havana_texture_68.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_68_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_68_SPEC.png
 
 newmtl texture_69
 Ns 30.0000
@@ -979,7 +1048,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_69.jpg
-map_Kd ./Map/maps/cs_havana_texture_69.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_69_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_69_SPEC.png
 
 newmtl texture_70
 Ns 30.0000
@@ -993,7 +1063,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_70.jpg
-map_Kd ./Map/maps/cs_havana_texture_70.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_70_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_70_SPEC.png
 
 newmtl texture_71
 Ns 30.0000
@@ -1007,7 +1078,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_71.jpg
-map_Kd ./Map/maps/cs_havana_texture_71.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_71_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_71_SPEC.png
 
 newmtl texture_72
 Ns 30.0000
@@ -1021,7 +1093,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_72.jpg
-map_Kd ./Map/maps/cs_havana_texture_72.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_72_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_72_SPEC.png
 
 newmtl texture_73
 Ns 30.0000
@@ -1035,7 +1108,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_73.jpg
-map_Kd ./Map/maps/cs_havana_texture_73.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_73_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_73_SPEC.png
 
 newmtl texture_74
 Ns 30.0000
@@ -1049,7 +1123,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_74.jpg
-map_Kd ./Map/maps/cs_havana_texture_74.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_74_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_74_SPEC.png
 
 newmtl texture_75
 Ns 30.0000
@@ -1063,7 +1138,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_75.jpg
-map_Kd ./Map/maps/cs_havana_texture_75.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_75_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_75_SPEC.png
 
 newmtl texture_76
 Ns 30.0000
@@ -1077,7 +1153,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_76.jpg
-map_Kd ./Map/maps/cs_havana_texture_76.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_76_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_76_SPEC.png
 
 newmtl texture_77
 Ns 30.0000
@@ -1091,7 +1168,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_77.jpg
-map_Kd ./Map/maps/cs_havana_texture_77.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_77_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_77_SPEC.png
 
 newmtl texture_78
 Ns 30.0000
@@ -1105,7 +1183,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_78.jpg
-map_Kd ./Map/maps/cs_havana_texture_78.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_78_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_78_SPEC.png
 
 newmtl texture_79
 Ns 30.0000
@@ -1119,7 +1198,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_79.jpg
-map_Kd ./Map/maps/cs_havana_texture_79.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_79_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_79_SPEC.png
 
 newmtl texture_80
 Ns 30.0000
@@ -1133,7 +1213,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_80.jpg
-map_Kd ./Map/maps/cs_havana_texture_80.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_80_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_80_SPEC.png
 
 newmtl texture_81
 Ns 30.0000
@@ -1147,7 +1228,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_81.jpg
-map_Kd ./Map/maps/cs_havana_texture_81.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_81_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_81_SPEC.png
 
 newmtl texture_82
 Ns 30.0000
@@ -1161,7 +1243,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_82.jpg
-map_Kd ./Map/maps/cs_havana_texture_82.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_82_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_82_SPEC.png
 
 newmtl texture_83
 Ns 30.0000
@@ -1175,7 +1258,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_83.jpg
-map_Kd ./Map/maps/cs_havana_texture_83.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_83_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_83_SPEC.png
 
 newmtl texture_84
 Ns 30.0000
@@ -1189,7 +1273,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_84.jpg
-map_Kd ./Map/maps/cs_havana_texture_84.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_84_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_84_SPEC.png
 
 newmtl texture_85
 Ns 30.0000
@@ -1203,7 +1288,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_85.jpg
-map_Kd ./Map/maps/cs_havana_texture_85.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_85_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_85_SPEC.png
 
 newmtl texture_86
 Ns 30.0000
@@ -1217,7 +1303,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_86.jpg
-map_Kd ./Map/maps/cs_havana_texture_86.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_86_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_86_SPEC.png
 
 newmtl texture_87
 Ns 30.0000
@@ -1231,7 +1318,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_87.jpg
-map_Kd ./Map/maps/cs_havana_texture_87.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_87_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_87_SPEC.png
 
 newmtl texture_88
 Ns 30.0000
@@ -1245,7 +1333,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_88.jpg
-map_Kd ./Map/maps/cs_havana_texture_88.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_88_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_88_SPEC.png
 
 newmtl texture_89
 Ns 30.0000
@@ -1259,7 +1348,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_89.jpg
-map_Kd ./Map/maps/cs_havana_texture_89.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_89_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_89_SPEC.png
 
 newmtl texture_90
 Ns 30.0000
@@ -1273,7 +1363,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_90.jpg
-map_Kd ./Map/maps/cs_havana_texture_90.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_90_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_90_SPEC.png
 
 newmtl texture_91
 Ns 30.0000
@@ -1287,7 +1378,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_91.jpg
-map_Kd ./Map/maps/cs_havana_texture_91.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_91_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_91_SPEC.png
 
 newmtl texture_92
 Ns 30.0000
@@ -1301,7 +1393,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_92.jpg
-map_Kd ./Map/maps/cs_havana_texture_92.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_92_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_92_SPEC.png
 
 newmtl texture_93
 Ns 30.0000
@@ -1315,7 +1408,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_93.jpg
-map_Kd ./Map/maps/cs_havana_texture_93.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_93_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_93_SPEC.png
 
 newmtl texture_94
 Ns 30.0000
@@ -1329,7 +1423,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_94.jpg
-map_Kd ./Map/maps/cs_havana_texture_94.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_94_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_94_SPEC.png
 
 newmtl texture_95
 Ns 30.0000
@@ -1343,7 +1438,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_95.jpg
-map_Kd ./Map/maps/cs_havana_texture_95.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_95_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_95_SPEC.png
 
 newmtl texture_96
 Ns 30.0000
@@ -1357,7 +1453,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_96.jpg
-map_Kd ./Map/maps/cs_havana_texture_96.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_96_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_96_SPEC.png
 
 newmtl texture_97
 Ns 30.0000
@@ -1371,7 +1468,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_97.jpg
-map_Kd ./Map/maps/cs_havana_texture_97.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_97_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_97_SPEC.png
 
 newmtl texture_98
 Ns 30.0000
@@ -1385,7 +1483,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_98.jpg
-map_Kd ./Map/maps/cs_havana_texture_98.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_98_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_98_SPEC.png
 
 newmtl texture_99
 Ns 30.0000
@@ -1399,7 +1498,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_99.jpg
-map_Kd ./Map/maps/cs_havana_texture_99.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_99_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_99_SPEC.png
 
 newmtl texture_100
 Ns 30.0000
@@ -1413,7 +1513,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_100.jpg
-map_Kd ./Map/maps/cs_havana_texture_100.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_100_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_100_SPEC.png
 
 newmtl texture_101
 Ns 30.0000
@@ -1427,7 +1528,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_101.jpg
-map_Kd ./Map/maps/cs_havana_texture_101.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_101_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_101_SPEC.png
 
 newmtl texture_102
 Ns 30.0000
@@ -1441,7 +1543,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_102.jpg
-map_Kd ./Map/maps/cs_havana_texture_102.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_102_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_102_SPEC.png
 
 newmtl texture_103
 Ns 30.0000
@@ -1455,7 +1558,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_103.jpg
-map_Kd ./Map/maps/cs_havana_texture_103.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_103_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_103_SPEC.png
 
 newmtl texture_104
 Ns 30.0000
@@ -1469,7 +1573,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_104.jpg
-map_Kd ./Map/maps/cs_havana_texture_104.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_104_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_104_SPEC.png
 
 newmtl texture_105
 Ns 30.0000
@@ -1483,7 +1588,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_105.jpg
-map_Kd ./Map/maps/cs_havana_texture_105.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_105_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_105_SPEC.png
 
 newmtl texture_106
 Ns 30.0000
@@ -1497,7 +1603,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_106.jpg
-map_Kd ./Map/maps/cs_havana_texture_106.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_106_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_106_SPEC.png
 
 newmtl texture_107
 Ns 30.0000
@@ -1511,7 +1618,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_107.jpg
-map_Kd ./Map/maps/cs_havana_texture_107.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_107_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_107_SPEC.png
 
 newmtl texture_108
 Ns 30.0000
@@ -1525,7 +1633,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_108.jpg
-map_Kd ./Map/maps/cs_havana_texture_108.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_108_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_108_SPEC.png
 
 newmtl texture_109
 Ns 30.0000
@@ -1539,7 +1648,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_109.jpg
-map_Kd ./Map/maps/cs_havana_texture_109.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_109_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_109_SPEC.png
 
 newmtl texture_110
 Ns 30.0000
@@ -1553,7 +1663,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_110.jpg
-map_Kd ./Map/maps/cs_havana_texture_110.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_110_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_110_SPEC.png
 
 newmtl texture_111
 Ns 30.0000
@@ -1567,7 +1678,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_111.jpg
-map_Kd ./Map/maps/cs_havana_texture_111.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_111_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_111_SPEC.png
 
 newmtl texture_112
 Ns 30.0000
@@ -1581,7 +1693,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_112.jpg
-map_Kd ./Map/maps/cs_havana_texture_112.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_112_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_112_SPEC.png
 
 newmtl texture_113
 Ns 30.0000
@@ -1595,7 +1708,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_113.jpg
-map_Kd ./Map/maps/cs_havana_texture_113.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_113_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_113_SPEC.png
 
 newmtl texture_114
 Ns 30.0000
@@ -1609,7 +1723,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_114.jpg
-map_Kd ./Map/maps/cs_havana_texture_114.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_114_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_114_SPEC.png
 
 newmtl texture_115
 Ns 30.0000
@@ -1623,7 +1738,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_115.jpg
-map_Kd ./Map/maps/cs_havana_texture_115.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_115_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_115_SPEC.png
 
 newmtl texture_116
 Ns 30.0000
@@ -1637,7 +1753,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_116.jpg
-map_Kd ./Map/maps/cs_havana_texture_116.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_116_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_116_SPEC.png
 
 newmtl texture_117
 Ns 30.0000
@@ -1651,7 +1768,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_117.jpg
-map_Kd ./Map/maps/cs_havana_texture_117.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_117_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_117_SPEC.png
 
 newmtl texture_118
 Ns 30.0000
@@ -1665,7 +1783,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_118.jpg
-map_Kd ./Map/maps/cs_havana_texture_118.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_118_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_118_SPEC.png
 
 newmtl texture_119
 Ns 30.0000
@@ -1679,7 +1798,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_119.jpg
-map_Kd ./Map/maps/cs_havana_texture_119.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_119_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_119_SPEC.png
 
 newmtl texture_120
 Ns 30.0000
@@ -1693,7 +1813,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_120.jpg
-map_Kd ./Map/maps/cs_havana_texture_120.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_120_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_120_SPEC.png
 
 newmtl texture_121
 Ns 30.0000
@@ -1707,7 +1828,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_121.jpg
-map_Kd ./Map/maps/cs_havana_texture_121.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_121_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_121_SPEC.png
 
 newmtl texture_122
 Ns 30.0000
@@ -1721,7 +1843,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_122.jpg
-map_Kd ./Map/maps/cs_havana_texture_122.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_122_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_122_SPEC.png
 
 newmtl texture_123
 Ns 30.0000
@@ -1735,7 +1858,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_123.jpg
-map_Kd ./Map/maps/cs_havana_texture_123.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_123_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_123_SPEC.png
 
 newmtl texture_124
 Ns 30.0000
@@ -1749,7 +1873,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_124.jpg
-map_Kd ./Map/maps/cs_havana_texture_124.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_124_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_124_SPEC.png
 
 newmtl texture_125
 Ns 30.0000
@@ -1763,7 +1888,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_125.jpg
-map_Kd ./Map/maps/cs_havana_texture_125.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_125_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_125_SPEC.png
 
 newmtl texture_126
 Ns 30.0000
@@ -1777,7 +1903,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_126.jpg
-map_Kd ./Map/maps/cs_havana_texture_126.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_126_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_126_SPEC.png
 
 newmtl texture_127
 Ns 30.0000
@@ -1791,7 +1918,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_127.jpg
-map_Kd ./Map/maps/cs_havana_texture_127.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_127_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_127_SPEC.png
 
 newmtl texture_128
 Ns 30.0000
@@ -1805,7 +1933,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_128.jpg
-map_Kd ./Map/maps/cs_havana_texture_128.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_128_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_128_SPEC.png
 
 newmtl texture_129
 Ns 30.0000
@@ -1819,7 +1948,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_129.jpg
-map_Kd ./Map/maps/cs_havana_texture_129.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_129_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_129_SPEC.png
 
 newmtl texture_130
 Ns 30.0000
@@ -1833,7 +1963,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_130.jpg
-map_Kd ./Map/maps/cs_havana_texture_130.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_130_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_130_SPEC.png
 
 newmtl texture_131
 Ns 30.0000
@@ -1847,7 +1978,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_131.jpg
-map_Kd ./Map/maps/cs_havana_texture_131.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_131_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_131_SPEC.png
 
 newmtl texture_132
 Ns 30.0000
@@ -1861,7 +1993,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_132.jpg
-map_Kd ./Map/maps/cs_havana_texture_132.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_132_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_132_SPEC.png
 
 newmtl texture_133
 Ns 30.0000
@@ -1875,7 +2008,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_133.jpg
-map_Kd ./Map/maps/cs_havana_texture_133.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_133_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_133_SPEC.png
 
 newmtl texture_134
 Ns 30.0000
@@ -1889,7 +2023,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_134.jpg
-map_Kd ./Map/maps/cs_havana_texture_134.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_134_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_134_SPEC.png
 
 newmtl texture_135
 Ns 30.0000
@@ -1903,7 +2038,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_135.jpg
-map_Kd ./Map/maps/cs_havana_texture_135.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_135_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_135_SPEC.png
 
 newmtl texture_136
 Ns 30.0000
@@ -1917,7 +2053,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_136.jpg
-map_Kd ./Map/maps/cs_havana_texture_136.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_136_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_136_SPEC.png
 
 newmtl texture_137
 Ns 30.0000
@@ -1931,7 +2068,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_137.jpg
-map_Kd ./Map/maps/cs_havana_texture_137.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_137_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_137_SPEC.png
 
 newmtl texture_138
 Ns 30.0000
@@ -1945,7 +2083,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_138.jpg
-map_Kd ./Map/maps/cs_havana_texture_138.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_138_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_138_SPEC.png
 
 newmtl texture_139
 Ns 30.0000
@@ -1959,7 +2098,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_139.jpg
-map_Kd ./Map/maps/cs_havana_texture_139.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_139_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_139_SPEC.png
 
 newmtl texture_140
 Ns 30.0000
@@ -1973,7 +2113,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_140.jpg
-map_Kd ./Map/maps/cs_havana_texture_140.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_140_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_140_SPEC.png
 
 newmtl texture_141
 Ns 30.0000
@@ -1987,7 +2128,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_141.jpg
-map_Kd ./Map/maps/cs_havana_texture_141.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_141_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_141_SPEC.png
 
 newmtl texture_142
 Ns 30.0000
@@ -2001,7 +2143,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_142.jpg
-map_Kd ./Map/maps/cs_havana_texture_142.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_142_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_142_SPEC.png
 
 newmtl texture_143
 Ns 30.0000
@@ -2015,7 +2158,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_143.jpg
-map_Kd ./Map/maps/cs_havana_texture_143.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_143_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_143_SPEC.png
 
 newmtl texture_144
 Ns 30.0000
@@ -2029,7 +2173,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_144.jpg
-map_Kd ./Map/maps/cs_havana_texture_144.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_144_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_144_SPEC.png
 
 newmtl texture_145
 Ns 30.0000
@@ -2043,7 +2188,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_145.jpg
-map_Kd ./Map/maps/cs_havana_texture_145.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_145_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_145_SPEC.png
 
 newmtl texture_146
 Ns 30.0000
@@ -2057,7 +2203,8 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_146.jpg
-map_Kd ./Map/maps/cs_havana_texture_146.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_146_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_146_SPEC.png
 
 newmtl texture_147
 Ns 30.0000
@@ -2071,4 +2218,5 @@ Kd 0.5500 0.5500 0.5500
 Ks 0.0000 0.0000 0.0000
 Ke 0.0000 0.0000 0.0000
 map_Ka ./Map/maps/cs_havana_texture_147.jpg
-map_Kd ./Map/maps/cs_havana_texture_147.jpg
+map_Kn ./Map/maps/NomalMaps/cs_havana_texture_147_NRM.png
+map_Ks ./Map/maps/SpacularMap/cs_havana_texture_147_SPEC.png

@@ -18,6 +18,8 @@
 #include "cOBB.h"
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
+#include "cDijkstra.h"
+
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -37,6 +39,7 @@ cMainGame::cMainGame(void)
 	, m_pBulletCollision(NULL)
 	, m_fire(false)
 	, m_pCrossHead(NULL)
+	, m_pDijkstra(NULL)
 {
 }
 
@@ -54,6 +57,8 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pBloat);
 	SAFE_DELETE(m_pBulletCollision);
 	SAFE_DELETE(m_pCrossHead);
+
+	SAFE_DELETE(m_pDijkstra);
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
@@ -141,6 +146,9 @@ void cMainGame::Setup()
 
 	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
 	m_stMtlPicked.Ambient = m_stMtlPicked.Diffuse = m_stMtlPicked.Specular = D3DXCOLOR(0.8f, 0.0f, 0.0f, 1.0f);
+
+	m_pDijkstra = new cDijkstra;
+	m_pDijkstra->Setup();
 
 	SetLight();
 
@@ -254,7 +262,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pBloat)
-		m_pBloat->UpdateAndRender();
+		m_pBloat->UpdateAndRender(NULL);
 
 
 	if (m_fire)
@@ -353,6 +361,9 @@ void cMainGame::Render()
 
 		
 	m_pCrossHead->Render();
+
+	m_pDijkstra->Render();
+
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
@@ -395,4 +406,3 @@ void cMainGame::SetLight()
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
 }
-

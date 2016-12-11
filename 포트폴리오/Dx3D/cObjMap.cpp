@@ -29,23 +29,31 @@ cObjMap::~cObjMap(void)
 	}
 }
 
-void cObjMap::Load( char* szMap,D3DXMATRIXA16* pmat /*= NULL*/ )
+void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 {
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
+	m_vecNomal.resize(l.GetNomalMap().size());
+	m_vecSpecular.resize(l.GetSpecularMap().size());
+
+	for (int i = 0; i < m_vecNomal.size(); i++)
+	{
+		m_vecNomal[i] = l.GetNomalMap()[i];
+		m_vecSpecular[i] = l.GetSpecularMap()[i];
+	}
 
 	//시작점과 직선
-	
-	
+
+
 	/*for (int i = 0; i < m_vecVerWall.size(); i += 3)
 	{
 		D3DXVECTOR3 _halfSpot;
-		_halfSpot = (m_vecVerWall[i + 1].p + m_vecVerWall[i + 2].p) /2;
+		_halfSpot = (m_vecVerWall[i + 1].p + m_vecVerWall[i + 2].p) / 2;
 		m_line.push_back(_halfSpot - m_vecVerWall[i].p);
 		m_Start.push_back(m_vecVerWall[i].p);
 	}*/
 
-	m_pTextureMappingShader = g_pShader->LoadShader("TextureMapping.fx");
+	m_pTextureMappingShader = g_pShader->LoadShader("NomalMaping.fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -70,20 +78,32 @@ void cObjMap::Render()
 	//	m_Map->DrawSubset(i);
 	//}
 
-	D3DXMATRIXA16 matView, matProj, matWorld;
+	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
+	D3DXVECTOR4 gLightPosition(0.f, 0.f, 0.f, 1.f);
+	D3DXVECTOR4 gLightColor(1.f, 1.f, 1.f, 1.f);
 
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
 	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
 
-	m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
-	m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
-	m_pTextureMappingShader->SetMatrix("gProjectionMatrix", &matProj);
+	D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
+	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
+
+	m_pTextureMappingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
+
+	//m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
+	//m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
+	//m_pTextureMappingShader->SetMatrix("gProjectionMatrix", &matProj);
+
+	m_pTextureMappingShader->SetVector("gWorldLightPosition", &gLightPosition);
+	m_pTextureMappingShader->SetVector("gLightColor", &gLightColor);
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
 		UINT numPasses = 0;
-		m_pTextureMappingShader->SetTexture("cs_havana_texture_0_Tex", m_pMtltex[i]->GetTexture());
+		m_pTextureMappingShader->SetTexture("DiffuseMap_Tex", m_pMtltex[i]->GetTexture());
+		m_pTextureMappingShader->SetTexture("SpecularMap_Tex", m_vecSpecular[i]);
+		m_pTextureMappingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
 
 		m_pTextureMappingShader->Begin(&numPasses, NULL);
 		{
@@ -98,11 +118,17 @@ void cObjMap::Render()
 		}
 		m_pTextureMappingShader->End();
 	}
-	
-	
+
+	/*{
+	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+	m_vecVerWall.size()/3,
+	&m_vecVerWall[0],
+	sizeof(ST_PNT_VERTEX));
+	}*/
 }
 
-bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
+bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
 
 	std::vector<float> vY;
@@ -195,5 +221,5 @@ bool cObjMap::GetHeight( IN float x, OUT float& y, IN float z )
 	}
 	y = 0;
 	return false;
-	
+
 }

@@ -33,6 +33,9 @@ protected:
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVertex, Vertex);
 	// 이거 pnt말고 그냥 벡터값만 받으면 좀더 좋아질것같다는...
 	//SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVerWall, VerWall);
+
+	std::vector<LPDIRECT3DTEXTURE9>	m_vecNomal;
+	std::vector<LPDIRECT3DTEXTURE9>	m_vecSpecular;
 	
 	LPD3DXEFFECT			m_pTextureMappingShader;
 public:

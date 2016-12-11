@@ -112,6 +112,9 @@
     <ClCompile Include="cKeyManager.cpp">
       <Filter>MANAGER</Filter>
     </ClCompile>
+    <ClCompile Include="cDijkstra.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="cKeyManager.h">
       <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cDijkstra.h">
+      <Filter>L4D\Zombie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

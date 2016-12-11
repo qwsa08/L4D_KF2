@@ -384,7 +384,15 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 		{
 			char szPath[1024];
 			sscanf_s(szBuf, "%*s %s", szPath, 1024);
-			m_mapMtlTex[sMtlName]->SetTexture(g_pTextureManager->GetTexture(szPath));
+
+			if (szBuf[5] == 'a' || szBuf[0] == 'd')
+				m_mapMtlTex[sMtlName]->SetTexture(g_pTextureManager->GetTexture(szPath));
+
+			else if (szBuf[5] == 'n')
+				m_vecNomalMap.push_back(g_pTextureManager->GetTexture(szPath));
+
+			else if (szBuf[5] == 's')
+				m_vecSpecularMap.push_back(g_pTextureManager->GetTexture(szPath));
 		}
 	}
 
