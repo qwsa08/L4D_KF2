@@ -12,12 +12,11 @@ class cMapXfile;
 
 class cPlayer;
 class cObjMap;
-class cZombie;
 class cOBB;
 class cBulletCollision;
 class cCrossHead;
 
-class cDijkstra;
+class cEnemyManager;
 
 class cMainGame
 {
@@ -41,7 +40,6 @@ private:
 	cPlayer*					m_pPlayer;
 	cObjMap*					m_pBoundingBox;
 	std::vector<D3DXVECTOR3>	test;
-	cZombie*					m_pBloat;
 	cBulletCollision*			m_pBulletCollision;
 	//====³ªÁß¿¡ ³ª´²Áà¾ßÇÑ´Ù.
 	cOBB*						m_pOBB;
@@ -51,7 +49,7 @@ private:
 	bool						m_fire;
 	cCrossHead*					m_pCrossHead;
 
-	cDijkstra*					m_pDijkstra;
+	cEnemyManager*				m_pEnemyManager;
 
 	std::vector<D3DXVECTOR3> temp;
 

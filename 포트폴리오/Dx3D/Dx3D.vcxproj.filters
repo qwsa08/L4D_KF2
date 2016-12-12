@@ -112,6 +112,12 @@
     <ClCompile Include="cKeyManager.cpp">
       <Filter>MANAGER</Filter>
     </ClCompile>
+    <ClCompile Include="cEnemyManager.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cAStar.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
     <ClCompile Include="cDijkstra.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
@@ -236,6 +242,12 @@
     </ClInclude>
     <ClInclude Include="cKeyManager.h">
       <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemyManager.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cAStar.h">
+      <Filter>L4D\Zombie</Filter>
     </ClInclude>
     <ClInclude Include="cDijkstra.h">
       <Filter>L4D\Zombie</Filter>
