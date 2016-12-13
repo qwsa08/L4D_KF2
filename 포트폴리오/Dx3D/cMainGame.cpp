@@ -315,7 +315,6 @@ void cMainGame::Render()
 				m_pMesh->DrawSubset(0);
 			}
 			m_pSSD->EndPass();
-			m_vTexture.push_back(temp[i]);
 		}
 		m_pSSD->End();
 		SAFE_RELEASE(m_pSSD);
@@ -339,7 +338,9 @@ void cMainGame::Render()
 		}
 		else
 		{
-			m_pMap->Render();
+			m_pMap->Render(
+				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f), 
+				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
 		}
 			
 	}
