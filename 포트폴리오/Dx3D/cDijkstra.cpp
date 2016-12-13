@@ -16,7 +16,7 @@ cDijkstra::~cDijkstra()
 
 void cDijkstra::SetObstacleVertex(std::vector<D3DXVECTOR3> obsVertex)
 {
-	//m_vecObstacleVertex.push_back(obsVertex);
+	m_vecObstacleVertex.push_back(obsVertex);
 }
 
 void cDijkstra::Setup()

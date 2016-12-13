@@ -2,11 +2,13 @@
 
 class cZombie;
 class cDijkstra;
+class cAStar;
 
 class cEnemyManager
 {
 private:
 	cDijkstra*	m_pDijkstra;
+	cAStar*		m_pAstar;
 	cZombie*	m_pBloat;
 
 public:

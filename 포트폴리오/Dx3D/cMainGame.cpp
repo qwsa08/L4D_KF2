@@ -81,8 +81,6 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
-	m_pEnemyManager = new cEnemyManager;
-	m_pEnemyManager->Setup();
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -90,6 +88,9 @@ void cMainGame::Setup()
 	cObjMap* pObjMap = new cObjMap;
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
+
+	m_pEnemyManager = new cEnemyManager;
+	m_pEnemyManager->Setup();
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();

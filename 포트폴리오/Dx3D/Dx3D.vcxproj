@@ -89,6 +89,7 @@
     <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAStar.h" />
+    <ClInclude Include="cAstarNode.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBloat.h" />
     <ClInclude Include="cBulletCollision.h" />
@@ -105,6 +106,7 @@
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
+    <ClInclude Include="cMinHeap.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
@@ -133,6 +135,7 @@
     <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAStar.cpp" />
+    <ClCompile Include="cAstarNode.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBloat.cpp" />
     <ClCompile Include="cBulletCollision.cpp" />
@@ -149,6 +152,7 @@
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMapXfile.cpp" />
+    <ClCompile Include="cMinHeap.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />

@@ -30,7 +30,7 @@ public:
 	cDijkstra();
 	~cDijkstra();
 
-	void SetObstacleVertex(std::vector<D3DXVECTOR3> obsVertex);	//벽 좌표 가져오기..
+	void SetObstacleVertex(std::vector<D3DXVECTOR3> obsVertex);	//벽 좌표 세팅하기..
 	void Setup();
 	void Render();	//노드 렌더
 
