@@ -36,6 +36,6 @@ public:
 	D3DXMATRIXA16 Clipping();
 	D3DXVECTOR3 GetBulletPosition() { return m_vBulletPoint; }
 	std::vector<ST_PNT_VERTEX> GetBulletPlane() { return m_vOverTex; }
-	std::vector<ST_PNT_VERTEX> GetTestMap() { return m_pMap; }
+	//std::vector<ST_PNT_VERTEX> GetTestMap() { return m_pMap; }
 };
 

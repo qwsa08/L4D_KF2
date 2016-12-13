@@ -53,7 +53,7 @@ private:
 
 	cDijkstra*					m_pDijkstra;
 
-	std::vector<D3DXVECTOR3> temp;
+	//std::vector<D3DXVECTOR3> temp;
 
 	//============테스트중=======================//
 	std::vector<ST_PT_VERTEX>	m_vTexture;

@@ -78,7 +78,7 @@ void cObjMap::Render()
 	//	m_Map->DrawSubset(i);
 	//}
 
-	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
+	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection ,matWVP;
 	D3DXVECTOR4 gLightPosition(0.f, 0.f, 0.f, 1.f);
 	D3DXVECTOR4 gLightColor(1.f, 1.f, 1.f, 1.f);
 
@@ -119,13 +119,8 @@ void cObjMap::Render()
 		m_pTextureMappingShader->End();
 	}
 
-	/*{
-	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-	m_vecVerWall.size()/3,
-	&m_vecVerWall[0],
-	sizeof(ST_PNT_VERTEX));
-	}*/
+
+	
 }
 
 bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
