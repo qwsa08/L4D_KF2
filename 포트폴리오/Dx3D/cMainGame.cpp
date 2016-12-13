@@ -13,12 +13,10 @@
 #include "cFrustum.h"
 #include "cMapXfile.h"
 #include "cPlayer.h"
-#include "cZombie.h"
-#include "cBloat.h"
 #include "cOBB.h"
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
-#include "cDijkstra.h"
+#include "cEnemyManager.h"
 
 #define RADIUS 3.f
 
@@ -34,12 +32,11 @@ cMainGame::cMainGame(void)
 //	, m_pSkinnedMesh(NULL)
 	, m_pPlayer(NULL)
 	, m_pBoundingBox(NULL)
-	, m_pBloat(NULL)
 	, m_mouseCheck(false)
 	, m_pBulletCollision(NULL)
 	, m_fire(false)
 	, m_pCrossHead(NULL)
-	, m_pDijkstra(NULL)
+	, m_pEnemyManager(NULL)
 {
 }
 
@@ -54,11 +51,9 @@ cMainGame::~cMainGame(void)
 //	}
 	SAFE_DELETE(m_pFrustum);
 	SAFE_DELETE(m_pPlayer);
-	SAFE_DELETE(m_pBloat);
 	SAFE_DELETE(m_pBulletCollision);
 	SAFE_DELETE(m_pCrossHead);
-
-	SAFE_DELETE(m_pDijkstra);
+	SAFE_DELETE(m_pEnemyManager);
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
@@ -86,8 +81,6 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
-	m_pBloat = new cBloat;
-	m_pBloat->Setup();
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -95,6 +88,9 @@ void cMainGame::Setup()
 	cObjMap* pObjMap = new cObjMap;
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
+
+	m_pEnemyManager = new cEnemyManager;
+	m_pEnemyManager->Setup();
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -147,8 +143,6 @@ void cMainGame::Setup()
 	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
 	m_stMtlPicked.Ambient = m_stMtlPicked.Diffuse = m_stMtlPicked.Specular = D3DXCOLOR(0.8f, 0.0f, 0.0f, 1.0f);
 
-	m_pDijkstra = new cDijkstra;
-	m_pDijkstra->Setup();
 
 	SetLight();
 
@@ -261,9 +255,8 @@ void cMainGame::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	if (m_pBloat)
-		m_pBloat->UpdateAndRender(NULL);
-
+	if (m_pEnemyManager)
+		m_pEnemyManager->UpdateAndRender(NULL);
 
 	if (m_fire)
 	{
@@ -322,6 +315,7 @@ void cMainGame::Render()
 				m_pMesh->DrawSubset(0);
 			}
 			m_pSSD->EndPass();
+			m_vTexture.push_back(temp[i]);
 		}
 		m_pSSD->End();
 		SAFE_RELEASE(m_pSSD);
@@ -352,8 +346,6 @@ void cMainGame::Render()
 
 		
 	m_pCrossHead->Render();
-
-	m_pDijkstra->Render();
 
 	g_pD3DDevice->EndScene();
 
