@@ -45,10 +45,7 @@ public:
 	virtual void Load(char* szMap, D3DXMATRIXA16* pmat = NULL);
 	virtual void BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3> &vecBoungdingBox, D3DXMATRIXA16* pmat = NULL);
 	// iMap
-	virtual void Render() override;
+	virtual void Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection) override;
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
-
-
-
 };
 

@@ -315,7 +315,6 @@ void cMainGame::Render()
 
 		for (int i = 0; i < 6; i++)
 		{
-			D3DXVec3TransformCoord(&temp[i].p, &temp[i].p, &matR);
 			m_vTexture.push_back(temp[i]);
 		}
 		
@@ -347,7 +346,11 @@ void cMainGame::Render()
 		}
 		else
 		{
-			m_pMap->Render();
+			m_pMap->Render(
+				&D3DXVECTOR4(m_pController->GetPosition()->x, m_pController->GetPosition()->y, 
+				m_pController->GetPosition()->z, 1.f), 
+				&D3DXVECTOR4(m_pController->GetDirection()));
+
 			if (m_vTexture.size() > 0)
 			{
 				g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
@@ -355,8 +358,7 @@ void cMainGame::Render()
 					&m_vTexture[0],
 					sizeof(ST_PT_VERTEX));
 			}
-		}
-			
+		}			
 	}
 
 		

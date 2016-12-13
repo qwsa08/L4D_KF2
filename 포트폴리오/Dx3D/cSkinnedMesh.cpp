@@ -235,10 +235,10 @@ void cSkinnedMesh::Render(ST_BONE* pBone /*= NULL*/)
 
 			m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
 			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4( 500.0f, 500.0f, 500.0f, 1.0f ) );
+			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4( 500.0f, -1000.0f, 500.0f, 1.0f ) );
 			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4( vEye, 1.0f ) );
-			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4( 0.53f, 0.53f, 0.53f, 0.53f ) );
-			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4( 0.2f, 0.2f, 0.2f, 0.2f ) );
+			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4( 0.2f, 0.2f, 0.2f, 0.2f ) );
 
 			// we're pretty much ignoring the materials we got from the x-file; just set
 			// the texture here

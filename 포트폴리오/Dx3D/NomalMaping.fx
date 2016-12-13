@@ -97,7 +97,7 @@ struct PS_INPUT
 
 texture DiffuseMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\BackUp\\ì¸ô¬$\\Dx3D\\Map\\maps\\cs_havana_texture_0.jpg";
+   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\cs_havana_texture_0.jpg";
 >;
 sampler2D DiffuseSampler = sampler_state
 {
@@ -107,7 +107,7 @@ sampler2D DiffuseSampler = sampler_state
 };
 texture SpecularMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\BackUp\\ì¸ô¬$\\Dx3D\\Map\\maps\\SpacularMap\\cs_havana_texture_0_SPEC.png";
+   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\SpacularMap\\cs_havana_texture_0_SPEC.png";
 >;
 sampler2D SpecularSampler = sampler_state
 {
@@ -117,7 +117,7 @@ sampler2D SpecularSampler = sampler_state
 };
 texture NormalMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\BackUp\\ì¸ô¬$\\Dx3D\\Map\\maps\\NomalMaps\\cs_havana_texture_0_NRM.png";
+   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\NomalMaps\\cs_havana_texture_0_NRM.png";
 >;
 sampler2D NormalSampler = sampler_state
 {
