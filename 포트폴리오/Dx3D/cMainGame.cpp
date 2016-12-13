@@ -275,52 +275,55 @@ void cMainGame::Render()
 			m_pBulletCollision->GetBulletPosition().y,
 			m_pBulletCollision->GetBulletPosition().z);
 
-		matW = m_pController->GetRotation() * matB;
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
+		
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pMesh->DrawSubset(0);
 		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		
-		D3DXVECTOR3 BulletPosition = m_pBulletCollision->GetBulletPosition();
-		//D3DXVec3TransformCoord(&BulletPosition, &BulletPosition, &matW);
 		
-		float fAngleX = m_pController->m_fAngleY;
+		LPD3DXEFFECT	m_pSSD;
+		m_pSSD = g_pShader->LoadShader("Bullet.fx");
+		D3DXMATRIXA16 matWV, matWVP, matV ,matP ,matInvView;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matV);
+		D3DXMatrixMultiply(&matWV, &matB, &matV);
+		m_pSSD->SetMatrix("mWV", &matWV);
 
-		float x = 3.0f * cosf(fAngleX);
-		float z = 3.0f * -sinf(fAngleX);
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matP);
+		D3DXMatrixMultiply(&matWVP, &matWV, &matP);
+		m_pSSD->SetMatrix("mWVP", &matWVP);
 
-		D3DXVECTOR3 v0 = m_pBulletCollision->GetBulletPlane()[0].p;
-		D3DXVECTOR3 v1 = m_pBulletCollision->GetBulletPlane()[1].p;
-		D3DXVECTOR3 v2(0, 0, 0);
-		D3DXVec3Cross(&v2, &v0, &v1);
-		float CrossAngle = D3DXVec3Dot(m_pController->GetPosition(), &v2);
+		D3DXMatrixInverse(&matInvView, 0, &matV);
+		m_pSSD->SetMatrix("InvView", &matInvView);
 		
-		D3DXMATRIXA16 matR;
-		D3DXMatrixRotationY(&matR, D3DX_PI - CrossAngle);
+		m_pSSD->SetVector("RayPosition", &D3DXVECTOR4(m_pBulletCollision->GetBulletPosition(),0.f));
 
-		ST_PT_VERTEX temp[6];
-		temp[0] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y - 2.f, BulletPosition.z - z), D3DXVECTOR2(1, 0));
-		temp[1] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y + 2.f, BulletPosition.z - z), D3DXVECTOR2(0, 0));
-		temp[2] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y + 2.f, BulletPosition.z + z), D3DXVECTOR2(0, 1));
-		temp[3] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - x, BulletPosition.y - 2.f, BulletPosition.z - z), D3DXVECTOR2(1, 0));
-		temp[4] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y + 2.f, BulletPosition.z + z), D3DXVECTOR2(0, 1));
-		temp[5] = ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + x, BulletPosition.y - 2.f, BulletPosition.z + z), D3DXVECTOR2(1, 1));
+		LPDIRECT3DTEXTURE9 _Texture[2];
 
-		for (int i = 0; i < 6; i++)
+		_Texture[0] = g_pTextureManager->GetTexture("Map/maps/cs_havana_texture_6.jpg");
+		_Texture[1] = g_pTextureManager->GetTexture("bullethole_snow.tga");
+
+		m_pSSD->SetTexture("base_Tex", _Texture[0]);
+		m_pSSD->SetTexture("texSamp_Tex", _Texture[1]);
+
+		UINT numPasses = 0;
+		m_pSSD->Begin(&numPasses, NULL);
+		for (UINT i = 0; i < numPasses; i++)
 		{
+			m_pSSD->BeginPass(i);
+			{
+				m_pMesh->DrawSubset(0);
+			}
+			m_pSSD->EndPass();
 			m_vTexture.push_back(temp[i]);
 		}
-		
-		/*m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 0)));
-		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 0)));
-		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 1)));
-		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x - 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 0)));
-		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y + 2.f, BulletPosition.z), D3DXVECTOR2(0, 1)));
-		m_vTexture.push_back(ST_PT_VERTEX(D3DXVECTOR3(BulletPosition.x + 2.f, BulletPosition.y - 2.f, BulletPosition.z), D3DXVECTOR2(1, 1)));*/
+		m_pSSD->End();
+		SAFE_RELEASE(m_pSSD);
 		SAFE_RELEASE(m_pMesh);
 
+
+
 	}
-	//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 
 	if (m_pMap)
 	{
@@ -332,26 +335,13 @@ void cMainGame::Render()
 		if (m_fire)
 		{	
 
-			g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-				m_vTexture.size() / 3,
-				&m_vTexture[0],
-				sizeof(ST_PT_VERTEX));
+			
 		}
 		else
 		{
-			m_pMap->Render(
-				&D3DXVECTOR4(m_pController->GetPosition()->x, m_pController->GetPosition()->y, 
-				m_pController->GetPosition()->z, 1.f), 
-				&D3DXVECTOR4(m_pController->GetDirection()));
-
-			if (m_vTexture.size() > 0)
-			{
-				g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-					m_vTexture.size() / 3,
-					&m_vTexture[0],
-					sizeof(ST_PT_VERTEX));
-			}
-		}			
+			m_pMap->Render();
+		}
+			
 	}
 
 		

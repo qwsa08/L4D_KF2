@@ -233,7 +233,6 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 		pI[i] = i;
 	}
 	pMesh->UnlockIndexBuffer();
-
 	DWORD* pA = NULL;
 	pMesh->LockAttributeBuffer(0, &pA);
 	memcpy(pA, &vecAttr[0], vecAttr.size() * sizeof(DWORD));

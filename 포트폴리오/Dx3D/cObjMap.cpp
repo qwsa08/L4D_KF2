@@ -122,13 +122,8 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 		m_pTextureMappingShader->End();
 	}
 
-	/*{
-	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
-	m_vecVerWall.size()/3,
-	&m_vecVerWall[0],
-	sizeof(ST_PNT_VERTEX));
-	}*/
+
+	
 }
 
 bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
