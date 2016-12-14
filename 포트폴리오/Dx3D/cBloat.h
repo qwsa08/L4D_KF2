@@ -8,6 +8,6 @@ public:
 	virtual ~cBloat();
 
 	virtual void Setup();
-	virtual void UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode);
+	virtual void UpdateAndRender(int nDest);
 };
 

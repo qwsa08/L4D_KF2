@@ -35,21 +35,18 @@ void cEnemyManager::Setup()
 	
 	m_pBloat = new cBloat;
 	m_pBloat->Setup();
+	m_pBloat->SetDijkstraMemoryLink(m_pDijkstra);
 }
 
-void cEnemyManager::UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode)
+void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
 	m_pDijkstra->Render();
 	
 	m_pAstar->Update(&D3DXVECTOR3(900, -60, 1200), &D3DXVECTOR3(0, 0, 0));
 
-	int nStart = m_pDijkstra->GetStartNode(m_pPlayer->GetPosition());
+	int nStart = m_pDijkstra->GetStartNode(vPlayerPos);
 
-	for each(auto p in m_pBloat->GetSkinnedMesh())
-	{
-		int nDest = m_pDijkstra->GetDestNode(&p.vPosition);
-		m_pBloat->UpdateAndRender(&m_pDijkstra->GetNodeTable(nStart, nDest));
-	}	
+	m_pBloat->UpdateAndRender(nStart);
 }
 
 void cEnemyManager::Update(D3DXVECTOR3 * pTarget)

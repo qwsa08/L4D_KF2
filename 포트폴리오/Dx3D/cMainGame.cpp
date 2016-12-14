@@ -93,7 +93,6 @@ void cMainGame::Setup()
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
-	m_pEnemyManager->SetPlayerMemoryLink(m_pController);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
@@ -256,7 +255,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(NULL);
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
 
 	if (m_fire)
 	{

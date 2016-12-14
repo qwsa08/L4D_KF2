@@ -39,6 +39,7 @@ public:
 	int GetDestNode(D3DXVECTOR3* vZombiePos);
 	//노드 테이블
 	std::vector<D3DXVECTOR3> GetNodeTable(int nStart, int nDest);
+	D3DXVECTOR3 GetNodePosition(int nIndex) { return m_vecNode[nIndex].vPosition; }
 
 private:
 	void SetNode();	//노드 세팅

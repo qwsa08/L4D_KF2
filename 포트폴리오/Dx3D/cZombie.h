@@ -1,7 +1,7 @@
 #pragma once
 
 class cSkinnedMesh;
-class cActionSeq;
+class cDijkstra;
 
 enum ZOMBIE_MOTION
 {
@@ -18,20 +18,23 @@ struct ST_ZOMBIE
 	D3DXVECTOR3		vPosition;
 	float			fAngle;
 	ZOMBIE_MOTION	eMotion;
+	float			fSpeed;
 
-	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), fAngle(0.f), eMotion(IDLE) { }
+	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), fAngle(0.f), eMotion(IDLE), fSpeed(0.f) { }
 };
 
 class cZombie
 {
 protected:
-	SYNTHESIZE_PASS_BY_REF(std::vector<ST_ZOMBIE>, m_vecSkinnedMesh, SkinnedMesh);
+	std::vector<ST_ZOMBIE>	m_vecSkinnedMesh;
+	cDijkstra*				m_pDijkstra;
 
 public:
 	cZombie();
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode) = 0;
+	virtual void UpdateAndRender(int nDest) = 0;
+	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 };
 

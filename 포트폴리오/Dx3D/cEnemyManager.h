@@ -21,8 +21,7 @@ public:
 	~cEnemyManager();
 
 	void Setup();
-	void UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode);
-	void SetPlayerMemoryLink(cCrtController* pPlayer) { m_pPlayer = pPlayer; }
+	void UpdateAndRender(D3DXVECTOR3* vPlayerPos);
 
 private:
 	void Update(D3DXVECTOR3* pTarget);
