@@ -55,6 +55,7 @@ private:
 
 	//============테스트중=======================//
 	std::vector<ST_PT_VERTEX>	m_vTexture;
+	
 public:
 	cMainGame(void);
 	~cMainGame(void);

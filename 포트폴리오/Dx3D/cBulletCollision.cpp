@@ -4,24 +4,214 @@
 #include "cObjMap.h"
 
 cBulletCollision::cBulletCollision()
+	: m_pRenderTargetSurface(NULL)
+	, m_pRenderTargetTexture(NULL)
+	, m_pSprite(NULL)
+	, m_nRenderTargetWidth(1024)
+	, m_nRenderTargetHeight(1024)
+	, m_pEffect(NULL)
+	, m_Texture(NULL)
 {
 }
 
 
 cBulletCollision::~cBulletCollision()
 {
+	SAFE_RELEASE(m_pRenderTargetSurface);
+	SAFE_RELEASE(m_pRenderTargetTexture);
+	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pEffect);
+	SAFE_RELEASE(m_Texture);
+	SAFE_RELEASE(m_pBulletholes);
+	
 }
 
 void cBulletCollision::SetUp(cObjMap* Map)
 {
 	m_pMap = Map->GetMap();
 	m_vecClipping.resize(6);
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	
+	GetClientRect(g_hWnd, &rc);
+	g_pD3DDevice->CreateTexture(
+		rc.right,
+		rc.bottom,
+		0,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_A8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&m_pRenderTargetTexture,
+		NULL);
+
+	g_pD3DDevice->CreateDepthStencilSurface(rc.right,
+		rc.bottom,
+		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE, &m_pRenderTargetSurface, NULL);
+
+	
+
+	m_pEffect = g_pShader->LoadShader("Depth.fx");
+	m_pBulletholes = g_pShader->LoadShader("Bullet.fx");
+
+	m_Texture = g_pTextureManager->GetTexture("bullethole_snow.tga");
+
 }
 
-void cBulletCollision::Render()
+void cBulletCollision::Render(iMap* Map)
 {
+	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
+	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
+	g_pD3DDevice->GetRenderTarget(0, &pOrgRenderTargetSurface);
+	g_pD3DDevice->GetDepthStencilSurface(&pOrgDepthStencilSurface);
+
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	if (SUCCEEDED(m_pRenderTargetTexture->GetSurfaceLevel(0, &pShadowSurface)))
+	{
+		g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
+		pShadowSurface->Release();
+		pShadowSurface = NULL;
+	}
+	g_pD3DDevice->SetDepthStencilSurface(m_pRenderTargetSurface);
+
+	g_pD3DDevice->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_ARGB(255, 255, 255, 255),
+		1.0f,
+		0);
+	g_pD3DDevice->BeginScene();
+
+
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matWV = matWorld * matView;
+	matWVP = matWorld * matView * matProj;
+	m_pEffect->SetMatrix("matWV", &matWV);
+	m_pEffect->SetMatrix("matWVP", &matWVP);
+	m_pEffect->SetFloat("gFar", 1000.f);
+
+	UINT numPasses = 0;
+	m_pEffect->Begin(&numPasses, NULL);
+
+	for (UINT i = 0; i < numPasses; ++i)
+	{
+		m_pEffect->BeginPass(i);
+		Map->Render();
+		m_pEffect->EndPass();
+	}
+
+	m_pEffect->End();
+
+
+
+	g_pD3DDevice->EndScene();
+
+	g_pD3DDevice->SetRenderTarget(0, pOrgRenderTargetSurface);
+	g_pD3DDevice->SetDepthStencilSurface(pOrgDepthStencilSurface);
+
+	SAFE_RELEASE(pOrgRenderTargetSurface);
+	SAFE_RELEASE(pOrgDepthStencilSurface);
+
+	
+
+	/*m_pSprite->Begin(D3DXSPRITE_SORT_TEXTURE);
+
+	m_pSprite->Draw(m_pRenderTargetTexture,
+		&rc,
+		NULL,
+		&D3DXVECTOR3(0, 0, 0),
+		D3DCOLOR_XRGB(255, 255, 255));
+
+	m_pSprite->End();*/
+	
+}		
+
+void cBulletCollision::Fire(cCrtController* Controller)
+{
+	LPD3DXMESH		m_pMesh;
+	
+	D3DXCreateBox(g_pD3DDevice,
+		1, 1, 1, &m_pMesh, NULL);
+
+	D3DXMATRIXA16 matW, matB;
+	D3DXMatrixTranslation(&matB,
+		m_vBulletPoint.x,
+		m_vBulletPoint.y,
+		m_vBulletPoint.z);
+
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
+
+	
+
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV;
+	D3DXMatrixIdentity(&matWorld);
+	matWorld = matB;
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matWV = matWorld * matView;
+	matWVP = matWorld * matView * matProj;
+	D3DXMatrixInverse(&matInvV, 0, &matView);
+
+
+	m_pBulletholes->SetMatrix("mWV", &matWV);
+	m_pBulletholes->SetMatrix("mWVP", &matWVP);
+	m_pBulletholes->SetMatrix("InvV", &matInvV);
+	m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(*Controller->GetPosition(), 1.f));
+
+	m_pBulletholes->SetTexture("texSamp_Tex", m_Texture);
+	m_pBulletholes->SetTexture("base_Tex", m_pRenderTargetTexture);
+	
+
+	UINT numPasses = 0;
+	m_pBulletholes->Begin(&numPasses, NULL);
+
+	for (UINT i = 0; i < numPasses; ++i)
+	{
+		m_pBulletholes->BeginPass(i);
+		{
+			m_pMesh->DrawSubset(0);
+		}
+		m_pBulletholes->EndPass();
+	}
+
+	m_pBulletholes->End();
+
+	
+	
+	SAFE_RELEASE(m_pMesh);
+	
+
+
 
 }
+
+void cBulletCollision::Bulletholes(cCrtController* Controller)
+{
+	/*m_pBulletholes = g_pShader->LoadShader("Bullet.fx");
+
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matWV = matWorld * matView;
+	matWVP = matWorld * matView * matProj;
+	D3DXMatrixInverse(&matInvV, 0, &matWV);
+
+
+	m_pBulletholes->SetMatrix("matWV", &matWV);
+	m_pBulletholes->SetMatrix("matWVP", &matWVP);
+	m_pBulletholes->SetFloat("gFar", 1000.f);
+	m_pBulletholes->SetMatrix("InvWV", &matWVP);
+	m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(*Controller->GetPosition(), 1.f));
+*/
+	
+	
+}
+
 bool cBulletCollision::PickBullet(cCrtController* Controller)
 {
 	std::vector<ST_WallNear> vecWallNear;

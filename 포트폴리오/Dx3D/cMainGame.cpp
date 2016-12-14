@@ -257,71 +257,12 @@ void cMainGame::Render()
 
 	if (m_pEnemyManager)
 		m_pEnemyManager->UpdateAndRender(NULL);
+	
+	m_pBulletCollision->Render(m_pMap);
 
 	if (m_fire)
 	{
-		/*D3DXCreateSphere(g_pD3DDevice,
-			RADIUS,
-			20,
-			20,
-			&m_pMesh,
-			NULL);*/
-		D3DXCreateBox(g_pD3DDevice,
-			4, 4, 4, &m_pMesh, NULL);
-
-		D3DXMATRIXA16 matW , matB;
-		D3DXMatrixTranslation(&matB,
-			m_pBulletCollision->GetBulletPosition().x,
-			m_pBulletCollision->GetBulletPosition().y,
-			m_pBulletCollision->GetBulletPosition().z);
-
-		
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMesh->DrawSubset(0);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		
-		
-		LPD3DXEFFECT	m_pSSD;
-		m_pSSD = g_pShader->LoadShader("Bullet.fx");
-		D3DXMATRIXA16 matWV, matWVP, matV ,matP ,matInvView;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matV);
-		D3DXMatrixMultiply(&matWV, &matB, &matV);
-		m_pSSD->SetMatrix("mWV", &matWV);
-
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matP);
-		D3DXMatrixMultiply(&matWVP, &matWV, &matP);
-		m_pSSD->SetMatrix("mWVP", &matWVP);
-
-		D3DXMatrixInverse(&matInvView, 0, &matV);
-		m_pSSD->SetMatrix("InvView", &matInvView);
-		
-		m_pSSD->SetVector("RayPosition", &D3DXVECTOR4(m_pBulletCollision->GetBulletPosition(),0.f));
-
-		LPDIRECT3DTEXTURE9 _Texture[2];
-
-		_Texture[0] = g_pTextureManager->GetTexture("Map/maps/cs_havana_texture_6.jpg");
-		_Texture[1] = g_pTextureManager->GetTexture("bullethole_snow.tga");
-
-		m_pSSD->SetTexture("base_Tex", _Texture[0]);
-		m_pSSD->SetTexture("texSamp_Tex", _Texture[1]);
-
-		UINT numPasses = 0;
-		m_pSSD->Begin(&numPasses, NULL);
-		for (UINT i = 0; i < numPasses; i++)
-		{
-			m_pSSD->BeginPass(i);
-			{
-				m_pMesh->DrawSubset(0);
-			}
-			m_pSSD->EndPass();
-		}
-		m_pSSD->End();
-		SAFE_RELEASE(m_pSSD);
-		SAFE_RELEASE(m_pMesh);
-
-
-
+		m_pBulletCollision->Fire(m_pController);
 	}
 
 	if (m_pMap)
@@ -331,20 +272,12 @@ void cMainGame::Render()
 		D3DXMatrixIdentity(&matWorld);
 		std::vector<ST_PNT_VERTEX> testMap;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-		if (m_fire)
-		{	
 
-			
-		}
-		else
-		{
 			m_pMap->Render(
 				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f), 
 				&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
 		}
 			
-	}
-
 		
 	m_pCrossHead->Render();
 

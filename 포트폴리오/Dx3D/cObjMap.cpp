@@ -63,20 +63,21 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 	l.Load(szMap, vecBoungdingBox, pmat);
 
 }
+void cObjMap::Render()
+{
+	for (int i = 0; i < m_pMtltex.size(); i++)
+	{
+		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
+		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
+		m_Map->DrawSubset(i);
+	}
+}
 void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection)
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//
-
-	//for (int i = 0; i < m_pMtltex.size(); i++)
-	//{
-	//	g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
-	//	g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
-	//	m_Map->DrawSubset(i);
-	//}
 
 	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
 
