@@ -53,7 +53,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 		m_Start.push_back(m_vecVerWall[i].p);
 	}*/
 
-	m_pTextureMappingShader = g_pShader->LoadShader("NomalMaping.fx");
+	m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -63,7 +63,7 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 	l.Load(szMap, vecBoungdingBox, pmat);
 
 }
-void cObjMap::Render()
+void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection)
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
@@ -78,9 +78,14 @@ void cObjMap::Render()
 	//	m_Map->DrawSubset(i);
 	//}
 
-	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection ,matWVP;
-	D3DXVECTOR4 gLightPosition(0.f, 0.f, 0.f, 1.f);
-	D3DXVECTOR4 gLightColor(1.f, 1.f, 1.f, 1.f);
+	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
+
+	D3DXVECTOR4 gLightPosition(500.f, 1000.f, -500.f, 1.f);
+	D3DXVECTOR4 gLightDirection = *(D3DXVec4Normalize(&gLightDirection, &gLightPosition));
+	D3DXVECTOR4 gLightColor(0.2f, 0.2f, 0.2f, 1.f);
+
+	D3DXVECTOR4 gFlashLightColor(0.5f, 0.5f, 0.5f, 1.f);
+	
 
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
@@ -89,14 +94,17 @@ void cObjMap::Render()
 	D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
 	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 
+	m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
 	m_pTextureMappingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
 
-	//m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
-	//m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
-	//m_pTextureMappingShader->SetMatrix("gProjectionMatrix", &matProj);
-
 	m_pTextureMappingShader->SetVector("gWorldLightPosition", &gLightPosition);
+	m_pTextureMappingShader->SetVector("gLightDirection", &gLightDirection);
+
+	m_pTextureMappingShader->SetVector("gFlashLight", LightPosition);
+	m_pTextureMappingShader->SetVector("gFlashLightDirection", LightDirection);
+
 	m_pTextureMappingShader->SetVector("gLightColor", &gLightColor);
+	m_pTextureMappingShader->SetVector("gFlashColor", &gFlashLightColor);
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{

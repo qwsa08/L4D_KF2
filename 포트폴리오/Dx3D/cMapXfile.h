@@ -15,7 +15,7 @@ public:
 	void Setup(char* szFilename);
 	//void Render();
 
-	virtual void Render() override;
+	virtual void Render();
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 };
 

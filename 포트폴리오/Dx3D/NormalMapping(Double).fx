@@ -25,16 +25,29 @@ string NormalMapping_Pass_0_Model : ModelData = "..\\..\\..\\Program Files (x86)
 float4x4 gWorldMatrix : World;
 float4x4 gWorldViewProjectionMatrix : WorldViewProjection;
 
-float4 gWorldLightPosition
+float4 gWorldLightPosition;
+float4 gWorldCameraPosition : ViewPosition;
+
+float4 gFlashLight;
+
+float4 gFlashLightDirection
 <
-   string UIName = "gWorldLightPosition";
+   string UIName = "gFlashLightDirection";
+   string UIWidget = "Direction";
+   bool UIVisible =  false;
+   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
+   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
+   bool Normalize =  false;
+> = float4( -500.00, -500.00, 500.00, 1.00 );
+float4 gLightDirection
+<
+   string UIName = "gLightDirection";
    string UIWidget = "Direction";
    bool UIVisible =  false;
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 500.00, 500.00, -500.00, 1.00 );
-float4 gWorldCameraPosition : ViewPosition;
 
 struct VS_INPUT 
 {
@@ -54,6 +67,8 @@ struct VS_OUTPUT
    float3 T : TEXCOORD3;
    float3 B : TEXCOORD4;
    float3 N : TEXCOORD5;
+   
+   float3 mFlashDir : TEXCOORD6;
 };
 
 VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -64,8 +79,11 @@ VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.mUV = Input.mUV;
 
    float4 worldPosition = mul( Input.mPosition, gWorldMatrix );
-   float3 lightDir = worldPosition.xyz - gWorldLightPosition.xyz;
-   Output.mLightDir = normalize(lightDir);
+   float3 WorldlightDir = gLightDirection;
+   Output.mLightDir = normalize(WorldlightDir);
+   
+   float3 FlashLightDir = gFlashLightDirection;
+   Output.mFlashDir = normalize(FlashLightDir);
    
    float3 viewDir = normalize(worldPosition.xyz - gWorldCameraPosition.xyz);
    Output.mViewDir = viewDir;
@@ -93,6 +111,8 @@ struct PS_INPUT
    float3 T : TEXCOORD3;
    float3 B : TEXCOORD4;
    float3 N : TEXCOORD5;
+   
+   float3 mFlashDir : TEXCOORD6;
 };
 
 texture DiffuseMap_Tex
@@ -134,6 +154,14 @@ float3 gLightColor
    float UIMin = -1.00;
    float UIMax = 1.00;
 > = float3( 1.00, 1.00, 1.00 );
+float3 gFlashColor
+<
+   string UIName = "gFlashColor";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float3( 1.00, 1.00, 1.00 );
 
 float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
@@ -144,27 +172,45 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
    TBN = transpose(TBN);
    float3 worldNormal = mul(TBN, tangentNormal);
    
-   float4 albedo = tex2D(DiffuseSampler, Input.mUV);
-   float3 lightDir = normalize(Input.mLightDir);
-   float3 diffuse = saturate(dot(worldNormal, -lightDir));
-   diffuse = gLightColor * albedo.rgb * diffuse;
+   float4 albedo1 = tex2D(DiffuseSampler, Input.mUV);
+   float3 lightDir1 = normalize(Input.mLightDir);
+   float3 diffuse1 = saturate(dot(worldNormal, -lightDir1));
+   diffuse1 = gLightColor * albedo1.rgb * diffuse1;
    
-   float3 specular = 0;
-   if ( diffuse.x > 0 )
+   float3 specular1 = 0;
+   if ( diffuse1.x > 0 )
    {
-      float3 reflection = reflect(lightDir, worldNormal);
+      float3 reflection = reflect(lightDir1, worldNormal);
       float3 viewDir = normalize(Input.mViewDir); 
 
-      specular = saturate(dot(reflection, -viewDir ));
-      specular = pow(specular, 20.0f);
+      specular1 = saturate(dot(reflection, -viewDir ));
+      specular1 = pow(specular1, 20.0f);
       
       float4 specularIntensity  = tex2D(SpecularSampler, Input.mUV);
-      specular *= specularIntensity.rgb * gLightColor;
+      specular1 *= specularIntensity.rgb * gLightColor;
    }
-
-   float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo;
    
-   return float4(ambient + diffuse + specular, 1);
+   float4 albedo2 = tex2D(DiffuseSampler, Input.mUV);
+   float3 lightDir2 = normalize(Input.mFlashDir);
+   float3 diffuse2 = saturate(dot(worldNormal, -lightDir2));
+   diffuse2 = gFlashColor * albedo2.rgb * diffuse2;
+   
+   float3 specular2 = 0;
+   if ( diffuse2.x > 0 )
+   {
+      float3 reflection = reflect(lightDir2, worldNormal);
+      float3 viewDir = normalize(Input.mViewDir); 
+
+      specular2 = saturate(dot(reflection, -viewDir ));
+      specular2 = pow(specular2, 20.0f);
+      
+      float4 specularIntensity  = tex2D(SpecularSampler, Input.mUV);
+      specular2 *= specularIntensity.rgb * gFlashColor;
+   }
+   
+   float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo2;
+   
+   return float4(ambient + diffuse1 + specular1, 1) + float4(ambient + diffuse2 + specular2, 1);
 }
 
 //--------------------------------------------------------------//
