@@ -17,7 +17,7 @@ void cActionMove::Start()
 	m_fPassedActionTime = 0.0f;
 	if (m_pTarget)
 	{
-		m_pTarget->SetPosition(m_vFrom);
+//		m_pTarget->SetPosition(m_vFrom);
 	}
 }
 
@@ -39,6 +39,6 @@ void cActionMove::Update()
 	D3DXVec3Lerp(&p, &m_vFrom, &m_vTo, t);
 	if (m_pTarget)
 	{
-		m_pTarget->SetPosition(p);
+		//m_pTarget->SetPosition(p);
 	}
 }

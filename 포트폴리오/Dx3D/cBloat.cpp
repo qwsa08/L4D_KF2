@@ -30,7 +30,7 @@ void cBloat::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cBloat::UpdateAndRender(D3DXVECTOR3* pTarget)
+void cBloat::UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode)
 {
 	for each(auto p in m_vecSkinnedMesh)
 	{
@@ -40,6 +40,10 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* pTarget)
 		D3DXMatrixRotationY(&matR, p.fAngle);
 		D3DXMatrixTranslation(&matT, p.vPosition.x, p.vPosition.y, p.vPosition.z);
 		mat = matS * matR * matT;
-		p.pSkinnedMesh->UpdateAndRender(&mat);
+		if (g_pKeyManager->isStayKeyDown(VK_RBUTTON))
+		{
+			p.pSkinnedMesh->UpdateAndRender(&mat);
+		}
+
 	}
 }

@@ -81,6 +81,8 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
+	m_pController = new cCrtController;
+	m_pController->Setup();
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -91,12 +93,10 @@ void cMainGame::Setup()
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
+	m_pEnemyManager->SetPlayerMemoryLink(m_pController);
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
-
-	m_pController = new cCrtController;
-	m_pController->Setup();
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
@@ -315,7 +315,6 @@ void cMainGame::Render()
 				m_pMesh->DrawSubset(0);
 			}
 			m_pSSD->EndPass();
-			m_vTexture.push_back(temp[i]);
 		}
 		m_pSSD->End();
 		SAFE_RELEASE(m_pSSD);

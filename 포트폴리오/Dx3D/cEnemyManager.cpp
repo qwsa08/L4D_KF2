@@ -4,6 +4,10 @@
 #include "cAStar.h"
 #include "cZombie.h"
 #include "cBloat.h"
+#include "cActionSeq.h"
+#include "cAction.h"
+#include "cActionMove.h"
+#include "cCrtController.h"
 
 
 cEnemyManager::cEnemyManager()
@@ -33,13 +37,19 @@ void cEnemyManager::Setup()
 	m_pBloat->Setup();
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3 * pTarget)
+void cEnemyManager::UpdateAndRender(std::vector<D3DXVECTOR3>* vecNode)
 {
 	m_pDijkstra->Render();
-
-	m_pAstar->Update(&D3DXVECTOR3(900, -60, 1200), &D3DXVECTOR3(0, 0, 0));
 	
-	m_pBloat->UpdateAndRender(pTarget);
+	m_pAstar->Update(&D3DXVECTOR3(900, -60, 1200), &D3DXVECTOR3(0, 0, 0));
+
+	int nStart = m_pDijkstra->GetStartNode(m_pPlayer->GetPosition());
+
+	for each(auto p in m_pBloat->GetSkinnedMesh())
+	{
+		int nDest = m_pDijkstra->GetDestNode(&p.vPosition);
+		m_pBloat->UpdateAndRender(&m_pDijkstra->GetNodeTable(nStart, nDest));
+	}	
 }
 
 void cEnemyManager::Update(D3DXVECTOR3 * pTarget)
