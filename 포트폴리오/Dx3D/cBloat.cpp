@@ -47,24 +47,35 @@ void cBloat::UpdateAndRender(int nDest)
 
 	//	p.pSkinnedMesh->UpdateAndRender(&mat);
 	//}
+	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+	{
+		if (m_vecSkinnedMesh[0].isRecognize)
+		{
+			m_vecSkinnedMesh[0].isRecognize = false;
+		}
+		else
+		{
+			m_vecSkinnedMesh[0].isRecognize = true;
+		}		
+	}
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
 	{
 		D3DXMATRIXA16 matS, matR, matT, mat;
 		m_vecSkinnedMesh[i].pSkinnedMesh->SetAnimationIndex(m_vecSkinnedMesh[i].eMotion);
 		D3DXMatrixScaling(&matS, 0.7f, 0.7f, 0.7f);
 		D3DXMatrixRotationY(&matR, m_vecSkinnedMesh[i].fAngle);
+		D3DXMatrixIdentity(&matT);
 		
-		int nStart = m_pDijkstra->GetDestNode(&m_vecSkinnedMesh[i].vPosition);
-		std::vector<D3DXVECTOR3> vecNode = m_pDijkstra->GetNodeTable(nStart, nDest);
+		if (m_vecSkinnedMesh[i].isRecognize == true)
+		{
 
-		D3DXVECTOR3 vDirection = m_vecSkinnedMesh[i].vPosition - vecNode[0];
-		D3DXVECTOR3 vPosition = m_vecSkinnedMesh[i].vPosition;
+		}
+		else
+		{
+			D3DXMatrixTranslation(&matT, m_vecSkinnedMesh[i].vPosition.x, m_vecSkinnedMesh[i].vPosition.y, m_vecSkinnedMesh[i].vPosition.z);
+		}
 
-		vPosition -= vDirection * 0.01f;
-		m_vecSkinnedMesh[i].vPosition = vPosition;
-		D3DXMatrixTranslation(&matT, vPosition.x, vPosition.y, vPosition.z);
 		mat = matS * matR * matT;
-
 		m_vecSkinnedMesh[i].pSkinnedMesh->UpdateAndRender(&mat);
 	}
 }
