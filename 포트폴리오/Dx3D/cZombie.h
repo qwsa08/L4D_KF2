@@ -19,8 +19,9 @@ struct ST_ZOMBIE
 	float			fAngle;
 	ZOMBIE_MOTION	eMotion;
 	float			fSpeed;
+	bool			isRecognize;
 
-	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), fAngle(0.f), eMotion(IDLE), fSpeed(0.f) { }
+	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), fAngle(0.f), eMotion(IDLE), fSpeed(3.f), isRecognize(false) { }
 };
 
 class cZombie
