@@ -350,6 +350,9 @@ void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent )
 	{
 		Update((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->CombinedTransformationMatrix));
 	}
+
+
+	
 }
 
 void cSkinnedMesh::SetupBoneMatrixPtrs( ST_BONE* pBone )
@@ -401,7 +404,52 @@ void cSkinnedMesh::SetAnimationIndex( int nIndex )
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
 	SAFE_RELEASE(pAnimSet);
 }
+void cSkinnedMesh::SetskinningAnimationIndex(int current, int next)
+{
+	LPD3DXANIMATIONSET pPrevAnimationSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimationSet = NULL;
 
+	m_pAnimController->GetAnimationSet(next, &pPrevAnimationSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimationSet);
+
+	m_pAnimController->GetAnimationSet(current, &pNextAnimationSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimationSet);
+
+	m_pAnimController->SetTrackEnable(1, true);
+	m_pAnimController->SetTrackPosition(0, 0);
+
+	SAFE_RELEASE(pPrevAnimationSet);
+	SAFE_RELEASE(pNextAnimationSet);
+}
+float cSkinnedMesh::AnimationFrame(int num)
+{
+	LPD3DXANIMATIONSET pAnimSet = NULL;
+	m_pAnimController->GetAnimationSet(num, &pAnimSet);
+	double dPeriod = pAnimSet->GetPeriod();
+
+	return dPeriod;
+
+	SAFE_RELEASE(pAnimSet);
+}
+void cSkinnedMesh::AnimationUpdate(int current, int next)
+{
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
+	}
+	
+	float time = AnimationFrame(current);
+	D3DXTRACK_DESC tc;
+	m_pAnimController->GetTrackDesc(current, &tc);
+	float dPosition = tc.Position;
+
+	if (dPosition >= time)
+	{
+		//SetAnimationIndex(next);
+		//SetskinningAnimationIndex(current, next);
+	}
+	
+}
 void cSkinnedMesh::Destroy()
 {
 	cAllocateHierarchy ah;
@@ -426,21 +474,21 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 		mat = *pmat;
 	}
 	RenderPlayer(m_pRootFrame);
-	if (m_stBoundingSphere.pBoundingSphereMesh)
-	{
-		//이걸하면 반대방향으로 원운동함
-
-		D3DXMatrixTranslation(&matI,
-		m_stBoundingSphere.vCenter.x,
-		m_stBoundingSphere.vCenter.y,
-		m_stBoundingSphere.vCenter.z);
-		mat *= matI;
-
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	}
+	//if (m_stBoundingSphere.pBoundingSphereMesh)
+	//{
+	//	//이걸하면 반대방향으로 원운동함
+	//
+	//	D3DXMatrixTranslation(&matI,
+	//	m_stBoundingSphere.vCenter.x,
+	//	m_stBoundingSphere.vCenter.y,
+	//	m_stBoundingSphere.vCenter.z);
+	//	mat *= matI;
+	//
+	//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+	//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//	m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
+	//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	//}
 	if (m_stBoundingBox.pBoundingBoxMesh)
 	{
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);

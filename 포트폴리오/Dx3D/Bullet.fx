@@ -79,7 +79,7 @@ float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
    
    float4 col = float4(1.0,0.0,0.0,0.0);
   
-   float3 screenposition = In.ClipPos.xyz/ In.ClipPos.w;
+   float3 screenposition = In.ClipPos.xyz/ In.ClipPos.z;
    screenposition.x = screenposition.x *0.5 +0.5;
    screenposition.y = -screenposition.y *0.5 +0.5;
    
@@ -93,7 +93,7 @@ float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
    
    float3 ObjAbs = abs(ObjPos.xyz);
    // 0.5 - ObjAbs;
-   clip(ObjAbs);
+   clip( ObjAbs);
    
    float2 uv = ObjPos.xz + 0.5;
    //===== texSamp is bullet;
@@ -102,9 +102,9 @@ float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
    float dist = abs(ObjPos.z);
    float scaleDistance = max(dist * 2.0f,1.0f);
    float fadeOut = 1.0f - scaleDistance;
-   //col.a *= fadeOut;
+   col.a *= fadeOut;
    
-   //col *= (1.f - max((ObjAbs.z-0.25f)/0.25,0.f));
+   col *= (1.f - max((ObjAbs.z-0.25f)/0.25,0.f));
    
    return col;
    

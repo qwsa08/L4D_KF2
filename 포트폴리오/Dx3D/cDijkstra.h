@@ -32,7 +32,14 @@ public:
 
 	void SetObstacleVertex(std::vector<D3DXVECTOR3> obsVertex);	//벽 좌표 세팅하기..
 	void Setup();
+	void Update(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vZombiePos);
 	void Render();	//노드 렌더
+
+	int GetStartNode(D3DXVECTOR3* vPlayerPos);
+	int GetDestNode(D3DXVECTOR3* vZombiePos);
+	//노드 테이블
+	std::vector<D3DXVECTOR3> GetNodeTable(int nStart, int nDest);
+	D3DXVECTOR3 GetNodePosition(int nIndex) { return m_vecNode[nIndex].vPosition; }
 
 private:
 	void SetNode();	//노드 세팅
@@ -41,6 +48,5 @@ private:
 	float GetLength(int nFrom, int nTo);
 	std::vector<ST_NODE> MakeTable(int nStart);
 	
-//	static 
 };
 

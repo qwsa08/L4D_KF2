@@ -1,6 +1,6 @@
 #pragma once
 
-class cGameObject;
+class cSkinnedMesh;
 class cAction;
 
 class iActionDelegate
@@ -9,13 +9,13 @@ public:
 	virtual void OnActionFinish(cAction* pSender) PURE;
 };
 
-class cAction : public cObject
+class cAction
 {
 protected:
 	float m_fPassedActionTime;
 	SYNTHESIZE(iActionDelegate*, m_pDelegate, Delegate);
 	SYNTHESIZE(float, m_fActionTime, ActionTime);
-	SYNTHESIZE(cGameObject*, m_pTarget, Target);
+	SYNTHESIZE(cSkinnedMesh*, m_pTarget, Target);
 
 public:
 	cAction(void);

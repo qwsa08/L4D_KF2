@@ -11,6 +11,7 @@ cBulletCollision::cBulletCollision()
 	, m_nRenderTargetHeight(1024)
 	, m_pEffect(NULL)
 	, m_Texture(NULL)
+	, y(0.f)
 {
 }
 
@@ -54,8 +55,9 @@ void cBulletCollision::SetUp(cObjMap* Map)
 	m_pEffect = g_pShader->LoadShader("Depth.fx");
 	m_pBulletholes = g_pShader->LoadShader("Bullet.fx");
 
-	m_Texture = g_pTextureManager->GetTexture("bullethole_snow.tga");
-
+	m_Texture = g_pTextureManager->GetTexture("Earth.jpg");
+	
+	int a = 0;
 }
 
 void cBulletCollision::Render(iMap* Map)
@@ -91,7 +93,7 @@ void cBulletCollision::Render(iMap* Map)
 	matWVP = matWorld * matView * matProj;
 	m_pEffect->SetMatrix("matWV", &matWV);
 	m_pEffect->SetMatrix("matWVP", &matWVP);
-	m_pEffect->SetFloat("gFar", 1000.f);
+	m_pEffect->SetFloat("gFar", 50000.f);
 
 	UINT numPasses = 0;
 	m_pEffect->Begin(&numPasses, NULL);
@@ -129,38 +131,76 @@ void cBulletCollision::Render(iMap* Map)
 	
 }		
 
-void cBulletCollision::Fire(cCrtController* Controller)
+void cBulletCollision::Fire(iMap* Map)
 {
 	LPD3DXMESH		m_pMesh;
 	
 	D3DXCreateBox(g_pD3DDevice,
 		1, 1, 1, &m_pMesh, NULL);
-
-	D3DXMATRIXA16 matW, matB;
+	
+	if (g_pKeyManager->isStayKeyDown(VK_DOWN))
+	{
+		y -= 1.f;
+	}
+	if (g_pKeyManager->isStayKeyDown(VK_UP))
+	{
+		y += 1.f;
+	}
+	
+	D3DXMATRIXA16 matW, matB ,matS;
 	D3DXMatrixTranslation(&matB,
 		m_vBulletPoint.x,
 		m_vBulletPoint.y,
-		m_vBulletPoint.z);
+		m_vBulletPoint.z);//m_vBulletPoint.z);
+	D3DXMatrixScaling(&matS, 10, 10, 10);
+	/*
+	ST_PT_VERTEX v;
+	std::vector<D3DXVECTOR3> Vertex;
+	Vertex.push_back(D3DXVECTOR3(-0.5f, -0.5f, -0.5f));
+	Vertex.push_back(D3DXVECTOR3(-0.5f,  0.5f, -0.5f));
+	Vertex.push_back(D3DXVECTOR3( 0.5f,  0.5f, -0.5f));
+	Vertex.push_back(D3DXVECTOR3( 0.5f, -0.5f, -0.5f));
+	Vertex.push_back(D3DXVECTOR3(-0.5f, -0.5f,  0.5f));
+	Vertex.push_back(D3DXVECTOR3(-0.5f,  0.5f,  0.5f));
+	Vertex.push_back(D3DXVECTOR3( 0.5f,  0.5f,  0.5f));
+	Vertex.push_back(D3DXVECTOR3( 0.5f, -0.5f,  0.5f));
 
+	
+	v.p =   v.t = D3DXVECTOR2(0, 1); m_vBox.push_back(v);
+	v.p =   v.t = D3DXVECTOR2(0, 0); m_vBox.push_back(v);
+	v.p =   v.t = D3DXVECTOR2(1, 0); m_vBox.push_back(v);
+	v.p =   v.t = D3DXVECTOR2(0, 1); m_vBox.push_back(v);
+	v.p =   v.t = D3DXVECTOR2(1, 0); m_vBox.push_back(v);
+	v.p =   v.t = D3DXVECTOR2(1, 1); m_vBox.push_back(v);
+	*/	   
+	
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
+	//1.매쉬말고 순수하게 박스를만들고 그것을 움직여 보자 (움직여 보자!)
+	//2.uv가 안맞는다 나는 텍스쳐를 그리는거지 매쉬전체에 두르는게 아니다.
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
 
 	
 
-	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV;
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvW;
 	D3DXMatrixIdentity(&matWorld);
-	matWorld = matB;
+	matWorld = matS *matB;
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
 	matWV = matWorld * matView;
 	matWVP = matWorld * matView * matProj;
+
 	D3DXMatrixInverse(&matInvV, 0, &matView);
-
-
+	D3DXMatrixInverse(&matInvV, 0, &matInvW);
+	//================여기서 난감;;;=====================//
+	D3DXVECTOR3 temp(1, 1, 1);
+	D3DXVECTOR3	vCamera(0, 0, 0);
+	D3DXMatrixInverse(&matInvP, 0, &matProj);
+	D3DXVec3TransformCoord(&vCamera, &temp, &matProj);
+	
 	m_pBulletholes->SetMatrix("mWV", &matWV);
 	m_pBulletholes->SetMatrix("mWVP", &matWVP);
 	m_pBulletholes->SetMatrix("InvV", &matInvV);
-	m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(*Controller->GetPosition(), 1.f));
+	m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(vCamera,1.f));
 
 	m_pBulletholes->SetTexture("texSamp_Tex", m_Texture);
 	m_pBulletholes->SetTexture("base_Tex", m_pRenderTargetTexture);
@@ -168,20 +208,23 @@ void cBulletCollision::Fire(cCrtController* Controller)
 
 	UINT numPasses = 0;
 	m_pBulletholes->Begin(&numPasses, NULL);
-
+	
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pBulletholes->BeginPass(i);
 		{
+			//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			m_pMesh->DrawSubset(0);
+			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 		m_pBulletholes->EndPass();
 	}
-
+	
 	m_pBulletholes->End();
-
 	
-	
+	/*g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pMesh->DrawSubset(0);
+	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
 	SAFE_RELEASE(m_pMesh);
 	
 

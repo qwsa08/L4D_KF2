@@ -37,7 +37,7 @@ void cCamera::Update(D3DXVECTOR3* pTarget, D3DXVECTOR3* pDirection)
 
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
-		m_vEye += D3DXVECTOR3(0, 1000, 0);
+		m_vEye += D3DXVECTOR3(0, 100, 0);
 	}
 
 

@@ -35,7 +35,9 @@ private:
 	RECT rc;
 	LPD3DXEFFECT				m_pBulletholes;
 	LPDIRECT3DTEXTURE9			m_Texture;
-	//std::vector<LPD3DXMESH>	m_pMesh;
+	std::vector<ST_PT_VERTEX>	m_vBox;
+
+	int y;
 public:
 	cBulletCollision();
 	~cBulletCollision();
@@ -44,7 +46,7 @@ public:
 	void Render(iMap* Map);
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(cCrtController* Controller);
+	void Fire(iMap* Map);
 	void Bulletholes(cCrtController* Controller);
 
 	D3DXMATRIXA16 Clipping();

@@ -29,7 +29,7 @@ cMainGame::cMainGame(void)
 	, m_pMesh(NULL)
 	, m_pMapMesh(NULL)
 	, m_pFrustum(NULL)
-//	, m_pSkinnedMesh(NULL)
+	//	, m_pSkinnedMesh(NULL)
 	, m_pPlayer(NULL)
 	, m_pBoundingBox(NULL)
 	, m_mouseCheck(false)
@@ -37,6 +37,9 @@ cMainGame::cMainGame(void)
 	, m_fire(false)
 	, m_pCrossHead(NULL)
 	, m_pEnemyManager(NULL)
+	, m_bBlood(NULL)
+	, timer(0.f)
+	, m_ReboundCamera(0.f)
 {
 }
 
@@ -81,6 +84,8 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
+	m_pController = new cCrtController;
+	m_pController->Setup();
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -94,9 +99,6 @@ void cMainGame::Setup()
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
-
-	m_pController = new cCrtController;
-	m_pController->Setup();
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
@@ -168,7 +170,13 @@ void cMainGame::Update()
 
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
+		
 
+	if (!m_fire)
+	{
+		// false일때 그 높이를 저장받고 풀리면 다시 위치로
+		m_ReboundCamera = m_pController->m_fAngleX;
+	}
 	if (m_pCamera)
 		m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
 
@@ -209,6 +217,8 @@ void cMainGame::Update()
 	
 	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
+		//이거 활성화 하면 총알튀듯이 된다.
+		//m_pController->m_fAngleX -= 0.007f;
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
 			m_fire = true;
@@ -216,10 +226,14 @@ void cMainGame::Update()
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
 	{
-		m_fire = false;
+		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
+		m_pController->m_fAngleX = m_ReboundCamera;
 	}
 
-	
+	if (g_pKeyManager->isOnceKeyUp('Z'))
+	{
+		m_bBlood = true;
+	}
 	g_pAutoReleasePool->Drain();
 }
 
@@ -252,17 +266,39 @@ void cMainGame::Render()
 	//	{
 	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
 	//	}
+	if (m_bBlood)
+	{
+		timer += g_pTimeManager->GetDeltaTime();
+
+		if (timer < 0.5f)
+		{
+			m_pPlayer->Blood();
+		}
+		else
+		{
+			timer = 0.f;
+			m_bBlood = false;
+		}
+	}
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(NULL);
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
 	
 	m_pBulletCollision->Render(m_pMap);
 
 	if (m_fire)
 	{
-		m_pBulletCollision->Fire(m_pController);
+		
+		timer += g_pTimeManager->GetDeltaTime();
+		if (timer > 0.2f)
+		{
+			timer = 0;
+			m_fire = false;
+			
+		}
+		m_pBulletCollision->Fire(m_pMap);
 	}
 
 	if (m_pMap)
@@ -280,6 +316,7 @@ void cMainGame::Render()
 			
 		
 	m_pCrossHead->Render();
+	
 
 	g_pD3DDevice->EndScene();
 

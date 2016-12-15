@@ -34,6 +34,12 @@ void cDijkstra::Setup()
 	SetEdgeCost();
 	//ǥ
 	SetTable();
+	int a = 0;
+}
+
+void cDijkstra::Update(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vZombiePos)
+{
+
 }
 
 void cDijkstra::Render()
@@ -254,6 +260,47 @@ std::vector<ST_NODE> cDijkstra::MakeTable(int nStart)
 	}
 
 	return vN;
+}
+
+int cDijkstra::GetStartNode(D3DXVECTOR3 * vPlayerPos)
+{
+	int nIndex = 0;
+	for (int i = 0; i < m_vecNode.size(); ++i)
+	{
+		if (D3DXVec3Length(&(*vPlayerPos - m_vecNode[nIndex].vPosition)) > D3DXVec3Length(&(*vPlayerPos - m_vecNode[i].vPosition)))
+		{
+			nIndex = i;
+		}
+	}
+	return nIndex;
+}
+
+int cDijkstra::GetDestNode(D3DXVECTOR3 * vZombiePos)
+{
+	int nIndex = 0;
+	for (int i = 0; i < m_vecNode.size(); ++i)
+	{
+		if (D3DXVec3Length(&(*vZombiePos - m_vecNode[nIndex].vPosition)) > D3DXVec3Length(&(*vZombiePos - m_vecNode[i].vPosition)))
+		{
+			nIndex = i;
+		}
+	}
+	return nIndex;
+}
+
+std::vector<D3DXVECTOR3> cDijkstra::GetNodeTable(int nStart, int nDest)
+{
+	std::vector<D3DXVECTOR3> vecNode;
+
+	int nIndex = nStart;
+	while (nIndex != nDest)
+	{
+		vecNode.push_back(m_vecNodeTable[nDest][nIndex].vPosition);
+		nIndex = m_vecNodeTable[nDest][nIndex].nViaNode;
+	}
+	vecNode.push_back(m_vecNode[nDest].vPosition);
+	
+	return vecNode;
 }
 
 void cDijkstra::SetNode()

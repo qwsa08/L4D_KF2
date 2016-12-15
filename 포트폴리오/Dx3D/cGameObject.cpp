@@ -5,7 +5,7 @@
 cGameObject::cGameObject(void)
 	: m_vPosition(0, 0, 0)
 	, m_vDirection(0, 0, 0)
-	, m_pAction(NULL)
+//	, m_pAction(NULL)
 	, m_vPrevPosition(0, 0, 0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -14,13 +14,13 @@ cGameObject::cGameObject(void)
 
 cGameObject::~cGameObject(void)
 {
-	SAFE_RELEASE(m_pAction);
+//	SAFE_RELEASE(m_pAction);
 }
 
 void cGameObject::Update()
 {
-	if(m_pAction)
-		m_pAction->Update();
+//	if(m_pAction)
+//		m_pAction->Update();
 
 	//m_vDirection = m_vPosition - m_vPrevPosition;
 	

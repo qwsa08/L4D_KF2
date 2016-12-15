@@ -12,7 +12,7 @@ cActionSeq::~cActionSeq(void)
 {
 	for each(auto p in m_vecAction)
 	{
-		SAFE_RELEASE(p);
+//		SAFE_RELEASE(p);
 	}
 }
 
@@ -20,8 +20,8 @@ void cActionSeq::AddAction( cAction* pAction )
 {
 	if(pAction)
 	{
-		SAFE_ADD_REF(pAction);
-		m_vecAction.push_back(pAction);
+//		SAFE_ADD_REF(pAction);
+//		m_vecAction.push_back(pAction);
 	}
 }
 
