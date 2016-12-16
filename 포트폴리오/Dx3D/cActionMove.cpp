@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "cActionMove.h"
+#include "cSkinnedMesh.h"
 
 
 cActionMove::cActionMove(void)
@@ -16,7 +17,7 @@ void cActionMove::Start()
 {
 	m_fPassedActionTime = 0.0f;
 	if (m_pTarget)
-	{
+	{//ㅅㅂ....스킨드매쉬 포지션 안쓰는데 흠ㅅㅂ
 		m_pTarget->SetPosition(m_vFrom);
 	}
 }
@@ -39,6 +40,6 @@ void cActionMove::Update()
 	D3DXVec3Lerp(&p, &m_vFrom, &m_vTo, t);
 	if (m_pTarget)
 	{
-		m_pTarget->SetPosition(p);
+		//m_pTarget->SetPosition(p);
 	}
 }

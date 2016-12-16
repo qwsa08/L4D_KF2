@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "cDijkstra.h"
 
-#define RADIUS 30.0f
+#define RADIUS		20.0f
+#define NUMOFNODE	42
 
 cDijkstra::cDijkstra()
 	: m_pMesh(NULL)
@@ -34,6 +35,12 @@ void cDijkstra::Setup()
 	SetEdgeCost();
 	//ǥ
 	SetTable();
+	int a = 0;
+}
+
+void cDijkstra::Update(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vZombiePos)
+{
+
 }
 
 void cDijkstra::Render()
@@ -53,10 +60,10 @@ void cDijkstra::Render()
 
 void cDijkstra::SetEdgeCost()
 {
-	m_vecEdgeCost.resize(41);
+	m_vecEdgeCost.resize(NUMOFNODE);
 	for (int i = 0; i < m_vecEdgeCost.size(); ++i)
 	{
-		std::vector<float> vecNodeEdge(41, 10000.f);
+		std::vector<float> vecNodeEdge(NUMOFNODE, 10000.f);
 		vecNodeEdge[i] = 0.f;
 		m_vecEdgeCost[i] = vecNodeEdge;
 	}
@@ -256,90 +263,256 @@ std::vector<ST_NODE> cDijkstra::MakeTable(int nStart)
 	return vN;
 }
 
+int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
+{
+	int nIndex = 0;
+	for (int i = 0; i < m_vecNode.size(); ++i)
+	{
+		if (D3DXVec3Length(&(*vPos - m_vecNode[nIndex].vPosition)) > D3DXVec3Length(&(*vPos - m_vecNode[i].vPosition)))
+		{
+			nIndex = i;
+		}
+	}
+	return nIndex;
+}
+
+std::vector<D3DXVECTOR3> cDijkstra::GetNodeTable(int nStart, int nDest)
+{
+	std::vector<D3DXVECTOR3> vecNode;
+
+	int nIndex = nStart;
+	while (nIndex != nDest)
+	{
+		vecNode.push_back(m_vecNodeTable[nDest][nIndex].vPosition);
+		nIndex = m_vecNodeTable[nDest][nIndex].nViaNode;
+	}
+	vecNode.push_back(m_vecNode[nDest].vPosition);
+	
+	return vecNode;
+}
+
+bool cDijkstra::IsDirect(D3DXVECTOR3 vFrom, D3DXVECTOR3 vTo)
+{
+	if (vFrom.z > 800)	//1
+	{
+		m_eZombieSector = SECTOR_1;
+	}
+	else if (vFrom.z > 380)	//2 , 3
+	{
+		if (vFrom.x < -385)
+		{
+			m_eZombieSector = SECTOR_4;
+		}
+		else if (vFrom.x < 640)
+		{
+			m_eZombieSector = SECTOR_2;
+		}
+		else if (vFrom.x >= 790 && vFrom.x < 1550)
+		{
+			m_eZombieSector = SECTOR_3;
+		}
+		else if (vFrom.x >= 1550)
+		{
+			m_eZombieSector = SECTOR_8;
+		}
+		else
+		{
+			m_eZombieSector = SECTOR_NONE;
+		}
+	}
+	else if (vFrom.z > -400)	//5
+	{
+		if (vFrom.x < -385)
+		{
+			m_eZombieSector = SECTOR_4;
+		}
+		else if (vFrom.x < 790)
+		{
+			m_eZombieSector = SECTOR_5;
+		}
+		else m_eZombieSector = SECTOR_8;
+	}
+	else if (vFrom.z > -950)	//6
+	{
+		if (vFrom.x < -385)
+		{
+			m_eZombieSector = SECTOR_4;
+		}
+		else if (vFrom.x < 500)
+		{
+			m_eZombieSector = SECTOR_6;
+		}
+		else m_eZombieSector = SECTOR_8;
+	}
+	else //7
+	{
+		if (vFrom.x < -385)
+		{
+			m_eZombieSector = SECTOR_4;
+		}
+		else if (vFrom.x < 600)
+		{
+			m_eZombieSector = SECTOR_7;
+		}
+		else m_eZombieSector = SECTOR_8;
+	}
+	/////////////////////////////
+	if (vTo.z > 800)	//1
+	{
+		m_ePlayerSector = SECTOR_1;
+	}
+	else if (vTo.z > 380)	//2 , 3
+	{
+		if (vTo.x < -385)
+		{
+			m_ePlayerSector = SECTOR_4;
+		}
+		else if (vTo.x < 640)
+		{
+			m_ePlayerSector = SECTOR_2;
+		}
+		else if (vTo.x >= 790 && vTo.x < 1550)
+		{
+			m_ePlayerSector = SECTOR_3;
+		}
+		else if (vTo.x >= 1550)
+		{
+			m_ePlayerSector = SECTOR_8;
+		}
+		else
+		{
+			m_ePlayerSector = SECTOR_NONE;
+		}
+	}
+	else if (vTo.z > -400)	//5
+	{
+		if (vTo.x < -385)
+		{
+			m_ePlayerSector = SECTOR_4;
+		}
+		else if (vTo.x < 790)
+		{
+			m_ePlayerSector = SECTOR_5;
+		}
+		else m_ePlayerSector = SECTOR_8;
+	}
+	else if (vTo.z > -950)	//6
+	{
+		if (vTo.x < -385)
+		{
+			m_ePlayerSector = SECTOR_4;
+		}
+		else if (vTo.x < 500)
+		{
+			m_ePlayerSector = SECTOR_6;
+		}
+		else m_ePlayerSector = SECTOR_8;
+	}
+	else //7
+	{
+		if (vTo.x < -385)
+		{
+			m_ePlayerSector = SECTOR_4;
+		}
+		else if (vTo.x < 600)
+		{
+			m_ePlayerSector = SECTOR_7;
+		}
+		else m_ePlayerSector = SECTOR_8;
+	}
+	
+
+
+	return false;
+}
+
 void cDijkstra::SetNode()
 {
 	ST_NODE node;
-	node.vPosition = D3DXVECTOR3(-500, -60, 2200);	//0
+	node.vPosition = D3DXVECTOR3(-500, -140, 2200);	//0
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-250, -60, 1200);	//1
+	node.vPosition = D3DXVECTOR3(-250, -140, 1200);	//1
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1400, -60, 2200);	//2
+	node.vPosition = D3DXVECTOR3(1400, -140, 2200);	//2
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(900, -60, 1200);	//3
+	node.vPosition = D3DXVECTOR3(900, -140, 1200);	//3
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-250, -60, 400);	//4
+	node.vPosition = D3DXVECTOR3(-250, -120, 400);	//4
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-850, -60, -50);	//5
+	node.vPosition = D3DXVECTOR3(-850, -120, -50);	//5
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-950, -60, 450);	//6
+	node.vPosition = D3DXVECTOR3(-950, -120, 450);	//6
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-1300, -60, 400);	//7
+	node.vPosition = D3DXVECTOR3(-1300, -120, 400);	//7
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-1250, -60, -400);	//8
+	node.vPosition = D3DXVECTOR3(-1250, -120, -400);	//8
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-1300, -60, -900);	//9
+	node.vPosition = D3DXVECTOR3(-1300, -120, -900);	//9
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(100, -60, 670);	//10
+	node.vPosition = D3DXVECTOR3(100, -105, 670);	//10
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(350, -60, 670);	//11
+	node.vPosition = D3DXVECTOR3(350, -105, 670);	//11
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(630, -60, 300);	//12
+	node.vPosition = D3DXVECTOR3(630, -120, 300);	//12
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(300, -60, 300);	//13
+	node.vPosition = D3DXVECTOR3(300, -120, 300);	//13
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(250, -60, 150);	//14
+	node.vPosition = D3DXVECTOR3(250, -120, 150);	//14
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(0, -60, -50);		//15
+	node.vPosition = D3DXVECTOR3(0, -120, -50);		//15
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-400, -60, -300);	//16
+	node.vPosition = D3DXVECTOR3(-400, -120, -300);	//16
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-850, -60, -350);	//17
+	node.vPosition = D3DXVECTOR3(-850, -120, -350);	//17
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(300, -60, -200);	//18
+	node.vPosition = D3DXVECTOR3(300, -120, -200);	//18
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(50, -60, -330);	//19
+	node.vPosition = D3DXVECTOR3(50, -120, -330);	//19
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-280, -60, -600);	//20
+	node.vPosition = D3DXVECTOR3(-280, -120, -600);	//20
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-280, -60, -870);	//21
+	node.vPosition = D3DXVECTOR3(-280, -120, -870);	//21
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(90, -60, -870);	//22
+	node.vPosition = D3DXVECTOR3(90, -120, -870);	//22
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-150, -60, -1350);	//23
+	node.vPosition = D3DXVECTOR3(-150, -120, -1350);	//23
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(280, -60, -1350);	//24
+	node.vPosition = D3DXVECTOR3(280, -120, -1350);	//24
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(90, -60, -1600);	//25
+	node.vPosition = D3DXVECTOR3(90, -120, -1600);	//25
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-550, -60, -1300);	//26
+	node.vPosition = D3DXVECTOR3(-550, -120, -1300);	//26
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-450, -60, -1100);	//27
+	node.vPosition = D3DXVECTOR3(-450, -120, -1100);	//27
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-600, -60, -700);	//28
+	node.vPosition = D3DXVECTOR3(-600, -120, -700);	//28
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(250, -60, -600);	//29
+	node.vPosition = D3DXVECTOR3(250, -120, -600);	//29
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(490, -60, -1150);	//30
+	node.vPosition = D3DXVECTOR3(490, -120, -1150);	//30
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(700, -60, -830);	//31
+	node.vPosition = D3DXVECTOR3(700, -120, -830);	//31
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(920, -60, 730);	//32
+	node.vPosition = D3DXVECTOR3(920, -105, 730);	//32
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(950, -60, 450);	//33
+	node.vPosition = D3DXVECTOR3(950, -105, 450);	//33
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1300, -60, 730);	//34
+	node.vPosition = D3DXVECTOR3(1300, -105, 730);	//34
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1420, -60, 470);	//35
+	node.vPosition = D3DXVECTOR3(1420, -105, 470);	//35
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1500, -60, 100);	//36
+	node.vPosition = D3DXVECTOR3(1500, -120, 100);	//36
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1200, -60, -830);	//37 
+	node.vPosition = D3DXVECTOR3(1200, -120, -830);	//37 
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(1200, -60, -1200);	//38
+	node.vPosition = D3DXVECTOR3(1200, -120, -1200);	//38
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(2500, -60, 100);	//39
+	node.vPosition = D3DXVECTOR3(2500, -120, 100);	//39
 	m_vecNode.push_back(node);
-	node.vPosition = D3DXVECTOR3(-250, -60, -80);	//40
+	node.vPosition = D3DXVECTOR3(-250, -120, -80);	//40
+	m_vecNode.push_back(node);
+
+	node.vPosition = D3DXVECTOR3(500, -100, -600);	//40
 	m_vecNode.push_back(node);
 }
 

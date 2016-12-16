@@ -81,6 +81,8 @@ void cMainGame::Setup()
 	m_pPlayer = new cPlayer;
 	m_pPlayer->SetUp();
 
+	m_pController = new cCrtController;
+	m_pController->Setup();
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	D3DXMatrixIdentity(&mat);
@@ -94,9 +96,6 @@ void cMainGame::Setup()
 
 	m_pCamera = new cCamera;
 	m_pCamera->Setup();
-
-	m_pController = new cCrtController;
-	m_pController->Setup();
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup(30);
@@ -256,7 +255,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(NULL);
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
 
 	if (m_fire)
 	{

@@ -8,6 +8,6 @@ public:
 	virtual ~cBloat();
 
 	virtual void Setup();
-	virtual void UpdateAndRender(D3DXVECTOR3* pTarget);
+	virtual void UpdateAndRender(int nDest);
 };
 

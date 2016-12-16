@@ -7,7 +7,7 @@ class cActionRepeat
 	, public iActionDelegate
 {
 protected:
-	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
+//	SYNTHESIZE_ADD_REF(cAction*, m_pAction, Action);
 
 public:
 	cActionRepeat(void);

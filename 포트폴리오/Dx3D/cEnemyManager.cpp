@@ -4,6 +4,10 @@
 #include "cAStar.h"
 #include "cZombie.h"
 #include "cBloat.h"
+#include "cActionSeq.h"
+#include "cAction.h"
+#include "cActionMove.h"
+#include "cCrtController.h"
 
 
 cEnemyManager::cEnemyManager()
@@ -31,15 +35,16 @@ void cEnemyManager::Setup()
 	
 	m_pBloat = new cBloat;
 	m_pBloat->Setup();
+	m_pBloat->SetDijkstraMemoryLink(m_pDijkstra);
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3 * pTarget)
+void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
 	m_pDijkstra->Render();
 
-	m_pAstar->Update(&D3DXVECTOR3(900, -60, 1200), &D3DXVECTOR3(0, 0, 0));
-	
-	m_pBloat->UpdateAndRender(pTarget);
+	int nStart = m_pDijkstra->GetFirstNode(vPlayerPos);
+
+	m_pBloat->UpdateAndRender(nStart);
 }
 
 void cEnemyManager::Update(D3DXVECTOR3 * pTarget)
