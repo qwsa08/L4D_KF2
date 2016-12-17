@@ -17,19 +17,19 @@ void cBloat::Setup()
 {
 	ST_ZOMBIE stZombie;
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Bloat/", "ZED_Bloat.X");
-	stZombie.vPosition = D3DXVECTOR3(0, -120, 0);
+	stZombie.vPosition = D3DXVECTOR3(-700, -140, 2200);
 	stZombie.fAngle = D3DX_PI / 2.0f;
 	stZombie.eMotion = IDLE;	
 	m_vecSkinnedMesh.push_back(stZombie);
 
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Bloat/", "ZED_Bloat.X");
-	stZombie.vPosition = D3DXVECTOR3(300, -120, 0);
-	stZombie.fAngle = D3DX_PI * 3 / 4.0f;
+	stZombie.vPosition = D3DXVECTOR3(300, -140, 100);
+	stZombie.fAngle = D3DX_PI * 0.0f;
 	stZombie.eMotion = IDLE;
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cBloat::UpdateAndRender(int nDest)
+void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
 	//for each(auto p in m_vecSkinnedMesh)
 	//{
@@ -66,6 +66,13 @@ void cBloat::UpdateAndRender(int nDest)
 		D3DXMatrixRotationY(&matR, m_vecSkinnedMesh[i].fAngle);
 		D3DXMatrixIdentity(&matT);
 		
+		if (m_pDijkstra->IsDirect(&m_vecSkinnedMesh[0].vPosition, vPlayerPos));
+		else
+		{
+//			std::vector<D3DXVECTOR3> vec = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[0].vPosition, vPlayerPos);
+//			int a = 0;
+		}
+		
 		if (m_vecSkinnedMesh[i].isRecognize == true)
 		{
 
@@ -78,4 +85,13 @@ void cBloat::UpdateAndRender(int nDest)
 		mat = matS * matR * matT;
 		m_vecSkinnedMesh[i].pSkinnedMesh->UpdateAndRender(&mat);
 	}
+//	D3DXVECTOR3 line[4];
+//	line[0] = m_vecSkinnedMesh[0].vPosition;
+//	line[1] = *vPlayerPos;
+//	line[2] = m_vecSkinnedMesh[1].vPosition;
+//	line[3] = *vPlayerPos;
+//	D3DXMATRIXA16 mt;
+//	D3DXMatrixIdentity(&mt);
+//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mt);
+//	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST, 2, &line[0], sizeof(D3DXVECTOR3));
 }

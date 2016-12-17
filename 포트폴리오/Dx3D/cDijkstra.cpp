@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "cDijkstra.h"
+#include "cObjLoader.h"
+#include "cRay.h"
 
 #define RADIUS		20.0f
-#define NUMOFNODE	42
+#define NUMOFNODE	41
 
 cDijkstra::cDijkstra()
 	: m_pMesh(NULL)
@@ -15,9 +17,12 @@ cDijkstra::~cDijkstra()
 	SAFE_RELEASE(m_pMesh);
 }
 
-void cDijkstra::SetObstacleVertex(std::vector<D3DXVECTOR3> obsVertex)
+void cDijkstra::SetObstacleVertex(OUT std::vector< std::vector<D3DXVECTOR3>>& obsVertex)
 {
-	m_vecObstacleVertex.push_back(obsVertex);
+	D3DXMATRIXA16 mat;
+	D3DXMatrixIdentity(&mat);
+	cObjLoader obl;
+	obl.DijkstraLoad("./Map/DijkstraWall.ptop", obsVertex);
 }
 
 void cDijkstra::Setup()
@@ -35,7 +40,8 @@ void cDijkstra::Setup()
 	SetEdgeCost();
 	//표
 	SetTable();
-	int a = 0;
+	//장애물
+	SetObstacleVertex(m_vecObstacleVertex);
 }
 
 void cDijkstra::Update(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vZombiePos)
@@ -56,6 +62,11 @@ void cDijkstra::Render()
 
 		m_pMesh->DrawSubset(0);
 	}
+
+//	D3DXMATRIXA16 mt;
+//	D3DXMatrixIdentity(&mt);
+//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mt);
+//	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecObstacleVertex[SECTOR_5].size() / 3, &m_vecObstacleVertex[SECTOR_5][0], sizeof(D3DXVECTOR3));
 }
 
 void cDijkstra::SetEdgeCost()
@@ -263,167 +274,283 @@ std::vector<ST_NODE> cDijkstra::MakeTable(int nStart)
 	return vN;
 }
 
-int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
+SECTOR cDijkstra::SetSector(D3DXVECTOR3* vPos)
 {
-	int nIndex = 0;
-	for (int i = 0; i < m_vecNode.size(); ++i)
+	if ((*vPos).z > 800)	//1
 	{
-		if (D3DXVec3Length(&(*vPos - m_vecNode[nIndex].vPosition)) > D3DXVec3Length(&(*vPos - m_vecNode[i].vPosition)))
+		return SECTOR_1;
+	}
+	else if ((*vPos).z > 380)	//2 , 3
+	{
+		if ((*vPos).x < -385)
 		{
-			nIndex = i;
+			return SECTOR_4;
+		}
+		else if ((*vPos).x < 640)
+		{
+			return SECTOR_2;
+		}
+		else if ((*vPos).x >= 790 && (*vPos).x < 1550)
+		{
+			return SECTOR_3;
+		}
+		else if ((*vPos).x >= 1550)
+		{
+			return SECTOR_8;
 		}
 	}
-	return nIndex;
+	else if ((*vPos).z > -400)	//5
+	{
+		if ((*vPos).x < -385)
+		{
+			return SECTOR_4;
+		}
+		else if ((*vPos).x < 790)
+		{
+			return SECTOR_5;
+		}
+		else return SECTOR_8;
+	}
+	else if ((*vPos).z > -950)	//6
+	{
+		if ((*vPos).x < -385)
+		{
+			return SECTOR_4;
+		}
+		else if ((*vPos).x < 500)
+		{
+			return SECTOR_6;
+		}
+		else 
+			return SECTOR_8;
+	}
+	else //7
+	{
+		if ((*vPos).x < -385)
+		{
+			return SECTOR_4;
+		}
+		else if ((*vPos).x < 600)
+		{
+			return SECTOR_7;
+		}
+		else 
+			return SECTOR_8;
+	}
+
+	return SECTOR_NONE;
 }
 
-std::vector<D3DXVECTOR3> cDijkstra::GetNodeTable(int nStart, int nDest)
+int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
 {
-	std::vector<D3DXVECTOR3> vecNode;
+	SECTOR eSector = SetSector(vPos);
+	std::vector<int> vecNodeIndex;
+	std::vector<D3DXVECTOR3> vecObs = m_vecObstacleVertex[eSector];
+	GetSectorNode(eSector, vecNodeIndex);
+
+	//바로 갈수있는 가까운 노드 찾기ㅣㅣㅣ
+	float minLength = D3DXVec3Length(&(*vPos - m_vecNode[vecNodeIndex[0]].vPosition));
+	int minIndex = 0;
+	for (int i = 0; i < vecNodeIndex.size(); ++i)
+	{
+		float length = 0.f;
+		if (IsDirect(vPos, &m_vecNode[vecNodeIndex[i]].vPosition) == false)	continue;
+		else
+			length = D3DXVec3Length(&(*vPos - m_vecNode[vecNodeIndex[i]].vPosition));
+
+		if (minLength > length)
+		{
+			minIndex = i;
+			minLength = length;
+		}
+	}
+
+	return minIndex;
+}
+
+void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
+{
+	switch (eSector)
+	{
+	case SECTOR_1:
+	{
+		vecNode.push_back(0);
+		vecNode.push_back(1);
+		vecNode.push_back(2);
+		vecNode.push_back(3);
+	}
+		break;
+	case SECTOR_2:
+	{
+		vecNode.push_back(4);
+		vecNode.push_back(10);
+		vecNode.push_back(11);
+	}
+		break;
+	case SECTOR_3:
+	{
+		vecNode.push_back(32);
+		vecNode.push_back(33);
+		vecNode.push_back(34);
+		vecNode.push_back(35);
+	}
+		break;
+	case SECTOR_4:
+	{
+		vecNode.push_back(5);
+		vecNode.push_back(6);
+		vecNode.push_back(7);
+		vecNode.push_back(8);
+		vecNode.push_back(9);
+		vecNode.push_back(16);
+		vecNode.push_back(17);
+		vecNode.push_back(26);
+		vecNode.push_back(27);
+		vecNode.push_back(28);
+	}
+		break;
+	case SECTOR_5:
+	{
+		vecNode.push_back(12);
+		vecNode.push_back(13);
+		vecNode.push_back(14);
+		vecNode.push_back(15);
+		vecNode.push_back(18);
+		vecNode.push_back(19);
+		vecNode.push_back(20);
+		vecNode.push_back(40);
+	}
+		break;
+	case SECTOR_6:
+	{
+		vecNode.push_back(21);
+		vecNode.push_back(22);
+		vecNode.push_back(29);
+
+	}
+		break;
+	case SECTOR_7:
+	{
+		vecNode.push_back(23);
+		vecNode.push_back(24);
+		vecNode.push_back(25);
+		vecNode.push_back(30);
+	}
+		break;
+	case SECTOR_8:
+	{
+		vecNode.push_back(31);
+		vecNode.push_back(36);
+		vecNode.push_back(37);
+		vecNode.push_back(38);
+		vecNode.push_back(39);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+std::vector<int> cDijkstra::GetNodeTable(int nStart, int nDest)
+{
+	std::vector<int> vecNode;
 
 	int nIndex = nStart;
+	vecNode.push_back(nIndex);
 	while (nIndex != nDest)
 	{
-		vecNode.push_back(m_vecNodeTable[nDest][nIndex].vPosition);
+		vecNode.push_back(m_vecNodeTable[nDest][nIndex].nViaNode);
 		nIndex = m_vecNodeTable[nDest][nIndex].nViaNode;
 	}
-	vecNode.push_back(m_vecNode[nDest].vPosition);
 	
 	return vecNode;
 }
 
-bool cDijkstra::IsDirect(D3DXVECTOR3 vFrom, D3DXVECTOR3 vTo)
+bool cDijkstra::Intersect(std::vector<D3DXVECTOR3>* vecObs, D3DXVECTOR3 * vFrom, D3DXVECTOR3 * vTo)
 {
-	if (vFrom.z > 800)	//1
+	D3DXVECTOR3 vF = *vFrom;// +D3DXVECTOR3(0, 70, 0);
+	float u, v, d = 0.f;
+	float length = D3DXVec3Length(&(*vTo - vF));
+
+	for (int i = 0; i < (*vecObs).size(); i += 3)
 	{
-		m_eZombieSector = SECTOR_1;
-	}
-	else if (vFrom.z > 380)	//2 , 3
-	{
-		if (vFrom.x < -385)
+		D3DXVECTOR3 vNormal = (*vTo - vF);
+		D3DXVec3Normalize(&vNormal, &vNormal);
+		if (D3DXIntersectTri(&(*vecObs)[i], &(*vecObs)[i + 1], &(*vecObs)[i + 2], &vF, &vNormal, &u, &v, &d))
 		{
-			m_eZombieSector = SECTOR_4;
-		}
-		else if (vFrom.x < 640)
-		{
-			m_eZombieSector = SECTOR_2;
-		}
-		else if (vFrom.x >= 790 && vFrom.x < 1550)
-		{
-			m_eZombieSector = SECTOR_3;
-		}
-		else if (vFrom.x >= 1550)
-		{
-			m_eZombieSector = SECTOR_8;
-		}
-		else
-		{
-			m_eZombieSector = SECTOR_NONE;
+			if (d < length)	//충돌하는데 d가 거리보다 짧다면 충돌 ㅇㅇ
+			{
+				return false;
+			}
 		}
 	}
-	else if (vFrom.z > -400)	//5
+
+	return true;
+}
+
+bool cDijkstra::IsDirect(D3DXVECTOR3* vFrom, D3DXVECTOR3* vTo)
+{
+	m_eFromSector = SetSector(vFrom);
+	m_eToSector = SetSector(vTo);
+
+	if (m_eFromSector == m_eToSector)	//같은 구역에 있다면
 	{
-		if (vFrom.x < -385)
-		{
-			m_eZombieSector = SECTOR_4;
-		}
-		else if (vFrom.x < 790)
-		{
-			m_eZombieSector = SECTOR_5;
-		}
-		else m_eZombieSector = SECTOR_8;
+		std::vector<D3DXVECTOR3> vecObs = m_vecObstacleVertex[m_eFromSector];
+
+		return Intersect(&vecObs, vFrom, vTo);
 	}
-	else if (vFrom.z > -950)	//6
+	else  //다른 구역에 있다면..'ㅅ`
 	{
-		if (vFrom.x < -385)
-		{
-			m_eZombieSector = SECTOR_4;
-		}
-		else if (vFrom.x < 500)
-		{
-			m_eZombieSector = SECTOR_6;
-		}
-		else m_eZombieSector = SECTOR_8;
+		std::vector<D3DXVECTOR3> vecObs = m_vecObstacleVertex[m_eFromSector];
+		std::vector<D3DXVECTOR3> vecObs2 = m_vecObstacleVertex[m_eToSector];
+
+		vecObs.insert(vecObs.end(), vecObs2.begin(), vecObs2.end());
+
+		return Intersect(&vecObs, vFrom, vTo);		
 	}
-	else //7
+
+	return true;
+}
+
+std::vector<D3DXVECTOR3> cDijkstra::GetRoute(D3DXVECTOR3* vFrom, D3DXVECTOR3* vTo)
+{
+	int nStart = GetFirstNode(vFrom);
+	int nDest = GetFirstNode(vTo);
+	std::vector<int> vecRoute = GetNodeTable(nStart, nDest);
+	
+	//저기서 직접 갈수 있는.............
+	int nS = 0;
+	//시작점
+	for (int i = 0; i < vecRoute.size(); ++i)
 	{
-		if (vFrom.x < -385)
+		if (IsDirect(vFrom, &m_vecNode[vecRoute[i]].vPosition))
 		{
-			m_eZombieSector = SECTOR_4;
+			nS = i;
 		}
-		else if (vFrom.x < 600)
-		{
-			m_eZombieSector = SECTOR_7;
-		}
-		else m_eZombieSector = SECTOR_8;
-	}
-	/////////////////////////////
-	if (vTo.z > 800)	//1
-	{
-		m_ePlayerSector = SECTOR_1;
-	}
-	else if (vTo.z > 380)	//2 , 3
-	{
-		if (vTo.x < -385)
-		{
-			m_ePlayerSector = SECTOR_4;
-		}
-		else if (vTo.x < 640)
-		{
-			m_ePlayerSector = SECTOR_2;
-		}
-		else if (vTo.x >= 790 && vTo.x < 1550)
-		{
-			m_ePlayerSector = SECTOR_3;
-		}
-		else if (vTo.x >= 1550)
-		{
-			m_ePlayerSector = SECTOR_8;
-		}
-		else
-		{
-			m_ePlayerSector = SECTOR_NONE;
-		}
-	}
-	else if (vTo.z > -400)	//5
-	{
-		if (vTo.x < -385)
-		{
-			m_ePlayerSector = SECTOR_4;
-		}
-		else if (vTo.x < 790)
-		{
-			m_ePlayerSector = SECTOR_5;
-		}
-		else m_ePlayerSector = SECTOR_8;
-	}
-	else if (vTo.z > -950)	//6
-	{
-		if (vTo.x < -385)
-		{
-			m_ePlayerSector = SECTOR_4;
-		}
-		else if (vTo.x < 500)
-		{
-			m_ePlayerSector = SECTOR_6;
-		}
-		else m_ePlayerSector = SECTOR_8;
-	}
-	else //7
-	{
-		if (vTo.x < -385)
-		{
-			m_ePlayerSector = SECTOR_4;
-		}
-		else if (vTo.x < 600)
-		{
-			m_ePlayerSector = SECTOR_7;
-		}
-		else m_ePlayerSector = SECTOR_8;
 	}
 	
+	if (nS > 0)	vecRoute.erase(vecRoute.begin(), vecRoute.begin() + nS - 1);
 
+	//끝점
+	int nD = vecRoute.size() - 1;
+	for (int i = vecRoute.size() - 1; i >= 0; --i)
+	{
+		if (IsDirect(vTo, &m_vecNode[vecRoute[i]].vPosition))
+		{
+			nD = i;
+		}
+	}
 
-	return false;
+	if (nD < vecRoute.size() - 1) vecRoute.erase(vecRoute.end() - nD, vecRoute.end());
+
+	std::vector<D3DXVECTOR3> vec;
+	vec.resize(vecRoute.size());
+	for (int i = 0; i < vecRoute.size(); ++i)
+	{
+		vec[i] = m_vecNode[vecRoute[i]].vPosition;
+	}
+
+	return vec;
 }
 
 void cDijkstra::SetNode()
@@ -510,9 +637,6 @@ void cDijkstra::SetNode()
 	node.vPosition = D3DXVECTOR3(2500, -120, 100);	//39
 	m_vecNode.push_back(node);
 	node.vPosition = D3DXVECTOR3(-250, -120, -80);	//40
-	m_vecNode.push_back(node);
-
-	node.vPosition = D3DXVECTOR3(500, -100, -600);	//40
 	m_vecNode.push_back(node);
 }
 

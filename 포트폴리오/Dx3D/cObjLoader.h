@@ -24,6 +24,7 @@ public:
 	IN char* szPath,
 	OUT std::vector<cMtlTex*>& vecMtlTex,
 	IN D3DXMATRIXA16* pmat = NULL);
+	void DijkstraLoad(IN char* szPath, OUT std::vector<std::vector<D3DXVECTOR3>>& vecWallVertex, IN D3DXMATRIXA16* pmat = NULL);
 
 	std::vector<ST_PNT_VERTEX> GetVertexFull() { return m_vecVertex; }
 private:
