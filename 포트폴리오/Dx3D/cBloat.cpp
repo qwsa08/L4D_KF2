@@ -66,12 +66,7 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 		D3DXMatrixRotationY(&matR, m_vecSkinnedMesh[i].fAngle);
 		D3DXMatrixIdentity(&matT);
 		
-		if (m_pDijkstra->IsDirect(&m_vecSkinnedMesh[0].vPosition, vPlayerPos));
-		else
-		{
-//			std::vector<D3DXVECTOR3> vec = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[0].vPosition, vPlayerPos);
-//			int a = 0;
-		}
+		std::vector<D3DXVECTOR3> vec = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[0].vPosition, vPlayerPos);
 		
 		if (m_vecSkinnedMesh[i].isRecognize == true)
 		{
