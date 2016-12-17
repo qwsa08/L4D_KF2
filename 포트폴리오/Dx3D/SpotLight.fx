@@ -69,6 +69,7 @@ struct VS_OUTPUT
    float3 N : TEXCOORD5;
    
    float3 mFlashDir : TEXCOORD6;
+   float SpotLightAngle : TEXCOORD7;
 };
 
 VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -97,6 +98,8 @@ VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 worldBinormal = mul(Input.mBinormal, (float3x3)gWorldMatrix );
    Output.B = normalize(worldBinormal);
    
+   Output.SpotLightAngle = dot(Output.N, -Output.mFlashDir);
+   
    return Output;
 }
 
@@ -114,6 +117,7 @@ struct PS_INPUT
    float3 N : TEXCOORD5;
    
    float3 mFlashDir : TEXCOORD6;
+   float SpotLightAngle : TEXCOORD7;
 };
 
 texture DiffuseMap_Tex
@@ -162,9 +166,16 @@ float3 gFlashColor
    bool UIVisible =  false;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float3( 0.20, 0.20, 0.20 );
+> = float3( 1.00, 1.00, 1.00 );
 
-float gSpotAngle;
+float gSpotAngle
+<
+   string UIName = "gSpotAngle";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 0.90 );
 
 float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
@@ -198,15 +209,13 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
    
    float4 albedo2 = tex2D(DiffuseSampler, Input.mUV);
    float3 ambient2 = float3(0.1f, 0.1f, 0.1f) * albedo2;
-   float3 lightDir2 = normalize(Input.mFlashDir);
-   
-   float SpotLightAngle = dot(Input.N, -lightDir2);
+   float3 lightDir2 = normalize(Input.mFlashDir); 
    float3 diffuse2 = saturate(dot(worldNormal, -lightDir2));
    
-   if(SpotLightAngle > 0)
-      
+   if(Input.SpotLightAngle < gSpotAngle)
+      diffuse2 = 0;
    
-  // else   
+   else   
       diffuse2 = gFlashColor * albedo2.rgb * diffuse2;
    
    float3 specular2 = 0;
