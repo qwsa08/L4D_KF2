@@ -35,7 +35,7 @@ public:
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender(int nDest) = 0;
+	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos) = 0;
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 };
 
