@@ -55,7 +55,7 @@ struct Default_DirectX_Effect_Pass_0_Pixel_Shader_VS_OUTPUT
 
 float4 Default_DirectX_Effect_Pass_0_Pixel_Shader_ps_main(Default_DirectX_Effect_Pass_0_Pixel_Shader_VS_OUTPUT Input) : COLOR0
 {
-   float4 Depth = Input.Depth.z / gFar;
+   float4 Depth = Input.Depth.z/ gFar;
    return (Depth);
 }
 //--------------------------------------------------------------//

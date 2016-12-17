@@ -24,6 +24,7 @@ public:
 	void Update(D3DXMATRIXA16* pmat);
 	void Render();
 	void Blood();
+	void SetAni(int num);
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
 	
 };

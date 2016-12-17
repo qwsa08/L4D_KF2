@@ -13,6 +13,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
+	, m_FrameNum(0)
 {
 
 	cSkinnedMesh* pSkinnedMesh =  g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
@@ -433,10 +434,7 @@ float cSkinnedMesh::AnimationFrame(int num)
 }
 void cSkinnedMesh::AnimationUpdate(int current, int next)
 {
-	if (m_pAnimController)
-	{
-		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
-	}
+
 	
 	float time = AnimationFrame(current);
 	D3DXTRACK_DESC tc;
@@ -446,7 +444,7 @@ void cSkinnedMesh::AnimationUpdate(int current, int next)
 	if (dPosition >= time)
 	{
 		//SetAnimationIndex(next);
-		//SetskinningAnimationIndex(current, next);
+		SetskinningAnimationIndex(current, next);
 	}
 	
 }
@@ -501,6 +499,22 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 }
 void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 {
+	if (m_pAnimController)
+	{
+		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
+	}
+
+	float time = AnimationFrame(m_FrameNum);
+	D3DXTRACK_DESC tc;
+	m_pAnimController->GetTrackDesc(m_FrameNum, &tc);
+	float dPosition = tc.Position;
+
+	if (dPosition >= time)
+	{
+		//SetAnimationIndex(next);
+		SetskinningAnimationIndex(m_FrameNum, 0);
+	}
+
 	if (m_pRootFrame == NULL) return;
 
 	Update(m_pRootFrame, pmat);

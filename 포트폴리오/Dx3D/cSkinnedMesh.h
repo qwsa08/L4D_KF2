@@ -19,6 +19,7 @@ private:
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXVECTOR3					m_vPosition;
 
+	SYNTHESIZE(int, m_FrameNum, FrameNum);
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);
 	

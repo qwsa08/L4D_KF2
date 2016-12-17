@@ -9,6 +9,7 @@ private:
 	D3DXMATRIXA16			m_matProj;
 	POINT					m_ptMouse;
 
+	float					m_fDistance;
 public:
 	cCamera(void);
 	~cCamera(void);

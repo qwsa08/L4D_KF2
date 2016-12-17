@@ -38,15 +38,18 @@ private:
 	std::vector<ST_PT_VERTEX>	m_vBox;
 
 	int y;
+	LPD3DXMESH					m_pMesh;
+	SYNTHESIZE(D3DXMATRIX, m_WTM, WTM);
 public:
 	cBulletCollision();
 	~cBulletCollision();
 
 	void SetUp(cObjMap* Map);
-	void Render(iMap* Map);
+	void Render();
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(iMap* Map);
+	void Fire(iMap* Map, cCrtController* Controller);
+
 	void Bulletholes(cCrtController* Controller);
 
 	D3DXMATRIXA16 Clipping();

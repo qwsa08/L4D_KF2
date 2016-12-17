@@ -171,7 +171,7 @@ void cMainGame::Update()
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
 		
-
+	m_pBulletCollision->SetWTM(*m_pController->GetWorldTM());
 	if (!m_fire)
 	{
 		// false일때 그 높이를 저장받고 풀리면 다시 위치로
@@ -218,7 +218,9 @@ void cMainGame::Update()
 	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
 		//이거 활성화 하면 총알튀듯이 된다.
-		//m_pController->m_fAngleX -= 0.007f;
+		//m_pController->m_fAngleX -= 0.010f;
+		
+
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
 			m_fire = true;
@@ -227,6 +229,7 @@ void cMainGame::Update()
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
 	{
 		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
+		m_fire = false;
 		m_pController->m_fAngleX = m_ReboundCamera;
 	}
 
@@ -234,6 +237,14 @@ void cMainGame::Update()
 	{
 		m_bBlood = true;
 	}
+	if (g_pKeyManager->isOnceKeyUp('C'))
+	{
+	
+		static int n = 0;
+	
+		m_pPlayer->SetAni(++n % 6);
+	}
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -283,14 +294,14 @@ void cMainGame::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
+	//if (m_pEnemyManager)
+	//	m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
 	
-	m_pBulletCollision->Render(m_pMap);
+	//m_pBulletCollision->Render(m_pMap);
+
 
 	if (m_fire)
 	{
-		
 		timer += g_pTimeManager->GetDeltaTime();
 		if (timer > 0.2f)
 		{
@@ -298,9 +309,9 @@ void cMainGame::Render()
 			m_fire = false;
 			
 		}
-		m_pBulletCollision->Fire(m_pMap);
 	}
-
+	m_pBulletCollision->Fire(m_pMap,m_pController);
+	
 	if (m_pMap)
 	{
 		

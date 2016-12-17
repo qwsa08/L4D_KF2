@@ -12,6 +12,7 @@ cBulletCollision::cBulletCollision()
 	, m_pEffect(NULL)
 	, m_Texture(NULL)
 	, y(0.f)
+	, m_pMesh(NULL)
 {
 }
 
@@ -24,7 +25,7 @@ cBulletCollision::~cBulletCollision()
 	SAFE_RELEASE(m_pEffect);
 	SAFE_RELEASE(m_Texture);
 	SAFE_RELEASE(m_pBulletholes);
-	
+	SAFE_RELEASE(m_pMesh);
 }
 
 void cBulletCollision::SetUp(cObjMap* Map)
@@ -52,15 +53,19 @@ void cBulletCollision::SetUp(cObjMap* Map)
 
 	
 
-	m_pEffect = g_pShader->LoadShader("Depth.fx");
-	m_pBulletholes = g_pShader->LoadShader("Bullet.fx");
+	m_pEffect = g_pShader->LoadShader("shader.fx");
+	m_pBulletholes = g_pShader->LoadShader("decal.fx");
 
-	m_Texture = g_pTextureManager->GetTexture("Earth.jpg");
-	
+	m_Texture = g_pTextureManager->GetTexture("box.jpg");
+	D3DXCreateBox(g_pD3DDevice,1, 1, 1, &m_pMesh, NULL);
 	int a = 0;
 }
 
-void cBulletCollision::Render(iMap* Map)
+void cBulletCollision::Render()
+{
+}		
+
+void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 {
 	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
 	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
@@ -84,8 +89,14 @@ void cBulletCollision::Render(iMap* Map)
 		0);
 	g_pD3DDevice->BeginScene();
 
+	D3DXMATRIXA16 matW, matB, matS, matX, matY, matR;
+	D3DXMatrixTranslation(&matB,
+		m_vBulletPoint.x,
+		m_vBulletPoint.y,
+		m_vBulletPoint.z);//m_vBulletPoint.z);
+	D3DXMatrixScaling(&matS, 20, 20, 20);
 
-	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP;
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
@@ -93,7 +104,7 @@ void cBulletCollision::Render(iMap* Map)
 	matWVP = matWorld * matView * matProj;
 	m_pEffect->SetMatrix("matWV", &matWV);
 	m_pEffect->SetMatrix("matWVP", &matWVP);
-	m_pEffect->SetFloat("gFar", 50000.f);
+	m_pEffect->SetFloat("fFar", 1500.f);
 
 	UINT numPasses = 0;
 	m_pEffect->Begin(&numPasses, NULL);
@@ -116,27 +127,12 @@ void cBulletCollision::Render(iMap* Map)
 
 	SAFE_RELEASE(pOrgRenderTargetSurface);
 	SAFE_RELEASE(pOrgDepthStencilSurface);
-
 	
 
-	/*m_pSprite->Begin(D3DXSPRITE_SORT_TEXTURE);
+	//=============================================================
 
-	m_pSprite->Draw(m_pRenderTargetTexture,
-		&rc,
-		NULL,
-		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_XRGB(255, 255, 255));
-
-	m_pSprite->End();*/
 	
-}		
-
-void cBulletCollision::Fire(iMap* Map)
-{
-	LPD3DXMESH		m_pMesh;
 	
-	D3DXCreateBox(g_pD3DDevice,
-		1, 1, 1, &m_pMesh, NULL);
 	
 	if (g_pKeyManager->isStayKeyDown(VK_DOWN))
 	{
@@ -147,88 +143,69 @@ void cBulletCollision::Fire(iMap* Map)
 		y += 1.f;
 	}
 	
-	D3DXMATRIXA16 matW, matB ,matS;
-	D3DXMatrixTranslation(&matB,
-		m_vBulletPoint.x,
-		m_vBulletPoint.y,
-		m_vBulletPoint.z);//m_vBulletPoint.z);
-	D3DXMatrixScaling(&matS, 10, 10, 10);
-	/*
-	ST_PT_VERTEX v;
-	std::vector<D3DXVECTOR3> Vertex;
-	Vertex.push_back(D3DXVECTOR3(-0.5f, -0.5f, -0.5f));
-	Vertex.push_back(D3DXVECTOR3(-0.5f,  0.5f, -0.5f));
-	Vertex.push_back(D3DXVECTOR3( 0.5f,  0.5f, -0.5f));
-	Vertex.push_back(D3DXVECTOR3( 0.5f, -0.5f, -0.5f));
-	Vertex.push_back(D3DXVECTOR3(-0.5f, -0.5f,  0.5f));
-	Vertex.push_back(D3DXVECTOR3(-0.5f,  0.5f,  0.5f));
-	Vertex.push_back(D3DXVECTOR3( 0.5f,  0.5f,  0.5f));
-	Vertex.push_back(D3DXVECTOR3( 0.5f, -0.5f,  0.5f));
-
 	
-	v.p =   v.t = D3DXVECTOR2(0, 1); m_vBox.push_back(v);
-	v.p =   v.t = D3DXVECTOR2(0, 0); m_vBox.push_back(v);
-	v.p =   v.t = D3DXVECTOR2(1, 0); m_vBox.push_back(v);
-	v.p =   v.t = D3DXVECTOR2(0, 1); m_vBox.push_back(v);
-	v.p =   v.t = D3DXVECTOR2(1, 0); m_vBox.push_back(v);
-	v.p =   v.t = D3DXVECTOR2(1, 1); m_vBox.push_back(v);
-	*/	   
-	
-
-	//1.매쉬말고 순수하게 박스를만들고 그것을 움직여 보자 (움직여 보자!)
-	//2.uv가 안맞는다 나는 텍스쳐를 그리는거지 매쉬전체에 두르는게 아니다.
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
-
-	
-
-	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvW;
+	//D3DXMatrixScaling(&matS, 30, 30, 30);
 	D3DXMatrixIdentity(&matWorld);
-	matWorld = matS *matB;
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	matWorld = matS  *matB;
+	
 	matWV = matWorld * matView;
 	matWVP = matWorld * matView * matProj;
 
 	D3DXMatrixInverse(&matInvV, 0, &matView);
-	D3DXMatrixInverse(&matInvV, 0, &matInvW);
-	//================여기서 난감;;;=====================//
-	D3DXVECTOR3 temp(1, 1, 1);
-	D3DXVECTOR3	vCamera(0, 0, 0);
 	D3DXMatrixInverse(&matInvP, 0, &matProj);
-	D3DXVec3TransformCoord(&vCamera, &temp, &matProj);
-	
-	m_pBulletholes->SetMatrix("mWV", &matWV);
-	m_pBulletholes->SetMatrix("mWVP", &matWVP);
-	m_pBulletholes->SetMatrix("InvV", &matInvV);
-	m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(vCamera,1.f));
+	D3DXMatrixInverse(&matInvWV, 0, &matWV);
 
-	m_pBulletholes->SetTexture("texSamp_Tex", m_Texture);
-	m_pBulletholes->SetTexture("base_Tex", m_pRenderTargetTexture);
+	//=========================이것의 문제인듯하다!...!?!...!?!!?..?!
+	D3DXVECTOR4 vRightTop(1, -1, 1, 1);
+	D3DXVec4Transform(&vRightTop, &vRightTop, &matInvP);
+	vRightTop /= vRightTop.w;
+
+//	D3DXVECTOR4 vCamera = Controller->GetDirection();
+//	D3DXVec4Normalize(&vCamera, &vCamera);
+//	D3DXVECTOR3 vRightTop(0,0,0);
+//	D3DXVec4Transform(&vCamera, &vCamera, &matInvP);
+//	vCamera /= vCamera.w;
+	
+	
+	m_pBulletholes->SetMatrix("matWVP", &matWVP);
+	m_pBulletholes->SetMatrix("matInvWorldView", &matInvWV);
+	//m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(vRightTop,1.0f));
+	m_pBulletholes->SetVector("CameraRightTop", &vRightTop);
+	m_pBulletholes->SetTexture("DecalTex", m_Texture);
+	m_pBulletholes->SetTexture("DepthMapTex", m_pRenderTargetTexture);
 	
 
-	UINT numPasses = 0;
+	numPasses = 0;
 	m_pBulletholes->Begin(&numPasses, NULL);
 	
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pBulletholes->BeginPass(i);
-		{
-			//g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_pMesh->DrawSubset(0);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		}
+		m_pMesh->DrawSubset(0);
 		m_pBulletholes->EndPass();
 	}
 	
 	m_pBulletholes->End();
 	
-	/*g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_pMesh->DrawSubset(0);
-	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);*/
-	SAFE_RELEASE(m_pMesh);
+	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	
+	
+	if (g_pKeyManager->isStayKeyDown('B'))
+	{
+		m_pSprite->Begin(D3DXSPRITE_SORT_TEXTURE);
 
+		m_pSprite->Draw(m_pRenderTargetTexture,
+			&rc,
+			NULL,
+			&D3DXVECTOR3(0, 0, 0),
+			D3DCOLOR_XRGB(255, 255, 255));
 
+		m_pSprite->End();
+	}
 
 }
 
@@ -274,7 +251,7 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 		{
 			D3DXVECTOR3 BulletPoint(0, 0, 0);
 			BulletPoint = v0 + u * (v1 - v0) + v * (v2 - v0);
-
+			if (d > 5000.f) return false;
 			vecWallNear.push_back(ST_WallNear(BulletPoint, d,i));
 			
 		}
@@ -292,14 +269,15 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 			}
 		}
 		m_vBulletPoint = vecWallNear[0].WallPosition;
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
 			m_vOverTex.push_back(m_pMap[vecWallNear[0].num + i]);
-		}
+		}*/
 		return true;
 	}
 	return false;
 }
+
 
 D3DXMATRIXA16 cBulletCollision::Clipping()
 {

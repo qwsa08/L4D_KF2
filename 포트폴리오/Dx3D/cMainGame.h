@@ -61,6 +61,7 @@ private:
 	bool						m_bBlood;
 	float						timer;
 	std::vector<ST_PT_VERTEX>	m_vTexture;
+	D3DXMATRIXA16				matView;
 	
 public:
 	cMainGame(void);

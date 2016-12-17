@@ -58,7 +58,9 @@ sampler2D DepthMapSamp = sampler_state
 {
    Texture = (base_Tex);
 };
+float gFar;
 float4x4 InvV : ViewInverse;
+float2 Deproject;
 float3 CameraRightTop
 <
    string UIName = "CameraRightTop";
@@ -75,18 +77,24 @@ struct PS_INPUT
 
 float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
 {
-   //float4 ClipPos = In.Depth.z / gFar;
+   float4 ClipPos = In.Depth.z / gFar;
    
    float4 col = float4(1.0,0.0,0.0,0.0);
   
-   float3 screenposition = In.ClipPos.xyz/ In.ClipPos.z;
-   screenposition.x = screenposition.x *0.5 +0.5;
-   screenposition.y = -screenposition.y *0.5 +0.5;
+   float2 screenposition = In.ClipPos.xy / In.ClipPos.w;
+   float2 depth_uv = screenposition * float2(0.5f,-0.5f) + float2(0.5f,0.5f);
+
+   depth_uv += screenposition.zw;
+
+   //float3 screenposition = In.ClipPos.z/ gFar;
+   //screenposition.x = screenposition.x *0.5 +0.5;
+   //screenposition.y = -screenposition.y *0.5 +0.5;
    
    //=== DepthMapSamp is WallTex
-   float depth = tex2D(DepthMapSamp,screenposition.xy).r;
+   float depth = tex2D(DepthMapSamp,depth_uv).r;
    
-   float3 ViewRay = float3(lerp(-CameraRightTop.xy,CameraRightTop.xy,screenposition.xy).xy, CameraRightTop.z);
+   //float3 ViewRay = float3(lerp(-CameraRightTop.xy,CameraRightTop.xy,screenposition.xy).xy, CameraRightTop.z);
+   float4 ViewRay = float4(In.ClipPos.xy * depth / (Deproject.xy * In.ClipPos.w), -depth,1);
    
    float4 ViewPos = float4(ViewRay.xyz * depth,1.0);
    float4 ObjPos = mul(ViewPos,InvV);

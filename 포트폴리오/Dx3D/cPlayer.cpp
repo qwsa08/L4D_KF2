@@ -24,7 +24,7 @@ cPlayer::~cPlayer()
 
 void cPlayer::SetUp()
 {
-	m_pPlayer = new cSkinnedMesh("Weapon X File/test/", "test.X");
+	m_pPlayer = new cSkinnedMesh("Weapon X File/test/", "Idle.X");
 	m_pPlayer->SetPosition(D3DXVECTOR3(0, 0, 0));
 
 	m_pOBB = new cOBB;
@@ -33,7 +33,7 @@ void cPlayer::SetUp()
 
 	D3DXCreateTextureFromFileEx(
 		g_pD3DDevice,
-		"Effect/blood.png",
+		"Effect/BloodOverlay.png",
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT,
@@ -72,6 +72,13 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	m_pOBB->Update(&m_Position, m_pPlayerBox);
 	
 
+	
+}
+void cPlayer::SetAni(int num)
+{
+	m_pPlayer->SetFrameNum(num);
+	m_pPlayer->SetAnimationIndex(num);
+	
 }
 void cPlayer::Render()
 {
@@ -83,8 +90,7 @@ void cPlayer::Blood()
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	D3DXMATRIXA16 matS,matW;
 	D3DXMatrixIdentity(&matW);
-	D3DXMatrixScaling(&matS, 6, 4, 0);
-
+	D3DXMatrixScaling(&matS, 1.5f, 1.f, 0.f);
 	matW *= matS;
 	m_pSprite->SetTransform(&matW);
 	m_pSprite->Draw(m_Tblood,
