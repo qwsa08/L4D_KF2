@@ -251,6 +251,98 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 	return pMesh;
 }
 
+void cObjLoader::DijkstraLoad(IN char * szPath, OUT std::vector<std::vector<D3DXVECTOR3>>& vecWallVertex, IN D3DXMATRIXA16 * pmat)
+{
+	std::vector<D3DXVECTOR3>	vecV;
+	std::vector<D3DXVECTOR3>	vecVN;
+	std::vector<D3DXVECTOR2>	vecVT;
+	std::vector<D3DXVECTOR3>	vecVertex;
+
+	std::string					sMtlName;
+
+	FILE* fp = NULL;
+
+	fopen_s(&fp, szPath, "r");
+
+	while (!feof(fp))
+	{
+		char szBuf[1024] = { '\0', };
+		fgets(szBuf, 1024, fp);
+		if (strlen(szBuf) == 0) continue;
+
+		if (szBuf[0] == '#')
+		{
+			continue;
+		}
+		else if (szBuf[0] == 'm')
+		{
+			continue;
+		}
+		else if (szBuf[0] == 'u')
+		{
+			continue;
+		}
+		else if (szBuf[0] == 'g')
+		{
+			if (vecVertex.size() > 0)
+			{
+				vecWallVertex.push_back(vecVertex);
+			}
+
+			vecVertex.clear();
+		}
+		else if (szBuf[0] == 'v')
+		{
+			if (szBuf[1] == 't')
+			{
+				float u, v;
+				sscanf_s(szBuf, "%*s %f %f %*f", &u, &v);
+				vecVT.push_back(D3DXVECTOR2(u, v));
+			}
+			else if (szBuf[1] == 'n')
+			{
+				float x, y, z;
+				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+				vecVN.push_back(D3DXVECTOR3(x, y, z));
+			}
+			else
+			{
+				float x, y, z;
+				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+				vecV.push_back(D3DXVECTOR3(x, y, z));
+			}
+		}
+		else if (szBuf[0] == 'f')
+		{
+			int aIndex[3][3];
+			sscanf_s(szBuf, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
+				&aIndex[0][0], &aIndex[0][1], &aIndex[0][2],
+				&aIndex[1][0], &aIndex[1][1], &aIndex[1][2],
+				&aIndex[2][0], &aIndex[2][1], &aIndex[2][2]);
+
+			for (int i = 0; i < 3; ++i)
+			{
+				D3DXVECTOR3 v;
+				v = vecV[aIndex[i][0] - 1];
+				if (pmat)
+				{
+					D3DXVec3TransformCoord(&v, &v, pmat);
+				}
+				vecVertex.push_back(v);
+			}
+		}
+	}
+
+	if (vecVertex.size() > 0)
+	{
+		vecWallVertex.push_back(vecVertex);
+	}
+
+	vecVertex.clear();
+
+	fclose(fp);
+}
+
 void cObjLoader::LoadMtlLib(char* szPath)
 {
 	m_mapMtlTex.clear();

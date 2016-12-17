@@ -40,11 +40,9 @@ void cEnemyManager::Setup()
 
 void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
+	m_pBloat->UpdateAndRender(vPlayerPos);
+
 	m_pDijkstra->Render();
-
-	int nStart = m_pDijkstra->GetFirstNode(vPlayerPos);
-
-	m_pBloat->UpdateAndRender(nStart);
 }
 
 void cEnemyManager::Update(D3DXVECTOR3 * pTarget)

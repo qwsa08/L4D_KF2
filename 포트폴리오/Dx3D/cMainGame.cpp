@@ -337,9 +337,11 @@ void cMainGame::Render()
 		}
 		else
 		{
+		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			m_pMap->Render(
 				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f), 
 				&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
 			
 	}
