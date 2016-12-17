@@ -61,11 +61,7 @@ void cBulletCollision::SetUp(cObjMap* Map)
 	int a = 0;
 }
 
-void cBulletCollision::Render()
-{
-}		
-
-void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
+void cBulletCollision::Render(iMap* Map)
 {
 	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
 	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
@@ -89,12 +85,65 @@ void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 		0);
 	g_pD3DDevice->BeginScene();
 
-	D3DXMATRIXA16 matW, matB, matS, matX, matY, matR;
-	D3DXMatrixTranslation(&matB,
-		m_vBulletPoint.x,
-		m_vBulletPoint.y,
-		m_vBulletPoint.z);//m_vBulletPoint.z);
-	D3DXMatrixScaling(&matS, 20, 20, 20);
+	
+	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	matWV = matWorld * matView;
+	matWVP = matWorld * matView * matProj;
+	m_pEffect->SetMatrix("matWV", &matWV);
+	m_pEffect->SetMatrix("matWVP", &matWVP);
+	m_pEffect->SetFloat("fFar", 1500.f);
+
+	UINT numPasses = 0;
+	m_pEffect->Begin(&numPasses, NULL);
+
+	for (UINT i = 0; i < numPasses; ++i)
+	{
+		m_pEffect->BeginPass(i);
+		Map->Render();
+		m_pEffect->EndPass();
+	}
+
+	m_pEffect->End();
+
+
+
+	g_pD3DDevice->EndScene();
+
+	g_pD3DDevice->SetRenderTarget(0, pOrgRenderTargetSurface);
+	g_pD3DDevice->SetDepthStencilSurface(pOrgDepthStencilSurface);
+
+	SAFE_RELEASE(pOrgRenderTargetSurface);
+	SAFE_RELEASE(pOrgDepthStencilSurface);
+}		
+
+void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
+{
+	//이걸 그림을 그리는걸 한번만 그리는식으로 해볼까나?;;;
+	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
+	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
+	g_pD3DDevice->GetRenderTarget(0, &pOrgRenderTargetSurface);
+	g_pD3DDevice->GetDepthStencilSurface(&pOrgDepthStencilSurface);
+
+	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+	if (SUCCEEDED(m_pRenderTargetTexture->GetSurfaceLevel(0, &pShadowSurface)))
+	{
+		g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
+		pShadowSurface->Release();
+		pShadowSurface = NULL;
+	}
+	g_pD3DDevice->SetDepthStencilSurface(m_pRenderTargetSurface);
+
+	g_pD3DDevice->Clear(NULL,
+		NULL,
+		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+		D3DCOLOR_ARGB(255, 255, 255, 255),
+		1.0f,
+		0);
+	g_pD3DDevice->BeginScene();
+
 
 	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
 	D3DXMatrixIdentity(&matWorld);
@@ -127,22 +176,14 @@ void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 
 	SAFE_RELEASE(pOrgRenderTargetSurface);
 	SAFE_RELEASE(pOrgDepthStencilSurface);
-	
-
 	//=============================================================
-
-	
-	
-	
-	if (g_pKeyManager->isStayKeyDown(VK_DOWN))
-	{
-		y -= 1.f;
-	}
-	if (g_pKeyManager->isStayKeyDown(VK_UP))
-	{
-		y += 1.f;
-	}
-	
+//	D3DXMATRIXA16 matWorld, matView, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
+	D3DXMATRIXA16 matW, matB, matS, matX, matY, matR;
+	D3DXMatrixTranslation(&matB,
+		m_vBulletPoint.x,
+		m_vBulletPoint.y,
+		m_vBulletPoint.z);//m_vBulletPoint.z);
+	D3DXMatrixScaling(&matS, 20, 20, 20);
 	
 	//D3DXMatrixScaling(&matS, 30, 30, 30);
 	D3DXMatrixIdentity(&matWorld);

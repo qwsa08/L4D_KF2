@@ -294,8 +294,8 @@ void cMainGame::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	//if (m_pEnemyManager)
-	//	m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
+	if (m_pEnemyManager)
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
 	
 	//m_pBulletCollision->Render(m_pMap);
 
@@ -309,6 +309,7 @@ void cMainGame::Render()
 			m_fire = false;
 			
 		}
+		//m_pBulletCollision->Render(m_pMap);
 	}
 	m_pBulletCollision->Fire(m_pMap,m_pController);
 	

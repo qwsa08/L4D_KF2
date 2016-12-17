@@ -45,7 +45,7 @@ public:
 	~cBulletCollision();
 
 	void SetUp(cObjMap* Map);
-	void Render();
+	void Render(iMap* Map);
 	bool PickBullet(cCrtController* Controller);
 
 	void Fire(iMap* Map, cCrtController* Controller);
