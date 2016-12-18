@@ -39,7 +39,6 @@ private:
 
 	//확인용
 	LPD3DXMESH								m_pMesh;
-	D3DMATERIAL9							m_stMtlNormal;
 	D3DMATERIAL9							m_stMtlPicked;
 
 public:
@@ -71,5 +70,6 @@ private:
 	int GetFirstNode(D3DXVECTOR3* vPos);
 	//음 구역 노드들
 	void GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode);
+	int GetNearestNodeIndex(std::vector<int>* vecIndex, D3DXVECTOR3* vPos);
 };
 
