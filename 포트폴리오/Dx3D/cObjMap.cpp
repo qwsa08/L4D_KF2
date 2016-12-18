@@ -53,7 +53,8 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 		m_Start.push_back(m_vecVerWall[i].p);
 	}*/
 
-	m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
+	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
+	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -63,20 +64,21 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 	l.Load(szMap, vecBoungdingBox, pmat);
 
 }
+void cObjMap::Render()
+{
+	for (int i = 0; i < m_pMtltex.size(); i++)
+	{
+		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
+		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
+		m_Map->DrawSubset(i);
+	}
+}
 void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection)
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	//
-
-	//for (int i = 0; i < m_pMtltex.size(); i++)
-	//{
-	//	g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
-	//	g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
-	//	m_Map->DrawSubset(i);
-	//}
 
 	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
 
@@ -85,7 +87,9 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	D3DXVECTOR4 gLightColor(0.2f, 0.2f, 0.2f, 1.f);
 
 	D3DXVECTOR4 gFlashLightColor(0.5f, 0.5f, 0.5f, 1.f);
+	float gSpotAngle = 1.f;
 	
+	float temp;
 
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
@@ -105,6 +109,9 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 
 	m_pTextureMappingShader->SetVector("gLightColor", &gLightColor);
 	m_pTextureMappingShader->SetVector("gFlashColor", &gFlashLightColor);
+
+	m_pTextureMappingShader->SetFloat("gSpotAngle", gSpotAngle);
+
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
@@ -126,9 +133,6 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 		}
 		m_pTextureMappingShader->End();
 	}
-
-
-	
 }
 
 bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
