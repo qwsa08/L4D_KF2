@@ -162,7 +162,8 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-
+	
+	
 	g_pTimeManager->Update();
 
 	if (m_pController)
@@ -215,16 +216,14 @@ void cMainGame::Update()
 	}
 
 
-	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
 		//이거 활성화 하면 총알튀듯이 된다.
-		//m_pController->m_fAngleX -= 0.010f;
-
-
+		m_pController->m_fAngleX -= 0.010f;
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
 			m_fire = true;
-			m_pBulletCollision->Fire(m_pController);
+			
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -276,7 +275,7 @@ void cMainGame::Render()
 	
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	//for each(auto p in m_vecSkinnedMesh)
 	//{
 	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
@@ -333,7 +332,7 @@ void cMainGame::Render()
 		}
 	}
 	m_pBulletCollision->Render(m_pMap);
-	
+	//m_pBulletCollision->Fire(m_pMap);
 			
 		
 	m_pCrossHead->Render();

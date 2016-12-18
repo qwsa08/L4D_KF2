@@ -34,6 +34,7 @@ LPD3DXEFFECT cShader::LoadShader(const char* FileName)
 #if _DEBUG
 	dwshaderFlags != D3DXSHADER_DEBUG;
 #endif
+	LPD3DXBUFFER pErrBuf = NULL;
 	D3DXCreateEffectFromFile(g_pD3DDevice, FileName, NULL, NULL, dwshaderFlags, NULL, &ret, &pError);
 
 	if (!ret && pError)
@@ -49,6 +50,7 @@ LPD3DXEFFECT cShader::LoadShader(const char* FileName)
 			delete[] str;
 		}
 	}
+
 
 	return ret;
 }

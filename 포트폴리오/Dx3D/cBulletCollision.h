@@ -51,7 +51,7 @@ public:
 	void Render(iMap* Map);
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(cCrtController* Controller);
+	void Fire(iMap* Map);
 
 	void Bulletholes(cCrtController* Controller);
 

@@ -33,8 +33,14 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 {
 	float4 color = float4(1.0,0.0,0.0,0.0);
 
-	float2 screenPosition = In.ClipPos.xy / In.ClipPos.w;
-	float2 depth_uv = screenPosition * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+	//float2 screenPosition = In.ClipPos.xy / In.ClipPos.w;
+	//float2 depth_uv = screenPosition * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+	
+	float4 screenPosition = In.ClipPos.xyz / In.ClipPos.w;
+	screenPosition.x = screenposition.x * 0.5 + 0.5;
+	screenPosition.y = -screenposition.y * 0.5 + 0.5;
+	
+	float2 depth_uv = screenPosition.xy;
 	
 	float sceneDepth = tex2D( DepthMapSamp, depth_uv ).r;
 

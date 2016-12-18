@@ -66,6 +66,8 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 }
 void cObjMap::Render()
 {
+	
+
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
 		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
@@ -95,6 +97,11 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
 	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
 
+	//=========================================================
+	/*D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+	matWorld *= matS;*/
+	//=========================================================
 	D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
 	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 
