@@ -48,7 +48,7 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 	clip( 0.5 - ObjAbs );
 	
 
-	float2 uv = ObjPos.zx + 0.5f;
+	float2 uv = ObjPos.xz + 0.5;
 	color = tex2D( DiffuseSamp, uv );
 	
 	float dist = abs(ObjPos.z);

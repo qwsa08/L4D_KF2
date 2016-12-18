@@ -162,16 +162,16 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	
+
 	g_pTimeManager->Update();
 
-	if(m_pController)
+	if (m_pController)
 		m_pController->Update(m_pMap);
 
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
-		
-	m_pBulletCollision->SetWTM(*m_pController->GetWorldTM());
+
+	
 	if (!m_fire)
 	{
 		// false일때 그 높이를 저장받고 풀리면 다시 위치로
@@ -180,16 +180,16 @@ void cMainGame::Update()
 	if (m_pCamera)
 		m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
 
-	if(m_pFrustum)
+	if (m_pFrustum)
 	{
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-		//	m_pFrustum->Update();
+			//	m_pFrustum->Update();
 		}
 	}
 
-	
-	for (int i = 0; i < 8;i++)
+
+	for (int i = 0; i < 8; i++)
 	{
 		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
 		{
@@ -197,9 +197,9 @@ void cMainGame::Update()
 			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
 			//충돌
 		}
-	
+
 	}
-	
+
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)
@@ -213,17 +213,18 @@ void cMainGame::Update()
 
 		ShowCursor(m_mouseCheck);
 	}
-	
-	
+
+
 	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
 		//이거 활성화 하면 총알튀듯이 된다.
 		//m_pController->m_fAngleX -= 0.010f;
-		
+
 
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
 			m_fire = true;
+			m_pBulletCollision->Fire(m_pController);
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -239,12 +240,17 @@ void cMainGame::Update()
 	}
 	if (g_pKeyManager->isOnceKeyUp('C'))
 	{
-	
 		static int n = 0;
-	
 		m_pPlayer->SetAni(++n % 6);
 	}
-
+	if (g_pKeyManager->isOnceKeyUp('F'))
+	{
+		m_pBulletCollision->Settest(true);
+	}
+	if (g_pKeyManager->isOnceKeyUp('G'))
+	{
+		m_pBulletCollision->Settest(false);
+	}
 	g_pAutoReleasePool->Drain();
 }
 
@@ -299,6 +305,21 @@ void cMainGame::Render()
 	
 	//m_pBulletCollision->Render(m_pMap);
 
+	if (m_pMap)
+	{
+
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		std::vector<ST_PNT_VERTEX> testMap;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+		m_pMap->Render(
+			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
+			&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	}
+
 
 	if (m_fire)
 	{
@@ -308,25 +329,11 @@ void cMainGame::Render()
 			timer = 0;
 			m_fire = false;
 			
-		}
-		//m_pBulletCollision->Render(m_pMap);
-	}
-	m_pBulletCollision->Fire(m_pMap,m_pController);
 	
-	if (m_pMap)
-	{
-		
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		std::vector<ST_PNT_VERTEX> testMap;
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_pMap->Render(
-				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f), 
-				&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
-		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 		}
+	}
+	m_pBulletCollision->Render(m_pMap);
+	
 			
 		
 	m_pCrossHead->Render();

@@ -39,7 +39,10 @@ private:
 
 	int y;
 	LPD3DXMESH					m_pMesh;
-	SYNTHESIZE(D3DXMATRIX, m_WTM, WTM);
+	D3DXMATRIXA16				m_matView;
+	D3DXMATRIXA16				m_matProj;
+
+	SYNTHESIZE(bool, m_test, test);
 public:
 	cBulletCollision();
 	~cBulletCollision();
@@ -48,7 +51,7 @@ public:
 	void Render(iMap* Map);
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(iMap* Map, cCrtController* Controller);
+	void Fire(cCrtController* Controller);
 
 	void Bulletholes(cCrtController* Controller);
 
