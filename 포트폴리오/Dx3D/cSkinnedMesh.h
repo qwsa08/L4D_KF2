@@ -18,7 +18,11 @@ private:
 	// 객체마다 생성
 	LPD3DXANIMATIONCONTROLLER	m_pAnimController;
 	D3DXVECTOR3					m_vPosition;
-
+	bool						m_isBlending;
+	float						m_fBlendTime;
+	float						m_fPassedBlendTime;
+	float						m_fTimer;
+	SYNTHESIZE(bool, m_bAction, Action);
 	SYNTHESIZE(int, m_FrameNum, FrameNum);
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);

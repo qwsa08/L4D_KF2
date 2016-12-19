@@ -24,12 +24,26 @@ cPlayer::~cPlayer()
 
 void cPlayer::SetUp()
 {
-	m_pPlayer = new cSkinnedMesh("Weapon X File/test/", "Idle.X");
-	m_pPlayer->SetPosition(D3DXVECTOR3(0, 0, 0));
+	
+	m_pGun[HANDGUN] = new cSkinnedMesh("Weapon X File/test/", "Idle.X");
+	m_pGun[HANDGUN]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
+	m_pGun[BUSTER] = new cSkinnedMesh("Weapon X File/b/", "Idle.X");
+	m_pGun[BUSTER]->SetPosition(D3DXVECTOR3(0, 0, 0));
+
+	m_pGun[KNIFE] = new cSkinnedMesh("Weapon X File/knife/", "Idle.X");
+	m_pGun[KNIFE]->SetPosition(D3DXVECTOR3(0, 0, 0));
+
+	m_pGun[SHOT] = new cSkinnedMesh("Weapon X File/Shot/", "Idle.X");
+	m_pGun[SHOT]->SetPosition(D3DXVECTOR3(0, 0, 0));
+
+	m_pGun[HEAL] = new cSkinnedMesh("Weapon X File/Heal/", "Idle.X");
+	m_pGun[HEAL]->SetPosition(D3DXVECTOR3(0, 0, 0));
+
+	m_pPlayer = m_pGun[HANDGUN];
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pPlayer->GetBoundingBox()->_min, m_pPlayer->GetBoundingBox()->_max, m_pPlayerBox);
-
+	m_eGunName = HANDGUN;
 
 	D3DXCreateTextureFromFileEx(
 		g_pD3DDevice,
@@ -71,14 +85,44 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	m_pPlayer->Update(&m_Position, 0);
 	m_pOBB->Update(&m_Position, m_pPlayerBox);
 	
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		m_pPlayer = m_pGun[BUSTER];
+		m_eGunName = BUSTER;
+	}
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		m_pPlayer = m_pGun[KNIFE];
+		m_eGunName = KNIFE;
+	}
+	if (g_pKeyManager->isOnceKeyDown('3'))
+	{
+		m_pPlayer = m_pGun[SHOT];
+		m_eGunName = SHOT;
+	}
+	if (g_pKeyManager->isOnceKeyDown('4'))
+	{
+		m_pPlayer = m_pGun[HEAL];
+		m_eGunName = HEAL;
+	}
+	if (g_pKeyManager->isOnceKeyDown('R'))
+	{
+		//m_pPlayer->SetFrameNum(2);
+		//두번 호출하는 이유는...?;; 그 한번만하면 보간이된다..그래서 2번호출함으로써.. 초기화;;
+		//이걸 고쳐야한다.. 한번만하면되도록
+		
+		m_pPlayer->SetAnimationIndex(2);
+		m_pPlayer->SetAnimationIndex(2);
+		//m_pPlayer->SetFrameNum(2);
+		m_pPlayer->SetAction(true);
+	}
 
-	
 }
 void cPlayer::SetAni(int num)
 {
 	m_pPlayer->SetFrameNum(num);
 	m_pPlayer->SetAnimationIndex(num);
-	
+	m_pPlayer->SetAction(true);
 }
 void cPlayer::Render()
 {

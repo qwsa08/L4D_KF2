@@ -14,6 +14,10 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pEffect(NULL)
 	, m_vPosition(0, 0, 0)
 	, m_FrameNum(0)
+	, m_isBlending(false)
+	, m_fBlendTime(0.3f)
+	, m_fPassedBlendTime(0.0f)
+
 {
 
 	cSkinnedMesh* pSkinnedMesh =  g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
@@ -398,29 +402,45 @@ void cSkinnedMesh::SetupBoneMatrixPtrs( ST_BONE* pBone )
 
 void cSkinnedMesh::SetAnimationIndex( int nIndex )
 {
-	if(!m_pAnimController)
-		return;
-	LPD3DXANIMATIONSET pAnimSet = NULL;
-	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
-	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
-	SAFE_RELEASE(pAnimSet);
+	 if (m_isBlending&& !m_FrameNum) return;
+
+	 int num = 0;
+	 /*
+	 if (m_FrameNum == 2)
+	 {
+		 num = 2;
+	 }*/
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pCurrAnimSet = NULL;
+
+	// 기존 애니매이션을 1번 트랙에 세팅
+	m_pAnimController->GetTrackAnimationSet(num, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	// 새로운 애니매이션을 0번 트랙에 세팅
+	m_pAnimController->GetAnimationSet(nIndex, &pCurrAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pCurrAnimSet);
+
+	// 트랙 가중치 설정
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	// 트랙 포지션 설정
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	m_fPassedBlendTime = 0.0f;
+	m_isBlending = true;
+
+	SAFE_RELEASE(pPrevAnimSet);
+	SAFE_RELEASE(pCurrAnimSet);
 }
 void cSkinnedMesh::SetskinningAnimationIndex(int current, int next)
 {
-	LPD3DXANIMATIONSET pPrevAnimationSet = NULL;
-	LPD3DXANIMATIONSET pNextAnimationSet = NULL;
 
-	m_pAnimController->GetAnimationSet(next, &pPrevAnimationSet);
-	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimationSet);
-
-	m_pAnimController->GetAnimationSet(current, &pNextAnimationSet);
-	m_pAnimController->SetTrackAnimationSet(0, pNextAnimationSet);
-
-	m_pAnimController->SetTrackEnable(1, true);
-	m_pAnimController->SetTrackPosition(0, 0);
-
-	SAFE_RELEASE(pPrevAnimationSet);
-	SAFE_RELEASE(pNextAnimationSet);
 }
 float cSkinnedMesh::AnimationFrame(int num)
 {
@@ -435,17 +455,6 @@ float cSkinnedMesh::AnimationFrame(int num)
 void cSkinnedMesh::AnimationUpdate(int current, int next)
 {
 
-	
-	float time = AnimationFrame(current);
-	D3DXTRACK_DESC tc;
-	m_pAnimController->GetTrackDesc(current, &tc);
-	float dPosition = tc.Position;
-
-	if (dPosition >= time)
-	{
-		//SetAnimationIndex(next);
-		SetskinningAnimationIndex(current, next);
-	}
 	
 }
 void cSkinnedMesh::Destroy()
@@ -499,23 +508,37 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 }
 void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 {
-	if (m_pAnimController)
-	{
-		m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
-	}
-
-	float time = AnimationFrame(m_FrameNum);
-	D3DXTRACK_DESC tc;
-	m_pAnimController->GetTrackDesc(m_FrameNum, &tc);
-	float dPosition = tc.Position;
-
-	if (dPosition >= time)
-	{
-		//SetAnimationIndex(next);
-		SetskinningAnimationIndex(m_FrameNum, 0);
-	}
-
 	if (m_pRootFrame == NULL) return;
+
+	if (m_isBlending)
+	{
+		
+		m_fBlendTime = AnimationFrame(m_FrameNum);
+		//m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
+		D3DXTRACK_DESC tc;
+		m_pAnimController->GetTrackDesc(0, &tc);
+		float m_fPassedBlendTime = tc.Position;
+
+
+		if (m_fPassedBlendTime >= m_fBlendTime)
+		{
+			m_isBlending = false;
+			m_pAnimController->SetTrackWeight(0, 1.0f);
+			m_pAnimController->SetTrackWeight(1, 0.0f);
+			m_pAnimController->SetTrackEnable(1, false);
+			m_fPassedBlendTime = 0.f;
+		}
+		else
+		{
+			float fWeight = m_fPassedBlendTime / m_fBlendTime;
+			m_pAnimController->SetTrackWeight(0, fWeight);
+			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
+		}
+	}
+	
+	
+	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
+
 
 	Update(m_pRootFrame, pmat);
 	SetupBoneMatrixPtrs(m_pRootFrame);
