@@ -2,17 +2,14 @@
 
 class cZombie;
 class cDijkstra;
-class cAStar;
-class cAction;
-class cActionMove;
 class cCrtController;
 
 class cEnemyManager
 {
 private:
 	cDijkstra*	m_pDijkstra;
-	cAStar*		m_pAstar;
 	cZombie*	m_pBloat;
+	cZombie*	m_pClot;
 
 	cCrtController*	m_pPlayer;
 
@@ -22,9 +19,5 @@ public:
 
 	void Setup();
 	void UpdateAndRender(D3DXVECTOR3* vPlayerPos);
-
-private:
-	void Update(D3DXVECTOR3* pTarget);
-	void Render();
 };
 
