@@ -41,6 +41,10 @@ private:
 	cObjMap*					m_pBoundingBox;
 	std::vector<D3DXVECTOR3>	test;
 	cBulletCollision*			m_pBulletCollision;
+
+	//카메라 관련 한개더
+	float					    m_ReboundCamera;
+	
 	//====나중에 나눠줘야한다.
 	cOBB*						m_pOBB;
 	ST_OBB						m_stWall[8];
@@ -54,7 +58,11 @@ private:
 	//std::vector<D3DXVECTOR3> temp;
 
 	//============테스트중=======================//
+	bool						m_bBlood;
+	float						timer;
 	std::vector<ST_PT_VERTEX>	m_vTexture;
+	D3DXMATRIXA16				matView;
+	
 public:
 	cMainGame(void);
 	~cMainGame(void);

@@ -16,12 +16,13 @@ struct ST_ZOMBIE
 {
 	cSkinnedMesh*	pSkinnedMesh;
 	D3DXVECTOR3		vPosition;
+	D3DXVECTOR3		vDirection;
 	float			fAngle;
 	ZOMBIE_MOTION	eMotion;
 	float			fSpeed;
 	bool			isRecognize;
 
-	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), fAngle(0.f), eMotion(IDLE), fSpeed(3.f), isRecognize(false) { }
+	ST_ZOMBIE() : pSkinnedMesh(NULL), vPosition(0, 0, 0), vDirection(0, 0, 0), fAngle(0.f), eMotion(IDLE), fSpeed(2.f), isRecognize(false) { }
 };
 
 class cZombie

@@ -29,7 +29,7 @@ cMainGame::cMainGame(void)
 	, m_pMesh(NULL)
 	, m_pMapMesh(NULL)
 	, m_pFrustum(NULL)
-//	, m_pSkinnedMesh(NULL)
+	//	, m_pSkinnedMesh(NULL)
 	, m_pPlayer(NULL)
 	, m_pBoundingBox(NULL)
 	, m_mouseCheck(false)
@@ -37,6 +37,9 @@ cMainGame::cMainGame(void)
 	, m_fire(false)
 	, m_pCrossHead(NULL)
 	, m_pEnemyManager(NULL)
+	, m_bBlood(NULL)
+	, timer(0.f)
+	, m_ReboundCamera(0.f)
 {
 }
 
@@ -159,28 +162,34 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	
+
 	g_pTimeManager->Update();
 
-	if(m_pController)
+	if (m_pController)
 		m_pController->Update(m_pMap);
 
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
 
+	
+	if (!m_fire)
+	{
+		// false일때 그 높이를 저장받고 풀리면 다시 위치로
+		m_ReboundCamera = m_pController->m_fAngleX;
+	}
 	if (m_pCamera)
 		m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
 
-	if(m_pFrustum)
+	if (m_pFrustum)
 	{
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
-		//	m_pFrustum->Update();
+			//	m_pFrustum->Update();
 		}
 	}
 
-	
-	for (int i = 0; i < 8;i++)
+
+	for (int i = 0; i < 8; i++)
 	{
 		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
 		{
@@ -188,9 +197,9 @@ void cMainGame::Update()
 			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
 			//충돌
 		}
-	
+
 	}
-	
+
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)
@@ -204,21 +213,44 @@ void cMainGame::Update()
 
 		ShowCursor(m_mouseCheck);
 	}
-	
-	
+
+
 	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 	{
+		//이거 활성화 하면 총알튀듯이 된다.
+		//m_pController->m_fAngleX -= 0.010f;
+
+
 		if (m_pBulletCollision->PickBullet(m_pController))
 		{
 			m_fire = true;
+			m_pBulletCollision->Fire(m_pController);
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
 	{
+		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
 		m_fire = false;
+		m_pController->m_fAngleX = m_ReboundCamera;
 	}
 
-	
+	if (g_pKeyManager->isOnceKeyUp('Z'))
+	{
+		m_bBlood = true;
+	}
+	if (g_pKeyManager->isOnceKeyUp('C'))
+	{
+		static int n = 0;
+		m_pPlayer->SetAni(++n % 6);
+	}
+	if (g_pKeyManager->isOnceKeyUp('F'))
+	{
+		m_pBulletCollision->Settest(true);
+	}
+	if (g_pKeyManager->isOnceKeyUp('G'))
+	{
+		m_pBulletCollision->Settest(false);
+	}
 	g_pAutoReleasePool->Drain();
 }
 
@@ -251,103 +283,61 @@ void cMainGame::Render()
 	//	{
 	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
 	//	}
+	if (m_bBlood)
+	{
+		timer += g_pTimeManager->GetDeltaTime();
+
+		if (timer < 0.5f)
+		{
+			m_pPlayer->Blood();
+		}
+		else
+		{
+			timer = 0.f;
+			m_bBlood = false;
+		}
+	}
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
 		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
-
-	if (m_fire)
-	{
-		/*D3DXCreateSphere(g_pD3DDevice,
-			RADIUS,
-			20,
-			20,
-			&m_pMesh,
-			NULL);*/
-		D3DXCreateBox(g_pD3DDevice,
-			4, 4, 4, &m_pMesh, NULL);
-
-		D3DXMATRIXA16 matW , matB;
-		D3DXMatrixTranslation(&matB,
-			m_pBulletCollision->GetBulletPosition().x,
-			m_pBulletCollision->GetBulletPosition().y,
-			m_pBulletCollision->GetBulletPosition().z);
-
-		
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matB);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-		m_pMesh->DrawSubset(0);
-		g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		
-		
-		LPD3DXEFFECT	m_pSSD;
-		m_pSSD = g_pShader->LoadShader("Bullet.fx");
-		D3DXMATRIXA16 matWV, matWVP, matV ,matP ,matInvView;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matV);
-		D3DXMatrixMultiply(&matWV, &matB, &matV);
-		m_pSSD->SetMatrix("mWV", &matWV);
-
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matP);
-		D3DXMatrixMultiply(&matWVP, &matWV, &matP);
-		m_pSSD->SetMatrix("mWVP", &matWVP);
-
-		D3DXMatrixInverse(&matInvView, 0, &matV);
-		m_pSSD->SetMatrix("InvView", &matInvView);
-		
-		m_pSSD->SetVector("RayPosition", &D3DXVECTOR4(m_pBulletCollision->GetBulletPosition(),0.f));
-
-		LPDIRECT3DTEXTURE9 _Texture[2];
-
-		_Texture[0] = g_pTextureManager->GetTexture("Map/maps/cs_havana_texture_6.jpg");
-		_Texture[1] = g_pTextureManager->GetTexture("bullethole_snow.tga");
-
-		m_pSSD->SetTexture("base_Tex", _Texture[0]);
-		m_pSSD->SetTexture("texSamp_Tex", _Texture[1]);
-
-		UINT numPasses = 0;
-		m_pSSD->Begin(&numPasses, NULL);
-		for (UINT i = 0; i < numPasses; i++)
-		{
-			m_pSSD->BeginPass(i);
-			{
-				m_pMesh->DrawSubset(0);
-			}
-			m_pSSD->EndPass();
-		}
-		m_pSSD->End();
-		SAFE_RELEASE(m_pSSD);
-		SAFE_RELEASE(m_pMesh);
-
-
-
-	}
+	
+	//m_pBulletCollision->Render(m_pMap);
 
 	if (m_pMap)
 	{
-		
+
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
 		std::vector<ST_PNT_VERTEX> testMap;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-		if (m_fire)
-		{	
 
-			
-		}
-		else
-		{
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_pMap->Render(
-				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f), 
-				&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+		m_pMap->Render(
+			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
+			&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		}
-			
 	}
 
+
+	if (m_fire)
+	{
+		timer += g_pTimeManager->GetDeltaTime();
+		if (timer > 0.2f)
+		{
+			timer = 0;
+			m_fire = false;
+			
+	
+		}
+	}
+	m_pBulletCollision->Render(m_pMap);
+	
+			
 		
 	m_pCrossHead->Render();
+	
 
 	g_pD3DDevice->EndScene();
 

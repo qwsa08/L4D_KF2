@@ -29,14 +29,14 @@ float4x4 mWV : WorldView;
 struct VS_OUTPUT
 {
    float4 Pos   :POSITION;
-   float4 Depth :TEXCOORD0;
+   float4 ClipPos :TEXCOORD0;
 };
 
 VS_OUTPUT Bullet_Pass_0_Vertex_Shader_vs_main(float4 Pos:POSITION)
 {
    VS_OUTPUT Out = (VS_OUTPUT)0;
    Out.Pos = mul(Pos,mWVP);
-   Out.Depth = mul(Pos,mWV);
+   Out.ClipPos = mul(Pos,mWV);
    
    return Out;
 }
@@ -58,17 +58,17 @@ sampler2D DepthMapSamp = sampler_state
 {
    Texture = (base_Tex);
 };
-float4x4 InvView : ViewInverse;
-float3 CameraRightTop;
-
-float3 RayPosition
+float gFar;
+float4x4 InvV : ViewInverse;
+float2 Deproject;
+float3 CameraRightTop
 <
-   string UIName = "RayPosition";
+   string UIName = "CameraRightTop";
    string UIWidget = "Numeric";
    bool UIVisible =  false;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float3( 0.00, 1.00, 0.00 );
+> = float3( 0.00, 0.00, 0.00 );
 
 struct PS_INPUT
 {
@@ -77,24 +77,31 @@ struct PS_INPUT
 
 float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
 {
-   //float4 ClipPos = In.Depth.z / gFar;
+   float4 ClipPos = In.Depth.z / gFar;
    
    float4 col = float4(1.0,0.0,0.0,0.0);
   
-   float3 screenposition = In.ClipPos.xyz/ In.ClipPos.w;
-   screenposition.x = screenposition.x *0.5 +0.5;
-   screenposition.y = -screenposition.y *0.5 +0.5;
+   float2 screenposition = In.ClipPos.xy / In.ClipPos.w;
+   float2 depth_uv = screenposition * float2(0.5f,-0.5f) + float2(0.5f,0.5f);
+
+   depth_uv += screenposition.zw;
+
+   //float3 screenposition = In.ClipPos.z/ gFar;
+   //screenposition.x = screenposition.x *0.5 +0.5;
+   //screenposition.y = -screenposition.y *0.5 +0.5;
    
    //=== DepthMapSamp is WallTex
-   float depth = tex2D(DepthMapSamp,screenposition.xy).r;
+   float depth = tex2D(DepthMapSamp,depth_uv).r;
    
-   float3 ViewRay = RayPosition;
+   //float3 ViewRay = float3(lerp(-CameraRightTop.xy,CameraRightTop.xy,screenposition.xy).xy, CameraRightTop.z);
+   float4 ViewRay = float4(In.ClipPos.xy * depth / (Deproject.xy * In.ClipPos.w), -depth,1);
    
    float4 ViewPos = float4(ViewRay.xyz * depth,1.0);
-   float4 ObjPos = mul(ViewPos,InvView);
+   float4 ObjPos = mul(ViewPos,InvV);
    
    float3 ObjAbs = abs(ObjPos.xyz);
-   clip(0.5- ObjAbs);
+   // 0.5 - ObjAbs;
+   clip( ObjAbs);
    
    float2 uv = ObjPos.xz + 0.5;
    //===== texSamp is bullet;
@@ -109,7 +116,7 @@ float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
    
    return col;
    
-}
+  }
 //--------------------------------------------------------------//
 // Technique Section for Bullet
 //--------------------------------------------------------------//

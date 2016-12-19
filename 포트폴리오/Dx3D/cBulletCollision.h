@@ -25,13 +25,35 @@ private:
 	std::vector<ST_PNT_VERTEX>	m_vOverTex;
 	D3DXVECTOR3	m_vBulletPoint;
 	
+	LPDIRECT3DSURFACE9			m_pRenderTargetSurface;
+	LPDIRECT3DTEXTURE9			m_pRenderTargetTexture;
+	LPD3DXSPRITE				m_pSprite;
+	int							m_nRenderTargetWidth;
+	int							m_nRenderTargetHeight;
+	LPD3DXEFFECT				m_pEffect;
+
+	RECT rc;
+	LPD3DXEFFECT				m_pBulletholes;
+	LPDIRECT3DTEXTURE9			m_Texture;
+	std::vector<ST_PT_VERTEX>	m_vBox;
+
+	int y;
+	LPD3DXMESH					m_pMesh;
+	D3DXMATRIXA16				m_matView;
+	D3DXMATRIXA16				m_matProj;
+
+	SYNTHESIZE(bool, m_test, test);
 public:
 	cBulletCollision();
 	~cBulletCollision();
 
 	void SetUp(cObjMap* Map);
-	void Render();
+	void Render(iMap* Map);
 	bool PickBullet(cCrtController* Controller);
+
+	void Fire(cCrtController* Controller);
+
+	void Bulletholes(cCrtController* Controller);
 
 	D3DXMATRIXA16 Clipping();
 	D3DXVECTOR3 GetBulletPosition() { return m_vBulletPoint; }

@@ -9,6 +9,7 @@ private:
 	D3DXMATRIXA16			m_matProj;
 	POINT					m_ptMouse;
 
+	float					m_fDistance;
 public:
 	cCamera(void);
 	~cCamera(void);
@@ -19,6 +20,7 @@ public:
 	D3DXMATRIXA16* GetViewMatrix();
 	D3DXMATRIXA16* GetProjMatrix();
 
+	D3DXVECTOR3 GetEye() { return m_vEye; }
 	void Clipping(D3DXVECTOR3 Eye, D3DXVECTOR3 pDirection);
 	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 };

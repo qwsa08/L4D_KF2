@@ -29,10 +29,8 @@ void cDijkstra::Setup()
 {
 	//노드
 	SetNode();
-	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 
-	ZeroMemory(&m_stMtlNormal, sizeof(D3DMATERIAL9));
-	m_stMtlNormal.Ambient = m_stMtlNormal.Diffuse = m_stMtlNormal.Specular = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.0f);
+	D3DXCreateSphere(g_pD3DDevice, RADIUS, 20, 20, &m_pMesh, NULL);
 	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
 	m_stMtlPicked.Ambient = m_stMtlPicked.Diffuse = m_stMtlPicked.Specular = D3DXCOLOR(0.8f, 0.0f, 0.0f, 1.0f);
 
@@ -348,24 +346,16 @@ int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
 	std::vector<D3DXVECTOR3> vecObs = m_vecObstacleVertex[eSector];
 	GetSectorNode(eSector, vecNodeIndex);
 
-	//바로 갈수있는 가까운 노드 찾기ㅣㅣㅣ
-	float minLength = D3DXVec3Length(&(*vPos - m_vecNode[vecNodeIndex[0]].vPosition));
-	int minIndex = 0;
+	int nIndex = 0;
+	//가까운 노드를 찾아서 다이렉트를 체크하자..
 	for (int i = 0; i < vecNodeIndex.size(); ++i)
 	{
-		float length = 0.f;
-		if (IsDirect(vPos, &m_vecNode[vecNodeIndex[i]].vPosition) == false)	continue;
-		else
-			length = D3DXVec3Length(&(*vPos - m_vecNode[vecNodeIndex[i]].vPosition));
-
-		if (minLength > length)
-		{
-			minIndex = i;
-			minLength = length;
-		}
+		nIndex = GetNearestNodeIndex(&vecNodeIndex, vPos);
+		if (IsDirect(vPos, &m_vecNode[nIndex].vPosition) == false) continue;
+		else break;
 	}
-
-	return minIndex;
+	
+	return nIndex;
 }
 
 void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
@@ -451,6 +441,24 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 	}
 }
 
+int cDijkstra::GetNearestNodeIndex(std::vector<int>* vecIndex, D3DXVECTOR3* vPos)
+{
+	float minLength = D3DXVec3Length(&(*vPos - m_vecNode[(*vecIndex)[0]].vPosition));
+	int minIndex = 0;
+	for (int i = 0; i < (*vecIndex).size(); ++i)
+	{
+		float length = D3DXVec3Length(&(*vPos - m_vecNode[(*vecIndex)[i]].vPosition));
+
+		if (minLength > length)
+		{
+			minIndex = i;
+			minLength = length;
+		}
+	}
+
+	return (*vecIndex)[minIndex];
+}
+
 std::vector<int> cDijkstra::GetNodeTable(int nStart, int nDest)
 {
 	std::vector<int> vecNode;
@@ -517,32 +525,33 @@ std::vector<D3DXVECTOR3> cDijkstra::GetRoute(D3DXVECTOR3* vFrom, D3DXVECTOR3* vT
 	int nStart = GetFirstNode(vFrom);
 	int nDest = GetFirstNode(vTo);
 	std::vector<int> vecRoute = GetNodeTable(nStart, nDest);
-	
-	//저기서 직접 갈수 있는.............
-	int nS = 0;
-	//시작점
-	for (int i = 0; i < vecRoute.size(); ++i)
-	{
-		if (IsDirect(vFrom, &m_vecNode[vecRoute[i]].vPosition))
-		{
-			nS = i;
-		}
-	}
-	
-	if (nS > 0)	vecRoute.erase(vecRoute.begin(), vecRoute.begin() + nS - 1);
+	//
+	////저기서 직접 갈수 있는.............
+	//int nS = 0;
+	////시작점
+	//for (int i = 0; i < vecRoute.size(); ++i)
+	//{
+	//	if (IsDirect(vFrom, &m_vecNode[vecRoute[i]].vPosition))
+	//	{
+	//		nS = i;
+	//	}
+	//}
+	//
+	//if (nS > 0)	vecRoute.erase(vecRoute.begin(), vecRoute.begin() + nS - 1);
 
-	//끝점
-	int nD = vecRoute.size() - 1;
-	for (int i = vecRoute.size() - 1; i >= 0; --i)
-	{
-		if (IsDirect(vTo, &m_vecNode[vecRoute[i]].vPosition))
-		{
-			nD = i;
-		}
-	}
+	////끝점
+	//int nD = vecRoute.size() - 1;
+	//for (int i = vecRoute.size() - 1; i >= 0; --i)
+	//{
+	//	if (IsDirect(vTo, &m_vecNode[vecRoute[i]].vPosition))
+	//	{
+	//		nD = i;
+	//	}
+	//}
 
-	if (nD < vecRoute.size() - 1) vecRoute.erase(vecRoute.end() - nD, vecRoute.end());
+	//if (nD < vecRoute.size() - 1) vecRoute.erase(vecRoute.end() - nD, vecRoute.end());
 
+	//일단 그냥 쓰자
 	std::vector<D3DXVECTOR3> vec;
 	vec.resize(vecRoute.size());
 	for (int i = 0; i < vecRoute.size(); ++i)
