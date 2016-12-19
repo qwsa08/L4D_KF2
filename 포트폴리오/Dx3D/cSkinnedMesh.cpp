@@ -143,6 +143,7 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat)
 		
 		Update(m_pRootFrame, &mat);
 		Render(m_pRootFrame);
+
 		if (m_stBoundingSphere.pBoundingSphereMesh)
 		{
 			//D3DXVec3TransformCoord(&m_stBoundingSphere.vCenter, &m_stBoundingSphere.vCenter, &matI);
@@ -151,13 +152,17 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat)
 				m_stBoundingSphere.vCenter.y,
 				m_stBoundingSphere.vCenter.z);
 			mat *= matI;
-			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+			if (false)
+			{
+				g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+				g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+				m_stBoundingSphere.pBoundingSphereMesh->DrawSubset(0);
+				g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+			}
 		}
 		if (m_stBoundingBox.pBoundingBoxMesh)
-		{	
+		{
 			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
 			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 			m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);

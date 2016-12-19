@@ -8,6 +8,7 @@ cObjMap::cObjMap(void)
 	: m_Map(NULL)
 	, m_pWallMesh(NULL)
 	, m_pTextureMappingShader(NULL)
+	, m_LightCon(NULL)
 {
 }
 
@@ -17,6 +18,7 @@ cObjMap::~cObjMap(void)
 	SAFE_RELEASE(m_Map);
 	SAFE_RELEASE(m_pWallMesh);
 	SAFE_RELEASE(m_pTextureMappingShader);
+	SAFE_RELEASE(m_LightCon);
 
 	for each(auto p in m_vecGroup)
 	{
@@ -33,6 +35,8 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 {
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
+	m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
+
 	m_vecNomal.resize(l.GetNomalMap().size());
 	m_vecSpecular.resize(l.GetSpecularMap().size());
 
@@ -43,7 +47,6 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	}
 
 	//시작점과 직선
-
 
 	/*for (int i = 0; i < m_vecVerWall.size(); i += 3)
 	{
@@ -89,7 +92,7 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	D3DXVECTOR4 gLightColor(0.2f, 0.2f, 0.2f, 1.f);
 
 	D3DXVECTOR4 gFlashLightColor(0.5f, 0.5f, 0.5f, 1.f);
-	float gSpotAngle = 1.f;
+	float gSpotAngle = 0.9f;
 	
 	float temp;
 
@@ -140,6 +143,8 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 		}
 		m_pTextureMappingShader->End();
 	}
+
+	//m_LightCon->DrawSubset(0);
 }
 
 bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
