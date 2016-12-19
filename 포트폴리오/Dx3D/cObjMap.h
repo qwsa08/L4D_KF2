@@ -29,6 +29,9 @@ protected:
 	std::vector<D3DXVECTOR3>	m_line;
 	std::vector<D3DXVECTOR3>	m_Start;
 
+	LPD3DXMESH					m_LightCon;
+	std::vector<cMtlTex*>		m_pConMtl;
+
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecMap, Map);
 	SYNTHESIZE(std::vector<ST_PNT_VERTEX>, m_vecVertex, Vertex);
 	// 이거 pnt말고 그냥 벡터값만 받으면 좀더 좋아질것같다는...
