@@ -127,6 +127,9 @@
     <ClCompile Include="cDijkstra.cpp">
       <Filter>L4D\Zombie\Dijkstra</Filter>
     </ClCompile>
+    <ClCompile Include="cPickObj.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -263,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="cDijkstra.h">
       <Filter>L4D\Zombie\Dijkstra</Filter>
+    </ClInclude>
+    <ClInclude Include="cPickObj.h">
+      <Filter>ObjFile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

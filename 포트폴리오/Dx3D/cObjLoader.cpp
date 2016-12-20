@@ -3,6 +3,7 @@
 #include "cMtlTex.h"
 #include "cGroup.h"
 #include "cObjMap.h"
+#include "cPickObj.h"
 
 cObjLoader::cObjLoader(void)
 {
@@ -241,6 +242,165 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 	std::vector<DWORD> vecAdj(pMesh->GetNumFaces() * 3);
 	pMesh->OptimizeInplace(
 		D3DXMESHOPT_COMPACT | 
+		D3DXMESHOPT_ATTRSORT |
+		D3DXMESHOPT_VERTEXCACHE,
+		&vecAdj[0],
+		NULL,
+		NULL,
+		NULL);
+
+	return pMesh;
+}
+
+LPD3DXMESH cObjLoader::Load(OUT cPickObj* PickObj,
+	IN char* szPath,
+	OUT std::vector<cMtlTex*>& vecMtlTex,
+	IN D3DXMATRIXA16* pmat /*= NULL*/)
+{
+	std::vector<D3DXVECTOR3>	vecV;
+	std::vector<D3DXVECTOR3>	vecVN;
+	std::vector<D3DXVECTOR2>	vecVT;
+	std::vector<ST_PNT_VERTEX>	vecVertex;
+	std::vector<DWORD>			vecAttr;
+
+	std::string					sMtlName;
+
+	//========================= ¶¥ 
+	std::vector<ST_PNT_VERTEX> vecVertexs;
+	//========================= 
+	//========================= ÀüÃ¼
+	std::vector<ST_PNT_VERTEX> vecMap;
+
+	cGroup* pGroup = NULL;
+
+	FILE* fp = NULL;
+
+	fopen_s(&fp, szPath, "r");
+
+	while (!feof(fp))
+	{
+		char szBuf[1024] = { '\0', };
+		fgets(szBuf, 1024, fp);
+		if (strlen(szBuf) == 0) continue;
+
+		if (szBuf[0] == '#')
+		{
+			continue;
+		}
+		else if (szBuf[0] == 'm')
+		{
+			char szMtlPath[1024];
+			sscanf_s(szBuf, "%*s %s", szMtlPath, 1024);
+			LoadMtlLib(szMtlPath, vecMtlTex);
+		}
+		else if (szBuf[0] == 'u')
+		{
+			char szMtlName[1024];
+			sscanf_s(szBuf, "%*s %s", szMtlName, 1024);
+			sMtlName = std::string(szMtlName);
+		}
+		else if (szBuf[0] == 'g')
+		{
+		}
+		else if (szBuf[0] == 'v')
+		{
+			if (szBuf[1] == 't')
+			{
+				float u, v;
+				sscanf_s(szBuf, "%*s %f %f %*f", &u, &v);
+				vecVT.push_back(D3DXVECTOR2(u, v));
+			}
+			else if (szBuf[1] == 'n')
+			{
+				float x, y, z;
+				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+				vecVN.push_back(D3DXVECTOR3(x, y, z));
+			}
+			else
+			{
+				float x, y, z;
+				sscanf_s(szBuf, "%*s %f %f %f", &x, &y, &z);
+				vecV.push_back(D3DXVECTOR3(x, y, z));
+			}
+		}
+		else if (szBuf[0] == 'f')
+		{
+			std::vector<ST_PNT_VERTEX> vecTemp;
+
+			int aIndex[3][3];
+			sscanf_s(szBuf, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
+				&aIndex[0][0], &aIndex[0][1], &aIndex[0][2],
+				&aIndex[1][0], &aIndex[1][1], &aIndex[1][2],
+				&aIndex[2][0], &aIndex[2][1], &aIndex[2][2]);
+
+			for (int i = 0; i < 3; ++i)
+			{
+				ST_PNT_VERTEX v;
+				v.p = vecV[aIndex[i][0] - 1];
+				v.t = vecVT[aIndex[i][1] - 1];
+				v.n = vecVN[aIndex[i][2] - 1];
+				if (pmat)
+				{
+					D3DXVec3TransformCoord(&v.p, &v.p, pmat);
+					D3DXVec3TransformNormal(&v.n, &v.n, pmat);
+				}
+				vecVertex.push_back(v);
+				vecTemp.push_back(v);
+				vecMap.push_back(v);
+			}
+
+
+			std::map<int, std::string>::iterator iMapFloor;
+			iMapFloor = m_mapFloor.begin();
+			for (iMapFloor; iMapFloor != m_mapFloor.end(); iMapFloor++)
+			{
+				if (!strcmp(sMtlName.c_str(), iMapFloor->second.c_str()))
+				{
+					vecVertexs.push_back(vecTemp[0]);
+					vecVertexs.push_back(vecTemp[1]);
+					vecVertexs.push_back(vecTemp[2]);
+				}
+			}
+
+			vecAttr.push_back(m_mapMtlTex[sMtlName]->GetAttrID());
+		}
+	}
+
+	fclose(fp);
+	PickObj->SetVertex(vecVertexs);
+	PickObj->SetObj(vecMap);
+
+	//vecVertexs = vecVertex;
+
+	//m_pTestObj->SetVertex(vecVertex);
+	LPD3DXMESH pMesh = NULL;
+	D3DXCreateMeshFVF(vecVertex.size() / 3,
+		vecVertex.size(),
+		D3DXMESH_MANAGED | D3DXMESH_32BIT,
+		ST_PNT_VERTEX::FVF,
+		g_pD3DDevice,
+		&pMesh);
+
+	ST_PNT_VERTEX* pV = NULL;
+	pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
+	pMesh->UnlockVertexBuffer();
+
+	DWORD* pI = NULL;
+	pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+	for (size_t i = 0; i < vecVertex.size(); ++i)
+	{
+		pI[i] = i;
+	}
+	pMesh->UnlockIndexBuffer();
+	DWORD* pA = NULL;
+	pMesh->LockAttributeBuffer(0, &pA);
+	memcpy(pA, &vecAttr[0], vecAttr.size() * sizeof(DWORD));
+	pMesh->UnlockAttributeBuffer();
+
+	std::vector<DWORD> vecAdj(pMesh->GetNumFaces() * 3);
+	pMesh->OptimizeInplace(
+		D3DXMESHOPT_COMPACT |
 		D3DXMESHOPT_ATTRSORT |
 		D3DXMESHOPT_VERTEXCACHE,
 		&vecAdj[0],

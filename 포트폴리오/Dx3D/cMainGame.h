@@ -27,6 +27,7 @@ private:
 	cGrid*						m_pGrid;
 	cCrtController*				m_pController;
 	iMap*						m_pMap;
+	iMap*						m_pObj;
 	std::vector<ST_SPHERE>		m_vecSphere;
 	LPD3DXMESH					m_pMesh;
 	D3DMATERIAL9				m_stMtlNormal;
