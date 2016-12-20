@@ -35,7 +35,8 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 {
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
-//	m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
+	//m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
+	//m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
 
 	m_vecNomal.resize(l.GetNomalMap().size());
 	m_vecSpecular.resize(l.GetSpecularMap().size());
@@ -202,7 +203,6 @@ bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 		float numtest;
 		numtest = D3DXVec3Dot(&_lineNomal, &_line);// *m_line[i];
 		m_Spot = m_Start[i] + D3DXVec3Dot(&_lineNomal, &_line) * m_line[i];
-
 
 		m_Spot = vPos - m_Spot;
 		Range = D3DXVec3Length(&m_Spot);
