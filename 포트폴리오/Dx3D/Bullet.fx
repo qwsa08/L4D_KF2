@@ -58,17 +58,10 @@ sampler2D DepthMapSamp = sampler_state
 {
    Texture = (base_Tex);
 };
-float gFar;
-float4x4 InvV : ViewInverse;
-float2 Deproject;
-float3 CameraRightTop
-<
-   string UIName = "CameraRightTop";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( 0.00, 0.00, 0.00 );
+float3 CameraRightTop;
+float4x4 mInvProj : ProjectionInverse;
+float gFar : FarClipPlane;
+float4x4 mInvWV : WorldViewInverse;
 
 struct PS_INPUT
 {
@@ -77,43 +70,31 @@ struct PS_INPUT
 
 float4 Bullet_Pass_0_Pixel_Shader_ps_main(PS_INPUT In):COLOR
 {
-   float4 ClipPos = In.Depth.z / gFar;
+   
    
    float4 col = float4(1.0,0.0,0.0,0.0);
-  
-   float2 screenposition = In.ClipPos.xy / In.ClipPos.w;
-   float2 depth_uv = screenposition * float2(0.5f,-0.5f) + float2(0.5f,0.5f);
-
-   depth_uv += screenposition.zw;
-
-   //float3 screenposition = In.ClipPos.z/ gFar;
-   //screenposition.x = screenposition.x *0.5 +0.5;
-   //screenposition.y = -screenposition.y *0.5 +0.5;
+   float4 ClipPos = In.ClipPos.z / gFar;
+   ClipPos.x = ClipPos.x *0.5 + 0.5;
+   ClipPos.y = -ClipPos.y *0.5 + 0.5;
    
-   //=== DepthMapSamp is WallTex
-   float depth = tex2D(DepthMapSamp,depth_uv).r;
+   float depth = tex2D(DepthMapSamp,ClipPos.xy).r;
+   float4 h = float4(ClipPos.x *2 -1 ,(1- ClipPos.y)*2-1,depth,1);
+   float4 d = mul(h,mInvProj);
+   float4 viewPos = d/gFar;
    
-   //float3 ViewRay = float3(lerp(-CameraRightTop.xy,CameraRightTop.xy,screenposition.xy).xy, CameraRightTop.z);
-   float4 ViewRay = float4(In.ClipPos.xy * depth / (Deproject.xy * In.ClipPos.w), -depth,1);
+   float4 ObjPos = mul(viewPos,mInvWV);
+   float3 ObjAbs = abs(ObjPos.xyz / ObjPos.w);
+   clip(0.5 - ObjAbs);
    
-   float4 ViewPos = float4(ViewRay.xyz * depth,1.0);
-   float4 ObjPos = mul(ViewPos,InvV);
-   
-   float3 ObjAbs = abs(ObjPos.xyz);
-   // 0.5 - ObjAbs;
-   clip( ObjAbs);
-   
-   float2 uv = ObjPos.xz + 0.5;
-   //===== texSamp is bullet;
+   float2 uv = ObjPos.zx + 0.5;
    col = tex2D(DiffuseSample,uv);
    
    float dist = abs(ObjPos.z);
-   float scaleDistance = max(dist * 2.0f,1.0f);
+   float scaleDistance = max(dist * 2.0f, 1.0f);
    float fadeOut = 1.0f - scaleDistance;
    col.a *= fadeOut;
    
    col *= (1.f - max((ObjAbs.z-0.25f)/0.25,0.f));
-   
    return col;
    
   }

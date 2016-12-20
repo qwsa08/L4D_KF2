@@ -169,7 +169,8 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-
+	
+	
 	g_pTimeManager->Update();
 
 	if (m_pController)
@@ -222,25 +223,51 @@ void cMainGame::Update()
 	}
 
 
-	if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+	if (m_pPlayer->GetPlayerGun() == BUSTER)
 	{
-		//이거 활성화 하면 총알튀듯이 된다.
-		//m_pController->m_fAngleX -= 0.010f;
-
-
-		if (m_pBulletCollision->PickBullet(m_pController))
+		if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 		{
-			m_fire = true;
-			m_pBulletCollision->Fire(m_pController);
+			//이거 활성화 하면 총알튀듯이 된다.
+			m_pController->m_fAngleX -= 0.010f;
+			//timer가 너무많으니 더 추가해주자 !!
+			timer += g_pTimeManager->GetDeltaTime();
+			if (timer >= 0.1f)
+			{
+				m_pPlayer->SetAni(1);
+				timer = 0.f;
+			}
+			if (m_pBulletCollision->PickBullet(m_pController))
+			{
+				m_fire = true;
+				//m_pBulletCollision->Fire(m_pMap);
+			}
+		}
+	}
+	else
+	{
+		if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+		{
+			//이거 활성화 하면 총알튀듯이 된다.
+			m_pController->m_fAngleX -= 0.010f;
+			//timer가 너무많으니 더 추가해주자 !!
+		
+			m_pPlayer->SetAni(1);
+			
+			if (m_pBulletCollision->PickBullet(m_pController))
+			{
+				m_fire = true;
+				//m_pBulletCollision->Fire(m_pMap);
+			}
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
 	{
 		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
 		m_fire = false;
+	//	m_pPlayer->SetAni(0);
 		m_pController->m_fAngleX = m_ReboundCamera;
 	}
-
+	
 	if (g_pKeyManager->isOnceKeyUp('Z'))
 	{
 		m_bBlood = true;
@@ -258,6 +285,8 @@ void cMainGame::Update()
 	{
 		m_pBulletCollision->Settest(false);
 	}
+
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -271,8 +300,7 @@ void cMainGame::Render()
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
-
-
+	
 	// 그림을 그린다.
 	m_pGrid->Render();
 	
@@ -283,7 +311,7 @@ void cMainGame::Render()
 	
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	//for each(auto p in m_vecSkinnedMesh)
 	//{
 	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
@@ -327,6 +355,12 @@ void cMainGame::Render()
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
+
+	//m_pBulletCollision->Fire(m_pMap);
+			
+		
+	m_pCrossHead->Render();
+	
 	if (m_pObj)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -350,13 +384,13 @@ void cMainGame::Render()
 	
 		}
 	}
-	m_pBulletCollision->Render(m_pMap);
-	
-			
-		
-	m_pCrossHead->Render();
-	
+	m_pBulletCollision->Render(m_pMap,m_pController);
 
+	/*D3DXMATRIXA16 m_matProj;
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
+	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);*/
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

@@ -351,7 +351,7 @@ int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
 	for (int i = 0; i < vecNodeIndex.size(); ++i)
 	{
 		nIndex = GetNearestNodeIndex(&vecNodeIndex, vPos);
-		if (IsDirect(vPos, &m_vecNode[nIndex].vPosition) == false) continue;
+		if (IsDirect(vPos, &m_vecNode[nIndex].vPosition) == false)	continue;
 		else break;
 	}
 	

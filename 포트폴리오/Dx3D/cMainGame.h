@@ -6,7 +6,7 @@ class cCrtController;
 class cPyramid;
 class iMap;
 class cMtlTex;
-//class cSkinnedMesh;
+class cSkinnedMesh;
 class cFrustum;
 class cMapXfile;
 

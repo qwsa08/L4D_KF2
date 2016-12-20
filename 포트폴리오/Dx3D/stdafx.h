@@ -31,7 +31,7 @@
 
 extern HWND	g_hWnd;
 
-#define EPSILON 0.00001f
+#define EPSILON 0.0001f
 
 #define SAFE_ADD_REF(p) if(p) { (p)->AddRef(); }
 #define SAFE_RELEASE(p) if(p) { (p)->Release(); (p) = NULL; }

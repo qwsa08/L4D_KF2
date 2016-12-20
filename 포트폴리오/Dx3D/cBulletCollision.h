@@ -48,10 +48,10 @@ public:
 	~cBulletCollision();
 
 	void SetUp(cObjMap* Map);
-	void Render(iMap* Map);
+	void Render(iMap* Map, cCrtController* Controller);
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(cCrtController* Controller);
+	void Fire(iMap* Map);
 
 	void Bulletholes(cCrtController* Controller);
 

@@ -36,6 +36,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
 	//m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
+	//m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
 
 	m_vecNomal.resize(l.GetNomalMap().size());
 	m_vecSpecular.resize(l.GetSpecularMap().size());
@@ -69,6 +70,8 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 }
 void cObjMap::Render()
 {
+	
+
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
 		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
@@ -98,6 +101,11 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
 	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
 
+	//=========================================================
+	/*D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+	matWorld *= matS;*/
+	//=========================================================
 	D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
 	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 

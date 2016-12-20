@@ -34,7 +34,8 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 	float4 color = float4(1.0,0.0,0.0,0.0);
 
 	float2 screenPosition = In.ClipPos.xy / In.ClipPos.w;
-	float2 depth_uv = screenPosition * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
+
+	float2 depth_uv = screenPosition.xy * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
 	
 	float sceneDepth = tex2D( DepthMapSamp, depth_uv ).r;
 
@@ -51,12 +52,12 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 	float2 uv = ObjPos.xz + 0.5;
 	color = tex2D( DiffuseSamp, uv );
 	
-	float dist = abs(ObjPos.z);
-	float scaleDistance = max(dist * 2.0f, 1.0f); 
-	float fadeOut = 1.0f - scaleDistance;
-	color.a *= fadeOut;
+	//float dist = abs(ObjPos.z);
+	//float scaleDistance = max(dist * 2.0f, 1.0f); 
+	//float fadeOut = 1.0f - scaleDistance;
+	//color.a *= fadeOut;
 	
-	color *= ( 1.f - max( (ObjAbs.z-0.25f)/0.25, 0.f) );
+	//color *= ( 1.f - max( (ObjAbs.z-0.25f)/0.25, 0.f) );
 	
 	return color;
 	
