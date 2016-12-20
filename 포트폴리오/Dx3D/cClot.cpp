@@ -115,17 +115,15 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 					}
 				}				
 			}
-			else
+			else//다익스트라
 			{
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, vPlayerPos);
 
 				m_vecSkinnedMesh[i].eMotion = MOVE;
+
 				D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
-				if (m_vecSkinnedMesh[i].vPosition == vecRoute[0])
-				{
-					vecRoute.erase(vecRoute.begin());
-				}
 				m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+
 			}
 		}
 
