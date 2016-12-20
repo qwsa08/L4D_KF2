@@ -130,6 +130,9 @@
     <ClCompile Include="cClot.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
+    <ClCompile Include="cObjGun.cpp">
+      <Filter>오브젝트</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -270,6 +273,9 @@
     <ClInclude Include="cClot.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
+    <ClInclude Include="cObjGun.h">
+      <Filter>오브젝트</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -346,6 +352,9 @@
     </Filter>
     <Filter Include="L4D\Zombie\Dijkstra">
       <UniqueIdentifier>{69d5105c-a80a-4769-8da3-b3a6a8aceb02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="오브젝트">
+      <UniqueIdentifier>{52175299-2103-4dbd-981a-3851c0b28e86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
-#include "iMap.h"
 
-class cMapXfile : public iMap
+class cMapXfile 
 {
 private:
 	ID3DXMesh* Mesh;
@@ -15,7 +14,7 @@ public:
 	void Setup(char* szFilename);
 	//void Render();
 
-	virtual void Render();
-	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
+	void Render();
+
 };
 

@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -111,6 +111,7 @@
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjGun.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjGun.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />

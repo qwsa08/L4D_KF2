@@ -3,7 +3,7 @@
 
 
 cMapXfile::cMapXfile()
-	: Mesh(0)
+	: Mesh(NULL)
 	, Mtrls(0)
 	, Textures(0)
 {
@@ -71,57 +71,19 @@ void cMapXfile::Setup(char* szFilename)
 
 void cMapXfile::Render()
 {
-	D3DXMATRIXA16 matW , matR , matT;
+	D3DXMATRIXA16 matW;
 	D3DXMatrixIdentity(&matW);
+	//D3DXMATRIXA16 matW , matR , matT;
 	//D3DXMatrixRotationZ(&matR, D3DX_PI);
 	//D3DXMatrixTranslation(&matT, 0, 10, 0);
 	//matW = matR * matT;
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
+	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matW);
 	for (int i = 0; i < Mtrls.size(); i++)
 	{
-		g_pD3DDevice->SetMaterial(&Mtrls[i]);
-		g_pD3DDevice->SetTexture(0, Textures[i]);
+		//g_pD3DDevice->SetTexture(0, Textures[i]->GetTexture());
+		//g_pD3DDevice->SetMaterial(&Mtrls[i]->GetMtl());
+		
 		Mesh->DrawSubset(i);
 	}
-}
-bool cMapXfile::GetHeight(IN float x, OUT float& y, IN float z)
-{
-	//int XY_MAX = 100000;
-	//if (x<0 || x > XY_MAX || z < 0 || z > XY_MAX)
-	//{
-	//	y = 0.f;
-	//	return false;
-	//}
-	//int _x = (int)x;
-	//int _z = (int)z;
-
-	////»ï°¢ÇüÀÌ´Ï±ñ ÀÎµ¦½º¹öÆÛ¾È¿¡ ÀÖ´Â »ï°¢Çü!!?!
-	//int _0 = _z * XY_MAX + _x;
-	//int _1 = (_z + 1) * XY_MAX + _x;
-	//int _2 = _z * XY_MAX + _x + 1;
-	//int _3 = (_z + 1) * XY_MAX + _x + 1;
-
-	//float fx = x - _x;
-	//float fz = z - _z;
-	//if (fx + fz < 1)
-	//{
-	//	D3DXVECTOR3 Vx = m_vPNT[_2].p - m_vPNT[_0].p;
-	//	D3DXVECTOR3 Vz = m_vPNT[_1].p - m_vPNT[_0].p;
-
-	//	y = m_vPNT[_0].p.y + (Vx * fx + Vz * fz).y;
-	//	int a = 0;
-	//}
-	//else
-	//{
-	//	fx = 1.f - fx;
-	//	fz = 1.f - fz;
-
-	//	D3DXVECTOR3 Vx = m_vPNT[_1].p - m_vPNT[_3].p;
-	//	D3DXVECTOR3 Vz = m_vPNT[_2].p - m_vPNT[_3].p;
-
-	//	y = m_vPNT[_3].p.y + (Vx * fx + Vz * fz).y;
-	//}
-
-	return true;
 }
