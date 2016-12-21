@@ -348,19 +348,14 @@ int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
 
 	int nIndex = 0;
 	//가까운 노드를 찾아서 다이렉트를 체크하자..
-	int vecSize = vecNodeIndex.size();
-	for (int i = 0; i < vecSize; ++i)
+	for (int i = 0; i < vecNodeIndex.size(); ++i)
 	{
 		nIndex = GetNearestNodeIndex(&vecNodeIndex, vPos);
-		if (IsDirect(vPos, &m_vecNode[vecNodeIndex[nIndex]].vPosition) == false)
-		{
-			vecNodeIndex.erase(vecNodeIndex.begin() + nIndex);
-			continue;
-		}
+		if (IsDirect(vPos, &m_vecNode[nIndex].vPosition) == false)	continue;
 		else break;
 	}
 	
-	return vecNodeIndex[nIndex];
+	return nIndex;
 }
 
 void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
@@ -461,7 +456,7 @@ int cDijkstra::GetNearestNodeIndex(std::vector<int>* vecIndex, D3DXVECTOR3* vPos
 		}
 	}
 
-	return minIndex;
+	return (*vecIndex)[minIndex];
 }
 
 std::vector<int> cDijkstra::GetNodeTable(int nStart, int nDest)

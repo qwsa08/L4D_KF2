@@ -8,6 +8,7 @@ cPlayer::cPlayer()
 	, m_pOBB(NULL)
 	, m_Tblood(NULL)
 	, m_pSprite(NULL)
+	, m_timer(0.0f)
 	
 {
 	D3DXMatrixIdentity(&m_Position);
@@ -25,25 +26,26 @@ cPlayer::~cPlayer()
 void cPlayer::SetUp()
 {
 	
-	m_pGun[HANDGUN] = new cSkinnedMesh("Weapon X File/test/", "Idle.X");
+	m_pGun[HANDGUN] = new cSkinnedMesh("Weapon X File/test/", "Idle2.X");
 	m_pGun[HANDGUN]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
-	m_pGun[BUSTER] = new cSkinnedMesh("Weapon X File/b/", "Idle.X");
+	m_pGun[BUSTER] = new cSkinnedMesh("Weapon X File/b/", "Idle3.X");
 	m_pGun[BUSTER]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
-	m_pGun[KNIFE] = new cSkinnedMesh("Weapon X File/knife/", "Idle.X");
+	m_pGun[KNIFE] = new cSkinnedMesh("Weapon X File/knife/", "Idle2.X");
 	m_pGun[KNIFE]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
-	m_pGun[SHOT] = new cSkinnedMesh("Weapon X File/Shot/", "Idle.X");
+	m_pGun[SHOT] = new cSkinnedMesh("Weapon X File/Shot/", "Idle2.X");
 	m_pGun[SHOT]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
-	m_pGun[HEAL] = new cSkinnedMesh("Weapon X File/Heal/", "Idle.X");
+	m_pGun[HEAL] = new cSkinnedMesh("Weapon X File/Heal/", "Idle2.X");
 	m_pGun[HEAL]->SetPosition(D3DXVECTOR3(0, 0, 0));
 
 	m_pPlayer = m_pGun[HANDGUN];
+	m_eGunName = HANDGUN;
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pPlayer->GetBoundingBox()->_min, m_pPlayer->GetBoundingBox()->_max, m_pPlayerBox);
-	m_eGunName = HANDGUN;
+	m_pPlayer->SetGunName(HANDGUN);
 
 	D3DXCreateTextureFromFileEx(
 		g_pD3DDevice,
@@ -71,40 +73,65 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 {
 
 	D3DXMATRIXA16 matS, matR, matT;
-	D3DXMatrixIdentity(&matS);
+	/*D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matR);
-	D3DXMatrixIdentity(&matT);
-	//D3DXMatrixTranslation(&matT, 3, 0, 12);
+	D3DXMatrixIdentity(&matT);*/
+	//D3DXMatrixTranslation(&matT, 0, 0.5f , 0);
 	//D3DXMatrixScaling(&matS, 1.5f, 1.5f, 1.5f);
-
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2.f);
+	D3DXMatrixIdentity(&matS);
+	//D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+	
 	if (pmat)
-		m_Position = matS  *matT *(*pmat);
+		m_Position = matS  *matR  *(*pmat);
 	else
-		m_Position = matS * matT;
+		m_Position = matS * matR ;
 
 	m_pPlayer->Update(&m_Position, 0);
 	m_pOBB->Update(&m_Position, m_pPlayerBox);
 	
+	
+	if (g_pKeyManager->isOnceKeyDown('0'))
+	{
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(4);
+		
+		m_eGunName = HANDGUN;
+		
+	}
 	if (g_pKeyManager->isOnceKeyDown('1'))
 	{
-		m_pPlayer = m_pGun[BUSTER];
+		
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(4);
 		m_eGunName = BUSTER;
+		
 	}
 	if (g_pKeyManager->isOnceKeyDown('2'))
 	{
-		m_pPlayer = m_pGun[KNIFE];
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(3);
 		m_eGunName = KNIFE;
+		
+		
 	}
 	if (g_pKeyManager->isOnceKeyDown('3'))
 	{
-		m_pPlayer = m_pGun[SHOT];
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(3);
 		m_eGunName = SHOT;
+		
+		
 	}
 	if (g_pKeyManager->isOnceKeyDown('4'))
 	{
-		m_pPlayer = m_pGun[HEAL];
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(3);
 		m_eGunName = HEAL;
+		
+		
 	}
+	m_pPlayer->SetGunName(m_eGunName);
 	if (g_pKeyManager->isOnceKeyDown('R'))
 	{
 		//m_pPlayer->SetFrameNum(2);
@@ -112,11 +139,12 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 		//이걸 고쳐야한다.. 한번만하면되도록
 		
 		m_pPlayer->SetAnimationIndex(2);
-		m_pPlayer->SetAnimationIndex(2);
-		//m_pPlayer->SetFrameNum(2);
+		m_pPlayer->SetFrameNum(2);
 		m_pPlayer->SetAction(true);
 	}
 
+
+	m_pPlayer = m_pGun[m_eGunName];
 }
 void cPlayer::SetAni(int num)
 {
@@ -126,6 +154,7 @@ void cPlayer::SetAni(int num)
 }
 void cPlayer::Render()
 {
+	
 	m_pPlayer->Render(&m_Position);
 	m_pOBB->DebugRender(D3DCOLOR_XRGB(255, 0, 255));
 }

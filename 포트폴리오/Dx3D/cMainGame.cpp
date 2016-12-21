@@ -281,6 +281,8 @@ void cMainGame::Update()
 	{
 		m_pBulletCollision->Settest(false);
 	}
+
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -367,6 +369,7 @@ void cMainGame::Render()
 		}
 	}
 	m_pBulletCollision->Render(m_pMap,m_pController);
+
 	/*D3DXMATRIXA16 m_matProj;
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);

@@ -3,14 +3,6 @@
 class cSkinnedMesh;
 class cOBB;
 
-enum GUN_NAME
-{
-	HANDGUN,
-	BUSTER,
-	KNIFE,
-	SHOT,
-	HEAL
-};
 
 
 class cPlayer
@@ -22,11 +14,13 @@ private:
 	D3DXMATRIXA16				m_Position;
 	GUN_NAME					m_eGunName;
 
+
 	ST_OBB						m_pPlayerBox;
 	cOBB*						m_pOBB;
 	LPDIRECT3DTEXTURE9			m_Tblood;
 	LPD3DXSPRITE				m_pSprite;
 	D3DXIMAGE_INFO				m_stImageInfo;
+	float						m_timer;
 public:
 	cPlayer();
 	~cPlayer();

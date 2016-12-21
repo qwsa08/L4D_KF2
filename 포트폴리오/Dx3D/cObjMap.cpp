@@ -35,7 +35,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 {
 	cObjLoader l;
 	m_Map = l.Load(this, szMap, m_pMtltex, pmat);
-	//m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
+//	m_LightCon = l.Load(this, "LightCon/LightCon.ptop", m_pConMtl, pmat);
 
 	m_vecNomal.resize(l.GetNomalMap().size());
 	m_vecSpecular.resize(l.GetSpecularMap().size());

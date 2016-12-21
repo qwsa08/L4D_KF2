@@ -15,7 +15,7 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_vPosition(0, 0, 0)
 	, m_FrameNum(0)
 	, m_isBlending(false)
-	, m_fBlendTime(0.3f)
+	, m_fBlendTime(0.003f)
 	, m_fPassedBlendTime(0.0f)
 
 {
@@ -405,29 +405,68 @@ void cSkinnedMesh::SetupBoneMatrixPtrs( ST_BONE* pBone )
 	}
 }
 
+void cSkinnedMesh::SetPlayerAnimationIndex(int nIndex)
+{
+	if (!m_pAnimController)
+		return;
+
+	
+	LPD3DXANIMATIONSET pAnimSet = NULL;
+	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	
+	//m_pAnimController->SetTrackWeight(0, 1.0f);
+	//m_pAnimController->SetTrackWeight(1, 0.0f);
+	m_pAnimController->ResetTime();
+	m_pAnimController->AdvanceTime(0, NULL);
+	SAFE_RELEASE(pAnimSet);
+}
+
 void cSkinnedMesh::SetAnimationIndex( int nIndex )
 {
-	 if (m_isBlending&& !m_FrameNum) return;
+	if (m_isBlending&& !m_FrameNum) return;
+	float a = AnimationFrame(m_FrameNum);
 
-	 int num = 0;
-	 /*
-	 if (m_FrameNum == 2)
-	 {
-		 num = 2;
-	 }*/
+	//switch (m_GunName)
+	//{
+	//case HANDGUN:
+	//	/*if (m_FrameNum == 1) m_fBlendTime = 0.03f;
+	//	else*/ m_fBlendTime = 0.03f;
+	//	break;
+	//case BUSTER:
+	//	if (m_FrameNum == 1) m_fBlendTime = 0.01f;
+	//	//else m_fBlendTime = 0.1f;
+	//	break;
+	//case KNIFE:
+	//	if (m_FrameNum == 1) m_fBlendTime = 0.3f;
+	//	else m_fBlendTime = 0.3f;
+	//	break;
+	//case SHOT:
+	//	if (m_FrameNum == 1) m_fBlendTime = 0.1f;
+	//	else m_fBlendTime = 0.01f;
+	//	break;
+	//case HEAL:
+	//	if (m_FrameNum == 1) m_fBlendTime = 0.01f;
+	//	//else m_fBlendTime = 0.1f;
+	//	break;
+	//default:
+	//	break;
+	//}
+
 	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
 	LPD3DXANIMATIONSET pCurrAnimSet = NULL;
 
 	// 기존 애니매이션을 1번 트랙에 세팅
-	m_pAnimController->GetTrackAnimationSet(num, &pPrevAnimSet);
-	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->GetAnimationSet(nIndex, &pCurrAnimSet);
 
 	D3DXTRACK_DESC stTrackDesc;
 	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+	stTrackDesc.Position -= m_fBlendTime;
 	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
 
 	// 새로운 애니매이션을 0번 트랙에 세팅
-	m_pAnimController->GetAnimationSet(nIndex, &pCurrAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pCurrAnimSet);
 
 	// 트랙 가중치 설정
@@ -435,9 +474,13 @@ void cSkinnedMesh::SetAnimationIndex( int nIndex )
 	m_pAnimController->SetTrackWeight(1, 1.0f);
 
 	// 트랙 포지션 설정
+	
+	//m_pAnimController->SetTrackPosition(1, a - m_fBlendTime);// a - m_fBlendTime);
 	m_pAnimController->SetTrackPosition(0, 0.0f);
 
 	m_fPassedBlendTime = 0.0f;
+	m_pAnimController->ResetTime();
+	m_pAnimController->AdvanceTime(0, NULL);
 	m_isBlending = true;
 
 	SAFE_RELEASE(pPrevAnimSet);
@@ -514,16 +557,12 @@ void cSkinnedMesh::Render(D3DXMATRIXA16* pmat)
 void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 {
 	if (m_pRootFrame == NULL) return;
+	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
+
 
 	if (m_isBlending)
 	{
-		
-		m_fBlendTime = AnimationFrame(m_FrameNum);
-		//m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
-		D3DXTRACK_DESC tc;
-		m_pAnimController->GetTrackDesc(0, &tc);
-		float m_fPassedBlendTime = tc.Position;
-
+		m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
 
 		if (m_fPassedBlendTime >= m_fBlendTime)
 		{
@@ -540,9 +579,32 @@ void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
 		}
 	}
+	else
+	{
+		D3DXTRACK_DESC tc;
+		m_pAnimController->GetTrackDesc(0, &tc);
+		float m_fPassedTime = tc.Position;
+		float a = AnimationFrame(m_FrameNum);
+		if (m_fPassedTime-0.001 >= a)
+		{
+			if(m_FrameNum != 0)
+			{
+				m_FrameNum = 0;
+				SetAnimationIndex(0);
+			}
+		}
+	}
+	/*if (m_fPassedBlendTime >= a)
+	{
+		m_fPassedBlendTime = 0.f;
+		if (m_FrameNum != 0)
+		{
+			m_FrameNum = 0;
+			SetAnimationIndex(0);
+		}
+	}*/
 	
 	
-	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
 
 
 	Update(m_pRootFrame, pmat);

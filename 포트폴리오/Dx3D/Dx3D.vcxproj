@@ -104,10 +104,13 @@
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
+    <ClInclude Include="cInput.h" />
+    <ClInclude Include="cKeyBoard.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
     <ClInclude Include="cMinHeap.h" />
+    <ClInclude Include="cMouse.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
@@ -152,10 +155,13 @@
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
+    <ClCompile Include="cInput.cpp" />
+    <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMinHeap.cpp" />
+    <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />

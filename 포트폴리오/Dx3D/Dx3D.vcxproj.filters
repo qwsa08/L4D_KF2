@@ -133,6 +133,9 @@
     <ClCompile Include="cObjGun.cpp">
       <Filter>오브젝트</Filter>
     </ClCompile>
+    <ClCompile Include="cInput.cpp" />
+    <ClCompile Include="cKeyBoard.cpp" />
+    <ClCompile Include="cMouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -276,6 +279,9 @@
     <ClInclude Include="cObjGun.h">
       <Filter>오브젝트</Filter>
     </ClInclude>
+    <ClInclude Include="cInput.h" />
+    <ClInclude Include="cKeyBoard.h" />
+    <ClInclude Include="cMouse.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
