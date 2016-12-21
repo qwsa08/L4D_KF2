@@ -21,6 +21,9 @@ private:
 	LPD3DXSPRITE				m_pSprite;
 	D3DXIMAGE_INFO				m_stImageInfo;
 	float						m_timer;
+	D3DXMATRIXA16				m_matT;
+	bool						m_bZoomIn;
+	bool						m_bZoomOut;
 public:
 	cPlayer();
 	~cPlayer();
