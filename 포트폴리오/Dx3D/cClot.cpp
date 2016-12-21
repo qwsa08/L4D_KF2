@@ -72,7 +72,7 @@ void cClot::Setup()
 void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 {
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
-	{		
+	{
 		//¹üÀ§?
 		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
 		float fDistance = D3DXVec3Length(&v);
@@ -150,7 +150,6 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 
 		D3DXMATRIXA16 matS, matR, matT, mat;
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
-		m_vecSkinnedMesh[i].pSkinnedMesh->SetAnimationIndex(1);
 		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
 		D3DXMatrixTranspose(&matR, &matR);
