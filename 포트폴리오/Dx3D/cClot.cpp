@@ -150,6 +150,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 
 		D3DXMATRIXA16 matS, matR, matT, mat;
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
+		m_vecSkinnedMesh[i].pSkinnedMesh->SetAnimationIndex(1);
 		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
 		D3DXMatrixTranspose(&matR, &matR);
