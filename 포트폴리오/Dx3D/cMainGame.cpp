@@ -17,7 +17,6 @@
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
-#include "cPickObj.h"
 
 #define RADIUS 3.f
 
@@ -97,8 +96,8 @@ void cMainGame::Setup()
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
 
-	cPickObj* pPickObj = new cPickObj;
-	pPickObj->Load("./PickWeapon/shotgun/Shotgun.ptop", NULL);
+	cMapXfile* pPickObj = new cMapXfile;
+	pPickObj->PickWeaponLoad("./PickWeapon/shotgun/shotgun.X");
 	m_pObj = pPickObj;
 
 	m_pEnemyManager = new cEnemyManager;
