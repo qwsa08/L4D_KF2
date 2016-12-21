@@ -3,6 +3,7 @@
 class cMtlTex;
 class cGroup;
 class cObjMap;
+class cPickObj;
 
 class cObjLoader
 {
@@ -20,10 +21,17 @@ public:
 	~cObjLoader(void);
 
 	void Load(IN char* szPath, OUT std::vector<D3DXVECTOR3>& vecBoundingBox, IN D3DXMATRIXA16* pmat = NULL);
+	
 	LPD3DXMESH Load(OUT cObjMap* ObjMap,
 	IN char* szPath,
 	OUT std::vector<cMtlTex*>& vecMtlTex,
 	IN D3DXMATRIXA16* pmat = NULL);
+	
+	LPD3DXMESH Load(OUT cPickObj* PickObj,
+		IN char* szPath,
+		OUT std::vector<cMtlTex*>& vecMtlTex,
+		IN D3DXMATRIXA16* pmat = NULL);
+
 	void DijkstraLoad(IN char* szPath, OUT std::vector<std::vector<D3DXVECTOR3>>& vecWallVertex, IN D3DXMATRIXA16* pmat = NULL);
 
 	std::vector<ST_PNT_VERTEX> GetVertexFull() { return m_vecVertex; }

@@ -127,6 +127,7 @@
     <ClCompile Include="cDijkstra.cpp">
       <Filter>L4D\Zombie\Dijkstra</Filter>
     </ClCompile>
+
     <ClCompile Include="cClot.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
@@ -136,6 +137,9 @@
     <ClCompile Include="cInput.cpp" />
     <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cMouse.cpp" />
+    <ClCompile Include="cPickObj.cpp">
+      <Filter>ObjFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAction.h">
@@ -273,6 +277,7 @@
     <ClInclude Include="cDijkstra.h">
       <Filter>L4D\Zombie\Dijkstra</Filter>
     </ClInclude>
+
     <ClInclude Include="cClot.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
@@ -282,6 +287,9 @@
     <ClInclude Include="cInput.h" />
     <ClInclude Include="cKeyBoard.h" />
     <ClInclude Include="cMouse.h" />
+    <ClInclude Include="cPickObj.h">
+      <Filter>ObjFile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

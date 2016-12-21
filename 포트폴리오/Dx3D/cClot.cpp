@@ -72,7 +72,7 @@ void cClot::Setup()
 void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 {
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
-	{		
+	{
 		//범위?
 		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
 		float fDistance = D3DXVec3Length(&v);
@@ -113,17 +113,38 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 						D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
 						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vPos));
 					}
-				}				
+				}
+				m_vecSkinnedMesh[i].vPrevPosition = m_vecSkinnedMesh[i].vPosition;
 			}
 			else//다익스트라
 			{
+				if (fDistance > 1000.f)
+				{
+					m_vecSkinnedMesh[i].isRecognize = false;
+				}
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, vPlayerPos);
 
 				m_vecSkinnedMesh[i].eMotion = MOVE;
 
-				D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
-				m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+				if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
+				{
+					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
+					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
 
+					if (vecRoute.size() > 1)
+					{
+						float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vecRoute[0]), &(m_vecSkinnedMesh[i].vPrevPosition - vecRoute[0]));
+						if (l <= 0)
+						{
+							m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
+						}
+					}					
+				}
+				else
+				{
+					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[1]));
+					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+				}
 			}
 		}
 

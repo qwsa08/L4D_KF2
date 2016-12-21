@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\ElephantBody.3ds";
+string Textured_Phong_Pass_0_Model : ModelData = ".\\??\healgun\\heal.X";
 
 float4x4 matWorld : World;
 float4x4 matViewProjection : ViewProjection;
@@ -34,7 +34,6 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position : POSITION0;
-   
 };
 
 VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -44,10 +43,12 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Position = mul( Input.Position, matWorld );
    Output.Position = mul( Output.Position, matViewProjection );
    
-   float3 normal = mul( Input.Normal, (float3x3)matWorld);
-   normal = mul( normal, (float3x3)matViewProjection);
-   normal = normalize(normal);
-   Output.Position.xy  += normal.xy * 1.5f;
+   float3 Normal = mul( Input.Normal, (float3x3)matWorld );
+   Normal = mul( Normal, (float3x3)matViewProjection );
+   Normal = normalize(Normal);
+   
+   Output.Position.xy += Normal.xy * 0.4f;
+   
    return( Output );
    
 }
@@ -57,7 +58,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main() : COLOR0
 {   
-   return( float4( 0.0f, 1.0f, 0.0f, 1.0f ) );
+   return( float4( 1.0f, 0.0f, 0.0f, 1.0f ) );
    
 }
 
@@ -67,7 +68,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main() : COLOR0
 //--------------------------------------------------------------//
 // Pass 1
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_1_Model : ModelData = "..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\ElephantBody.3ds";
+string Textured_Phong_Pass_1_Model : ModelData = ".\\??\healgun\\heal.X";
 
 float3 fvLightPosition
 <
@@ -85,16 +86,17 @@ float3 fvEyePosition
    float UIMin = -100.00;
    float UIMax = 100.00;
 > = float3( 0.00, 0.00, -100.00 );
-float4x4 Textured_Phong_Pass_1_Vertex_Shader_matWorld : World;
 float4x4 matView : View;
 float4x4 Textured_Phong_Pass_1_Vertex_Shader_matViewProjection : ViewProjection;
+float4x4 Textured_Phong_Pass_1_Vertex_Shader_matWorld : World;
 
 struct Textured_Phong_Pass_1_Vertex_Shader_VS_INPUT 
 {
    float4 Position : POSITION0;
    float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
- };
+   
+};
 
 struct Textured_Phong_Pass_1_Vertex_Shader_VS_OUTPUT 
 {
@@ -102,15 +104,17 @@ struct Textured_Phong_Pass_1_Vertex_Shader_VS_OUTPUT
    float2 Texcoord :        TEXCOORD0;
    float3 ViewDirection :   TEXCOORD1;
    float3 LightDirection :  TEXCOORD2;
-   float3 Normal :          TEXCOORD3; 
+   float3 Normal :          TEXCOORD3;
+   
 };
 
 Textured_Phong_Pass_1_Vertex_Shader_VS_OUTPUT Textured_Phong_Pass_1_Vertex_Shader_vs_main( Textured_Phong_Pass_1_Vertex_Shader_VS_INPUT Input )
 {
    Textured_Phong_Pass_1_Vertex_Shader_VS_OUTPUT Output;
 
-   Output.Position         = mul( Input.Position, Textured_Phong_Pass_1_Vertex_Shader_matWorld);
-   Output.Position         = mul(Output.Position ,Textured_Phong_Pass_1_Vertex_Shader_matViewProjection );
+   Output.Position         = mul( Input.Position, Textured_Phong_Pass_1_Vertex_Shader_matWorld );
+   Output.Position         = mul( Output.Position, Textured_Phong_Pass_1_Vertex_Shader_matViewProjection );
+   
    Output.Texcoord         = Input.Texcoord;
    
    float3 fvObjectPosition = mul( Input.Position, matView );
@@ -153,7 +157,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = "..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
+   string ResourceName = ".\\??\healgun\\Syringe_3rd.tga";
 >;
 sampler2D baseMap = sampler_state
 {
@@ -184,16 +188,15 @@ float4 Textured_Phong_Pass_1_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
    
-   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   
-   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
-   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
-   
-   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
-      
-}
+   float4 fvBaseColor = tex2D(baseMap, Input.Texcoord);
 
+	   float4 fvTotalAmbient = fvAmbient * fvBaseColor;
+	   float4 fvTotalDiffuse = fvDiffuse * fNDotL * fvBaseColor;
+	   float4 fvTotalSpecular = fvSpecular * pow(fRDotV, fSpecularPower);
+
+	   //  return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+	   return fvBaseColor;
+}
 
 
 //--------------------------------------------------------------//

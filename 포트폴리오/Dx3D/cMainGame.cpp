@@ -17,6 +17,7 @@
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
+#include "cPickObj.h"
 
 #include "cObjGun.h"
 #define RADIUS 3.f
@@ -27,6 +28,7 @@ cMainGame::cMainGame(void)
 	, m_pController(NULL)
 	, m_pPyramid(NULL)
 	, m_pMap(NULL)
+	, m_pObj(NULL)
 	, m_pMesh(NULL)
 	, m_pMapMesh(NULL)
 	, m_pFrustum(NULL)
@@ -61,16 +63,17 @@ cMainGame::~cMainGame(void)
 
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
+	SAFE_RELEASE(m_pObj);
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
+
 	for each (auto p in m_vecMtlTex)
 	{
 		SAFE_RELEASE(p);
 	}
 
 	//SAFE_DELETE(m_pSkinnedMesh);
-
 
 
 	g_pSkinnedMeshManager->Destroy();
@@ -95,6 +98,10 @@ void cMainGame::Setup()
 	cObjMap* pObjMap = new cObjMap;
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
+
+	cPickObj* pPickObj = new cPickObj;
+	pPickObj->Load("./PickWeapon/shotgun/Shotgun.ptop", NULL);
+	m_pObj = pPickObj;
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
@@ -351,11 +358,23 @@ void cMainGame::Render()
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
+
 	//m_pBulletCollision->Fire(m_pMap);
 			
 		
 	m_pCrossHead->Render();
 	
+	if (m_pObj)
+	{
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		std::vector<ST_PNT_VERTEX> testMap;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+		m_pObj->Render(
+			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
+			&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+	}
 
 	if (m_fire)
 	{
