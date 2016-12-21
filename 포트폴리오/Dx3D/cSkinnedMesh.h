@@ -39,7 +39,7 @@ public:
 	//=======================================
 	void UpdateAndRender(D3DXMATRIXA16* pmat = NULL);
 	void SetAnimationIndex(int nIndex);
-	void SetPlayerAnimationIndex(int nIndex);
+	void SetNomalAnimationIndex(int nIndex);
 
 	//================추가 애니메이션?수정해야할껄요!?===================//
 	void SetskinningAnimationIndex(int current, int next);

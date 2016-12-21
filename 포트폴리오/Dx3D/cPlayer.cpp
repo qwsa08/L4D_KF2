@@ -94,7 +94,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	if (g_pKeyManager->isOnceKeyDown('0'))
 	{
 		m_pPlayer->SetAnimationIndex(3);
-		m_pPlayer->SetFrameNum(4);
+		m_pPlayer->SetFrameNum(3);
 		
 		m_eGunName = HANDGUN;
 		
@@ -103,7 +103,8 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		
 		m_pPlayer->SetAnimationIndex(3);
-		m_pPlayer->SetFrameNum(4);
+		m_pPlayer->SetAnimationIndex(3);
+		m_pPlayer->SetFrameNum(3);
 		m_eGunName = BUSTER;
 		
 	}

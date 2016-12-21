@@ -405,7 +405,7 @@ void cSkinnedMesh::SetupBoneMatrixPtrs( ST_BONE* pBone )
 	}
 }
 
-void cSkinnedMesh::SetPlayerAnimationIndex(int nIndex)
+void cSkinnedMesh::SetNomalAnimationIndex(int nIndex)
 {
 	if (!m_pAnimController)
 		return;
@@ -415,10 +415,6 @@ void cSkinnedMesh::SetPlayerAnimationIndex(int nIndex)
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
 	
-	//m_pAnimController->SetTrackWeight(0, 1.0f);
-	//m_pAnimController->SetTrackWeight(1, 0.0f);
-	m_pAnimController->ResetTime();
-	m_pAnimController->AdvanceTime(0, NULL);
 	SAFE_RELEASE(pAnimSet);
 }
 
