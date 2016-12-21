@@ -307,8 +307,8 @@ LPD3DXMESH cObjLoader::Load(OUT cPickObj* PickObj,
 			if (szBuf[1] == 't')
 			{
 				float u, v;
-				sscanf_s(szBuf, "%*s %f %f %*f", &u, &v);
-				vecVT.push_back(D3DXVECTOR2(u, v));
+				sscanf_s(szBuf, "%*s %f %*f %f", &u, &v);
+				vecVT.push_back(D3DXVECTOR2(v, u));
 			}
 			else if (szBuf[1] == 'n')
 			{
@@ -636,7 +636,7 @@ void cObjLoader::LoadMtlLib( char* szPath, OUT std::vector<cMtlTex*>& vecMtlTex 
 			char szPath[1024];
 			sscanf_s(szBuf, "%*s %s", szPath, 1024);
 
-			if (szBuf[5] == 'a' || szBuf[0] == 'd')
+			if (szBuf[5] == 'a' || szBuf[5] == 'd')
 				m_mapMtlTex[sMtlName]->SetTexture(g_pTextureManager->GetTexture(szPath));
 
 			else if (szBuf[5] == 'n')
