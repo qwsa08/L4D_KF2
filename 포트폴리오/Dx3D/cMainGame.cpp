@@ -98,8 +98,8 @@ void cMainGame::Setup()
 	m_pMap = pObjMap;
 
 	cPickObj* pPickObj = new cPickObj;
-//	pPickObj->Load("./PickWeapon/shotgun/Shotgun.obj", NULL);
-//	m_pObj = pPickObj;
+	pPickObj->Load("./PickWeapon/shotgun/Shotgun.ptop", NULL);
+	m_pObj = pPickObj;
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();

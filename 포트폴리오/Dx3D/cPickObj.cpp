@@ -16,6 +16,8 @@ cPickObj::cPickObj()
 cPickObj::~cPickObj()
 {
 	SAFE_RELEASE(m_PickShotGun);
+	SAFE_RELEASE(m_PickBullpup);
+	SAFE_RELEASE(m_PickHeal);
 	SAFE_RELEASE(m_OutLineShader);
 
 	for each(auto p in m_pShotGunMtltex)
@@ -39,9 +41,9 @@ void cPickObj::Load(char* szMap, D3DXMATRIXA16* pmat)
 	cObjLoader l;
 	m_PickShotGun = l.Load(this, szMap, m_pShotGunMtltex, pmat);
 
-	//m_PickBullpup = l.Load(this, "./PickWeapon/bullpup/Bullpup.obj", m_pBullpupMtltex, pmat);
+	m_PickBullpup = l.Load(this, "./PickWeapon/bullpup/Bullpup.ptop", m_pBullpupMtltex, pmat);
 
-	//m_PickHeal = l.Load(this, "./PickWeapon/healgun/Syringe.obj", m_pHealMtltex, pmat);
+	m_PickHeal = l.Load(this, "./PickWeapon/healgun/Heal.ptop", m_pHealMtltex, pmat);
 
 	m_OutLineShader = g_pShader->LoadShader("OutLine.fx");
 }
@@ -69,9 +71,9 @@ void cPickObj::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirect
 
 	m_OutLineShader->SetVector("fvLightPosition", LightPosition);
 
-	PickShotGunRender();
-	//PickWeaponRender(m_pShotGunMtltex, m_OutLineShader, m_PickShotGun, 1.f, -80.f, 1.f);
-	//PickWeaponRender(m_pBullpupMtltex, m_OutLineShader, m_PickBullpup, 1.f, -80.f, -50.f);
+	//PickShotGunRender();
+	PickWeaponRender(m_pShotGunMtltex, m_OutLineShader, m_PickShotGun, 1.f, -80.f, 1.f);
+	PickWeaponRender(m_pBullpupMtltex, m_OutLineShader, m_PickBullpup, 1.f, -80.f, -50.f);
 }
 
 void cPickObj::PickShotGunRender()
