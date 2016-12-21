@@ -24,7 +24,7 @@ cBulletCollision::~cBulletCollision()
 	SAFE_RELEASE(m_pRenderTargetTexture);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_pEffect);
-	SAFE_RELEASE(m_Texture);
+	//SAFE_RELEASE(m_Texture);
 	SAFE_RELEASE(m_pBulletholes);
 	SAFE_RELEASE(m_pMesh);
 }

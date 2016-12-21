@@ -72,7 +72,7 @@ void cClot::Setup()
 void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 {
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
-	{		
+	{
 		//¹üÀ§?
 		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
 		float fDistance = D3DXVec3Length(&v);
@@ -149,6 +149,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 		}
 
 		D3DXMATRIXA16 matS, matR, matT, mat;
+		//SetAnimationIndex(i, );
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
 		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
@@ -166,19 +167,19 @@ void cClot::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 	switch (eMotion)
 	{
 	case IDLE:
-		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetAnimationIndex(0);
+		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(0);
 		break;
 	case MOVE:
-		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetAnimationIndex(1);
+		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(1);
 		break;
 	case SPRINT:
-		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetAnimationIndex(1);
+		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(1);
 		break;
 	case ATTACK:
-		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetAnimationIndex(2);
+		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(2);
 		break;
 	case DIE:
-		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetAnimationIndex(7);
+		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(7);
 		break;
 	default:
 		break;

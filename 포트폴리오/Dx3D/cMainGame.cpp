@@ -18,6 +18,7 @@
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
 
+#include "cObjGun.h"
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -72,6 +73,7 @@ cMainGame::~cMainGame(void)
 	}
 
 	//SAFE_DELETE(m_pSkinnedMesh);
+
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -136,6 +138,7 @@ void cMainGame::Setup()
 	m_pBulletCollision->SetUp(pObjMap);
 
 	m_pCrossHead = new cCrossHead;
+
 
 
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
@@ -390,6 +393,7 @@ void cMainGame::Render()
 	GetClientRect(g_hWnd, &rc);
 	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);*/
+
 	g_pD3DDevice->EndScene();
 
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

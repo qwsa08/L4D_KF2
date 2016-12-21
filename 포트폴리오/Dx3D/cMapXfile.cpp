@@ -3,6 +3,7 @@
 
 
 cMapXfile::cMapXfile()
+
 	: m_pOutLineShader(NULL)
 	, m_pShotgun(NULL)
 	
@@ -18,9 +19,11 @@ cMapXfile::~cMapXfile()
 
 	for (int i = 0; i < m_pShotGunTex.size(); i++)
 	{
+
 		SAFE_RELEASE(m_pShotGunTex[i]);
 	}
 }
+
 
 LPD3DXMESH cMapXfile::MeshXFileLoad(
 	char* szFilename, 
@@ -92,7 +95,7 @@ void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirec
 	D3DXMATRIXA16 matW;
 	D3DXMatrixIdentity(&matW);
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
+	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matW);
 
 	D3DXMATRIXA16 matView, matProj, matWorld, matViewProjection;
 

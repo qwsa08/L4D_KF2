@@ -448,16 +448,9 @@ int cDijkstra::GetFirstNode(D3DXVECTOR3 * vPos)
 	std::vector<D3DXVECTOR3> vecObs = m_vecObstacleVertex[eSector];
 	GetSectorNode(eSector, vecNodeIndex);
 
-	int nIndex = 0;
-	//가까운 노드를 찾아서 다이렉트를 체크하자..
-	for (int i = 0; i < vecNodeIndex.size(); ++i)
-	{
-		nIndex = GetNearestNodeIndex(&vecNodeIndex, vPos);
-		if (IsDirect(vPos, &m_vecNode[nIndex].vPosition) == false)	continue;
-		else break;
-	}
+	//가까운 노드를 찾아서 다이렉트를 체크하자.. 다이렉트 체크 노노
 	
-	return nIndex;
+	return GetNearestNodeIndex(&vecNodeIndex, vPos);
 }
 
 void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
@@ -470,72 +463,103 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(1);
 		vecNode.push_back(2);
 		vecNode.push_back(3);
+		vecNode.push_back(4);
+		vecNode.push_back(5);
 	}
 		break;
 	case SECTOR_2:
 	{
-		vecNode.push_back(4);
-		vecNode.push_back(10);
-		vecNode.push_back(11);
-	}
-		break;
-	case SECTOR_3:
-	{
-		vecNode.push_back(32);
-		vecNode.push_back(33);
-		vecNode.push_back(34);
-		vecNode.push_back(35);
-	}
-		break;
-	case SECTOR_4:
-	{
-		vecNode.push_back(5);
 		vecNode.push_back(6);
-		vecNode.push_back(7);
-		vecNode.push_back(8);
-		vecNode.push_back(9);
-		vecNode.push_back(16);
-		vecNode.push_back(17);
-		vecNode.push_back(26);
-		vecNode.push_back(27);
-		vecNode.push_back(28);
-	}
-		break;
-	case SECTOR_5:
-	{
 		vecNode.push_back(12);
 		vecNode.push_back(13);
 		vecNode.push_back(14);
 		vecNode.push_back(15);
-		vecNode.push_back(18);
-		vecNode.push_back(19);
-		vecNode.push_back(20);
-		vecNode.push_back(40);
+		vecNode.push_back(16);
+		vecNode.push_back(17);
 	}
 		break;
-	case SECTOR_6:
+	case SECTOR_3:
 	{
-		vecNode.push_back(21);
-		vecNode.push_back(22);
+		vecNode.push_back(65);
+		vecNode.push_back(66);
+		vecNode.push_back(67);
+		vecNode.push_back(68);
+		vecNode.push_back(69);
+		vecNode.push_back(70);
+		vecNode.push_back(71);
+	}
+		break;
+	case SECTOR_4:
+	{
+		vecNode.push_back(8);
+		vecNode.push_back(9);
+		vecNode.push_back(10);
+		vecNode.push_back(11);
 		vecNode.push_back(29);
-
-	}
-		break;
-	case SECTOR_7:
-	{
-		vecNode.push_back(23);
-		vecNode.push_back(24);
-		vecNode.push_back(25);
-		vecNode.push_back(30);
-	}
-		break;
-	case SECTOR_8:
-	{
-		vecNode.push_back(31);
+		vecNode.push_back(32);
+		vecNode.push_back(33);
+		vecNode.push_back(34);
+		vecNode.push_back(35);
 		vecNode.push_back(36);
 		vecNode.push_back(37);
 		vecNode.push_back(38);
 		vecNode.push_back(39);
+		vecNode.push_back(40);
+		vecNode.push_back(41);
+		vecNode.push_back(42);
+		vecNode.push_back(43);
+	}
+		break;
+	case SECTOR_5:
+	{
+		vecNode.push_back(7);
+		vecNode.push_back(18);
+		vecNode.push_back(19);
+		vecNode.push_back(20);
+		vecNode.push_back(21);
+		vecNode.push_back(22);
+		vecNode.push_back(23);
+		vecNode.push_back(24);
+		vecNode.push_back(25);
+		vecNode.push_back(26);
+		vecNode.push_back(27);
+		vecNode.push_back(28);
+		vecNode.push_back(30);
+		vecNode.push_back(31);
+	}
+		break;
+	case SECTOR_6:
+	{
+		vecNode.push_back(51);
+		vecNode.push_back(52);
+		vecNode.push_back(53);
+		vecNode.push_back(54);
+		vecNode.push_back(55);
+		vecNode.push_back(56);
+		vecNode.push_back(57);
+	}
+		break;
+	case SECTOR_7:
+	{
+		vecNode.push_back(44);
+		vecNode.push_back(45);
+		vecNode.push_back(46);
+		vecNode.push_back(47);
+		vecNode.push_back(48);
+		vecNode.push_back(49);
+		vecNode.push_back(50);
+	}
+		break;
+	case SECTOR_8:
+	{
+		vecNode.push_back(58);
+		vecNode.push_back(59);
+		vecNode.push_back(60);
+		vecNode.push_back(61);
+		vecNode.push_back(62);
+		vecNode.push_back(63);
+		vecNode.push_back(64);
+		vecNode.push_back(72);
 	}
 		break;
 	default:
@@ -634,6 +658,7 @@ std::vector<D3DXVECTOR3> cDijkstra::GetRoute(D3DXVECTOR3* vFrom, D3DXVECTOR3* vT
 	for (int i = 0; i < vecRoute.size(); ++i)
 	{
 		vec[i] = m_vecNode[vecRoute[i]].vPosition;
+		if (i == 2) break;
 	}
 
 	return vec;

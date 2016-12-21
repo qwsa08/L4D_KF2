@@ -28,6 +28,8 @@
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib,"dxguid.lib")
 
 extern HWND	g_hWnd;
 
@@ -168,6 +170,24 @@ struct ST_OBB
 	}
 };
 
+enum MOUSEBUTTON
+{
+	MOUSEBTN_LEFT,
+	MOUSEBTN_RIGHT,
+	MOUSEBTN_WHEEL,
+	MOUSEBTN_END,
+};
+
+enum GUN_NAME
+{
+	HANDGUN,
+	BUSTER,
+	KNIFE,
+	SHOT,
+	HEAL
+};
+
+
 #include "cDeviceManager.h"
 #include "cTimeManager.h"
 #include "cTextureManager.h"
@@ -177,3 +197,7 @@ struct ST_OBB
 #include "cGameObject.h"
 #include "cShader.h"
 #include "cKeyManager.h"
+#include "dinput.h"
+#include "cInput.h"
+
+

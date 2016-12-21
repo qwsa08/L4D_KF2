@@ -27,7 +27,7 @@ void cCamera::Setup()
 
 void cCamera::Update(D3DXVECTOR3* pTarget, D3DXVECTOR3* pDirection)
 {
-	m_vEye = D3DXVECTOR3(0, 0, -m_fDistance);
+	m_vEye = D3DXVECTOR3(0, 0, 0);
 	m_vLookAt = D3DXVECTOR3(0, 0, -10);
 
 	if (pTarget)

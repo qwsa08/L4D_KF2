@@ -16,6 +16,7 @@ class cOBB;
 class cBulletCollision;
 class cCrossHead;
 
+
 class cEnemyManager;
 
 class cMainGame
@@ -63,7 +64,6 @@ private:
 	float						timer;
 	std::vector<ST_PT_VERTEX>	m_vTexture;
 	D3DXMATRIXA16				matView;
-	
 public:
 	cMainGame(void);
 	~cMainGame(void);
