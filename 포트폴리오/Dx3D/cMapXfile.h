@@ -6,16 +6,16 @@ class cMapXfile : public iMap
 {
 private:
 	LPD3DXMESH							m_pShotgun;
-	//LPD3DXMESH m_pshotgun;
-	//LPD3DXMESH m_pshotgun;
+	LPD3DXMESH							m_pBullpup;
+	LPD3DXMESH							m_pHeal;
 	
 	std::vector<D3DMATERIAL9>			m_pShotGunMtl;
-	//std::vector<cMtlTex*>				m_pBullpupMtltex;
-	//std::vector<cMtlTex*>				m_pHealMtltex;
+	std::vector<D3DMATERIAL9>			m_pBullpupMtl;
+	std::vector<D3DMATERIAL9>			m_pHealMtl;
 
 	std::vector<LPDIRECT3DTEXTURE9>		m_pShotGunTex;
-	//std::vector<cMtlTex*>				m_pBullpupMtltex;
-	//std::vector<cMtlTex*>				m_pHealMtltex;
+	std::vector<LPDIRECT3DTEXTURE9>		m_pBullpupTex;
+	std::vector<LPDIRECT3DTEXTURE9>		m_pHealTex;
 
 	LPD3DXEFFECT						m_pOutLineShader;
 public:
@@ -28,7 +28,7 @@ public:
 		std::vector<LPDIRECT3DTEXTURE9>* Textures);
 	//void Render();
 
-	void PickWeaponLoad(char* szFileName);
+	void PickWeaponLoad();
 
 	virtual void Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection) override;
 	virtual void Render();
@@ -38,6 +38,6 @@ public:
 		std::vector<D3DMATERIAL9> vecMtl,
 		std::vector<LPDIRECT3DTEXTURE9> vecTex,
 		LPD3DXEFFECT Shader, LPD3DXMESH Mesh,
-		float Px, float Py, float Pz);
+		D3DXMATRIX World);
 };
 

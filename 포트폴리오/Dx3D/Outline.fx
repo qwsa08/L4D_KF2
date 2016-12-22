@@ -47,7 +47,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Normal = mul( Normal, (float3x3)matViewProjection );
    Normal = normalize(Normal);
    
-   Output.Position.xy += Normal.xy * 0.4f;
+   Output.Position.xy += Normal.xy * 0.3f;
    
    return( Output );
    

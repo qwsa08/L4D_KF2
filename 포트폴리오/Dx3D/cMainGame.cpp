@@ -102,7 +102,7 @@ void cMainGame::Setup()
 	m_pMap = pObjMap;
 
 	cMapXfile* pPickObj = new cMapXfile;
-	pPickObj->PickWeaponLoad("./PickWeapon/shotgun/shotgun.X");
+	pPickObj->PickWeaponLoad();
 	m_pObj = pPickObj;
 
 	m_pEnemyManager = new cEnemyManager;
@@ -234,7 +234,6 @@ void cMainGame::Update()
 			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
 			//Ãæµ¹
 		}
-
 	}
 
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
@@ -460,6 +459,11 @@ void cMainGame::Render()
 	GetClientRect(g_hWnd, &rc);
 	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);*/
+
+	char szTemp[64];
+	sprintf(szTemp, "%f %f %f", 
+		m_pController->GetPosition()->x, m_pController->GetPosition()->y, m_pController->GetPosition()->z);
+	SetWindowText(g_hWnd, szTemp);
 
 	g_pD3DDevice->EndScene();
 
