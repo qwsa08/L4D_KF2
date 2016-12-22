@@ -250,7 +250,7 @@ void cMainGame::Update()
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController, &m_pObj->GetBBWTM()[i]))
+			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController->GetPosition(), &m_pController->GetDirection(), &m_pObj->GetBBWTM()[i]))
 			{
 				m_pObj->SetColor(D3DXVECTOR4(0.f, 1.f, 0.f, 1.f));
 				if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
@@ -294,11 +294,15 @@ void cMainGame::Update()
 				m_pPlayer->SetAni(1);
 				timer = 0.f;
 			}
+			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
+			{
+				int a = 0;
+			}
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				m_fire = true;
 				//m_pBulletCollision->Fire(m_pMap);
 			}
+			//m_fire = true;
 		}
 		
 	}
@@ -311,10 +315,14 @@ void cMainGame::Update()
 			//timer가 너무많으니 더 추가해주자 !!
 		
 			m_pPlayer->SetAni(1);
+			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
+			{
+				int a = 0;
+			}
 			
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				m_fire = true;
+				//m_fire = true;
 				//m_pBulletCollision->Fire(m_pMap);
 			}
 		}
@@ -379,19 +387,12 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	for (int i = 0; i < 8; i++)
-	{
-		m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
-	}
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	//for each(auto p in m_vecSkinnedMesh)
+	//for (int i = 0; i < 8; i++)
 	//{
-	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
-	//	{
-	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
-	//	}
+	//	m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
+	//}
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	if (m_bBlood)
 	{
 		m_fBloodTimer += g_pTimeManager->GetDeltaTime();
@@ -474,20 +475,7 @@ void cMainGame::Render()
 		m_pObj->Render();
 	}
 
-	if (m_fire)
-	{
-		timer += g_pTimeManager->GetDeltaTime();
-
-		if (timer > 0.2f)
-		{
-			timer = 0;
-			m_fire = false;
-		}
-		else
-		{
-			m_pController->m_fAngleX -= 0.001;
-		}
-	}
+	
 	
 	m_pBulletCollision->Render(m_pMap,m_pController);
 

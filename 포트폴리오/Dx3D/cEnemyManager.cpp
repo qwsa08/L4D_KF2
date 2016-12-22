@@ -50,3 +50,8 @@ void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 	m_pBoss->UpdateAndRender(vPlayerPos);
 //	m_pDijkstra->Render();
 }
+bool cEnemyManager::PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+{
+	if(m_pClot->PickTheBullet(vPlayerPos, vPlayerDir)) return true;
+	else return false;
+}

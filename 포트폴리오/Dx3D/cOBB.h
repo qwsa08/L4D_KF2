@@ -22,7 +22,8 @@ public:
 	void DebugRender(ST_OBB* pOBB1,D3DCOLOR c);
 	
 
-	bool GetFaceBoxIntersect(ST_OBB* pOBB1, cCrtController* Controller , D3DXMATRIXA16* _World);
+	bool GetFaceBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir, D3DXMATRIXA16* _World);
+	bool GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir);
 	D3DXMATRIXA16 GetWTM() { return m_matWorldTM; }
 	static bool IsCollision(ST_OBB* pOBB1, ST_OBB* pOBB2);
 };
