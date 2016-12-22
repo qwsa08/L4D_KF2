@@ -113,7 +113,7 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 	std::vector<ST_PNT_VERTEX> vecMap;
 	
 	cGroup* pGroup = NULL;
-
+	int n = 0;
 	FILE* fp = NULL;
 
 	fopen_s(&fp, szPath, "r");
@@ -142,9 +142,11 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 		}
 		else if(szBuf[0] == 'g')
 		{	
+			n++;
 		}
 		else if(szBuf[0] == 'v')
 		{
+			if (n == 1) break;
 			if(szBuf[1] == 't')
 			{
 				float u, v;

@@ -511,6 +511,11 @@ void cSkinnedMesh::Destroy()
 	SAFE_RELEASE(m_pEffect);
 }
 
+void cSkinnedMesh::ResetTrackPosition()
+{
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+}
+
 void cSkinnedMesh::SetRandomTrackPosition()
 {
 	m_pAnimController->SetTrackPosition(0, (rand() % 100) / 10.0f);
