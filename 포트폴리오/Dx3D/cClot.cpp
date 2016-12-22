@@ -87,6 +87,9 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 				m_vecSkinnedMesh[i].isRecognize = true;
 			}
 		}
+		else if (fDistance > 1000.f)
+		{
+		}
 
 		if (m_vecSkinnedMesh[i].isRecognize)
 		{
@@ -95,7 +98,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 			{
 				if (fDistance < 70.f)
 				{
-					m_vecSkinnedMesh[i].eMotion = ATTACK;
+					m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 				}
 				else
 				{
@@ -118,38 +121,43 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 			}
 			else//다익스트라
 			{
-				if (fDistance > 1000.f)
-				{
-					m_vecSkinnedMesh[i].isRecognize = false;
-				}
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, vPlayerPos);
 
 				m_vecSkinnedMesh[i].eMotion = MOVE;
 
-				if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
+				if (vecRoute.size() < 2)
 				{
 					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
 					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-
-					if (vecRoute.size() > 1)
+				}
+				else if (vecRoute.size() < 6)
+				{
+					if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
 					{
+						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
+						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+
 						float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vecRoute[0]), &(m_vecSkinnedMesh[i].vPrevPosition - vecRoute[0]));
 						if (l <= 0)
 						{
 							m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
 						}
-					}					
+					}
+					else
+					{
+						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[1]));
+						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+					}
 				}
 				else
 				{
-					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[1]));
-					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+					m_vecSkinnedMesh[i].eMotion = IDLE;
+					m_vecSkinnedMesh[i].isRecognize = false;
 				}
 			}
 		}
 
 		D3DXMATRIXA16 matS, matR, matT, mat;
-		//SetAnimationIndex(i, );
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
 		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
@@ -175,7 +183,7 @@ void cClot::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 	case SPRINT:
 		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(1);
 		break;
-	case ATTACK:
+	case ATTACK_MELEE:
 		m_vecSkinnedMesh[nIndex].pSkinnedMesh->SetNomalAnimationIndex(2);
 		break;
 	case DIE:

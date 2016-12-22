@@ -115,30 +115,20 @@
     <ClCompile Include="cEnemyManager.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cAStar.cpp">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClCompile>
-    <ClCompile Include="cAstarNode.cpp">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClCompile>
-    <ClCompile Include="cMinHeap.cpp">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClCompile>
     <ClCompile Include="cDijkstra.cpp">
       <Filter>L4D\Zombie\Dijkstra</Filter>
     </ClCompile>
-
     <ClCompile Include="cClot.cpp">
       <Filter>L4D\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjGun.cpp">
-      <Filter>오브젝트</Filter>
     </ClCompile>
     <ClCompile Include="cInput.cpp" />
     <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cPickObj.cpp">
       <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoss.cpp">
+      <Filter>L4D\Zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,30 +255,20 @@
     <ClInclude Include="cEnemyManager.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cAStar.h">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="cAstarNode.h">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClInclude>
-    <ClInclude Include="cMinHeap.h">
-      <Filter>L4D\Zombie\Astar</Filter>
-    </ClInclude>
     <ClInclude Include="cDijkstra.h">
       <Filter>L4D\Zombie\Dijkstra</Filter>
     </ClInclude>
-
     <ClInclude Include="cClot.h">
       <Filter>L4D\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjGun.h">
-      <Filter>오브젝트</Filter>
     </ClInclude>
     <ClInclude Include="cInput.h" />
     <ClInclude Include="cKeyBoard.h" />
     <ClInclude Include="cMouse.h" />
     <ClInclude Include="cPickObj.h">
       <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cBoss.h">
+      <Filter>L4D\Zombie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -360,9 +340,6 @@
     </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{ec9f2ba7-0aba-4004-88a8-f9f3d7490e82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="L4D\Zombie\Astar">
-      <UniqueIdentifier>{7f8eded2-648c-45ef-9390-e553e1c5bb35}</UniqueIdentifier>
     </Filter>
     <Filter Include="L4D\Zombie\Dijkstra">
       <UniqueIdentifier>{69d5105c-a80a-4769-8da3-b3a6a8aceb02}</UniqueIdentifier>

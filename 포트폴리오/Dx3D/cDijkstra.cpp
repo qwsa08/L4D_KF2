@@ -465,21 +465,28 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(3);
 		vecNode.push_back(4);
 		vecNode.push_back(5);
+		vecNode.push_back(6);
+		vecNode.push_back(71);
 	}
 		break;
 	case SECTOR_2:
 	{
+		vecNode.push_back(4);
 		vecNode.push_back(6);
+		vecNode.push_back(7);
 		vecNode.push_back(12);
 		vecNode.push_back(13);
 		vecNode.push_back(14);
 		vecNode.push_back(15);
 		vecNode.push_back(16);
 		vecNode.push_back(17);
+		vecNode.push_back(18);
 	}
 		break;
 	case SECTOR_3:
 	{
+		vecNode.push_back(5);
+		vecNode.push_back(63);
 		vecNode.push_back(65);
 		vecNode.push_back(66);
 		vecNode.push_back(67);
@@ -491,11 +498,13 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		break;
 	case SECTOR_4:
 	{
+		vecNode.push_back(7);
 		vecNode.push_back(8);
 		vecNode.push_back(9);
 		vecNode.push_back(10);
 		vecNode.push_back(11);
 		vecNode.push_back(29);
+		vecNode.push_back(30);
 		vecNode.push_back(32);
 		vecNode.push_back(33);
 		vecNode.push_back(34);
@@ -508,11 +517,15 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(41);
 		vecNode.push_back(42);
 		vecNode.push_back(43);
+		vecNode.push_back(44);
 	}
 		break;
 	case SECTOR_5:
 	{
+		vecNode.push_back(6);
 		vecNode.push_back(7);
+		vecNode.push_back(8);
+		vecNode.push_back(17);
 		vecNode.push_back(18);
 		vecNode.push_back(19);
 		vecNode.push_back(20);
@@ -526,10 +539,15 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(28);
 		vecNode.push_back(30);
 		vecNode.push_back(31);
+		vecNode.push_back(32);
+		vecNode.push_back(51);
 	}
 		break;
 	case SECTOR_6:
 	{
+		vecNode.push_back(26);
+		vecNode.push_back(49);
+		vecNode.push_back(50);
 		vecNode.push_back(51);
 		vecNode.push_back(52);
 		vecNode.push_back(53);
@@ -537,10 +555,12 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(55);
 		vecNode.push_back(56);
 		vecNode.push_back(57);
+		vecNode.push_back(58);
 	}
 		break;
 	case SECTOR_7:
 	{
+		vecNode.push_back(43);
 		vecNode.push_back(44);
 		vecNode.push_back(45);
 		vecNode.push_back(46);
@@ -548,10 +568,13 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(48);
 		vecNode.push_back(49);
 		vecNode.push_back(50);
+		vecNode.push_back(54);
+		vecNode.push_back(55);
 	}
 		break;
 	case SECTOR_8:
 	{
+		vecNode.push_back(57);
 		vecNode.push_back(58);
 		vecNode.push_back(59);
 		vecNode.push_back(60);
@@ -559,6 +582,7 @@ void cDijkstra::GetSectorNode(IN SECTOR eSector, OUT std::vector<int>& vecNode)
 		vecNode.push_back(62);
 		vecNode.push_back(63);
 		vecNode.push_back(64);
+		vecNode.push_back(65);
 		vecNode.push_back(72);
 	}
 		break;
@@ -658,7 +682,6 @@ std::vector<D3DXVECTOR3> cDijkstra::GetRoute(D3DXVECTOR3* vFrom, D3DXVECTOR3* vT
 	for (int i = 0; i < vecRoute.size(); ++i)
 	{
 		vec[i] = m_vecNode[vecRoute[i]].vPosition;
-		if (i == 2) break;
 	}
 
 	return vec;

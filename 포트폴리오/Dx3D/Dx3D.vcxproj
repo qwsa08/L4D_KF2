@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -88,10 +88,9 @@
     <ClInclude Include="cActionRepeat.h" />
     <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
-    <ClInclude Include="cAStar.h" />
-    <ClInclude Include="cAstarNode.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBloat.h" />
+    <ClInclude Include="cBoss.h" />
     <ClInclude Include="cBulletCollision.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cClot.h" />
@@ -109,12 +108,10 @@
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
-    <ClInclude Include="cMinHeap.h" />
     <ClInclude Include="cMouse.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
-    <ClInclude Include="cObjGun.h" />
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
@@ -140,10 +137,9 @@
     <ClCompile Include="cActionRepeat.cpp" />
     <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
-    <ClCompile Include="cAStar.cpp" />
-    <ClCompile Include="cAstarNode.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBloat.cpp" />
+    <ClCompile Include="cBoss.cpp" />
     <ClCompile Include="cBulletCollision.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cClot.cpp" />
@@ -161,12 +157,10 @@
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="cMapXfile.cpp" />
-    <ClCompile Include="cMinHeap.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
-    <ClCompile Include="cObjGun.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />
