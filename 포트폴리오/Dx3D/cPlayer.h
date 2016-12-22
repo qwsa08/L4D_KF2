@@ -33,6 +33,8 @@ public:
 	void Render();
 	void Blood();
 	void SetAni(int num);
+
+	bool GetZoomIn() { return m_bZoomIn; }
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
 	GUN_NAME GetPlayerGun() { return m_eGunName; }
 	
