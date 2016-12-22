@@ -249,10 +249,18 @@ void cMainGame::Update()
 	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
 	{
 		for (int i = 0; i < 3; i++)
-		{
+		{	
 			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController->GetPosition(), &m_pController->GetDirection(), &m_pObj->GetBBWTM()[i]))
 			{
-				m_pObj->SetColor(D3DXVECTOR4(0.f, 1.f, 0.f, 1.f));
+				if (i == 0)
+					m_pObj->SetShotgunOutLine(0.3f);
+
+				else if (i == 1)
+					m_pObj->SetBullpupOutLine(0.3f);
+
+				else if (i == 2)
+					m_pObj->SetHealOutLine(0.3f);
+
 				if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 				{
 					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
@@ -260,10 +268,18 @@ void cMainGame::Update()
 					else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
 				}
 			}
+
 			else
 			{
-				m_pObj->SetColor(D3DXVECTOR4(1.f, 0.f, 0.f, 1.f));
-			}
+				if (i == 0)
+					m_pObj->SetShotgunOutLine(-0.2f);
+
+				else if (i == 1)
+					m_pObj->SetBullpupOutLine(-0.2f);
+
+				else if (i == 2)
+					m_pObj->SetHealOutLine(-0.2f);
+			}			
 		}
 	}
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
@@ -475,6 +491,20 @@ void cMainGame::Render()
 		m_pObj->Render();
 	}
 
+	if (m_fire)
+	{
+		timer += g_pTimeManager->GetDeltaTime();
+
+		if (timer > 0.2f)
+		{
+			timer = 0;
+			m_fire = false;
+		}
+		else
+		{
+			m_pController->m_fAngleX -= 0.001;
+		}
+	}
 	
 	
 	m_pBulletCollision->Render(m_pMap,m_pController);
