@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "cOBB.h"
 #include "cSkinnedMesh.h"
+#include "cCrtController.h"
 
 cOBB::cOBB(void)
 {
@@ -109,7 +110,109 @@ void cOBB::Update(D3DXMATRIXA16* pmatWorld, ST_OBB &box)
 		&m_vOrgCenterPos,
 		&m_matWorldTM);
 }
+bool cOBB::GetFaceBoxIntersect(ST_OBB* pOBB1, cCrtController* Controller, D3DXMATRIXA16* _World)
+{
+	
+	std::vector<D3DXVECTOR3> vecVertex;
+	vecVertex.reserve(8);
 
+	D3DXVECTOR3 vec;
+	
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	vec = D3DXVECTOR3(
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
+	vecVertex.push_back(vec);
+
+	for (int i = 0; i < vecVertex.size(); i++)
+	{
+		D3DXVec3TransformCoord(
+			&vecVertex[i],
+			&vecVertex[i],
+			_World);
+	}
+
+	//전면 =========================
+	std::vector<D3DXVECTOR3> temp ;
+	temp.push_back(vecVertex[0]); temp.push_back(vecVertex[1]); temp.push_back(vecVertex[2]);
+	temp.push_back(vecVertex[0]); temp.push_back(vecVertex[2]); temp.push_back(vecVertex[3]);
+	//후면 ===========================
+	temp.push_back(vecVertex[7]); temp.push_back(vecVertex[6]); temp.push_back(vecVertex[5]);
+	temp.push_back(vecVertex[7]); temp.push_back(vecVertex[5]); temp.push_back(vecVertex[4]);
+	//좌측 ===========================
+	temp.push_back(vecVertex[4]); temp.push_back(vecVertex[5]); temp.push_back(vecVertex[1]);
+	temp.push_back(vecVertex[4]); temp.push_back(vecVertex[1]); temp.push_back(vecVertex[0]);
+	//우측 ===========================
+	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[2]); temp.push_back(vecVertex[6]);
+	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[6]); temp.push_back(vecVertex[7]);
+	//상단 ==========================
+	temp.push_back(vecVertex[1]); temp.push_back(vecVertex[5]); temp.push_back(vecVertex[6]);
+	temp.push_back(vecVertex[1]); temp.push_back(vecVertex[6]); temp.push_back(vecVertex[2]);
+	//하단 ==========================
+	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[7]); temp.push_back(vecVertex[4]);
+	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[4]); temp.push_back(vecVertex[0]);
+
+
+	D3DXVECTOR3 Position = *(Controller->GetPosition());
+	D3DXVECTOR3 vRayPos(Position.x, Position.y, Position.z);
+	D3DXVECTOR3 vRayDir = Controller->GetDirection();
+	float u, v, d;
+
+	for (int i = 0; i < temp.size(); i += 3)
+	{
+		D3DXVECTOR3 v0 = temp[i];
+		D3DXVECTOR3 v1 = temp[i + 1];
+		D3DXVECTOR3 v2 = temp[i + 2];
+
+		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
+		{
+			return true;
+		}
+	}
+	return false;
+}
 void cOBB::DebugRender(ST_OBB* pOBB1,D3DCOLOR c)
 {
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);

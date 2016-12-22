@@ -159,6 +159,7 @@ void cMainGame::Setup()
 
 
 
+
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
 	D3DXMatrixTranslation(&matT, 0, 0, 0.5f);
@@ -245,14 +246,26 @@ void cMainGame::Update()
 	//		m_cPaint = D3DCOLOR_XRGB(255, 255, 0);
 	//}
 
-	for (int i = 0; i < 3; i++)
+	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
 	{
-		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[i]))
+		for (int i = 0; i < 3; i++)
 		{
-			int a = 0;
+			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController, &m_pObj->GetBBWTM()[i]))
+			{
+				m_pObj->SetColor(D3DXVECTOR4(0.f, 1.f, 0.f, 1.f));
+				if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+				{
+					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
+					else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
+					else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
+				}
+			}
+			else
+			{
+				m_pObj->SetColor(D3DXVECTOR4(1.f, 0.f, 0.f, 1.f));
+			}
 		}
 	}
-
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)

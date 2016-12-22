@@ -140,7 +140,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 		m_vBulletPoint.x,
 		m_vBulletPoint.y,
 		m_vBulletPoint.z);//m_vBulletPoint.z);
-	D3DXMatrixScaling(&matS, 40, 40, 40);
+	D3DXMatrixScaling(&matS, 10, 10, 10);
 	D3DXMatrixIdentity(&matWorld);
 	//D3DXMatrixIdentity(&matS);
 	

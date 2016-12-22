@@ -1,4 +1,5 @@
 #pragma once
+class cCrtController;
 class cOBB
 {
 private:
@@ -19,7 +20,9 @@ public:
 	void Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box);
 	void Update(D3DXMATRIXA16* pmatWorld, ST_OBB &box);
 	void DebugRender(ST_OBB* pOBB1,D3DCOLOR c);
+	
 
+	bool GetFaceBoxIntersect(ST_OBB* pOBB1, cCrtController* Controller , D3DXMATRIXA16* _World);
 	D3DXMATRIXA16 GetWTM() { return m_matWorldTM; }
 	static bool IsCollision(ST_OBB* pOBB1, ST_OBB* pOBB2);
 };
