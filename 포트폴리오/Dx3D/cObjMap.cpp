@@ -70,7 +70,8 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 }
 void cObjMap::Render()
 {
-	
+	/*float fDepthBias = 0.01;
+	g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{

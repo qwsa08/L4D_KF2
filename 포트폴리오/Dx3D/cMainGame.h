@@ -28,7 +28,7 @@ private:
 	cGrid*						m_pGrid;
 	cCrtController*				m_pController;
 	iMap*						m_pMap;
-	iMap*						m_pObj;
+	cMapXfile*					m_pObj;
 	std::vector<ST_SPHERE>		m_vecSphere;
 	LPD3DXMESH					m_pMesh;
 	D3DMATERIAL9				m_stMtlNormal;
@@ -62,6 +62,7 @@ private:
 	//============테스트중=======================//
 	bool						m_bBlood;
 	float						timer;
+	bool						OnOff_MOUSE;
 	//============ 플레이어 피 + 감도 =========
 	float						m_fBloodTimer;
 	float						m_fTextTimer;

@@ -149,6 +149,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 		//m_pPlayer->SetFrameNum(2);
 		//두번 호출하는 이유는...?;; 그 한번만하면 보간이된다..그래서 2번호출함으로써.. 초기화;;
 		//이걸 고쳐야한다.. 한번만하면되도록
+		m_bZoomIn = false;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetAnimationIndex(2);
 		m_pPlayer->SetFrameNum(2);
@@ -199,7 +200,7 @@ void cPlayer::Render()
 {
 	
 	m_pPlayer->Render(&m_Position);
-	m_pOBB->DebugRender(D3DCOLOR_XRGB(255, 0, 255));
+	m_pOBB->DebugRender(&m_pPlayerBox,D3DCOLOR_XRGB(255, 0, 255));
 }
 void cPlayer::Blood()
 {

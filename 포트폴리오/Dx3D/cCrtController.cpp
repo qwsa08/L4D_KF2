@@ -5,8 +5,9 @@
 #define SENSITIVITY	0.015f
 
 cCrtController::cCrtController(void)
-	//: m_vPosition(50, 50, -450)
-	: m_vPosition(80, -140, 80)
+
+	: m_vPosition(50, 50, -450)
+//	: m_vPosition(1000, -140, 1400)
 	, m_vDirection(0, 0, 1)
 	, m_fSpeed(4.f)
 	, m_fAngleX(0.0f)
@@ -49,25 +50,45 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 
 	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(0, 0, 1), &matR);
 
-	if (GetKeyState('W') & 0x8000)
-	{
-		vPosition = m_vPosition + (m_vDirection * m_fSpeed);
-	}
-
-	if (GetKeyState('S') & 0x8000)
-	{
-		vPosition = m_vPosition - (m_vDirection * m_fSpeed);
-	}
-
 	D3DXVECTOR3 v(0, 0, 1);
 	D3DXMatrixRotationY(&mat, D3DX_PI / 2.0f);
 	D3DXVec3TransformNormal(&v, &m_vDirection, &mat);
-	if(GetKeyState('A') & 0x8000)
+	D3DXVECTOR3 l(0, 0, 1);
+	D3DXMatrixRotationY(&mat, D3DX_PI / 4.0f);
+	D3DXVec3TransformNormal(&l, &m_vDirection, &mat);
+	D3DXVECTOR3 r(0, 0, 1);
+	D3DXMatrixRotationY(&mat, -D3DX_PI / 4.0f);
+	D3DXVec3TransformNormal(&r, &m_vDirection, &mat);
+
+	if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('A'))
+	{
+		vPosition = m_vPosition + (r * m_fSpeed);
+	}
+	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('A'))
+	{
+		vPosition = m_vPosition - (l * m_fSpeed);
+	}
+	else if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('D'))
+	{
+		vPosition = m_vPosition + (l * m_fSpeed);
+	}
+	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('D'))
+	{
+		vPosition = m_vPosition - (r * m_fSpeed);
+	}
+	else if (GetKeyState('W') & 0x8000)
+	{
+		vPosition = m_vPosition + (m_vDirection * m_fSpeed);
+	}
+	else if (GetKeyState('S') & 0x8000)
+	{
+		vPosition = m_vPosition - (m_vDirection * m_fSpeed);
+	}
+	else if (GetKeyState('A') & 0x8000)
 	{
 		vPosition = m_vPosition - (v * m_fSpeed);
 	}
-
-	if(GetKeyState('D') & 0x8000)
+	else if(GetKeyState('D') & 0x8000)
 	{
 		vPosition = m_vPosition + (v * m_fSpeed);
 	}

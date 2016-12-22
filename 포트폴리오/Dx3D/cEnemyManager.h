@@ -10,6 +10,7 @@ private:
 	cDijkstra*	m_pDijkstra;
 	cZombie*	m_pBloat;
 	cZombie*	m_pClot;
+	cZombie*	m_pBoss;
 
 	cCrtController*	m_pPlayer;
 

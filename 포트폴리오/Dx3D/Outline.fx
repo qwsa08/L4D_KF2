@@ -53,12 +53,12 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    
 }
 
-
+float4 Color;
 
 
 float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main() : COLOR0
 {   
-   return( float4( 1.0f, 0.0f, 0.0f, 1.0f ) );
+   return( Color );
    
 }
 

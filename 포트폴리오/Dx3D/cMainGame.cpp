@@ -45,6 +45,7 @@ cMainGame::cMainGame(void)
 	, m_fTextTimer(0.f)
 	, m_bText(false)
 	, m_pFont(NULL)
+	, OnOff_MOUSE(false)
 {
 }
 
@@ -62,10 +63,10 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pBulletCollision);
 	SAFE_DELETE(m_pCrossHead);
 	SAFE_DELETE(m_pEnemyManager);
-
+	SAFE_DELETE(m_pObj);
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
-	SAFE_RELEASE(m_pObj);
+	
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
@@ -145,18 +146,17 @@ void cMainGame::Setup()
 			D3DXVec3Minimize(&min, &min, &test[i]);
 			D3DXVec3Maximize(&max, &max, &test[i]);
 		}
-		m_pOBB->Setup(min, max, m_stWall[j]);
+		m_pOBB->SetupOBJ(min, max, m_stWall[j]);
 	}
 	
 	
-
-
 
 	m_pBulletCollision = new cBulletCollision;
 	//이걸 넣어야하나.. imap을 넣어야하나..
 	m_pBulletCollision->SetUp(pObjMap);
 
 	m_pCrossHead = new cCrossHead;
+
 
 
 
@@ -197,9 +197,12 @@ void cMainGame::Setup()
 
 void cMainGame::Update()
 {
-	SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
-
+	if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
 	
+	if (g_pKeyManager->isOnceKeyDown(VK_F2))
+	{
+		OnOff_MOUSE = !OnOff_MOUSE;
+	}
 	g_pTimeManager->Update();
 
 	if (m_pController)
@@ -224,18 +227,45 @@ void cMainGame::Update()
 			//	m_pFrustum->Update();
 		}
 	}
-
-
+	/*D3DXMATRIXA16 matI;
+	D3DXMatrixIdentity(&matI);
 	for (int i = 0; i < 8; i++)
 	{
-		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
+		m_pOBB->Update(&matI, m_stWall[i]);
+	}
+*/
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
+	//	{
+	//		//m_pController->SetCrush(true);
+	//		m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
+	//		//충돌
+	//	}
+	//	else 
+	//		m_cPaint = D3DCOLOR_XRGB(255, 255, 0);
+	//}
+
+	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
+	{
+		for (int i = 0; i < 3; i++)
 		{
-			//m_pController->SetCrush(true);
-			m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
-			//충돌
+			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController, &m_pObj->GetBBWTM()[i]))
+			{
+				m_pObj->SetColor(D3DXVECTOR4(0.f, 1.f, 0.f, 1.f));
+				if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+				{
+					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
+					else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
+					else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
+				}
+			}
+			else
+			{
+				m_pObj->SetColor(D3DXVECTOR4(1.f, 0.f, 0.f, 1.f));
+			}
 		}
 	}
-
 	if (g_pKeyManager->isOnceKeyDown(VK_F1))
 	{
 		if (!m_mouseCheck)
@@ -340,6 +370,7 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 	
+	
 	// 그림을 그린다.
 	m_pGrid->Render();
 	
@@ -348,6 +379,10 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
+	for (int i = 0; i < 8; i++)
+	{
+		m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
+	}
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
@@ -436,6 +471,7 @@ void cMainGame::Render()
 		m_pObj->Render(
 			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
 			&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+		m_pObj->Render();
 	}
 
 	if (m_fire)
@@ -452,6 +488,7 @@ void cMainGame::Render()
 			m_pController->m_fAngleX -= 0.001;
 		}
 	}
+	
 	m_pBulletCollision->Render(m_pMap,m_pController);
 
 	/*D3DXMATRIXA16 m_matProj;
