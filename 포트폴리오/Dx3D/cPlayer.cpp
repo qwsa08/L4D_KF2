@@ -98,6 +98,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		m_eGunName = HANDGUN;
 		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
 		/*m_pPlayer->SetNomalAnimationIndex(3);
 		m_pPlayer->SetFrameNum(3);
 		m_pPlayer->SetChange(true);*/
@@ -107,6 +108,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		m_eGunName = BUSTER;
 		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
 		/*m_pPlayer->SetNomalAnimationIndex(3);
 		m_pPlayer->SetFrameNum(3);
 		m_pPlayer->SetChange(true);*/
@@ -116,6 +118,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		m_eGunName = KNIFE;
 		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
 		/*m_pPlayer->SetAnimationIndex(3);
 		m_pPlayer->SetFrameNum(3);
 		m_pPlayer->SetChange(true);*/
@@ -125,6 +128,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		m_eGunName = SHOT;
 		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
 		/*m_pPlayer->SetAnimationIndex(3);
 		m_pPlayer->SetFrameNum(3);
 		m_pPlayer->SetChange(true);*/
@@ -134,6 +138,7 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	{
 		m_eGunName = HEAL;
 		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
 		/*m_pPlayer->SetAnimationIndex(3);
 		m_pPlayer->SetFrameNum(3);
 		m_pPlayer->SetChange(true);*/

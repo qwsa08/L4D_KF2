@@ -258,7 +258,7 @@ void cMainGame::Update()
 		if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 		{
 			//이거 활성화 하면 총알튀듯이 된다.
-			m_pController->m_fAngleX -= 0.005f;
+			if(!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
 			//timer가 너무많으니 더 추가해주자 !!
 			timer += g_pTimeManager->GetDeltaTime();
 			if (timer >= 0.1f)
