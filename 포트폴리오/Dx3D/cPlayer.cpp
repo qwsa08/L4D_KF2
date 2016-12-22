@@ -200,7 +200,7 @@ void cPlayer::Render()
 {
 	
 	m_pPlayer->Render(&m_Position);
-	m_pOBB->DebugRender(D3DCOLOR_XRGB(255, 0, 255));
+	m_pOBB->DebugRender(&m_pPlayerBox,D3DCOLOR_XRGB(255, 0, 255));
 }
 void cPlayer::Blood()
 {

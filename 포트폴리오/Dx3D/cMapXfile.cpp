@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cMapXfile.h"
-
+#include "cOBB.h"
 
 cMapXfile::cMapXfile()
 	: m_pOutLineShader(NULL)
@@ -8,6 +8,10 @@ cMapXfile::cMapXfile()
 	, m_pBullpup(NULL)
 	, m_pHeal(NULL)
 {
+	for (int i = 0; i < 3; i++)
+	{
+		_OBB[i] = new cOBB;
+	}
 }
 
 
@@ -37,7 +41,8 @@ LPD3DXMESH cMapXfile::MeshXFileLoad(
 	std::vector<LPDIRECT3DTEXTURE9>* Textures)
 {
 	LPD3DXMESH Mesh;
-
+	_min = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+	_max = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 	HRESULT hr = 0;
 
 	ID3DXBuffer* adjBuffer = 0;
@@ -85,14 +90,50 @@ LPD3DXMESH cMapXfile::MeshXFileLoad(
 
 	SAFE_RELEASE(mtrlBuffer);
 
+	
+	LPVOID pV = NULL;
+	Mesh->LockVertexBuffer(0, &pV);
+	D3DXComputeBoundingBox((D3DXVECTOR3*)pV,
+		Mesh->GetNumVertices(),
+		D3DXGetFVFVertexSize(ST_PNT_VERTEX::FVF),
+		&_min,
+		&_max);
+	Mesh->UnlockVertexBuffer();
+
+	
 	return Mesh;
 }
 
 void cMapXfile::PickWeaponLoad()
 {
+	//================================
+	D3DXMATRIXA16 matRx;
+	D3DXMatrixScaling(&matS, 0.8f, 0.8f, 0.8f);
+	D3DXMatrixRotationX(&matRx, (D3DX_PI / 180) * 79);
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	D3DXMatrixTranslation(&matT, 653.f, 131.f, -585.f);
+	matShotgun = matS * matR * matRx * matT;
+	//================================
 	m_pShotgun = MeshXFileLoad("./PickWeapon/shotgun/shotgun.X", &m_pShotGunMtl, &m_pShotGunTex);
+	_OBB[0]->SetupOBJ(_min, _max, BoundingBox[0], &matShotgun);
+	m_vOBB.push_back(_OBB[0]);
+	//=================================
+	D3DXMatrixScaling(&matS, 0.85f, 0.85f, 0.85f);
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	D3DXMatrixTranslation(&matT, 653.f, 151.f, -640.f);
+	matBullpup = matS * matR * matT;
+	//==================================
 	m_pBullpup = MeshXFileLoad("./PickWeapon/bullpup/Bullpup.X", &m_pBullpupMtl, &m_pBullpupTex);
+	_OBB[1]->SetupOBJ(_min, _max, BoundingBox[1], &matBullpup);
+	m_vOBB.push_back(_OBB[1]);
+	//=================================
+	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	D3DXMatrixTranslation(&matT, 653.f, 151.f, -600.f);
+	matHeal = matR * matT;
+	//==================================
 	m_pHeal = MeshXFileLoad("./PickWeapon/Healgun/heal.X", &m_pHealMtl, &m_pHealTex);
+	_OBB[2]->SetupOBJ(_min, _max, BoundingBox[2], &matHeal);
+	m_vOBB.push_back(_OBB[2]);
 
 	m_pOutLineShader = g_pShader->LoadShader("OutLine.fx");
 
@@ -114,26 +155,26 @@ void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirec
 	m_pOutLineShader->SetMatrix("fvEyePosition", &matView);
 	m_pOutLineShader->SetVector("fvLightPosition", LightPosition);
 
-	D3DXMATRIXA16 matS, matR, matT;
-	D3DXMATRIXA16 matShotgun, matBullpup, matHeal;
+	//D3DXMATRIXA16 matS, matR, matT;
+	//D3DXMATRIXA16 matShotgun, matBullpup, matHeal;
 
-	D3DXMatrixScaling(&matS, 0.85f, 0.85f, 0.85f);
-	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
-	D3DXMatrixTranslation(&matT, 653.f, 151.f, -640.f);
-	matBullpup = matS * matR * matT;
+	//D3DXMatrixScaling(&matS, 0.85f, 0.85f, 0.85f);
+	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	//D3DXMatrixTranslation(&matT, 653.f, 151.f, -640.f);
+	//matBullpup = matS * matR * matT;
 	PickWeaponRender(m_pBullpupMtl, m_pBullpupTex, m_pOutLineShader, m_pBullpup, matBullpup);
 
-	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
-	D3DXMatrixTranslation(&matT, 653.f, 151.f, -600.f);
-	matHeal = matR * matT;
+	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	//D3DXMatrixTranslation(&matT, 653.f, 151.f, -600.f);
+	//matHeal = matR * matT;
 	PickWeaponRender(m_pHealMtl, m_pHealTex, m_pOutLineShader, m_pHeal, matHeal);
 
-	D3DXMATRIXA16 matRx;
-	D3DXMatrixScaling(&matS, 0.8f, 0.8f, 0.8f);
-	D3DXMatrixRotationX(&matRx, (D3DX_PI / 180) * 79);
-	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
-	D3DXMatrixTranslation(&matT, 653.f, 131.f, -585.f);
-	matShotgun = matS * matR * matRx * matT;
+	//D3DXMATRIXA16 matRx;
+	//D3DXMatrixScaling(&matS, 0.8f, 0.8f, 0.8f);
+	//D3DXMatrixRotationX(&matRx, (D3DX_PI / 180) * 79);
+	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
+	//D3DXMatrixTranslation(&matT, 653.f, 131.f, -585.f);
+	//matShotgun = matS * matR * matRx * matT;
 	PickWeaponRender(m_pShotGunMtl, m_pShotGunTex, m_pOutLineShader, m_pShotgun, matShotgun);
 }
 
@@ -179,48 +220,11 @@ void cMapXfile::PickWeaponRender(
 	}
 }
 
-bool cMapXfile::GetHeight(IN float x, OUT float& y, IN float z)
-{
-	//int XY_MAX = 100000;
-	//if (x<0 || x > XY_MAX || z < 0 || z > XY_MAX)
-	//{
-	//	y = 0.f;
-	//	return false;
-	//}
-	//int _x = (int)x;
-	//int _z = (int)z;
-
-	////»ï°¢ÇüÀÌ´Ï±ñ ÀÎµ¦½º¹öÆÛ¾È¿¡ ÀÖ´Â »ï°¢Çü!!?!
-	//int _0 = _z * XY_MAX + _x;
-	//int _1 = (_z + 1) * XY_MAX + _x;
-	//int _2 = _z * XY_MAX + _x + 1;
-	//int _3 = (_z + 1) * XY_MAX + _x + 1;
-
-	//float fx = x - _x;
-	//float fz = z - _z;
-	//if (fx + fz < 1)
-	//{
-	//	D3DXVECTOR3 Vx = m_vPNT[_2].p - m_vPNT[_0].p;
-	//	D3DXVECTOR3 Vz = m_vPNT[_1].p - m_vPNT[_0].p;
-
-	//	y = m_vPNT[_0].p.y + (Vx * fx + Vz * fz).y;
-	//	int a = 0;
-	//}
-	//else
-	//{
-	//	fx = 1.f - fx;
-	//	fz = 1.f - fz;
-
-	//	D3DXVECTOR3 Vx = m_vPNT[_1].p - m_vPNT[_3].p;
-	//	D3DXVECTOR3 Vz = m_vPNT[_2].p - m_vPNT[_3].p;
-
-	//	y = m_vPNT[_3].p.y + (Vx * fx + Vz * fz).y;
-	//}
-
-	return true;
-}
-
 void cMapXfile::Render()
 {
-
+	for (int i = 0; i < m_vOBB.size(); i++)
+	{
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_vOBB[i]->GetWTM());
+		m_vOBB[i]->DebugRender(&BoundingBox[i], D3DCOLOR_XRGB(255, 255, 0));
+	}
 }

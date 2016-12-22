@@ -11,7 +11,7 @@ cOBB::~cOBB(void)
 {
 }
 
-void cOBB::Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box)
+void cOBB::SetupOBJ(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box, D3DXMATRIXA16* _World)
 {
 	D3DXVECTOR3 vMin = _min;
 	D3DXVECTOR3 vMax = _max;
@@ -31,6 +31,49 @@ void cOBB::Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box)
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
 
 	D3DXMatrixIdentity(&m_matWorldTM);
+	box.m_vOrgCenterPos = (vMin + vMax) / 2.f;
+	box.vCenter = (vMin + vMax) / 2.f;
+
+	box.vAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	box.vAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	box.vAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	box.fAxisLen[0] = fabs(vMax.x - vMin.x);
+	box.fAxisLen[1] = fabs(vMax.y - vMin.y);
+	box.fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	box.fAxisHalfLen[0] = box.fAxisLen[0] / 2.f;
+	box.fAxisHalfLen[1] = box.fAxisLen[1] / 2.f;
+	box.fAxisHalfLen[2] = box.fAxisLen[2] / 2.f;
+
+	if (_World)
+	{
+		m_matWorldTM = *_World;
+		for (int i = 0; i < 3; ++i)
+		{
+			D3DXVec3TransformNormal(
+				&box.vAxisDir[i],
+				&m_vOrgAxisDir[i],
+				&m_matWorldTM);
+		}
+
+		D3DXVec3TransformCoord(
+			&box.vCenter,
+			&m_vOrgCenterPos,
+			&m_matWorldTM);
+	}
+	
+}
+void cOBB::Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box)
+{
+	D3DXVECTOR3 vMin = _min;
+	D3DXVECTOR3 vMax = _max;
+	m_vOrgCenterPos = (vMin + vMax) / 2.f;
+	m_vCenterPos = (vMin + vMax) / 2.f;
+
+	m_vOrgAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOrgAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOrgAxisDir[2] = D3DXVECTOR3(0, 0, 1);
 
 	box.vCenter = (vMin + vMax) / 2.f;
 
@@ -45,7 +88,7 @@ void cOBB::Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box)
 	box.fAxisHalfLen[0] = box.fAxisLen[0] / 2.f;
 	box.fAxisHalfLen[1] = box.fAxisLen[1] / 2.f;
 	box.fAxisHalfLen[2] = box.fAxisLen[2] / 2.f;
-	
+
 }
 
 void cOBB::Update(D3DXMATRIXA16* pmatWorld, ST_OBB &box)
@@ -67,7 +110,7 @@ void cOBB::Update(D3DXMATRIXA16* pmatWorld, ST_OBB &box)
 		&m_matWorldTM);
 }
 
-void cOBB::DebugRender( D3DCOLOR c )
+void cOBB::DebugRender(ST_OBB* pOBB1,D3DCOLOR c)
 {
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
@@ -78,51 +121,51 @@ void cOBB::DebugRender( D3DCOLOR c )
 	ST_PC_VERTEX v;
 	v.c = c;
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x - m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y - m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z - m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x - m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y + m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z - m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x + m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y + m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z - m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x + m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y - m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z - m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z - pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x - m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y - m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z + m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x - m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y + m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z + m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x - pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x + m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y + m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z + m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y + pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 	v.p = D3DXVECTOR3(
-		m_vOrgCenterPos.x + m_fAxisLen[0] / 2.0f,
-		m_vOrgCenterPos.y - m_fAxisLen[1] / 2.0f,
-		m_vOrgCenterPos.z + m_fAxisLen[2] / 2.0f);
+		pOBB1->m_vOrgCenterPos.x + pOBB1->fAxisLen[0] / 2.0f,
+		pOBB1->m_vOrgCenterPos.y - pOBB1->fAxisLen[1] / 2.0f,
+		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(v);
 
 

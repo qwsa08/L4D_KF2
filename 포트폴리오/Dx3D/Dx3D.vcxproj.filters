@@ -130,11 +130,17 @@
     <ClCompile Include="cClot.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cInput.cpp" />
-    <ClCompile Include="cKeyBoard.cpp" />
-    <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cPickObj.cpp">
       <Filter>ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="cInput.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyBoard.cpp">
+      <Filter>MANAGER</Filter>
+    </ClCompile>
+    <ClCompile Include="cMouse.cpp">
+      <Filter>MANAGER</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,11 +282,17 @@
     <ClInclude Include="cClot.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cInput.h" />
-    <ClInclude Include="cKeyBoard.h" />
-    <ClInclude Include="cMouse.h" />
     <ClInclude Include="cPickObj.h">
       <Filter>ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="cInput.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cKeyBoard.h">
+      <Filter>MANAGER</Filter>
+    </ClInclude>
+    <ClInclude Include="cMouse.h">
+      <Filter>MANAGER</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -358,9 +370,6 @@
     </Filter>
     <Filter Include="L4D\Zombie\Dijkstra">
       <UniqueIdentifier>{69d5105c-a80a-4769-8da3-b3a6a8aceb02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="오브젝트">
-      <UniqueIdentifier>{52175299-2103-4dbd-981a-3851c0b28e86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
