@@ -22,6 +22,7 @@ class cEnemyManager;
 class cMainGame
 {
 private:
+	RECT						m_Clientrc;
 	std::vector<ST_PC_VERTEX>	m_vecVertex;
 	cPyramid*					m_pPyramid;
 	cCamera*					m_pCamera;
@@ -62,6 +63,12 @@ private:
 	//============테스트중=======================//
 	bool						m_bBlood;
 	float						timer;
+	//============ 플레이어 피 + 감도 =========
+	float						m_fBloodTimer;
+	float						m_fTextTimer;
+	bool						m_bText;
+	LPD3DXFONT					m_pFont;
+	//========================================
 	std::vector<ST_PT_VERTEX>	m_vTexture;
 	D3DXMATRIXA16				matView;
 public:

@@ -21,6 +21,9 @@ private:
 	LPD3DXSPRITE				m_pSprite;
 	D3DXIMAGE_INFO				m_stImageInfo;
 	float						m_timer;
+	D3DXMATRIXA16				m_matT;
+	bool						m_bZoomIn;
+	bool						m_bZoomOut;
 public:
 	cPlayer();
 	~cPlayer();
@@ -30,6 +33,8 @@ public:
 	void Render();
 	void Blood();
 	void SetAni(int num);
+
+	bool GetZoomIn() { return m_bZoomIn; }
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
 	GUN_NAME GetPlayerGun() { return m_eGunName; }
 	

@@ -42,6 +42,10 @@ cMainGame::cMainGame(void)
 	, m_bBlood(NULL)
 	, timer(0.f)
 	, m_ReboundCamera(0.f)
+	, m_fBloodTimer(0.f)
+	, m_fTextTimer(0.f)
+	, m_bText(false)
+	, m_pFont(NULL)
 {
 }
 
@@ -66,7 +70,7 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
-
+	SAFE_RELEASE(m_pFont);
 	for each (auto p in m_vecMtlTex)
 	{
 		SAFE_RELEASE(p);
@@ -114,6 +118,20 @@ void cMainGame::Setup()
 	m_pBoundingBox = new cObjMap;
 	m_pBoundingBox->BoxLoad("./Map/Wall.ptop", test, &mat);
 	
+	D3DXFONT_DESC fd;
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 20;
+	fd.Width = 10;
+	fd.Weight = FW_NORMAL;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	strcpy_s(fd.FaceName, "궁서체");	//글꼴 스타일
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
+
+
+
 	D3DXVECTOR3 min;
 	D3DXVECTOR3 max;
 	
@@ -132,6 +150,8 @@ void cMainGame::Setup()
 	}
 	
 	
+
+
 
 	m_pBulletCollision = new cBulletCollision;
 	//이걸 넣어야하나.. imap을 넣어야하나..
@@ -157,21 +177,29 @@ void cMainGame::Setup()
 
 	SetLight();
 
-	RECT rc;
-	GetWindowRect(g_hWnd, &rc);
-	//GetClientRect(g_hWnd, &rc);
-	rc.left += 10;
-	rc.right -= 10;
-	rc.top += 55;
-	rc.bottom -= 10;
-	SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);	//마우스 시작좌표 고정
-	ClipCursor(&rc);	//마우스 가두기
+	GetClientRect(g_hWnd, &m_Clientrc);
+	POINT pos = { 0, 0 };
+	ClientToScreen(g_hWnd, &pos);
+	RECT temp = { pos.x, pos.y, pos.x + (m_Clientrc.right - m_Clientrc.left), pos.y + (m_Clientrc.bottom - m_Clientrc.top) };
+	m_Clientrc = temp;
+
+	SetCursorPos((m_Clientrc.right - m_Clientrc.left) / 2.f, (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
+	ClipCursor(&m_Clientrc);	//마우스 가두기
+
+	//GetWindowRect(g_hWnd, &rc);
+
+	//rc.left += 10;
+	//rc.right -= 10;
+	//rc.top += 55;
+	//rc.bottom -= 10;
+	//SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);	//마우스 시작좌표 고정
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
 }
 
 void cMainGame::Update()
 {
-	
+	SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
+
 	
 	g_pTimeManager->Update();
 
@@ -230,7 +258,7 @@ void cMainGame::Update()
 		if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 		{
 			//이거 활성화 하면 총알튀듯이 된다.
-			m_pController->m_fAngleX -= 0.010f;
+			if(!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
 			//timer가 너무많으니 더 추가해주자 !!
 			timer += g_pTimeManager->GetDeltaTime();
 			if (timer >= 0.1f)
@@ -244,6 +272,7 @@ void cMainGame::Update()
 				//m_pBulletCollision->Fire(m_pMap);
 			}
 		}
+		
 	}
 	else
 	{
@@ -274,11 +303,7 @@ void cMainGame::Update()
 	{
 		m_bBlood = true;
 	}
-	if (g_pKeyManager->isOnceKeyUp('C'))
-	{
-		static int n = 0;
-		m_pPlayer->SetAni(++n % 6);
-	}
+	
 	if (g_pKeyManager->isOnceKeyUp('F'))
 	{
 		m_pBulletCollision->Settest(true);
@@ -287,7 +312,21 @@ void cMainGame::Update()
 	{
 		m_pBulletCollision->Settest(false);
 	}
-
+	//====감도==================================
+	float temp = m_pController->GetSensitivity();
+	if (g_pKeyManager->isOnceKeyDown(VK_OEM_4))
+	{
+		m_bText = true;
+		if (temp <1.9)
+		temp += 0.05;
+		m_pController->SetSensitivity(temp);
+	}
+	else if (g_pKeyManager->isOnceKeyDown(VK_OEM_6))
+	{
+		m_bText = true;
+		if (temp >0.1)	temp -= 0.05;
+		m_pController->SetSensitivity(temp);
+	}
 
 	g_pAutoReleasePool->Drain();
 }
@@ -322,15 +361,15 @@ void cMainGame::Render()
 	//	}
 	if (m_bBlood)
 	{
-		timer += g_pTimeManager->GetDeltaTime();
+		m_fBloodTimer += g_pTimeManager->GetDeltaTime();
 
-		if (timer < 0.5f)
+		if (m_fBloodTimer < 0.5f)
 		{
 			m_pPlayer->Blood();
 		}
 		else
 		{
-			timer = 0.f;
+			m_fBloodTimer = 0.f;
 			m_bBlood = false;
 		}
 	}
@@ -360,9 +399,35 @@ void cMainGame::Render()
 
 	//m_pBulletCollision->Fire(m_pMap);
 			
-		
-	m_pCrossHead->Render();
+	if (m_bText)
+	{
+		m_fTextTimer += g_pTimeManager->GetDeltaTime();
+		if (m_fTextTimer < 0.5f)
+		{ 
+			RECT rc;
+			GetClientRect(g_hWnd, &rc);
+			char s[80];
+			float Sensitivity = 20.f - m_pController->GetSensitivity()*10;
+			sprintf_s(s, sizeof(s), "\n\n\n감도 : %0.1f", Sensitivity);
+			std::string temp(s);
+			//temp = s;
+			m_pFont->DrawTextA(NULL, temp.c_str(), temp.length(), &rc,
+				DT_CENTER | DT_VCENTER,
+				D3DCOLOR_XRGB(255, 255, 255));
+
+		}
+		else
+		{
+			m_bText = false;
+			m_fTextTimer = 0.f;
+		}
+	}
 	
+	if (m_pPlayer->GetPlayerGun() != BUSTER)
+	{
+		m_pCrossHead->Render();
+	}
+
 	if (m_pObj)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -378,12 +443,15 @@ void cMainGame::Render()
 	if (m_fire)
 	{
 		timer += g_pTimeManager->GetDeltaTime();
+
 		if (timer > 0.2f)
 		{
 			timer = 0;
 			m_fire = false;
-			
-	
+		}
+		else
+		{
+			m_pController->m_fAngleX -= 0.001;
 		}
 	}
 	m_pBulletCollision->Render(m_pMap,m_pController);

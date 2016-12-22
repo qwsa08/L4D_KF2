@@ -11,6 +11,7 @@ cCrtController::cCrtController(void)
 	, m_fSpeed(4.f)
 	, m_fAngleX(0.0f)
 	, m_fAngleY(0.0f)
+	, m_fSensitivity(1.f)
 {
 	GetCursorPos(&m_ptPrevMouse);
 }
@@ -27,6 +28,19 @@ void cCrtController::Setup()
 
 void cCrtController::Update(iMap* pMap /*= NULL*/)
 {
+	{	 // 마우스 컨트롤?
+		float nDeltaX = (m_ptPrevMouse.x - MOUSE->GetWindowPos().x)/m_fSensitivity;
+		float nDeltaY = (m_ptPrevMouse.y - MOUSE->GetWindowPos().y)/m_fSensitivity;
+		m_fAngleX += nDeltaY * SENSITIVITY;
+		if (m_fAngleX > D3DX_PI / 2.0f - EPSILON)
+			m_fAngleX = D3DX_PI / 2.0f - EPSILON;
+
+		if (m_fAngleX < -D3DX_PI / 2.0f + EPSILON)
+			m_fAngleX = -D3DX_PI / 2.0f + EPSILON;
+
+		m_fAngleY += nDeltaX * SENSITIVITY;
+	}
+
 	D3DXVECTOR3 vPosition = m_vPosition;
 	D3DXMATRIXA16 matX, matY, matR, mat;
 	D3DXMatrixRotationX(&matX, m_fAngleX);
@@ -71,6 +85,7 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 		m_vPosition = vPosition;
 	}
 
+	
 
 	m_Rotation = matR;	
 	
@@ -85,7 +100,9 @@ void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	{
 	case WM_MOUSEMOVE:
 	{
-		POINT pt;
+		m_ptPrevMouse.x = LOWORD(lParam);
+		m_ptPrevMouse.y = HIWORD(lParam);
+		/*POINT pt;
 		pt.x = LOWORD(lParam);
 		pt.y = HIWORD(lParam);
 
@@ -101,7 +118,7 @@ void cCrtController::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 
 		m_fAngleY += nDeltaX * SENSITIVITY;
 
-		m_ptPrevMouse = pt;
+		m_ptPrevMouse = pt;*/
 	}
 	break;
 	default:
