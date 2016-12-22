@@ -28,7 +28,6 @@ cPlayer::~cPlayer()
 
 void cPlayer::SetUp()
 {
-	
 	m_pGun[HANDGUN] = new cSkinnedMesh("Weapon X File/test/", "Idle3.X");
 	m_pGun[HANDGUN]->SetPosition(D3DXVECTOR3(0, 0, 0));
 

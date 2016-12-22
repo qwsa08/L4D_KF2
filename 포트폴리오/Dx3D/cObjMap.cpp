@@ -93,7 +93,7 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	D3DXVECTOR4 gLightColor(0.2f, 0.2f, 0.2f, 1.f);
 
 	D3DXVECTOR4 gFlashLightColor(0.5f, 0.5f, 0.5f, 1.f);
-	float gSpotAngle = 0.f;
+	float gSpotAngle = 0.0f;
 	
 	float temp;
 
