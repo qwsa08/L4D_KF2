@@ -74,87 +74,95 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
 	{
 		//범위?
-		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
-		float fDistance = D3DXVec3Length(&v);
-		D3DXVec3Normalize(&v, &v);
+		if ((*vPlayerPos).y < -50)
+		{
+			D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
+			float fDistance = D3DXVec3Length(&v);
+			D3DXVec3Normalize(&v, &v);
 
-		if (fDistance < 500.f)
-		{
-			//시야
-			float fFov = D3DXVec3Dot(&m_vecSkinnedMesh[i].vDirection, &v);
-			if (fFov <= 1 && fFov > 0.5f)
+			if (fDistance < 500.f)
 			{
-				m_vecSkinnedMesh[i].isRecognize = true;
-			}
-		}
-		else if (fDistance > 1000.f)
-		{
-		}
-
-		if (m_vecSkinnedMesh[i].isRecognize)
-		{
-			//디렉션을 먼저 바꾸고 움직이고 싶은데 어떻게 드드드돌게 하지
-			if (m_pDijkstra->IsDirect(&m_vecSkinnedMesh[i].vPosition, vPlayerPos))
-			{
-				if (fDistance < 70.f)
+				//시야
+				float fFov = D3DXVec3Dot(&m_vecSkinnedMesh[i].vDirection, &v);
+				if (fFov <= 1 && fFov > 0.5f)
 				{
-					m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
+					m_vecSkinnedMesh[i].isRecognize = true;
 				}
-				else
+			}
+			else if (fDistance > 1000.f)
+			{
+			}
+
+			if (m_vecSkinnedMesh[i].isRecognize)
+			{
+				//디렉션을 먼저 바꾸고 움직이고 싶은데 어떻게 드드드돌게 하지
+				if (m_pDijkstra->IsDirect(&m_vecSkinnedMesh[i].vPosition, vPlayerPos))
 				{
-					float fFov = D3DXVec3Dot(&m_vecSkinnedMesh[i].vDirection, &v);
-					if (1 - fabs(fFov) < EPSILON)
+					if (fDistance < 70.f)
 					{
-						m_vecSkinnedMesh[i].eMotion = MOVE;
-						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+						m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 					}
 					else
 					{
-						D3DXVECTOR3 v0 = m_vecSkinnedMesh[i].vPosition + fDistance * m_vecSkinnedMesh[i].vDirection;
-						D3DXVECTOR3 v1 = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
-						D3DXVECTOR3 vPos(0, 0, 0);
-						D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vPos));
+						float fFov = D3DXVec3Dot(&m_vecSkinnedMesh[i].vDirection, &v);
+						if (1 - fabs(fFov) < EPSILON)
+						{
+							m_vecSkinnedMesh[i].eMotion = MOVE;
+							m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+						}
+						else
+						{
+							D3DXVECTOR3 v0 = m_vecSkinnedMesh[i].vPosition + fDistance * m_vecSkinnedMesh[i].vDirection;
+							D3DXVECTOR3 v1 = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
+							D3DXVECTOR3 vPos(0, 0, 0);
+							D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
+							D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vPos));
+						}
 					}
+					m_vecSkinnedMesh[i].vPrevPosition = m_vecSkinnedMesh[i].vPosition;
 				}
-				m_vecSkinnedMesh[i].vPrevPosition = m_vecSkinnedMesh[i].vPosition;
-			}
-			else//다익스트라
-			{
-				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, vPlayerPos);
-
-				m_vecSkinnedMesh[i].eMotion = MOVE;
-
-				if (vecRoute.size() < 2)
+				else//다익스트라
 				{
-					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
-					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-				}
-				else if (vecRoute.size() < 6)
-				{
-					if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
+					std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, vPlayerPos);
+
+					m_vecSkinnedMesh[i].eMotion = MOVE;
+
+					if (vecRoute.size() < 2)
 					{
 						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
 						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-
-						float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vecRoute[0]), &(m_vecSkinnedMesh[i].vPrevPosition - vecRoute[0]));
-						if (l <= 0)
+					}
+					else if (vecRoute.size() < 6)
+					{
+						if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
 						{
-							m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
+							D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[0]));
+							m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+
+							float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vecRoute[0]), &(m_vecSkinnedMesh[i].vPrevPosition - vecRoute[0]));
+							if (l <= 0)
+							{
+								m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
+							}
+						}
+						else
+						{
+							D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[1]));
+							m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
 						}
 					}
 					else
 					{
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vecRoute[1]));
-						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+						m_vecSkinnedMesh[i].eMotion = IDLE;
+						m_vecSkinnedMesh[i].isRecognize = false;
 					}
 				}
-				else
-				{
-					m_vecSkinnedMesh[i].eMotion = IDLE;
-					m_vecSkinnedMesh[i].isRecognize = false;
-				}
 			}
+		}
+		else
+		{
+			m_vecSkinnedMesh[i].eMotion = IDLE;
+			m_vecSkinnedMesh[i].isRecognize = false;
 		}
 
 		D3DXMATRIXA16 matS, matR, matT, mat;

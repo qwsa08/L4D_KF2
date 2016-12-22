@@ -46,6 +46,7 @@ public:
 	float AnimationFrame(int num);
 	void AnimationReset();
 
+	void ResetTrackPosition();
 	void SetRandomTrackPosition(); // 테스트용
 	void SetPosition(D3DXVECTOR3 v)
 	{

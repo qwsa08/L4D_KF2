@@ -46,7 +46,7 @@ void cEnemyManager::Setup()
 void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
 //	m_pBloat->UpdateAndRender(vPlayerPos);
-//	m_pClot->UpdateAndRender(vPlayerPos);
+	m_pClot->UpdateAndRender(vPlayerPos);
 	m_pBoss->UpdateAndRender(vPlayerPos);
 //	m_pDijkstra->Render();
 }
