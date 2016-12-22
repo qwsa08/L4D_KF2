@@ -29,7 +29,10 @@ private:
 	D3DXMATRIXA16 matS, matR, matT;
 	D3DXMATRIXA16 matShotgun, matBullpup, matHeal;
 	
-	SYNTHESIZE(D3DXVECTOR4, m_Color, Color);
+	SYNTHESIZE(float, m_pShotgunOutLine, ShotgunOutLine);
+	SYNTHESIZE(float, m_pBullpupOutLine, BullpupOutLine);
+	SYNTHESIZE(float, m_pHealOutLine, HealOutLine);
+
 public:
 	cMapXfile();
 	virtual ~cMapXfile();
@@ -52,6 +55,6 @@ public:
 		std::vector<D3DMATERIAL9> vecMtl,
 		std::vector<LPDIRECT3DTEXTURE9> vecTex,
 		LPD3DXEFFECT Shader, LPD3DXMESH Mesh,
-		D3DXMATRIX World);
+		D3DXMATRIX World, float gOutLine);
 };
 

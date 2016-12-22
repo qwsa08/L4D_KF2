@@ -129,7 +129,7 @@ void cObjMap::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirecti
 	{
 		UINT numPasses = 0;
 		m_pTextureMappingShader->SetTexture("DiffuseMap_Tex", m_pMtltex[i]->GetTexture());
-		//m_pTextureMappingShader->SetTexture("SpecularMap_Tex", m_vecSpecular[i]);
+		m_pTextureMappingShader->SetTexture("SpecularMap_Tex", m_vecSpecular[i]);
 		m_pTextureMappingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
 
 		m_pTextureMappingShader->Begin(&numPasses, NULL);

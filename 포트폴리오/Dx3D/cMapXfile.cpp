@@ -7,7 +7,9 @@ cMapXfile::cMapXfile()
 	, m_pShotgun(NULL)
 	, m_pBullpup(NULL)
 	, m_pHeal(NULL)
-	, m_Color(1.f,0.f,0.f,1.f)
+	, m_pBullpupOutLine(-0.2f)
+	, m_pShotgunOutLine(-0.2f)
+	, m_pHealOutLine(-0.2f)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -126,19 +128,23 @@ void cMapXfile::PickWeaponLoad()
 	m_pShotgun = MeshXFileLoad("./PickWeapon/shotgun/shotgun.X", &m_pShotGunMtl, &m_pShotGunTex);
 	_OBB[0]->SetupOBJ(_min, _max, BoundingBox[0], &matShotgun);
 	BoundingBoxWTM.push_back(matShotgun);
+
 	//=================================
 	D3DXMatrixScaling(&matS, 0.85f, 0.85f, 0.85f);
 	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 	D3DXMatrixTranslation(&matT, 653.f, 151.f, -640.f);
 	matBullpup = matS * matR * matT;
+
 	//==================================
 	m_pBullpup = MeshXFileLoad("./PickWeapon/bullpup/Bullpup.X", &m_pBullpupMtl, &m_pBullpupTex);
 	_OBB[1]->SetupOBJ(_min, _max, BoundingBox[1], &matBullpup);
 	BoundingBoxWTM.push_back(matBullpup);
+
 	//=================================
 	D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 	D3DXMatrixTranslation(&matT, 653.f, 151.f, -600.f);
 	matHeal = matR * matT;
+
 	//==================================
 	m_pHeal = MeshXFileLoad("./PickWeapon/Healgun/heal.X", &m_pHealMtl, &m_pHealTex);
 	_OBB[2]->SetupOBJ(_min, _max, BoundingBox[2], &matHeal);
@@ -153,8 +159,6 @@ void cMapXfile::PickWeaponLoad()
 	matBox =matS * matT;
 	_OBB[3]->SetupOBJ(D3DXVECTOR3(-50.f, -20.f, -50.f), D3DXVECTOR3(50.f, 20.f, 50.f), BoundingBox[3], &matBox);
 
-	
-	
 }
 
 void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection)
@@ -172,7 +176,6 @@ void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirec
 
 	m_pOutLineShader->SetMatrix("fvEyePosition", &matView);
 	m_pOutLineShader->SetVector("fvLightPosition", LightPosition);
-	m_pOutLineShader->SetVector("Color", &m_Color);
 	//D3DXMATRIXA16 matS, matR, matT;
 	//D3DXMATRIXA16 matShotgun, matBullpup, matHeal;
 
@@ -180,12 +183,12 @@ void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirec
 	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 	//D3DXMatrixTranslation(&matT, 653.f, 151.f, -640.f);
 	//matBullpup = matS * matR * matT;
-	PickWeaponRender(m_pBullpupMtl, m_pBullpupTex, m_pOutLineShader, m_pBullpup, matBullpup);
+	PickWeaponRender(m_pBullpupMtl, m_pBullpupTex, m_pOutLineShader, m_pBullpup, matBullpup, m_pBullpupOutLine);
 
 	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 	//D3DXMatrixTranslation(&matT, 653.f, 151.f, -600.f);
 	//matHeal = matR * matT;
-	PickWeaponRender(m_pHealMtl, m_pHealTex, m_pOutLineShader, m_pHeal, matHeal);
+	PickWeaponRender(m_pHealMtl, m_pHealTex, m_pOutLineShader, m_pHeal, matHeal, m_pHealOutLine); 
 
 	//D3DXMATRIXA16 matRx;
 	//D3DXMatrixScaling(&matS, 0.8f, 0.8f, 0.8f);
@@ -193,14 +196,14 @@ void cMapXfile::Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirec
 	//D3DXMatrixRotationY(&matR, -D3DX_PI / 2);
 	//D3DXMatrixTranslation(&matT, 653.f, 131.f, -585.f);
 	//matShotgun = matS * matR * matRx * matT;
-	PickWeaponRender(m_pShotGunMtl, m_pShotGunTex, m_pOutLineShader, m_pShotgun, matShotgun);
+	PickWeaponRender(m_pShotGunMtl, m_pShotGunTex, m_pOutLineShader, m_pShotgun, matShotgun, m_pShotgunOutLine);
 }
 
 void cMapXfile::PickWeaponRender(
 	std::vector<D3DMATERIAL9> vecMtl,
 	std::vector<LPDIRECT3DTEXTURE9> vecTex,
 	LPD3DXEFFECT Shader, LPD3DXMESH Mesh,
-	D3DXMATRIX World)
+	D3DXMATRIX World, float gOutLine)
 {
 	D3DXMATRIXA16 matView, matProj, matWorld, matViewProjection;
 
@@ -217,6 +220,8 @@ void cMapXfile::PickWeaponRender(
 
 	Shader->SetMatrix("Textured_Phong_Pass_1_Vertex_Shader_matWorld", &matWorld);
 	Shader->SetMatrix("Textured_Phong_Pass_1_Vertex_Shader_matViewProjection", &matViewProjection);
+
+	Shader->SetFloat("gOutLine", gOutLine);
 
 	for (int i = 0; i < vecMtl.size(); i++)
 	{
