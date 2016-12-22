@@ -75,7 +75,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 				break;
 			case IDLE:
 			{
-				if (fDistance < 200)
+				if (fDistance < 150)
 				{
 					m_stBoss.eMotion = ATTACK_MELEE;
 					m_stBoss.pSkinnedMesh->ResetTrackPosition();
@@ -97,6 +97,12 @@ void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 			{
 				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0))));
 				m_stBoss.vPosition -= m_stBoss.vDirection * 3.f;
+
+				if (fDistance < 150)
+				{
+					m_stBoss.eMotion = ATTACK_MELEE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				}
 			}
 				break;
 			case ATTACK_CHARGE:

@@ -89,16 +89,13 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 					m_vecSkinnedMesh[i].isRecognize = true;
 				}
 			}
-			else if (fDistance > 1000.f)
-			{
-			}
 
 			if (m_vecSkinnedMesh[i].isRecognize)
 			{
 				//디렉션을 먼저 바꾸고 움직이고 싶은데 어떻게 드드드돌게 하지
 				if (m_pDijkstra->IsDirect(&m_vecSkinnedMesh[i].vPosition, vPlayerPos))
 				{
-					if (fDistance < 70.f)
+					if (fDistance < 100.f)
 					{
 						m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 					}

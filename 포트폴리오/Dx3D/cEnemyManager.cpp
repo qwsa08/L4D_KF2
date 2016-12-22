@@ -4,6 +4,8 @@
 #include "cZombie.h"
 #include "cBloat.h"
 #include "cClot.h"
+#include "cCrawler.h"
+#include "cGorefast.h"
 #include "cBoss.h"
 #include "cCrtController.h"
 
@@ -12,6 +14,8 @@ cEnemyManager::cEnemyManager()
 	: m_pDijkstra(NULL)
 	, m_pBloat(NULL)
 	, m_pClot(NULL)
+	, m_pCrawler(NULL)
+	, m_pGorefast(NULL)
 	, m_pBoss(NULL)
 {
 }
@@ -22,6 +26,8 @@ cEnemyManager::~cEnemyManager()
 	SAFE_DELETE(m_pDijkstra);
 	SAFE_DELETE(m_pBloat);
 	SAFE_DELETE(m_pClot);
+	SAFE_DELETE(m_pCrawler);
+	SAFE_DELETE(m_pGorefast);
 	SAFE_DELETE(m_pBoss);
 }
 
@@ -38,6 +44,14 @@ void cEnemyManager::Setup()
 	m_pClot->Setup();
 	m_pClot->SetDijkstraMemoryLink(m_pDijkstra);
 
+	m_pCrawler = new cCrawler;
+	m_pCrawler->Setup();
+	m_pCrawler->SetDijkstraMemoryLink(m_pDijkstra);
+
+	m_pGorefast = new cGorefast;
+	m_pGorefast->Setup();
+	m_pGorefast->SetDijkstraMemoryLink(m_pDijkstra);
+
 	m_pBoss = new cBoss;
 	m_pBoss->Setup();
 	m_pBoss->SetDijkstraMemoryLink(m_pDijkstra);
@@ -45,8 +59,11 @@ void cEnemyManager::Setup()
 
 void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 {
-//	m_pBloat->UpdateAndRender(vPlayerPos);
+	m_pBloat->UpdateAndRender(vPlayerPos);
 	m_pClot->UpdateAndRender(vPlayerPos);
+	m_pCrawler->UpdateAndRender(vPlayerPos);
+	m_pGorefast->UpdateAndRender(vPlayerPos);
 	m_pBoss->UpdateAndRender(vPlayerPos);
+
 //	m_pDijkstra->Render();
 }

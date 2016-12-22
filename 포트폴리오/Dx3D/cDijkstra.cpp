@@ -61,10 +61,10 @@ void cDijkstra::Render()
 		m_pMesh->DrawSubset(0);
 	}
 
-//	D3DXMATRIXA16 mt;
-//	D3DXMatrixIdentity(&mt);
-//	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mt);
-//	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecObstacleVertex[SECTOR_5].size() / 3, &m_vecObstacleVertex[SECTOR_5][0], sizeof(D3DXVECTOR3));
+	D3DXMATRIXA16 mt;
+	D3DXMatrixIdentity(&mt);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &mt);
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, m_vecObstacleVertex[SECTOR_2].size() / 3, &m_vecObstacleVertex[SECTOR_2][0], sizeof(D3DXVECTOR3));
 }
 
 void cDijkstra::SetEdgeCost()
