@@ -1,8 +1,9 @@
 #pragma once
 
-#include "iMap.h"
 
-class cMapXfile : public iMap
+class cOBB;
+
+class cMapXfile 
 {
 private:
 	LPD3DXMESH							m_pShotgun;
@@ -16,8 +17,22 @@ private:
 	std::vector<LPDIRECT3DTEXTURE9>		m_pShotGunTex;
 	std::vector<LPDIRECT3DTEXTURE9>		m_pBullpupTex;
 	std::vector<LPDIRECT3DTEXTURE9>		m_pHealTex;
+	ST_OBB								BoundingBox[4];
+	cOBB*								_OBB[4];
 
+	std::vector<D3DXVECTOR3>			vecVertex;
+	std::vector<D3DXMATRIXA16>			BoundingBoxWTM;
+	//std::vector<cOBB*>					m_vOBB;
+	D3DXVECTOR3							_min, _max;
 	LPD3DXEFFECT						m_pOutLineShader;
+
+	D3DXMATRIXA16 matS, matR, matT;
+	D3DXMATRIXA16 matShotgun, matBullpup, matHeal;
+	
+	SYNTHESIZE(float, m_pShotgunOutLine, ShotgunOutLine);
+	SYNTHESIZE(float, m_pBullpupOutLine, BullpupOutLine);
+	SYNTHESIZE(float, m_pHealOutLine, HealOutLine);
+
 public:
 	cMapXfile();
 	virtual ~cMapXfile();
@@ -30,14 +45,16 @@ public:
 
 	void PickWeaponLoad();
 
-	virtual void Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection) override;
-	virtual void Render();
-	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
+	
+	ST_OBB*	GetBoundingBox() { return BoundingBox; }
+	std::vector<D3DXMATRIXA16> GetBBWTM() { return BoundingBoxWTM; }
+	void Render(IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection);
+	void Render();
 
 	void PickWeaponRender(
 		std::vector<D3DMATERIAL9> vecMtl,
 		std::vector<LPDIRECT3DTEXTURE9> vecTex,
 		LPD3DXEFFECT Shader, LPD3DXMESH Mesh,
-		D3DXMATRIX World);
+		D3DXMATRIX World, float gOutLine);
 };
 

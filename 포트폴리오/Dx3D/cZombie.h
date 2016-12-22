@@ -28,9 +28,13 @@ struct ST_ZOMBIE
 	ZOMBIE_MOTION	eMotion;
 	float			fSpeed;
 	bool			isRecognize;
+	ST_OBB			OBBBox;
+	D3DXMATRIXA16   matWTM;
 
 	ST_ZOMBIE() : pSkinnedMesh(NULL), vPrevPosition(0, 0, 0), vPosition(0, 0, 0), vDirection(0, 0, 0), 
-		fAngle(0.f), eMotion(IDLE), fSpeed(2.f), isRecognize(false) { }
+		fAngle(0.f), eMotion(IDLE), fSpeed(2.f), isRecognize(false), OBBBox(){
+		D3DXMatrixIdentity(&matWTM);
+	}
 };
 
 class cZombie
@@ -47,5 +51,6 @@ public:
 	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos) = 0;
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
+	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir) =0;
 };
 

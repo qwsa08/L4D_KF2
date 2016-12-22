@@ -2,7 +2,7 @@
 #include "cClot.h"
 #include "cSkinnedMesh.h"
 #include "cDijkstra.h"
-
+#include "cOBB.h"
 
 cClot::cClot()
 {
@@ -15,6 +15,7 @@ cClot::~cClot()
 
 void cClot::Setup()
 {
+	m_pOBB = new cOBB;
 	ST_ZOMBIE stZombie;
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
 	stZombie.vPosition = D3DXVECTOR3(100, -140, 150);
@@ -26,6 +27,8 @@ void cClot::Setup()
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
 	stZombie.fSpeed = 3.f;
+	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
+		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
 	m_vecSkinnedMesh.push_back(stZombie);
 
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
@@ -36,6 +39,8 @@ void cClot::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
+		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
 	m_vecSkinnedMesh.push_back(stZombie);
 
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
@@ -46,6 +51,8 @@ void cClot::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
+		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
 	m_vecSkinnedMesh.push_back(stZombie);
 
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
@@ -56,6 +63,8 @@ void cClot::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
+		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
 	m_vecSkinnedMesh.push_back(stZombie);
 
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
@@ -66,6 +75,8 @@ void cClot::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
+		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
@@ -73,6 +84,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 {
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
 	{
+		
 		//¹üÀ§?
 		if ((*vPlayerPos).y < -50)
 		{
@@ -162,7 +174,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 			m_vecSkinnedMesh[i].isRecognize = false;
 		}
 
-		D3DXMATRIXA16 matS, matR, matT, mat;
+		D3DXMATRIXA16 matS, matR, matT, mat , matBT, matB ,matBS;
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
 		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
@@ -172,6 +184,12 @@ void cClot::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 		mat = matS * matR * matT;
 
 		m_vecSkinnedMesh[i].pSkinnedMesh->UpdateAndRender(&mat);
+		D3DXMatrixScaling(&matBS, 0.6f, 0.8f, 0.6f);
+		D3DXMatrixTranslation(&matBT, m_vecSkinnedMesh[i].vPosition.x, m_vecSkinnedMesh[i].vPosition.y+30.f , m_vecSkinnedMesh[i].vPosition.z);
+		matB = matBS * matR *matBT;
+		m_vecSkinnedMesh[i].matWTM = matB;
+		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
+		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
 }
 
@@ -197,4 +215,17 @@ void cClot::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 	default:
 		break;
 	}
+}
+bool cClot::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+{
+	for (int i = 0; i < m_vecSkinnedMesh.size(); i++)
+	{
+		if (m_pOBB->GetFaceBoxIntersect(&m_vecSkinnedMesh[i].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[i].matWTM))
+		{
+			int a = 0;
+			return true;
+		}
+	}
+
+	return false;
 }

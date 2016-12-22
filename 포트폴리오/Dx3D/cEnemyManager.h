@@ -22,5 +22,7 @@ public:
 
 	void Setup();
 	void UpdateAndRender(D3DXVECTOR3* vPlayerPos);
+	
+	bool PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
 };
 

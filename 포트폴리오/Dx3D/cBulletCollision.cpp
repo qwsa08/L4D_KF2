@@ -121,6 +121,9 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	{
 		m_pEffect->BeginPass(i);
 		Map->Render();
+		/*Map->Render(
+			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
+			&D3DXVECTOR4(Controller->GetDirection(), 1.f));*/
 		m_pEffect->EndPass();
 	}
 
@@ -161,7 +164,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	//	D3DXVECTOR3 vRightTop(0,0,0);
 	//	D3DXVec4Transform(&vCamera, &vCamera, &matInvP);
 	//	vCamera /= vCamera.w;
-
+	m_pBulletholes->SetMatrix("matWV", &matWV);
 	m_pBulletholes->SetMatrix("matWVP", &matWVP);
 	m_pBulletholes->SetMatrix("matInvWorldView", &matInvWV);
 	//m_pBulletholes->SetVector("CameraRightTop", &D3DXVECTOR4(vRightTop,1.0f));

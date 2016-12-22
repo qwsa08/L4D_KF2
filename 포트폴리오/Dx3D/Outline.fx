@@ -20,10 +20,19 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = ".\\??\healgun\\heal.X";
+string Textured_Phong_Pass_0_Model : ModelData = ".\\À`À\\healgun\\heal.X";
 
 float4x4 matWorld : World;
 float4x4 matViewProjection : ViewProjection;
+
+float gOutLine
+<
+   string UIName = "gOutLine";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 0.20 );
 
 struct VS_INPUT 
 {
@@ -47,7 +56,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Normal = mul( Normal, (float3x3)matViewProjection );
    Normal = normalize(Normal);
    
-   Output.Position.xy += Normal.xy * 0.3f;
+   Output.Position.xy += Normal.xy * gOutLine;
    
    return( Output );
    
@@ -68,7 +77,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main() : COLOR0
 //--------------------------------------------------------------//
 // Pass 1
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_1_Model : ModelData = ".\\??\healgun\\heal.X";
+string Textured_Phong_Pass_1_Model : ModelData = ".\\À`À\\healgun\\heal.X";
 
 float3 fvLightPosition
 <
@@ -157,7 +166,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = ".\\??\healgun\\Syringe_3rd.tga";
+   string ResourceName = ".\\À`À\\healgun\\Syringe_3rd.tga";
 >;
 sampler2D baseMap = sampler_state
 {
@@ -188,15 +197,16 @@ float4 Textured_Phong_Pass_1_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
    
-   float4 fvBaseColor = tex2D(baseMap, Input.Texcoord);
-
-	   float4 fvTotalAmbient = fvAmbient * fvBaseColor;
-	   float4 fvTotalDiffuse = fvDiffuse * fNDotL * fvBaseColor;
-	   float4 fvTotalSpecular = fvSpecular * pow(fRDotV, fSpecularPower);
-
-	   //  return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
-	   return fvBaseColor;
+   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   
+   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   
+   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+      
 }
+
 
 
 //--------------------------------------------------------------//

@@ -122,3 +122,8 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
 void cBloat::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 {
 }
+
+bool cBloat::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+{
+	return true;
+}

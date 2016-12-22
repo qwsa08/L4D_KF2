@@ -78,7 +78,6 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 		NULL,
 		(LPD3DXFRAME*)&m_pRootFrame,
 		&m_pAnimController);
-
 	m_stBoundingSphere = ah.GetBoundingSphere();
 	//m_stBoundingSphere.vCenter = (ah.GetMin() + ah.GetMax()) / 2.0f;
 	//m_stBoundingSphere.fRadius = D3DXVec3Length( &(ah.GetMin() - ah.GetMax()) );

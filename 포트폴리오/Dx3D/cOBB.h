@@ -1,4 +1,5 @@
 #pragma once
+class cCrtController;
 class cOBB
 {
 private:
@@ -15,10 +16,15 @@ public:
 	cOBB(void);
 	~cOBB(void);
 
-	void Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max,OUT ST_OBB &box);
+	void SetupOBJ(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box , D3DXMATRIXA16* _World = NULL);
+	void Setup(D3DXVECTOR3 _min, D3DXVECTOR3 _max, OUT ST_OBB &box);
 	void Update(D3DXMATRIXA16* pmatWorld, ST_OBB &box);
-	void DebugRender(D3DCOLOR c);
+	void DebugRender(ST_OBB* pOBB1,D3DCOLOR c);
+	
 
+	bool GetFaceBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir, D3DXMATRIXA16* _World);
+	bool GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir);
+	D3DXMATRIXA16 GetWTM() { return m_matWorldTM; }
 	static bool IsCollision(ST_OBB* pOBB1, ST_OBB* pOBB2);
 };
 
