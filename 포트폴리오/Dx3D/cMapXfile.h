@@ -1,6 +1,8 @@
 #pragma once
 
-class cMapXfile 
+#include "iMap.h"
+
+class cMapXfile : public iMap
 {
 private:
 	LPD3DXMESH							m_pShotgun;

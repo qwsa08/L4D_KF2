@@ -18,7 +18,6 @@
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
 
-#include "cObjGun.h"
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)

@@ -3,10 +3,8 @@
 
 
 cMapXfile::cMapXfile()
-
 	: m_pOutLineShader(NULL)
 	, m_pShotgun(NULL)
-	
 {
 }
 
