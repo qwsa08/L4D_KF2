@@ -32,10 +32,6 @@ public:
 	virtual void Render();
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 
-	void PickShotGunRender();
-	void PickBullpupRender();
-	void PickHealRender();
-
 	void PickWeaponRender(std::vector<cMtlTex*> Mtltex, 
 		LPD3DXEFFECT Shader, LPD3DXMESH Mesh, 
 		float Px, float Py, float Pz);

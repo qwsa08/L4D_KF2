@@ -16,7 +16,6 @@ class cOBB;
 class cBulletCollision;
 class cCrossHead;
 
-
 class cEnemyManager;
 
 class cMainGame
