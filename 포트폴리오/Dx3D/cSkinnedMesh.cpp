@@ -17,6 +17,8 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_isBlending(false)
 	, m_fBlendTime(0.003f)
 	, m_fPassedBlendTime(0.0f)
+	, m_bChange(false)
+	, m_fTimer(0.f)
 
 {
 
@@ -496,9 +498,10 @@ float cSkinnedMesh::AnimationFrame(int num)
 
 	SAFE_RELEASE(pAnimSet);
 }
-void cSkinnedMesh::AnimationUpdate(int current, int next)
+void cSkinnedMesh::AnimationReset()
 {
-
+	m_pAnimController->ResetTime();
+	m_pAnimController->AdvanceTime(0, NULL);
 	
 }
 void cSkinnedMesh::Destroy()
@@ -555,7 +558,7 @@ void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 	if (m_pRootFrame == NULL) return;
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetDeltaTime(), NULL);
 
-
+	
 	if (m_isBlending)
 	{
 		m_fPassedBlendTime += g_pTimeManager->GetDeltaTime();
@@ -581,15 +584,25 @@ void cSkinnedMesh::Update(D3DXMATRIXA16* pmat, int state)
 		m_pAnimController->GetTrackDesc(0, &tc);
 		float m_fPassedTime = tc.Position;
 		float a = AnimationFrame(m_FrameNum);
-		if (m_fPassedTime-0.001 >= a)
+		if (m_fPassedTime - 0.001 >= a)
 		{
-			if(m_FrameNum != 0)
+			if (m_FrameNum != 0)
 			{
 				m_FrameNum = 0;
 				SetAnimationIndex(0);
 			}
 		}
 	}
+	/*else
+	{
+		m_fTimer += g_pTimeManager->GetDeltaTime();
+		float a = AnimationFrame(m_FrameNum);
+		if (m_fTimer > a-0.01)
+		{
+			m_fTimer = 0.f;
+			m_bChange = false;
+		}
+	}*/
 	/*if (m_fPassedBlendTime >= a)
 	{
 		m_fPassedBlendTime = 0.f;

@@ -10,7 +10,7 @@ cMouse::cMouse()
 	pWinPos.y = 100; //GetWindowHeight() / 2;
 	ClientToScreen(g_hWnd, &pWinPos);
 
-	SetCursorPos(pWinPos.x, pWinPos.y);
+	//SetCursorPos(pWinPos.x, pWinPos.y);
 	m_FixPos = pWinPos;
 }
 

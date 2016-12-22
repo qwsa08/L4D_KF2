@@ -14,6 +14,7 @@ private:
 	float						m_fAngleY;
 
 	D3DXMATRIXA16				m_Rotation;
+	SYNTHESIZE(float, m_fSensitivity, Sensitivity);
 public:
 	cCrtController(void);
 	~cCrtController(void);

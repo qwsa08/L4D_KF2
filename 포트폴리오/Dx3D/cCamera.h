@@ -10,6 +10,7 @@ private:
 	POINT					m_ptMouse;
 
 	float					m_fDistance;
+
 public:
 	cCamera(void);
 	~cCamera(void);
