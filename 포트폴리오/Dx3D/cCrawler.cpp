@@ -36,3 +36,8 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 void cCrawler::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 {
 }
+
+bool cCrawler::PickTheBullet(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vPlayerDir)
+{
+	return false;
+}

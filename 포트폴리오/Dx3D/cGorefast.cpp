@@ -36,3 +36,8 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 void cGorefast::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 {
 }
+
+bool cGorefast::PickTheBullet(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vPlayerDir)
+{
+	return false;
+}
