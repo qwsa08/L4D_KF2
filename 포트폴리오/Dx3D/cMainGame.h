@@ -17,6 +17,7 @@ class cBulletCollision;
 class cCrossHead;
 
 class cEnemyManager;
+class cSky;
 
 class cMainGame
 {
@@ -28,6 +29,9 @@ private:
 	cGrid*						m_pGrid;
 	cCrtController*				m_pController;
 	iMap*						m_pMap;
+	//=========================================
+	cSky*						m_pSky;
+	//=========================================
 	cMapXfile*					m_pObj;
 	std::vector<ST_SPHERE>		m_vecSphere;
 	LPD3DXMESH					m_pMesh;
