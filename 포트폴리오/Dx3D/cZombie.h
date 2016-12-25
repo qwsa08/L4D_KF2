@@ -10,7 +10,8 @@ enum ZOMBIE_MOTION
 	IDLE = 0,
 	MOVE,
 	SPRINT,
-	HIT,
+	HIT_F,
+	HIT_B,
 	ATTACK_MELEE,
 	ATTACK_CHARGE,
 	ATTACK_GUN,
@@ -30,12 +31,13 @@ struct ST_ZOMBIE
 	ZOMBIE_MOTION	eMotion;
 	float			fSpeed;
 	float			fElapsedTime;
+	bool			isRecognize;
 	//
 	ST_OBB			OBBBox;
 	D3DXMATRIXA16   matWTM;
 
 	ST_ZOMBIE() : pSkinnedMesh(NULL), vPrevPosition(0, 0, 0), vPosition(0, 0, 0), vDirection(0, 0, 0),
-		fAngle(0.f), eMotion(IDLE), fSpeed(2.f), fElapsedTime(0.f), OBBBox()
+		fAngle(0.f), eMotion(IDLE), fSpeed(2.f), fElapsedTime(0.f), isRecognize(false), OBBBox()
 	{
 		D3DXMatrixIdentity(&matWTM);
 	}

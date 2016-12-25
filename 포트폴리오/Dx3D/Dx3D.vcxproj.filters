@@ -18,7 +18,6 @@
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cDijkstra.cpp" />
     <ClCompile Include="cEnemyManager.cpp" />
-    <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGorefast.cpp" />
     <ClCompile Include="cGrid.cpp" />
@@ -27,6 +26,7 @@
     <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -47,7 +47,45 @@
     <ClCompile Include="cZombie.cpp" />
     <ClCompile Include="Dx3D.cpp" />
     <ClCompile Include="iMap.cpp" />
-    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="cDijkstra.cpp">
+      <Filter>L4D\Dijkstra</Filter>
+    </ClCompile>
+    <ClCompile Include="cClot.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cCrawler.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cBloat.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoss.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cGorefast.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemyManager.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cZombie.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>L4D</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx3D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cFrustum.cpp">
+      <Filter>Frustum</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -97,9 +135,49 @@
     <ClInclude Include="cZombie.h" />
     <ClInclude Include="Dx3D.h" />
     <ClInclude Include="iMap.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="cDijkstra.h">
+      <Filter>L4D\Dijkstra</Filter>
+    </ClInclude>
+    <ClInclude Include="cCrawler.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cClot.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cBoss.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cBloat.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cGorefast.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemyManager.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cZombie.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>L4D</Filter>
+    </ClInclude>
+    <ClInclude Include="cMainGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx3D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>Frustum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />
@@ -108,5 +186,25 @@
     <None Include="Dx3D.ico" />
     <None Include="ReadMe.txt" />
     <None Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="L4D">
+      <UniqueIdentifier>{a2d03a32-a669-48f2-9260-99f96ba6a10d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="L4D\Dijkstra">
+      <UniqueIdentifier>{021eac48-de7f-4130-9cd1-12643054af2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="L4D\Zombie">
+      <UniqueIdentifier>{836d8a0d-678d-4b66-b73f-9e3f7fc6b092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{5f143128-ceba-4ece-b23b-606a1e28861e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{0285c6ed-4096-47b9-94da-8b7b052c2f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frustum">
+      <UniqueIdentifier>{8865ea30-c568-4dd3-9859-a4d51d589fb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

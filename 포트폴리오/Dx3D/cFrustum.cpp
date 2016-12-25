@@ -21,9 +21,17 @@ cFrustum::~cFrustum(void)
 
 void cFrustum::Update()
 {
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+
 	D3DXMATRIXA16 matView, matInvView, matProj, matInvProj, mat;
-	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixLookAtLH(&matView,
+		&D3DXVECTOR3(0, 0, -10),
+		&D3DXVECTOR3(0, 0, 0),
+		&D3DXVECTOR3(0, 1, 0));
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1, 1000);
+//	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+//	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	D3DXMatrixInverse(&matInvProj, 0, &matProj);
 	D3DXMatrixInverse(&matInvView, 0, &matView);
 
