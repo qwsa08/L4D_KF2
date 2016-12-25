@@ -24,6 +24,7 @@ private:
 	std::vector<D3DXPLANE>		m_vecClipping;
 	std::vector<ST_PNT_VERTEX>	m_vOverTex;
 	D3DXVECTOR3	m_vBulletPoint;
+	D3DXVECTOR3 m_vCenterPoint;
 	
 	LPDIRECT3DSURFACE9			m_pRenderTargetSurface;
 	LPDIRECT3DTEXTURE9			m_pRenderTargetTexture;
@@ -51,12 +52,15 @@ public:
 	void Render(iMap* Map, cCrtController* Controller);
 	bool PickBullet(cCrtController* Controller);
 
-	void Fire(iMap* Map);
+	void PickCenter(cCrtController* Controller);
+
+	void Fire(iMap* Map, cCrtController* Controller);
 
 	void Bulletholes(cCrtController* Controller);
 
 	D3DXMATRIXA16 Clipping();
 	D3DXVECTOR3 GetBulletPosition() { return m_vBulletPoint; }
+	D3DXVECTOR3 GetCenterPosition() { return m_vCenterPoint; }
 	std::vector<ST_PNT_VERTEX> GetBulletPlane() { return m_vOverTex; }
 	//std::vector<ST_PNT_VERTEX> GetTestMap() { return m_pMap; }
 };

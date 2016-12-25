@@ -325,7 +325,7 @@ void cMainGame::Update()
 			}
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				//m_pBulletCollision->Fire(m_pMap);
+				//m_pBulletCollision->Fire(m_pMap, m_pController);
 			}
 			//m_fire = true;
 		}
@@ -348,7 +348,7 @@ void cMainGame::Update()
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
 				//m_fire = true;
-				//m_pBulletCollision->Fire(m_pMap);
+				//m_pBulletCollision->Fire(m_pMap, m_pController);
 			}
 		}
 	}
@@ -388,6 +388,8 @@ void cMainGame::Update()
 		if (temp >0.1)	temp -= 0.05;
 		m_pController->SetSensitivity(temp);
 	}
+
+	m_pBulletCollision->PickCenter(m_pController);
 
 	g_pAutoReleasePool->Drain();
 }
@@ -452,13 +454,13 @@ void cMainGame::Render()
 		m_pMap->Render(
 			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
 			&D3DXVECTOR4(m_pController->GetDirection(), 1.f),
-			&D3DXVECTOR3(m_pBulletCollision->GetBulletPosition()),
-			500.f);
+			&D3DXVECTOR4(m_pBulletCollision->GetCenterPosition(), 1.f),
+			100.f, &D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
 
-	//m_pBulletCollision->Fire(m_pMap);
+	//m_pBulletCollision->Fire(m_pMap, m_pController);
 			
 	if (m_bText)
 	{
