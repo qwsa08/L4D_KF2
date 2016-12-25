@@ -63,7 +63,7 @@ void cBulletCollision::SetUp(cObjMap* Map)
 	int a = 0;
 }
 
-void cBulletCollision::Render(iMap* Map, D3DXMATRIX View )
+void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 {
 	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
 	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
@@ -122,6 +122,7 @@ void cBulletCollision::Render(iMap* Map, D3DXMATRIX View )
 	{
 		m_pEffect->BeginPass(i);
 		Map->Render();
+		//Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
 		/*Map->Render(
 			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
 			&D3DXVECTOR4(Controller->GetDirection(), 1.f), &m_vBulletPoint,500.f);*/
@@ -210,77 +211,8 @@ void cBulletCollision::Render(iMap* Map, D3DXMATRIX View )
 
 }		
 
-void cBulletCollision::Fire(iMap* Map)
+void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 {
-	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
-	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
-	g_pD3DDevice->GetRenderTarget(0, &pOrgRenderTargetSurface);
-	g_pD3DDevice->GetDepthStencilSurface(&pOrgDepthStencilSurface);
-
-	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	if (SUCCEEDED(m_pRenderTargetTexture->GetSurfaceLevel(0, &pShadowSurface)))
-	{
-		g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-		pShadowSurface->Release();
-		pShadowSurface = NULL;
-	}
-	g_pD3DDevice->SetDepthStencilSurface(m_pRenderTargetSurface);
-
-	g_pD3DDevice->Clear(NULL,
-		NULL,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_ARGB(255, 255, 255, 255),
-		1.0f,
-		0);
-
-	D3DXMATRIXA16 matWorld, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
-	D3DXMatrixIdentity(&matWorld);
-	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &m_matView);
-
-
-	// g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
-
-	//if (m_test)
-	{
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 200.f);
-		//g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-		m_pEffect->SetFloat("fFar", 200.f);
-	}
-
-
-	matWV = matWorld * m_matView;
-	matWVP = matWorld * m_matView * m_matProj;
-	m_pEffect->SetMatrix("matWV", &matWV);
-	m_pEffect->SetMatrix("matWVP", &matWVP);
-
-	/*else
-	{
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
-		g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-		m_pEffect->SetFloat("fFar", 2000.f);
-	}*/
-
-	UINT numPasses = 0;
-	m_pEffect->Begin(&numPasses, NULL);
-
-	for (UINT i = 0; i < numPasses; ++i)
-	{
-		m_pEffect->BeginPass(i);
-		Map->Render();
-		m_pEffect->EndPass();
-	}
-
-	m_pEffect->End();
-
-
-	g_pD3DDevice->SetRenderTarget(0, pOrgRenderTargetSurface);
-	g_pD3DDevice->SetDepthStencilSurface(pOrgDepthStencilSurface);
-
-	SAFE_RELEASE(pOrgRenderTargetSurface);
-	SAFE_RELEASE(pOrgDepthStencilSurface);
-	//=============================================================
 	
 }
 
@@ -310,8 +242,7 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 			D3DXVECTOR3 BulletPoint(0, 0, 0);
 			BulletPoint = v0 + u * (v1 - v0) + v * (v2 - v0);
 			//if (d > 5000.f) return false;
-			vecWallNear.push_back(ST_WallNear(BulletPoint, d,i));
-			
+			vecWallNear.push_back(ST_WallNear(BulletPoint, d,i));		
 		}
 	}
 	if (vecWallNear.size() > 0)
@@ -334,6 +265,44 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 		return true;
 	}
 	return false;
+}
+
+void cBulletCollision::PickCenter(cCrtController* Controller)
+{
+	std::vector<ST_WallNear> vecWallNear;
+	D3DXVECTOR3 Position = *(Controller->GetPosition());
+	D3DXVECTOR3 vRayPos(Position.x, Position.y, Position.z);
+	D3DXVECTOR3 vRayDir = Controller->GetDirection();
+	m_vOverTex.clear();
+	float u, v, d;
+
+	for (int i = 0; i < m_pMap.size(); i += 3)
+	{
+		D3DXVECTOR3 v0 = m_pMap[i].p;
+		D3DXVECTOR3 v1 = m_pMap[i + 1].p;
+		D3DXVECTOR3 v2 = m_pMap[i + 2].p;
+
+		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
+		{
+			D3DXVECTOR3 CenterPoint(0, 0, 0);
+			CenterPoint = v0 + u * (v1 - v0) + v * (v2 - v0);
+			vecWallNear.push_back(ST_WallNear(CenterPoint, d, i));
+		}
+	}
+	if (vecWallNear.size() > 0)
+	{
+		for (int i = 0; i < vecWallNear.size(); i++)
+		{
+			if (vecWallNear[0].fRange > vecWallNear[i].fRange)
+			{
+				ST_WallNear Temp;
+				Temp = vecWallNear[0];
+				vecWallNear[0] = vecWallNear[i];
+				vecWallNear[i] = Temp;
+			}
+		}
+		m_vCenterPoint = vecWallNear[0].WallPosition;
+	}
 }
 
 

@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string NormalMapping_Pass_0_Model : ModelData = "..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string NormalMapping_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 float4x4 gWorldMatrix : World;
 float4x4 gWorldViewProjectionMatrix : WorldViewProjection;
@@ -95,29 +95,9 @@ struct PS_INPUT
    float3 N : TEXCOORD5;
 };
 
-texture DiffuseMap_Tex
-<
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\cs_havana_texture_0.jpg";
->;
-sampler2D DiffuseSampler = sampler_state
-{
-   Texture = (DiffuseMap_Tex);
-   MAGFILTER = LINEAR;
-   MINFILTER = LINEAR;
-};
-texture SpecularMap_Tex
-<
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\SpacularMap\\cs_havana_texture_0_SPEC.png";
->;
-sampler2D SpecularSampler = sampler_state
-{
-   Texture = (SpecularMap_Tex);
-   MAGFILTER = LINEAR;
-   MINFILTER = LINEAR;
-};
 texture NormalMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\NomalMaps\\cs_havana_texture_0_NRM.png";
+   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\FieldstoneBumpDOT3.tga";
 >;
 sampler2D NormalSampler = sampler_state
 {
@@ -133,7 +113,7 @@ float3 gLightColor
    bool UIVisible =  false;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float3( 1.00, 1.00, 1.00 );
+> = float3( 0.70, 0.70, 1.00 );
 
 float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
@@ -143,28 +123,19 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
    float3x3 TBN = float3x3(normalize(Input.T), normalize(Input.B), normalize(Input.N));
    TBN = transpose(TBN);
    float3 worldNormal = mul(TBN, tangentNormal);
-   
-   float4 albedo = tex2D(DiffuseSampler, Input.mUV);
+
+   float4 albedo = tex2D(NormalSampler, Input.mUV);
    float3 lightDir = normalize(Input.mLightDir);
    float3 diffuse = saturate(dot(worldNormal, -lightDir));
    diffuse = gLightColor * albedo.rgb * diffuse;
    
    float3 specular = 0;
-   if ( diffuse.x > 0 )
-   {
-      float3 reflection = reflect(lightDir, worldNormal);
-      float3 viewDir = normalize(Input.mViewDir); 
-
-      specular = saturate(dot(reflection, -viewDir ));
-      specular = pow(specular, 20.0f);
-      
-      float4 specularIntensity  = tex2D(SpecularSampler, Input.mUV);
-      specular *= specularIntensity.rgb * gLightColor;
-   }
 
    float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo;
    
-   return float4(ambient + diffuse + specular, 1);
+   float4 depth = float4(ambient + diffuse + specular, 1);
+   depth = depth.z / 5000.f;
+   return depth;
 }
 
 //--------------------------------------------------------------//

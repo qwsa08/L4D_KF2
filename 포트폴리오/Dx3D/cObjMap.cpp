@@ -9,6 +9,7 @@ cObjMap::cObjMap(void)
 	, m_pWallMesh(NULL)
 	, m_pTextureMappingShader(NULL)
 	, m_LightCon(NULL)
+	, m_NomalMapingShader(NULL)
 {
 }
 
@@ -19,6 +20,7 @@ cObjMap::~cObjMap(void)
 	SAFE_RELEASE(m_pWallMesh);
 	SAFE_RELEASE(m_pTextureMappingShader);
 	SAFE_RELEASE(m_LightCon);
+	SAFE_RELEASE(m_NomalMapingShader);
 
 	for each(auto p in m_vecGroup)
 	{
@@ -59,7 +61,8 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
 	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
-	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test).fx");
+	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test3).fx");
+	//m_NomalMapingShader = g_pShader->LoadShader("NomalMaping.fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -71,9 +74,48 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 }
 void cObjMap::Render()
 {
-	/*float fDepthBias = 0.01;
-	g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
+	//D3DXMATRIXA16 matI;
+	//D3DXMatrixIdentity(&matI);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 
+	//D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
+
+	//D3DXVECTOR4 gLightPosition(500.f, 1000.f, -500.f, 1.f);
+
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	//D3DXMatrixIdentity(&matWorld);
+
+	//D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
+	//D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
+
+	//m_NomalMapingShader->SetMatrix("gWorldMatrix", &matWorld);
+	//m_NomalMapingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
+
+	//m_NomalMapingShader->SetVector("gWorldLightPosition", &gLightPosition);
+	//m_NomalMapingShader->SetVector("gWorldCameraPosition", CameraPosition);
+
+	///*float fDepthBias = 0.01;
+	//g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
+
+	//for (int i = 0; i < m_vecNomal.size(); i++)
+	//{
+	//	UINT numPasses = 0;
+	//	m_NomalMapingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
+
+	//	m_NomalMapingShader->Begin(&numPasses, NULL);
+	//	{
+	//		for (UINT j = 0; j < numPasses; ++j)
+	//		{
+	//			m_NomalMapingShader->BeginPass(j);
+	//			{
+	//				m_Map->DrawSubset(i);
+	//			}
+	//			m_NomalMapingShader->EndPass();
+	//		}
+	//	}
+	//	m_NomalMapingShader->End();
+	//}
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
 		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
@@ -83,7 +125,8 @@ void cObjMap::Render()
 }
 void cObjMap::Render(
 	IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection,
-	IN D3DXVECTOR3* SpotLightCenter, IN float SpotLightRange)
+	IN D3DXVECTOR4* SpotLightCenter, IN float SpotLightRange,
+	IN D3DXVECTOR4* CameraPosition)
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
@@ -98,11 +141,10 @@ void cObjMap::Render(
 
 	D3DXVECTOR4 gFlashLightColor(1.f, 1.f, 1.f, 1.f);
 
-	D3DXVECTOR4 gFlashLightCenter = D3DXVECTOR4(*SpotLightCenter, 1.f);
-
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
+	//g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
+	D3DXMatrixIdentity(&matWorld);
 
 	//=========================================================
 	/*D3DXMATRIXA16 matS;
@@ -113,6 +155,7 @@ void cObjMap::Render(
 	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 
 	m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
+	m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
 	m_pTextureMappingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
 
 	m_pTextureMappingShader->SetVector("gWorldLightPosition", &gLightPosition);
@@ -124,8 +167,10 @@ void cObjMap::Render(
 	m_pTextureMappingShader->SetVector("gLightColor", &gLightColor);
 	m_pTextureMappingShader->SetVector("gFlashColor", &gFlashLightColor);
 
-	m_pTextureMappingShader->SetVector("gFlashLightCenter", &D3DXVECTOR4(*SpotLightCenter, 1.f));
+	m_pTextureMappingShader->SetVector("gFlashLightCenter", SpotLightCenter);
 	m_pTextureMappingShader->SetFloat("gFlashLightRange", SpotLightRange);
+
+	m_pTextureMappingShader->SetVector("gWorldCameraPosition", CameraPosition);
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
@@ -157,7 +202,6 @@ void cObjMap::Render(
 
 bool cObjMap::GetHeight(IN float x, OUT float& y, IN float z)
 {
-
 	std::vector<float> vY;
 
 	D3DXVECTOR3 vRayPos(x, y + 70, z);

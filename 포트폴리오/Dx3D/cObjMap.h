@@ -41,6 +41,7 @@ protected:
 	std::vector<LPDIRECT3DTEXTURE9>	m_vecSpecular;
 	
 	LPD3DXEFFECT			m_pTextureMappingShader;
+	LPD3DXEFFECT			m_NomalMapingShader;
 public:
 	cObjMap(void);
 	virtual ~cObjMap(void);
@@ -51,7 +52,8 @@ public:
 	virtual void Render();
 	virtual void Render(
 		IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection,
-		IN D3DXVECTOR3* SpotLightCenter, IN float SpotLightRange) override;
+		IN D3DXVECTOR4* SpotLightCenter, IN float SpotLightRange,
+		IN D3DXVECTOR4* CameraPosition) override;
 	virtual bool GetHeight(IN float x, OUT float& y, IN float z) override;
 };
 
