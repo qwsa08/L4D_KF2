@@ -104,6 +104,9 @@
     <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="cSky.cpp">
+      <Filter>.</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAutoReleasePool.h" />
@@ -213,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cSky.h">
+      <Filter>.</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

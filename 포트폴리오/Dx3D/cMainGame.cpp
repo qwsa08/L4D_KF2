@@ -17,7 +17,7 @@
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
-
+#include "cSky.h"
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -46,6 +46,8 @@ cMainGame::cMainGame(void)
 	, m_bText(false)
 	, m_pFont(NULL)
 	, OnOff_MOUSE(false)
+	, m_pSky(NULL)
+	
 {
 }
 
@@ -78,6 +80,7 @@ cMainGame::~cMainGame(void)
 
 	//SAFE_DELETE(m_pSkinnedMesh);
 
+	SAFE_DELETE(m_pSky);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -102,9 +105,14 @@ void cMainGame::Setup()
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
 
+	
+
 	cMapXfile* pPickObj = new cMapXfile;
 	pPickObj->PickWeaponLoad();
 	m_pObj = pPickObj;
+
+	
+	
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
@@ -158,7 +166,8 @@ void cMainGame::Setup()
 	m_pCrossHead = new cCrossHead;
 
 
-
+	m_pSky = new cSky;
+	m_pSky->SetUp();
 
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
@@ -506,6 +515,7 @@ void cMainGame::Render()
 		}
 	}
 	
+	m_pSky->Render();
 	
 	m_pBulletCollision->Render(m_pMap,m_pController);
 
