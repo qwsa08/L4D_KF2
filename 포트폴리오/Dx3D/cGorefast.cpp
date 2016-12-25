@@ -29,7 +29,7 @@ void cGorefast::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
 {
 }
 

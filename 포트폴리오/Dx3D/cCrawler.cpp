@@ -47,7 +47,7 @@ void cCrawler::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
 {
 }
 

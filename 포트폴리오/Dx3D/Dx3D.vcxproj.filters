@@ -7,26 +7,17 @@
     <ClCompile Include="cActionSeq.cpp" />
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
-    <ClCompile Include="cBloat.cpp" />
-    <ClCompile Include="cBoss.cpp" />
     <ClCompile Include="cBulletCollision.cpp" />
     <ClCompile Include="cCamera.cpp" />
-    <ClCompile Include="cClot.cpp" />
-    <ClCompile Include="cCrawler.cpp" />
     <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
-    <ClCompile Include="cDijkstra.cpp" />
-    <ClCompile Include="cEnemyManager.cpp" />
     <ClCompile Include="cGameObject.cpp" />
-    <ClCompile Include="cGorefast.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cInput.cpp" />
     <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
-    <ClCompile Include="cMainGame.cpp" />
-
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -35,7 +26,6 @@
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />
-    <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
     <ClCompile Include="cShader.cpp" />
@@ -44,8 +34,6 @@
     <ClCompile Include="cSky.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
-    <ClCompile Include="cZombie.cpp" />
-    <ClCompile Include="Dx3D.cpp" />
     <ClCompile Include="iMap.cpp" />
     <ClCompile Include="cDijkstra.cpp">
       <Filter>L4D\Dijkstra</Filter>
@@ -86,6 +74,39 @@
     <ClCompile Include="cFrustum.cpp">
       <Filter>Frustum</Filter>
     </ClCompile>
+    <ClCompile Include="cClot.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cCrawler.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cBloat.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cBoss.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cGorefast.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemyManager.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cZombie.cpp">
+      <Filter>L4D\Zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="cDijkstra.cpp">
+      <Filter>L4D\Dijkstra</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>L4D</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Dx3D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -95,26 +116,17 @@
     <ClInclude Include="cActionSeq.h" />
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
-    <ClInclude Include="cBloat.h" />
-    <ClInclude Include="cBoss.h" />
     <ClInclude Include="cBulletCollision.h" />
     <ClInclude Include="cCamera.h" />
-    <ClInclude Include="cClot.h" />
-    <ClInclude Include="cCrawler.h" />
     <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
-    <ClInclude Include="cDijkstra.h" />
-    <ClInclude Include="cEnemyManager.h" />
-    <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
-    <ClInclude Include="cGorefast.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cInput.h" />
     <ClInclude Include="cKeyBoard.h" />
     <ClInclude Include="cKeyManager.h" />
-    <ClInclude Include="cMainGame.h" />
     <ClInclude Include="cMapXfile.h" />
     <ClInclude Include="cMouse.h" />
     <ClInclude Include="cMtlTex.h" />
@@ -123,7 +135,6 @@
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
-    <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
     <ClInclude Include="cShader.h" />
@@ -132,8 +143,6 @@
     <ClInclude Include="cSky.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
-    <ClInclude Include="cZombie.h" />
-    <ClInclude Include="Dx3D.h" />
     <ClInclude Include="iMap.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="cDijkstra.h">
@@ -177,6 +186,42 @@
     </ClInclude>
     <ClInclude Include="cFrustum.h">
       <Filter>Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="cClot.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cCrawler.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cBoss.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cBloat.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cGorefast.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemyManager.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cZombie.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="cDijkstra.h">
+      <Filter>L4D\Dijkstra</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>L4D</Filter>
+    </ClInclude>
+    <ClInclude Include="cMainGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx3D.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
