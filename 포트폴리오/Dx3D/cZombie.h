@@ -56,7 +56,7 @@ public:
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir) = 0;
+	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot) = 0;
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
 	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex) = 0;

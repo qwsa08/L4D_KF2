@@ -30,7 +30,7 @@ void cBoss::Setup()
 	m_stBoss.fSpeed = 3.f;
 }
 
-void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
 {
 	//ÀÎ½Ä
 	if ((*vPlayerPos).y < -50)

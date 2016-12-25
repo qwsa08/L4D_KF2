@@ -57,16 +57,16 @@ void cEnemyManager::Setup()
 	m_pBoss->SetDijkstraMemoryLink(m_pDijkstra);
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
 {
-	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir);
-	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir);
-	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir);
-	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir);
-	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir);
+	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
+	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
+	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
+	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
+	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
 
-	m_pDijkstra->Update(vPlayerPos);
-	m_pDijkstra->Render();
+//	m_pDijkstra->Update(vPlayerPos);
+//	m_pDijkstra->Render();
 }
 bool cEnemyManager::PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {

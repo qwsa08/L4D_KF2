@@ -437,8 +437,14 @@ void cMainGame::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
+	bool Shot = false;
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	{
+		if (Shot)	Shot = false;
+		else Shot = true;
+	}
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection());
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), Shot);
 	
 	//m_pBulletCollision->Render(m_pMap);
 
