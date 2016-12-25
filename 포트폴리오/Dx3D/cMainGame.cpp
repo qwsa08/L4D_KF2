@@ -389,6 +389,8 @@ void cMainGame::Update()
 		m_pController->SetSensitivity(temp);
 	}
 
+	m_pBulletCollision->PickCenter(m_pController);
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -452,8 +454,8 @@ void cMainGame::Render()
 		m_pMap->Render(
 			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
 			&D3DXVECTOR4(m_pController->GetDirection(), 1.f),
-			&D3DXVECTOR3(m_pBulletCollision->GetBulletPosition()),
-			500.f);
+			&D3DXVECTOR4(m_pBulletCollision->GetCenterPosition(), 1.f),
+			100.f, &D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
 		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 

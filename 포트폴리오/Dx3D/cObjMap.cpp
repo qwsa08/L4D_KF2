@@ -59,7 +59,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
 	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx"); SpotLight(Test)
-	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test).fx");
+	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test3).fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -83,7 +83,8 @@ void cObjMap::Render()
 }
 void cObjMap::Render(
 	IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection,
-	IN D3DXVECTOR3* SpotLightCenter, IN float SpotLightRange)
+	IN D3DXVECTOR4* SpotLightCenter, IN float SpotLightRange,
+	IN D3DXVECTOR4* CameraPosition)
 {
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
@@ -98,11 +99,10 @@ void cObjMap::Render(
 
 	D3DXVECTOR4 gFlashLightColor(1.f, 1.f, 1.f, 1.f);
 
-	D3DXVECTOR4 gFlashLightCenter = D3DXVECTOR4(*SpotLightCenter, 1.f);
-
 	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
+	//g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
+	D3DXMatrixIdentity(&matWorld);
 
 	//=========================================================
 	/*D3DXMATRIXA16 matS;
@@ -113,6 +113,7 @@ void cObjMap::Render(
 	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 
 	m_pTextureMappingShader->SetMatrix("gWorldMatrix", &matWorld);
+	m_pTextureMappingShader->SetMatrix("gViewMatrix", &matView);
 	m_pTextureMappingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
 
 	m_pTextureMappingShader->SetVector("gWorldLightPosition", &gLightPosition);
@@ -124,8 +125,10 @@ void cObjMap::Render(
 	m_pTextureMappingShader->SetVector("gLightColor", &gLightColor);
 	m_pTextureMappingShader->SetVector("gFlashColor", &gFlashLightColor);
 
-	m_pTextureMappingShader->SetVector("gFlashLightCenter", &D3DXVECTOR4(*SpotLightCenter, 1.f));
+	m_pTextureMappingShader->SetVector("gFlashLightCenter", SpotLightCenter);
 	m_pTextureMappingShader->SetFloat("gFlashLightRange", SpotLightRange);
+
+	m_pTextureMappingShader->SetVector("gWorldCameraPosition", CameraPosition);
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
