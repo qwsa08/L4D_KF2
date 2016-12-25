@@ -127,9 +127,6 @@
     <ClCompile Include="cOBB.cpp">
       <Filter>충돌</Filter>
     </ClCompile>
-    <ClCompile Include="cPickObj.cpp">
-      <Filter>ObjFile</Filter>
-    </ClCompile>
     <ClCompile Include="iMap.cpp">
       <Filter>ObjFile</Filter>
     </ClCompile>
@@ -263,9 +260,6 @@
     </ClInclude>
     <ClInclude Include="Asciitok.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cPickObj.h">
-      <Filter>ObjFile</Filter>
     </ClInclude>
     <ClInclude Include="iMap.h">
       <Filter>ObjFile</Filter>
