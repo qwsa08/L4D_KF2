@@ -270,7 +270,7 @@ void cMainGame::Update()
 				else if (i == 2)
 					m_pObj->SetHealOutLine(0.3f);
 
-				if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+				if (g_pKeyManager->isOnceKeyDown('E'))
 				{
 					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
 					else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
