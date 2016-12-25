@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -94,6 +94,7 @@
     <ClInclude Include="cBulletCollision.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cClot.h" />
+    <ClInclude Include="cCrawler.h" />
     <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -101,6 +102,7 @@
     <ClInclude Include="cEnemyManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
+    <ClInclude Include="cGorefast.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cInput.h" />
@@ -115,7 +117,6 @@
     <ClInclude Include="cObjLoader.h" />
     <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
-    <ClInclude Include="cPickObj.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="cBulletCollision.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cClot.cpp" />
+    <ClCompile Include="cCrawler.cpp" />
     <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="cEnemyManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
+    <ClCompile Include="cGorefast.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cInput.cpp" />
@@ -165,7 +168,6 @@
     <ClCompile Include="cObjLoader.cpp" />
     <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />
-    <ClCompile Include="cPickObj.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />

@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = ".\\À`À\\healgun\\heal.X";
+string Textured_Phong_Pass_0_Model : ModelData = ".\\??\healgun\\heal.X";
 
 float4x4 matWorld : World;
 float4x4 matViewProjection : ViewProjection;
@@ -77,7 +77,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main() : COLOR0
 //--------------------------------------------------------------//
 // Pass 1
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_1_Model : ModelData = ".\\À`À\\healgun\\heal.X";
+string Textured_Phong_Pass_1_Model : ModelData = ".\\??\healgun\\heal.X";
 
 float3 fvLightPosition
 <
@@ -166,7 +166,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = ".\\À`À\\healgun\\Syringe_3rd.tga";
+   string ResourceName = ".\\??\healgun\\Syringe_3rd.tga";
 >;
 sampler2D baseMap = sampler_state
 {
