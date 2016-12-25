@@ -57,18 +57,20 @@ void cEnemyManager::Setup()
 	m_pBoss->SetDijkstraMemoryLink(m_pDijkstra);
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos)
+void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {
-	m_pBloat->UpdateAndRender(vPlayerPos);
-	m_pClot->UpdateAndRender(vPlayerPos);
-	m_pCrawler->UpdateAndRender(vPlayerPos);
-	m_pGorefast->UpdateAndRender(vPlayerPos);
-	m_pBoss->UpdateAndRender(vPlayerPos);
+	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir);
+	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir);
+	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir);
+	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir);
+	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir);
 
 //	m_pDijkstra->Render();
 }
 bool cEnemyManager::PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {
-	if(m_pClot->PickTheBullet(vPlayerPos, vPlayerDir)) return true;
-	else return false;
+//	if(m_pClot->PickTheBullet(vPlayerPos, vPlayerDir)) return true;
+//	else return false;
+
+	return true;
 }

@@ -427,7 +427,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection());
 	
 	//m_pBulletCollision->Render(m_pMap);
 

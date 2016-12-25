@@ -29,7 +29,7 @@ void cGorefast::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cGorefast::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
+void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {
 }
 
@@ -37,7 +37,7 @@ void cGorefast::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 {
 }
 
-bool cGorefast::PickTheBullet(D3DXVECTOR3 * vPlayerPos, D3DXVECTOR3 * vPlayerDir)
+bool cGorefast::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
 	return false;
 }

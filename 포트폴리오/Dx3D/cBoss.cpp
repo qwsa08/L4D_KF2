@@ -6,6 +6,7 @@
 
 cBoss::cBoss()
 	: m_fTime(0.f)
+	, m_isRecognize(false)
 	, m_isDirChange(false)
 {
 }
@@ -29,7 +30,7 @@ void cBoss::Setup()
 	m_stBoss.fSpeed = 3.f;
 }
 
-void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
+void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {
 	//ÀÎ½Ä
 	if ((*vPlayerPos).y < -50)
@@ -38,7 +39,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 		float fDistance = D3DXVec3Length(&v);
 		D3DXVec3Normalize(&v, &v);
 
-		if (!m_stBoss.isRecognize)
+		if (!m_isRecognize)
 		{
 			if (fDistance < 500.f)
 			{
@@ -46,7 +47,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 				float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
 				if (fFov <= 1 && fFov > 0.5f)
 				{
-					m_stBoss.isRecognize = true;
+					m_isRecognize = true;
 					m_stBoss.eMotion = ENTRANCE;
 					m_stBoss.pSkinnedMesh->ResetTrackPosition();
 				}
@@ -137,7 +138,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3 * vPlayerPos)
 		}
 	}
 	else
-		m_stBoss.isRecognize = false;
+		m_isRecognize = false;
 
 	D3DXMATRIXA16 matS, matR, matT, mat;
 	SetAnimationIndex(0, m_stBoss.eMotion);
@@ -181,7 +182,7 @@ void cBoss::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 	}
 }
 
-bool cBoss::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
+bool cBoss::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
 	return true;
 }

@@ -2,7 +2,6 @@
 
 class cZombie;
 class cDijkstra;
-class cCrtController;
 
 class cEnemyManager
 {
@@ -14,14 +13,12 @@ private:
 	cZombie*	m_pGorefast;
 	cZombie*	m_pBoss;
 
-	cCrtController*	m_pPlayer;
-
 public:
 	cEnemyManager();
 	~cEnemyManager();
 
 	void Setup();
-	void UpdateAndRender(D3DXVECTOR3* vPlayerPos);
+	void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
 	
 	bool PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
 };
