@@ -12,13 +12,6 @@ cClot::cClot()
 
 cClot::~cClot()
 {
-	for each(auto p in m_vecSkinnedMesh)
-	{
-		SAFE_DELETE(p.pSkinnedMesh);
-	}
-	SAFE_DELETE(m_pDijkstra);
-	SAFE_DELETE(m_pOBB);
-	SAFE_DELETE(m_pFrustum);
 }
 
 void cClot::Setup()
