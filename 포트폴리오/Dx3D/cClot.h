@@ -1,5 +1,6 @@
 #pragma once
 #include "cZombie.h"
+
 class cClot : public cZombie
 {
 public:
@@ -7,7 +8,8 @@ public:
 	virtual ~cClot();
 
 	virtual void Setup();
-	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos);
+	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion);
+	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex);
 };
 

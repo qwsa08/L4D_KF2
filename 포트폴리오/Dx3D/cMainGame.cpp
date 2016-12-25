@@ -17,7 +17,7 @@
 #include "cBulletCollision.h"
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
-
+#include "cSky.h"
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -46,6 +46,8 @@ cMainGame::cMainGame(void)
 	, m_bText(false)
 	, m_pFont(NULL)
 	, OnOff_MOUSE(false)
+	, m_pSky(NULL)
+	
 {
 }
 
@@ -78,6 +80,7 @@ cMainGame::~cMainGame(void)
 
 	//SAFE_DELETE(m_pSkinnedMesh);
 
+	SAFE_DELETE(m_pSky);
 
 	g_pSkinnedMeshManager->Destroy();
 	g_pObjectManager->Destroy();
@@ -102,9 +105,14 @@ void cMainGame::Setup()
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
 
+	
+
 	cMapXfile* pPickObj = new cMapXfile;
 	pPickObj->PickWeaponLoad();
 	m_pObj = pPickObj;
+
+	
+	
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
@@ -158,7 +166,8 @@ void cMainGame::Setup()
 	m_pCrossHead = new cCrossHead;
 
 
-
+	m_pSky = new cSky;
+	m_pSky->SetUp();
 
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
@@ -250,7 +259,7 @@ void cMainGame::Update()
 	{
 		for (int i = 0; i < 3; i++)
 		{	
-			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController, &m_pObj->GetBBWTM()[i]))
+			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController->GetPosition(), &m_pController->GetDirection(), &m_pObj->GetBBWTM()[i]))
 			{
 				if (i == 0)
 					m_pObj->SetShotgunOutLine(0.3f);
@@ -310,11 +319,15 @@ void cMainGame::Update()
 				m_pPlayer->SetAni(1);
 				timer = 0.f;
 			}
+			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
+			{
+				int a = 0;
+			}
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				m_fire = true;
 				//m_pBulletCollision->Fire(m_pMap);
 			}
+			//m_fire = true;
 		}
 		
 	}
@@ -327,10 +340,14 @@ void cMainGame::Update()
 			//timer가 너무많으니 더 추가해주자 !!
 		
 			m_pPlayer->SetAni(1);
+			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
+			{
+				int a = 0;
+			}
 			
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				m_fire = true;
+				//m_fire = true;
 				//m_pBulletCollision->Fire(m_pMap);
 			}
 		}
@@ -395,19 +412,12 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	for (int i = 0; i < 8; i++)
-	{
-		m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
-	}
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
-	//for each(auto p in m_vecSkinnedMesh)
+	//for (int i = 0; i < 8; i++)
 	//{
-	//	if(m_pFrustum->IsIn(p->GetBoundingSphere()))
-	//	{
-	//		p->UpdateAndRender(m_pController->GetWorldTM(), &matI);
-	//	}
+	//	m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
+	//}
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	if (m_bBlood)
 	{
 		m_fBloodTimer += g_pTimeManager->GetDeltaTime();
@@ -426,7 +436,7 @@ void cMainGame::Render()
 		m_pPlayer->Render();
 
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition());
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection());
 	
 	//m_pBulletCollision->Render(m_pMap);
 
@@ -506,6 +516,8 @@ void cMainGame::Render()
 			m_pController->m_fAngleX -= 0.001;
 		}
 	}
+	
+	m_pSky->Render();
 	
 	m_pBulletCollision->Render(m_pMap,m_pController);
 

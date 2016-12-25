@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -94,6 +94,7 @@
     <ClInclude Include="cBulletCollision.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cClot.h" />
+    <ClInclude Include="cCrawler.h" />
     <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -101,6 +102,7 @@
     <ClInclude Include="cEnemyManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
+    <ClInclude Include="cGorefast.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cInput.h" />
@@ -121,6 +123,7 @@
     <ClInclude Include="cShader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cSky.h" />
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cZombie.h" />
@@ -142,6 +145,7 @@
     <ClCompile Include="cBulletCollision.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cClot.cpp" />
+    <ClCompile Include="cCrawler.cpp" />
     <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
@@ -149,6 +153,7 @@
     <ClCompile Include="cEnemyManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />
+    <ClCompile Include="cGorefast.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cInput.cpp" />
@@ -169,6 +174,7 @@
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cSky.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cZombie.cpp" />

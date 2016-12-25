@@ -3,14 +3,12 @@
 
 
 cZombie::cZombie()
+	: m_pDijkstra(NULL)
+	, m_pFrustum(NULL)
 {
 }
 
 
 cZombie::~cZombie()
 {
-	for each(auto p in m_vecSkinnedMesh)
-	{
-		SAFE_DELETE(p.pSkinnedMesh);
-	}
 }

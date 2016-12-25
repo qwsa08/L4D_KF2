@@ -109,9 +109,9 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	else
 	{
 
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
+		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 5000.f);
 		g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-		m_pEffect->SetFloat("fFar", 2000.f);
+		m_pEffect->SetFloat("fFar", 5000.f);
 	}
 
 	UINT numPasses = 0;
