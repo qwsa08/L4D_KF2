@@ -58,7 +58,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	}*/
 
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
-	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx"); SpotLight(Test)
+	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
 	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test).fx");
 }
 
@@ -134,6 +134,8 @@ void cObjMap::Render(
 		m_pTextureMappingShader->SetTexture("SpecularMap_Tex", m_vecSpecular[i]);
 		m_pTextureMappingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
 
+		
+		
 		m_pTextureMappingShader->Begin(&numPasses, NULL);
 		{
 			for (UINT j = 0; j < numPasses; ++j)
@@ -143,9 +145,11 @@ void cObjMap::Render(
 					m_Map->DrawSubset(i);
 				}
 				m_pTextureMappingShader->EndPass();
+
 			}
 		}
 		m_pTextureMappingShader->End();
+		
 	}
 
 	//m_LightCon->DrawSubset(0);

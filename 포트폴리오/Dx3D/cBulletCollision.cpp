@@ -63,7 +63,7 @@ void cBulletCollision::SetUp(cObjMap* Map)
 	int a = 0;
 }
 
-void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
+void cBulletCollision::Render(iMap* Map, D3DXMATRIX View )
 {
 	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
 	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
@@ -95,10 +95,6 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
 
-	matWV = matWorld * m_matView;
-	matWVP = matWorld * m_matView * m_matProj;
-	m_pEffect->SetMatrix("matWV", &matWV);
-	m_pEffect->SetMatrix("matWVP", &matWVP);
 
 	if (m_test)
 	{
@@ -114,6 +110,11 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 		m_pEffect->SetFloat("fFar", 5000.f);
 	}
 
+	matWV = matWorld * m_matView;
+	matWVP = matWorld * m_matView * m_matProj;
+	m_pEffect->SetMatrix("matWV", &matWV);
+	m_pEffect->SetMatrix("matWVP", &matWVP);
+
 	UINT numPasses = 0;
 	m_pEffect->Begin(&numPasses, NULL);
 
@@ -123,7 +124,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 		Map->Render();
 		/*Map->Render(
 			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
-			&D3DXVECTOR4(Controller->GetDirection(), 1.f));*/
+			&D3DXVECTOR4(Controller->GetDirection(), 1.f), &m_vBulletPoint,500.f);*/
 		m_pEffect->EndPass();
 	}
 
@@ -144,12 +145,12 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	D3DXMatrixIdentity(&matWorld);
 	//D3DXMatrixIdentity(&matS);
 	
-	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
 //	matWorld = matS  *matB;
 	matWorld = matS  *matB;
 	matWV = matWorld * m_matView;
 	matWVP = matWorld * m_matView * m_matProj;
 
+	
 	D3DXMatrixInverse(&matInvV, 0, &m_matView);
 	D3DXMatrixInverse(&matInvP, 0, &m_matProj);
 	D3DXMatrixInverse(&matInvWV, 0, &matWV);
@@ -164,6 +165,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	//	D3DXVECTOR3 vRightTop(0,0,0);
 	//	D3DXVec4Transform(&vCamera, &vCamera, &matInvP);
 	//	vCamera /= vCamera.w;
+	m_pBulletholes->SetFloat("fFar", 5000.f);
 	m_pBulletholes->SetMatrix("matWV", &matWV);
 	m_pBulletholes->SetMatrix("matWVP", &matWVP);
 	m_pBulletholes->SetMatrix("matInvWorldView", &matInvWV);
@@ -307,7 +309,7 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 		{
 			D3DXVECTOR3 BulletPoint(0, 0, 0);
 			BulletPoint = v0 + u * (v1 - v0) + v * (v2 - v0);
-			if (d > 5000.f) return false;
+			//if (d > 5000.f) return false;
 			vecWallNear.push_back(ST_WallNear(BulletPoint, d,i));
 			
 		}

@@ -203,7 +203,7 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
       float4 specularIntensity  = tex2D(SpecularSampler, Input.mUV);
       specular1 *= specularIntensity.rgb * gLightColor;
    }
-   float3 ambient1 = float3(0.1f, 0.1f, 0.1f) * albedo1;
+   float3 ambient1 = float3(0.1f, 0.1f, 0.1f)* albedo1;
    
    //=======================================================
    
@@ -231,8 +231,9 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
       specular2 *= specularIntensity.rgb * gFlashColor;
    }
    
-   return float4(ambient1 + diffuse1 + specular1, 1) 
-   + float4(ambient2 + diffuse2 + specular2, 1);
+   return float4(diffuse1,1);
+   // + specular1, 1);
+   //+ float4(ambient2 + diffuse2 + specular2, 1);
 }
 
 //--------------------------------------------------------------//

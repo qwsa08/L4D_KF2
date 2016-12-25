@@ -335,6 +335,7 @@ void cMainGame::Update()
 	{
 		if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 		{
+			matView = *m_pCamera->GetViewMatrix();
 			//이거 활성화 하면 총알튀듯이 된다.
 			m_pController->m_fAngleX -= 0.010f;
 			//timer가 너무많으니 더 추가해주자 !!
@@ -397,7 +398,7 @@ void cMainGame::Render()
 	g_pD3DDevice->Clear(NULL,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(47, 121, 112),
+		D3DCOLOR_XRGB(100, 20, 20),
 		//D3DCOLOR_XRGB(0, 0, 255),
 		1.0f, 0);
 
@@ -406,7 +407,6 @@ void cMainGame::Render()
 	
 	// 그림을 그린다.
 	m_pGrid->Render();
-	
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
 	D3DXMatrixIdentity(&matI);
 	D3DXMatrixIdentity(&matT);
@@ -519,8 +519,8 @@ void cMainGame::Render()
 	
 	m_pSky->Render();
 	
-	m_pBulletCollision->Render(m_pMap,m_pController);
-
+	m_pBulletCollision->Render(m_pMap, matView);
+	
 	/*D3DXMATRIXA16 m_matProj;
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);

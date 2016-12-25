@@ -51,7 +51,7 @@ void cPlayer::SetUp()
 
 	D3DXCreateTextureFromFileEx(
 		g_pD3DDevice,
-		"Effect/BloodOverlay.png",
+		"Effect/blood3.png",
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT_NONPOW2,
 		D3DX_DEFAULT,
@@ -60,7 +60,7 @@ void cPlayer::SetUp()
 		D3DPOOL_MANAGED,
 		D3DX_FILTER_NONE,
 		D3DX_DEFAULT,
-		0,
+		D3DCOLOR_XRGB(0,0,0),
 		&m_stImageInfo,
 		NULL,
 		&m_Tblood);
@@ -198,7 +198,6 @@ void cPlayer::SetAni(int num)
 }
 void cPlayer::Render()
 {
-	
 	m_pPlayer->Render(&m_Position);
 	m_pOBB->DebugRender(&m_pPlayerBox,D3DCOLOR_XRGB(255, 0, 255));
 }
@@ -207,7 +206,8 @@ void cPlayer::Blood()
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	D3DXMATRIXA16 matS,matW;
 	D3DXMatrixIdentity(&matW);
-	D3DXMatrixScaling(&matS, 1.5f, 1.f, 0.f);
+	//D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 1.5f, 1.2f, 0.f);
 	matW *= matS;
 	m_pSprite->SetTransform(&matW);
 	m_pSprite->Draw(m_Tblood,
