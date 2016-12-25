@@ -1,35 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="cMapXfile.cpp">
-      <Filter>.</Filter>
+    <ClCompile Include="cAction.cpp" />
+    <ClCompile Include="cActionMove.cpp" />
+    <ClCompile Include="cActionRepeat.cpp" />
+    <ClCompile Include="cActionSeq.cpp" />
+    <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBulletCollision.cpp" />
-    <ClCompile Include="cFrustum.cpp" />
+    <ClCompile Include="cCamera.cpp" />
+    <ClCompile Include="cCrossHead.cpp" />
+    <ClCompile Include="cCrtController.cpp" />
+    <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cGameObject.cpp" />
     <ClCompile Include="cGrid.cpp" />
     <ClCompile Include="cGroup.cpp" />
     <ClCompile Include="cInput.cpp" />
     <ClCompile Include="cKeyBoard.cpp" />
+    <ClCompile Include="cKeyManager.cpp" />
+    <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjLoader.cpp" />
+    <ClCompile Include="cObjManager.cpp" />
     <ClCompile Include="cObjMap.cpp" />
-    <ClCompile Include="cPickObj.cpp" />
     <ClCompile Include="cPyramid.cpp" />
-    <ClCompile Include="Dx3D.cpp" />
+    <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cShader.cpp" />
+    <ClCompile Include="cSkinnedMesh.cpp" />
+    <ClCompile Include="cSkinnedMeshManager.cpp" />
+    <ClCompile Include="cSky.cpp" />
+    <ClCompile Include="cTextureManager.cpp" />
+    <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="iMap.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="cBloat.cpp">
-      <Filter>L4D\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="cBoss.cpp">
-      <Filter>L4D\Zombie</Filter>
-    </ClCompile>
     <ClCompile Include="cDijkstra.cpp">
-      <Filter>L4D\Zombie\Dijkstra</Filter>
+      <Filter>L4D\Dijkstra</Filter>
     </ClCompile>
     <ClCompile Include="cClot.cpp">
       <Filter>L4D\Zombie</Filter>
@@ -37,202 +44,76 @@
     <ClCompile Include="cCrawler.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cAction.cpp">
-      <Filter>Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionMove.cpp">
-      <Filter>Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionRepeat.cpp">
-      <Filter>Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cActionSeq.cpp">
-      <Filter>Action</Filter>
-    </ClCompile>
-    <ClCompile Include="cCamera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="cCrtController.cpp">
-      <Filter>Controller</Filter>
-      <Filter>CrtController</Filter>
-    </ClCompile>
-    <ClCompile Include="cFrustum.cpp">
-      <Filter>ETC\Frustom</Filter>
-    <ClCompile Include="cCrossHead.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cGrid.cpp">
-      <Filter>ETC\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="cMtlTex.cpp">
-      <Filter>ETC\MtlTex</Filter>
-    </ClCompile>
-    <ClCompile Include="cPyramid.cpp">
-      <Filter>ETC\Pyramid</Filter>
-    </ClCompile>
-    <ClCompile Include="cPlayer.cpp">
-      <Filter>L42D</Filter>
-    </ClCompile>
-    <ClCompile Include="cZombie.cpp">
-      <Filter>L42D\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="cEnemyManager.cpp">
-      <Filter>L42D\Zombie</Filter>
-      <Filter>L4D\Zombie</Filter>
-    </ClCompile>
-    <ClCompile Include="cClot.cpp">
-      <Filter>L42D\Zombie</Filter>
-    <ClCompile Include="cGorefast.cpp">
+    <ClCompile Include="cBloat.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
     <ClCompile Include="cBoss.cpp">
-      <Filter>L42D\Zombie</Filter>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>XFile</Filter>
+      <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cBloat.cpp">
-      <Filter>L42D\Zombie</Filter>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>XFile</Filter>
+    <ClCompile Include="cGorefast.cpp">
+      <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cTimeManager.cpp">
-      <Filter>MANAGER</Filter>
-    <ClCompile Include="cRay.cpp">
-      <Filter>Ray</Filter>
+    <ClCompile Include="cEnemyManager.cpp">
+      <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cTextureManager.cpp">
-      <Filter>MANAGER</Filter>
     <ClCompile Include="cZombie.cpp">
       <Filter>L4D\Zombie</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>MANAGER</Filter>
     <ClCompile Include="cPlayer.cpp">
       <Filter>L4D</Filter>
     </ClCompile>
-    <ClCompile Include="cObjManager.cpp">
-      <Filter>MANAGER</Filter>
-    <ClCompile Include="cDeviceManager.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cMouse.cpp">
-      <Filter>MANAGER</Filter>
-    </ClCompile>
-    <ClCompile Include="cKeyManager.cpp">
-      <Filter>MANAGER</Filter>
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cKeyBoard.cpp">
-      <Filter>MANAGER</Filter>
-    <ClCompile Include="cObjManager.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cInput.cpp">
-      <Filter>MANAGER</Filter>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cObject.cpp">
-      <Filter>ObjFile</Filter>
-    <ClCompile Include="cTextureManager.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjLoader.cpp">
-      <Filter>ObjFile</Filter>
-    <ClCompile Include="cTimeManager.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cObjMap.cpp">
-      <Filter>ObjFile</Filter>
-    <ClCompile Include="cShader.cpp">
-      <Filter>매니져</Filter>
-    </ClCompile>
-    <ClCompile Include="cGameObject.cpp">
-      <Filter>ObjFile</Filter>
-    <ClCompile Include="cMapXfile.cpp">
-      <Filter>.</Filter>
-    </ClCompile>
-    <ClCompile Include="cGroup.cpp">
-      <Filter>ObjFile</Filter>
-    </ClCompile>
-    <ClCompile Include="cDeviceManager.cpp">
-      <Filter>MANAGER</Filter>
-    </ClCompile>
-    <ClCompile Include="cDijkstra.cpp">
-      <Filter>L42D\Zombie\Dijkstra</Filter>
-    </ClCompile>
     <ClCompile Include="cMainGame.cpp">
-      <Filter>소스</Filter>
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Dx3D.cpp">
-      <Filter>소스</Filter>
-    <ClCompile Include="cSky.cpp">
-      <Filter>.</Filter>
-    </ClCompile>
-    <ClCompile Include="cAutoReleasePool.cpp">
-      <Filter>소스</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스</Filter>
+      <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
-      <Filter>Xfile</Filter>
-    </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
-      <Filter>Xfile</Filter>
-    </ClCompile>
-    <ClCompile Include="cCrossHead.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="cRay.cpp">
-      <Filter>Ray</Filter>
-    </ClCompile>
-    <ClCompile Include="cBulletCollision.cpp">
-      <Filter>충돌</Filter>
-    </ClCompile>
-    <ClCompile Include="cOBB.cpp">
-      <Filter>충돌</Filter>
-    </ClCompile>
-    <ClCompile Include="iMap.cpp">
-      <Filter>ObjFile</Filter>
-    </ClCompile>
-    <ClCompile Include="cShader.cpp">
-      <Filter>MANAGER</Filter>
+    <ClCompile Include="cFrustum.cpp">
+      <Filter>Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cMapXfile.h">
-      <Filter>.</Filter>
+    <ClInclude Include="Asciitok.h" />
+    <ClInclude Include="cAction.h" />
+    <ClInclude Include="cActionMove.h" />
+    <ClInclude Include="cActionRepeat.h" />
+    <ClInclude Include="cActionSeq.h" />
+    <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBulletCollision.h" />
-    <ClInclude Include="cFrustum.h" />
+    <ClInclude Include="cCamera.h" />
+    <ClInclude Include="cCrossHead.h" />
+    <ClInclude Include="cCrtController.h" />
+    <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cGameObject.h" />
     <ClInclude Include="cGrid.h" />
     <ClInclude Include="cGroup.h" />
     <ClInclude Include="cInput.h" />
     <ClInclude Include="cKeyBoard.h" />
+    <ClInclude Include="cKeyManager.h" />
+    <ClInclude Include="cMapXfile.h" />
     <ClInclude Include="cMouse.h" />
     <ClInclude Include="cMtlTex.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjLoader.h" />
+    <ClInclude Include="cObjManager.h" />
     <ClInclude Include="cObjMap.h" />
-    <ClInclude Include="cPickObj.h" />
     <ClInclude Include="cPyramid.h" />
-    <ClInclude Include="Dx3D.h" />
+    <ClInclude Include="cRay.h" />
+    <ClInclude Include="cShader.h" />
+    <ClInclude Include="cSkinnedMesh.h" />
+    <ClInclude Include="cSkinnedMeshManager.h" />
+    <ClInclude Include="cSky.h" />
+    <ClInclude Include="cTextureManager.h" />
+    <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="iMap.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="cBloat.h">
-      <Filter>L4D\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="cBoss.h">
-      <Filter>L4D\Zombie</Filter>
-    </ClInclude>
     <ClInclude Include="cDijkstra.h">
-      <Filter>L4D\Zombie\Dijkstra</Filter>
+      <Filter>L4D\Dijkstra</Filter>
     </ClInclude>
     <ClInclude Include="cCrawler.h">
       <Filter>L4D\Zombie</Filter>
@@ -240,177 +121,38 @@
     <ClInclude Include="cClot.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="Asciitok.h">
-      <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cAction.h">
-      <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionMove.h">
-      <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionRepeat.h">
-      <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cActionSeq.h">
-      <Filter>Action</Filter>
-    </ClInclude>
-    <ClInclude Include="cCamera.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="cCrtController.h">
-      <Filter>Controller</Filter>
-      <Filter>CrtController</Filter>
-    </ClInclude>
-    <ClInclude Include="cFrustum.h">
-      <Filter>ETC\Frustom</Filter>
-    <ClInclude Include="cCrossHead.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cGrid.h">
-      <Filter>ETC\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="cMtlTex.h">
-      <Filter>ETC\MtlTex</Filter>
-    </ClInclude>
-    <ClInclude Include="cPyramid.h">
-      <Filter>ETC\Pyramid</Filter>
-    </ClInclude>
-    <ClInclude Include="cPlayer.h">
-      <Filter>L42D</Filter>
-    </ClInclude>
-    <ClInclude Include="cZombie.h">
-      <Filter>L42D\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="cEnemyManager.h">
-      <Filter>L42D\Zombie</Filter>
+    <ClInclude Include="cBoss.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cClot.h">
-      <Filter>L42D\Zombie</Filter>
+    <ClInclude Include="cBloat.h">
+      <Filter>L4D\Zombie</Filter>
+    </ClInclude>
     <ClInclude Include="cGorefast.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cBoss.h">
-      <Filter>L42D\Zombie</Filter>
+    <ClInclude Include="cEnemyManager.h">
+      <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cBloat.h">
-      <Filter>L42D\Zombie</Filter>
-    </ClInclude>
-    <ClInclude Include="cTimeManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cTextureManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cMouse.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cKeyManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cKeyBoard.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cInput.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjMap.h">
-      <Filter>ObjFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cObject.h">
-      <Filter>ObjFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cObjLoader.h">
-      <Filter>ObjFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cGameObject.h">
-      <Filter>ObjFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cGroup.h">
-      <Filter>ObjFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cDeviceManager.h">
-      <Filter>MANAGER</Filter>
-    </ClInclude>
-    <ClInclude Include="cDijkstra.h">
-      <Filter>L42D\Zombie\Dijkstra</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
-      <Filter>Xfile</Filter>
-      <Filter>XFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
-      <Filter>Xfile</Filter>
-      <Filter>XFile</Filter>
-    </ClInclude>
-    <ClInclude Include="cCrossHead.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="cRay.h">
-      <Filter>Ray</Filter>
-    </ClInclude>
-    <ClInclude Include="cBulletCollision.h">
-      <Filter>충돌</Filter>
     <ClInclude Include="cZombie.h">
       <Filter>L4D\Zombie</Filter>
     </ClInclude>
-    <ClInclude Include="cOBB.h">
-      <Filter>충돌</Filter>
     <ClInclude Include="cPlayer.h">
       <Filter>L4D</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    <ClInclude Include="cDeviceManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
-    <ClInclude Include="cKeyManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="cAutoReleasePool.h">
-      <Filter>헤더 파일</Filter>
-    <ClInclude Include="cObjManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="Asciitok.h">
-      <Filter>헤더 파일</Filter>
-    <ClInclude Include="cTimeManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="iMap.h">
-      <Filter>ObjFile</Filter>
-    <ClInclude Include="cTextureManager.h">
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="cShader.h">
-      <Filter>MANAGER</Filter>
-      <Filter>매니져</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
-    <ClInclude Include="cMapXfile.h">
-      <Filter>.</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
     <ClInclude Include="cMainGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Dx3D.h">
       <Filter>헤더 파일</Filter>
-    <ClInclude Include="cSky.h">
-      <Filter>.</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cFrustum.h">
+      <Filter>Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,107 +161,26 @@
   <ItemGroup>
     <None Include="Dx3D.ico" />
     <None Include="ReadMe.txt" />
-    <None Include="Dx3D.ico">
-      <Filter>리소스</Filter>
-    </None>
-    <None Include="small.ico">
-      <Filter>리소스</Filter>
-    </None>
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include=".">
-      <UniqueIdentifier>{d216d5f2-630c-4b67-8c03-482218824b7b}</UniqueIdentifier>
     <Filter Include="L4D">
-      <UniqueIdentifier>{047afb75-a595-42df-9ba3-f7d99d104950}</UniqueIdentifier>
+      <UniqueIdentifier>{a2d03a32-a669-48f2-9260-99f96ba6a10d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="L4D\Dijkstra">
+      <UniqueIdentifier>{021eac48-de7f-4130-9cd1-12643054af2d}</UniqueIdentifier>
     </Filter>
     <Filter Include="L4D\Zombie">
-      <UniqueIdentifier>{b2beddd9-c53a-4487-b612-3e7ab3178e6e}</UniqueIdentifier>
+      <UniqueIdentifier>{836d8a0d-678d-4b66-b73f-9e3f7fc6b092}</UniqueIdentifier>
     </Filter>
-    <Filter Include="L4D\Zombie\Dijkstra">
-      <UniqueIdentifier>{5abd40c3-1bfd-4f24-ae39-936e28bef5ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Action">
-      <UniqueIdentifier>{135b5f84-fae7-43cb-b500-cb4d62cc07f6}</UniqueIdentifier>
-      <UniqueIdentifier>{de1261fe-d4e7-4659-b8c0-346b0d1f02dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{863af507-83bb-4f41-aced-1df1fb16d43c}</UniqueIdentifier>
-      <UniqueIdentifier>{8b582735-4365-40c1-9c89-a7eb3665d2c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Controller">
-      <UniqueIdentifier>{4756baa9-d647-411d-9fe5-247331820454}</UniqueIdentifier>
-    <Filter Include="CrtController">
-      <UniqueIdentifier>{9f58df0b-b60b-4a61-a5c7-be351c2c0ea4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ETC">
-      <UniqueIdentifier>{184fc3f7-e510-4b15-8266-0df8a6288b13}</UniqueIdentifier>
-    <Filter Include="UI">
-      <UniqueIdentifier>{5d1a2005-c489-4d65-848d-dd17076d4944}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ETC\Frustom">
-      <UniqueIdentifier>{e61cd8f8-c441-432a-ba6d-a71dd4a0fe6d}</UniqueIdentifier>
-    <Filter Include="XFile">
-      <UniqueIdentifier>{dd8b773c-6f12-462f-bcc7-bc33cb249e09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ETC\Grid">
-      <UniqueIdentifier>{1bfd3dc2-e97e-4ddd-b1b0-c040b6127ae1}</UniqueIdentifier>
-    <Filter Include="Ray">
-      <UniqueIdentifier>{ffffcbee-5560-4d45-b8a2-217b0638b75f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ETC\MtlTex">
-      <UniqueIdentifier>{52d90c9f-b098-418d-ba6e-16ec875d3f12}</UniqueIdentifier>
-    <Filter Include="매니져">
-      <UniqueIdentifier>{5567cfbf-313a-4eb3-91a3-2846bcd45265}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ETC\Pyramid">
-      <UniqueIdentifier>{3851bd8f-a177-4552-8f06-e655fd38579d}</UniqueIdentifier>
-    <Filter Include=".">
-      <UniqueIdentifier>{61fbbdeb-e802-470d-b75b-dae655b01365}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="L42D">
-      <UniqueIdentifier>{3df8ef2b-bc90-48af-83d9-ac70e7d5d653}</UniqueIdentifier>
     <Filter Include="소스 파일">
-      <UniqueIdentifier>{d74c99ca-ec67-4f5a-af82-2fd0d3876f24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="L42D\Zombie">
-      <UniqueIdentifier>{8944e466-3ad6-4bf4-bb1f-e45e99e77a73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ObjFile">
-      <UniqueIdentifier>{3e0dfa99-08f2-40d1-becc-6a9c0445f2cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MANAGER">
-      <UniqueIdentifier>{7df47c1c-aaa2-480c-a843-2ae72fe67c21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="L42D\Zombie\Dijkstra">
-      <UniqueIdentifier>{5093f604-2aeb-4bb8-8659-081fbb75c36a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스">
-      <UniqueIdentifier>{a4c55994-4b81-4229-a323-1c5e80eb951b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Xfile">
-      <UniqueIdentifier>{aec76c29-34b9-4147-8808-11efd2216942}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{ec503d74-6f47-42ac-932c-77872e920134}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Ray">
-      <UniqueIdentifier>{24123a32-9fd1-493f-8c30-bc064817926d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="충돌">
-      <UniqueIdentifier>{8f09e70a-3d8f-46b9-8e79-7480b6a7bf98}</UniqueIdentifier>
+      <UniqueIdentifier>{5f143128-ceba-4ece-b23b-606a1e28861e}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일">
-      <UniqueIdentifier>{cd3b806a-1b75-4b52-bb79-9103cea4461b}</UniqueIdentifier>
-      <UniqueIdentifier>{dddb971e-750e-4ef5-ba49-61c327a82715}</UniqueIdentifier>
+      <UniqueIdentifier>{0285c6ed-4096-47b9-94da-8b7b052c2f42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="리소스">
-      <UniqueIdentifier>{2e90eb47-8814-40dd-ad51-9d69db9904e1}</UniqueIdentifier>
+    <Filter Include="Frustum">
+      <UniqueIdentifier>{8865ea30-c568-4dd3-9859-a4d51d589fb3}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Dx3D.rc">
-      <Filter>리소스</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
