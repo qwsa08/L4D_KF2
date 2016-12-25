@@ -325,7 +325,7 @@ void cMainGame::Update()
 			}
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
-				//m_pBulletCollision->Fire(m_pMap);
+				//m_pBulletCollision->Fire(m_pMap, m_pController);
 			}
 			//m_fire = true;
 		}
@@ -348,7 +348,7 @@ void cMainGame::Update()
 			if (m_pBulletCollision->PickBullet(m_pController))
 			{
 				//m_fire = true;
-				//m_pBulletCollision->Fire(m_pMap);
+				//m_pBulletCollision->Fire(m_pMap, m_pController);
 			}
 		}
 	}
@@ -460,7 +460,7 @@ void cMainGame::Render()
 	}
 
 
-	//m_pBulletCollision->Fire(m_pMap);
+	//m_pBulletCollision->Fire(m_pMap, m_pController);
 			
 	if (m_bText)
 	{

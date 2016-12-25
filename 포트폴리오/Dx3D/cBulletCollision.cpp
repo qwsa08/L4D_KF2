@@ -120,7 +120,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
-		Map->Render();
+		Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
 		/*Map->Render(
 			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
 			&D3DXVECTOR4(Controller->GetDirection(), 1.f));*/
@@ -208,7 +208,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 
 }		
 
-void cBulletCollision::Fire(iMap* Map)
+void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 {
 	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
 	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
@@ -266,7 +266,7 @@ void cBulletCollision::Fire(iMap* Map)
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
-		Map->Render();
+		Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
 		m_pEffect->EndPass();
 	}
 

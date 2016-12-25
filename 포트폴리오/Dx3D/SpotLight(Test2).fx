@@ -20,13 +20,14 @@
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string NormalMapping_Pass_0_Model : ModelData = "..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string NormalMapping_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 float4x4 gWorldMatrix : World;
+float4x4 gViewMatrix : View;
 float4x4 gWorldViewProjectionMatrix : WorldViewProjection;
 
 float4 gWorldLightPosition;
-float4 gWorldCameraPosition : ViewPosition;
+float4 gWorldCameraPosition;
 
 float4 gFlashLight;
 
@@ -38,7 +39,7 @@ float4 gFlashLightDirection
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( -500.00, -500.00, 500.00, 1.00 );
+> = float4( 0.00, -1.00, 0.00, 1.00 );
 float4 gLightDirection
 <
    string UIName = "gLightDirection";
@@ -69,6 +70,8 @@ struct VS_OUTPUT
    float3 N : TEXCOORD5;
    
    float3 mFlashDir : TEXCOORD6;
+  
+   float4 mPos : TEXCOORD7;
 };
 
 VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -85,7 +88,7 @@ VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 FlashLightDir = gFlashLightDirection;
    Output.mFlashDir = normalize(FlashLightDir);
    
-   float3 viewDir = normalize(worldPosition.xyz - gWorldCameraPosition.xyz);
+   float3 viewDir = normalize(gFlashLightDirection);
    Output.mViewDir = viewDir;
    
    float3 worldNormal = mul( Input.mNormal, (float3x3)gWorldMatrix );
@@ -97,6 +100,9 @@ VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 worldBinormal = mul(Input.mBinormal, (float3x3)gWorldMatrix );
    Output.B = normalize(worldBinormal);
    
+   Output.mPos = mul(worldPosition, gViewMatrix);
+   //Output.mPos = Output.mPosition;
+   
    return Output;
 }
 
@@ -105,6 +111,7 @@ VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 struct PS_INPUT
 {
+   float4 mPosition : POSITION;
    float2 mUV : TEXCOORD0;
    float3 mLightDir : TEXCOORD1;
    float3 mViewDir: TEXCOORD2;
@@ -113,11 +120,13 @@ struct PS_INPUT
    float3 N : TEXCOORD5;
    
    float3 mFlashDir : TEXCOORD6;
+   
+   float4 mPos : TEXCOORD7;
 };
 
 texture DiffuseMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\cs_havana_texture_0.jpg";
+   string ResourceName = ".\\Map\\maps\\cs_havana_texture_0.jpg";
 >;
 sampler2D DiffuseSampler = sampler_state
 {
@@ -127,7 +136,7 @@ sampler2D DiffuseSampler = sampler_state
 };
 texture SpecularMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\SpacularMap\\cs_havana_texture_0_SPEC.png";
+   string ResourceName = ".\\Map\\maps\\SpacularMap\\cs_havana_texture_0_SPEC.png";
 >;
 sampler2D SpecularSampler = sampler_state
 {
@@ -137,7 +146,7 @@ sampler2D SpecularSampler = sampler_state
 };
 texture NormalMap_Tex
 <
-   string ResourceName = ".\\3D Portfolio\\L4D_KF2\\ì¸ô¬$\\Dx3D\\Map\\maps\\NomalMaps\\cs_havana_texture_0_NRM.png";
+   string ResourceName = ".\\Map\\maps\\NomalMaps\\cs_havana_texture_0_NRM.png";
 >;
 sampler2D NormalSampler = sampler_state
 {
@@ -162,6 +171,24 @@ float3 gFlashColor
    float UIMin = -1.00;
    float UIMax = 1.00;
 > = float3( 1.00, 1.00, 1.00 );
+
+float4 gFlashLightCenter
+<
+   string UIName = "gFlashLightCenter";
+   string UIWidget = "Direction";
+   bool UIVisible =  false;
+   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
+   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
+   bool Normalize =  false;
+> = float4( 0.00, 0.00, 0.00, 1.00 );
+float gFlashLightRange
+<
+   string UIName = "gFlashLightRange";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 100.00 );
 
 float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
@@ -189,11 +216,22 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
       float4 specularIntensity  = tex2D(SpecularSampler, Input.mUV);
       specular1 *= specularIntensity.rgb * gLightColor;
    }
+   float3 ambient1 = float3(0.1f, 0.1f, 0.1f) * albedo1;
+   
+   //=======================================================
    
    float4 albedo2 = tex2D(DiffuseSampler, Input.mUV);
-   float3 lightDir2 = normalize(Input.mFlashDir);
+   float3 ambient2 = float3(0.1f, 0.1f, 0.1f) * albedo2;
+   float3 lightDir2 = normalize(Input.mFlashDir); 
    float3 diffuse2 = saturate(dot(worldNormal, -lightDir2));
-   diffuse2 = gFlashColor * albedo2.rgb * diffuse2;
+   
+   float Length = length(Input.mPos - gFlashLightCenter);
+   
+   if(Length > gFlashLightRange) 
+      diffuse2 = 0.f;
+      
+   else  
+      diffuse2 = gFlashColor * albedo2.rgb * diffuse2;
    
    float3 specular2 = 0;
    if ( diffuse2.x > 0 )
@@ -208,9 +246,8 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
       specular2 *= specularIntensity.rgb * gFlashColor;
    }
    
-   float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo2;
-   
-   return float4(ambient + diffuse1 + specular1, 1) + float4(ambient + diffuse2 + specular2, 1);
+   return float4(ambient1 + diffuse1 + specular1, 1) 
+   + float4(ambient2 + diffuse2 + specular2, 1);
 }
 
 //--------------------------------------------------------------//
@@ -220,8 +257,8 @@ technique NormalMapping
 {
    pass Pass_0
    {
-      VertexShader = compile vs_2_0 NormalMapping_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 NormalMapping_Pass_0_Pixel_Shader_ps_main();
+      VertexShader = compile vs_3_0 NormalMapping_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_3_0 NormalMapping_Pass_0_Pixel_Shader_ps_main();
    }
 
 }

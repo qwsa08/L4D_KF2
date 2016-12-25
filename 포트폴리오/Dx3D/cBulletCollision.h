@@ -54,7 +54,7 @@ public:
 
 	void PickCenter(cCrtController* Controller);
 
-	void Fire(iMap* Map);
+	void Fire(iMap* Map, cCrtController* Controller);
 
 	void Bulletholes(cCrtController* Controller);
 
