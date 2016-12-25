@@ -176,24 +176,26 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 		//범위?
 		if ((*vPlayerPos).y < -50)
 		{
-//			if (PickTheBullet(vPlayerPos, vPlayerDir, i))
-//			{
-//				//앞에서 맞나 뒤에서 맞나
-//				float fAngle = D3DXVec3Dot(vPlayerDir, &m_vecSkinnedMesh[i].vDirection);
-//				if (fAngle < 0)
-//				{
-//					m_vecSkinnedMesh[i].eMotion = HIT_B;
-//					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-//					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-//				}
-//				else
-//				{
-//					m_vecSkinnedMesh[i].eMotion = HIT_F;
-//					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-//					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-//				}
-//			}
-
+			if (PickTheBullet(vPlayerPos, vPlayerDir, i))
+			{
+				if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+				{
+					//앞에서 맞나 뒤에서 맞나
+					float fAngle = D3DXVec3Dot(vPlayerDir, &m_vecSkinnedMesh[i].vDirection);
+					if (fAngle < 0)
+					{
+						m_vecSkinnedMesh[i].eMotion = HIT_B;
+						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+						m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+					}
+					else
+					{
+						m_vecSkinnedMesh[i].eMotion = HIT_F;
+						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+						m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+					}
+				}
+			}
 			D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0));
 			float fDistance = D3DXVec3Length(&v);
 			D3DXVec3Normalize(&v, &v);

@@ -121,8 +121,8 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
-		Map->Render();
-		//Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
+		//Map->Render();
+		Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
 		/*Map->Render(
 			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
 			&D3DXVECTOR4(Controller->GetDirection(), 1.f), &m_vBulletPoint,500.f);*/
@@ -139,9 +139,9 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	D3DXMATRIXA16 matW, matB, matS, matX, matY, matR;
 //	D3DXMATRIXA16 matWorld, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
 	D3DXMatrixTranslation(&matB,
-		m_vBulletPoint.x,
-		m_vBulletPoint.y,
-		m_vBulletPoint.z);//m_vBulletPoint.z);
+		m_vCenterPoint.x,
+		m_vCenterPoint.y,
+		m_vCenterPoint.z);//m_vBulletPoint.z);
 	D3DXMatrixScaling(&matS, 10, 10, 10);
 	D3DXMatrixIdentity(&matWorld);
 	//D3DXMatrixIdentity(&matS);

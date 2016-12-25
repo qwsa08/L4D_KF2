@@ -18,6 +18,7 @@ class cCrossHead;
 
 class cEnemyManager;
 class cSky;
+class cUI;
 
 class cMainGame
 {
@@ -62,7 +63,9 @@ private:
 	cEnemyManager*				m_pEnemyManager;
 
 	//std::vector<D3DXVECTOR3> temp;
-
+	//==================
+	cUI*						m_pUI;
+	//==================
 	//============테스트중=======================//
 	bool						m_bBlood;
 	float						timer;

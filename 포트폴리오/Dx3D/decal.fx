@@ -55,12 +55,12 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 	float2 uv = ObjPos.xz + 0.5;
 	color = tex2D( DiffuseSamp, uv );
 	
-	float dist = abs(ObjPos.z);
-	float scaleDistance = max(dist * 2.0f, 1.0f); 
-	float fadeOut = 1.0f - scaleDistance;
-	color.a *= fadeOut;
+	//float dist = abs(ObjPos.z);
+	//float scaleDistance = max(dist * 2.0f, 1.0f); 
+	//float fadeOut = 1.0f - scaleDistance;
+	//color.a *= fadeOut;
 	
-	color *= ( 1.f - max( (ObjAbs.z-0.25f)/0.25, 0.f) );
+	//color *= ( 1.f - max( (ObjAbs.z-0.25f)/0.25, 0.f) );
 	
 	return color;
 	

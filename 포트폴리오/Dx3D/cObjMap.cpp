@@ -62,7 +62,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
 	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
 	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test3).fx");
-	//m_NomalMapingShader = g_pShader->LoadShader("NomalMaping.fx");
+	m_NomalMapingShader = g_pShader->LoadShader("NomalMaping.fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -72,7 +72,7 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 	l.Load(szMap, vecBoungdingBox, pmat);
 
 }
-void cObjMap::Render()
+void cObjMap::Render(IN D3DXVECTOR4* CameraPosition)
 {
 	//D3DXMATRIXA16 matI;
 	//D3DXMatrixIdentity(&matI);

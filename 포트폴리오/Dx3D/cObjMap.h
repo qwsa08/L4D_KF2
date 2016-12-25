@@ -49,7 +49,7 @@ public:
 	virtual void Load(char* szMap, D3DXMATRIXA16* pmat = NULL);
 	virtual void BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3> &vecBoungdingBox, D3DXMATRIXA16* pmat = NULL);
 	// iMap
-	virtual void Render();
+	virtual void Render(IN D3DXVECTOR4* CameraPosition);
 	virtual void Render(
 		IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection,
 		IN D3DXVECTOR4* SpotLightCenter, IN float SpotLightRange,

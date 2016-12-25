@@ -6,7 +6,7 @@ public:
 	iMap(void);
 	virtual ~iMap(void);
 
-	virtual void Render() = 0;
+	virtual void Render(IN D3DXVECTOR4* CameraPosition) = 0;
 	virtual void Render(
 		IN D3DXVECTOR4* LightPosition, IN D3DXVECTOR4* LightDirection,
 		IN D3DXVECTOR4* SpotLightCenter, IN float SpotLightRange,

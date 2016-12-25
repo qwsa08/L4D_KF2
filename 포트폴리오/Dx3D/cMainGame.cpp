@@ -18,6 +18,7 @@
 #include "cCrossHead.h"
 #include "cEnemyManager.h"
 #include "cSky.h"
+#include "cUI.h"
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -68,7 +69,8 @@ cMainGame::~cMainGame(void)
 	SAFE_DELETE(m_pObj);
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
-	
+	SAFE_DELETE(m_pUI);
+
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
 	SAFE_RELEASE(m_pBoundingBox);
@@ -168,6 +170,9 @@ void cMainGame::Setup()
 
 	m_pSky = new cSky;
 	m_pSky->SetUp();
+
+	m_pUI = new cUI;
+	m_pUI->SetUp();
 
 	D3DXMatrixScaling(&matS, 0.1f, 1.0f, 0.1f);
 	D3DXMatrixRotationX(&matR, D3DX_PI / 2.0f);
@@ -323,11 +328,7 @@ void cMainGame::Update()
 			{
 				int a = 0;
 			}
-			if (m_pBulletCollision->PickBullet(m_pController))
-			{
-				//m_pBulletCollision->Fire(m_pMap, m_pController);
-			}
-			//m_fire = true;
+			m_fire = true;
 		}
 		
 	}
@@ -345,12 +346,8 @@ void cMainGame::Update()
 			{
 				int a = 0;
 			}
-			
-			if (m_pBulletCollision->PickBullet(m_pController))
-			{
-				//m_fire = true;
-				//m_pBulletCollision->Fire(m_pMap, m_pController);
-			}
+			m_fire = true;
+
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -405,8 +402,11 @@ void cMainGame::Render()
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
+
+
 	
-	
+
+
 	// 그림을 그린다.
 	m_pGrid->Render();
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
@@ -508,7 +508,7 @@ void cMainGame::Render()
 	{
 		timer += g_pTimeManager->GetDeltaTime();
 
-		if (timer > 0.2f)
+		/*if (timer > 0.4f)
 		{
 			timer = 0;
 			m_fire = false;
@@ -516,12 +516,15 @@ void cMainGame::Render()
 		else
 		{
 			m_pController->m_fAngleX -= 0.001;
-		}
+		}*/
+		m_pBulletCollision->Render(m_pMap, m_pController);
 	}
 	
-	m_pSky->Render();
+	m_pSky->Render(); 
 	
-	m_pBulletCollision->Render(m_pMap, m_pController);
+	m_pUI->HP_Render();
+	m_pUI->Wepon_Render(m_pPlayer->GetPlayerGun());
+	
 	
 	/*D3DXMATRIXA16 m_matProj;
 	RECT rc;

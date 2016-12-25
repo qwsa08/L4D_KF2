@@ -26,7 +26,6 @@
     <ClCompile Include="cKeyBoard.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cMainGame.cpp" />
-
     <ClCompile Include="cMapXfile.cpp" />
     <ClCompile Include="cMouse.cpp" />
     <ClCompile Include="cMtlTex.cpp" />
@@ -86,6 +85,7 @@
     <ClCompile Include="cFrustum.cpp">
       <Filter>Frustum</Filter>
     </ClCompile>
+    <ClCompile Include="cUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -178,6 +178,7 @@
     <ClInclude Include="cFrustum.h">
       <Filter>Frustum</Filter>
     </ClInclude>
+    <ClInclude Include="cUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />

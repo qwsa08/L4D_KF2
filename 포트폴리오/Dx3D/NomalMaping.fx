@@ -54,6 +54,7 @@ struct VS_OUTPUT
    float3 T : TEXCOORD3;
    float3 B : TEXCOORD4;
    float3 N : TEXCOORD5;
+   float4 ClipPos : TEXCOORD6;
 };
 
 VS_OUTPUT NormalMapping_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -93,6 +94,7 @@ struct PS_INPUT
    float3 T : TEXCOORD3;
    float3 B : TEXCOORD4;
    float3 N : TEXCOORD5;
+   float4 ClipPos : TEXCOORD6;
 };
 
 texture NormalMap_Tex
@@ -133,9 +135,9 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 
    float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo;
    
-   float4 depth = float4(ambient + diffuse + specular, 1);
-   depth = depth.z / 5000.f;
-   return depth;
+   //float4 depth = float4(ambient + diffuse + specular, 1);
+   depth = In.ClipPos.z / In.ClipPos.w;
+   return float4(worldNormal,depth);
 }
 
 //--------------------------------------------------------------//
