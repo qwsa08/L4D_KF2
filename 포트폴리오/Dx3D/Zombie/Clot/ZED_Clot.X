@@ -183251,7 +183251,7 @@ Frame SceneRoot {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 3600;
 }
 
 AnimationSet Death {
@@ -184744,7 +184744,7 @@ AnimationSet Death {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 2400;
 }
 
 AnimationSet Hit_R {
@@ -186129,7 +186129,7 @@ AnimationSet Hit_R {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 2400;
 }
 
 AnimationSet Hit_L {
@@ -187461,7 +187461,7 @@ AnimationSet Hit_L {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 2400;
 }
 
 AnimationSet Hit_B {
@@ -188846,7 +188846,7 @@ AnimationSet Hit_B {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 2400;
 }
 
 AnimationSet Hit_F {
@@ -190247,7 +190247,7 @@ AnimationSet Hit_F {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 3600;
 }
 
 AnimationSet Attack {
@@ -192203,7 +192203,7 @@ AnimationSet Attack {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 3600;
 }
 
 AnimationSet Walk {
@@ -194547,7 +194547,7 @@ AnimationSet Walk {
 }
 
 AnimTicksPerSecond  {
- 4800;
+ 3600;
 }
 
 AnimationSet Idle {

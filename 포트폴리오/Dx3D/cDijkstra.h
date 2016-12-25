@@ -46,13 +46,12 @@ public:
 	~cDijkstra();
 
 	void Setup();
-	void Update(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vZombiePos);
+	void Update(D3DXVECTOR3* vPlayerPos);
 	void Render();	//노드 렌더
 
 	D3DXVECTOR3 GetNodePosition(int nIndex) { return m_vecNode[nIndex].vPosition; }
 	bool IsDirect(D3DXVECTOR3* vFrom, D3DXVECTOR3* vTo);
 	std::vector<D3DXVECTOR3> GetRoute(D3DXVECTOR3* vFrom, D3DXVECTOR3* vTo);
-	SECTOR SetSector(D3DXVECTOR3* vPos);
 
 private:
 	void SetNode();	//노드 세팅
@@ -62,6 +61,7 @@ private:
 	float GetLength(int nFrom, int nTo);
 	std::vector<ST_NODE> MakeTable(int nStart);
 	//어느 구역인지 결정..'ㅅ`
+	SECTOR SetSector(D3DXVECTOR3* vPos);
 	//벽 좌표 세팅
 	void SetObstacleVertex(OUT std::vector< std::vector<D3DXVECTOR3>>& obsVertex);
 	//노드 테이블

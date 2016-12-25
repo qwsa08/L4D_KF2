@@ -65,7 +65,8 @@ void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlaye
 	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir);
 	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir);
 
-//	m_pDijkstra->Render();
+	m_pDijkstra->Update(vPlayerPos);
+	m_pDijkstra->Render();
 }
 bool cEnemyManager::PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir)
 {
