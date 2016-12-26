@@ -62,7 +62,7 @@ void cClot::Setup()
 	//4
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
 	stZombie.vPosition = D3DXVECTOR3(480, -120, 675);
-	stZombie.fAngle = D3DX_PI / 3.0f;
+	stZombie.fAngle = D3DX_PI / 2.0f;
 	D3DXMatrixRotationY(&matR, stZombie.fAngle);
 	D3DXVec3TransformNormal(&stZombie.vDirection, &stZombie.vPosition, &matR);
 	stZombie.vDirection.y = 0;
@@ -86,7 +86,7 @@ void cClot::Setup()
 	//6
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
 	stZombie.vPosition = D3DXVECTOR3(-20, -120, 470);
-	stZombie.fAngle = -D3DX_PI;
+	stZombie.fAngle = 0.f;
 	D3DXMatrixRotationY(&matR, stZombie.fAngle);
 	D3DXVec3TransformNormal(&stZombie.vDirection, &stZombie.vPosition, &matR);
 	stZombie.vDirection.y = 0;
@@ -97,7 +97,7 @@ void cClot::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 	//7
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
-	stZombie.vPosition = D3DXVECTOR3(-400, -150, 300);
+	stZombie.vPosition = D3DXVECTOR3(-400, -120, 300);
 	stZombie.fAngle = -D3DX_PI * 2 / 3.f;
 	D3DXMatrixRotationY(&matR, stZombie.fAngle);
 	D3DXVec3TransformNormal(&stZombie.vDirection, &stZombie.vPosition, &matR);
@@ -109,8 +109,8 @@ void cClot::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 	//8
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
-	stZombie.vPosition = D3DXVECTOR3(-250, -150, 600);
-	stZombie.fAngle = -D3DX_PI / 4.f;
+	stZombie.vPosition = D3DXVECTOR3(-250, -120, 600);
+	stZombie.fAngle = 0.f;
 	D3DXMatrixRotationY(&matR, stZombie.fAngle);
 	D3DXVec3TransformNormal(&stZombie.vDirection, &stZombie.vPosition, &matR);
 	stZombie.vDirection.y = 0;
@@ -145,7 +145,7 @@ void cClot::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 	//11
 	stZombie.pSkinnedMesh = new cSkinnedMesh("Zombie/Clot/", "ZED_Clot.X");
-	stZombie.vPosition = D3DXVECTOR3(810, -150, 1400);
+	stZombie.vPosition = D3DXVECTOR3(110, -150, 1400);
 	stZombie.fAngle = D3DX_PI / 4.0f;
 	D3DXMatrixRotationY(&matR, stZombie.fAngle);
 	D3DXVec3TransformNormal(&stZombie.vDirection, &stZombie.vPosition, &matR);
@@ -174,35 +174,41 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 	D3DXVECTOR3 vDest = *vPlayerPos - D3DXVECTOR3(0, 70, 0) - CLOTHEIGHT;
 
 	m_pFrustum->Update();
-	
+
 	for (int i = 0; i < m_vecSkinnedMesh.size(); ++i)
-	{		
-		//범위?
-		if ((*vPlayerPos).y < 0)
+	{
+		if (m_vecSkinnedMesh[i].nHealth < 0)
 		{
-			if (Shot && PickTheBullet(vPlayerPos, vPlayerDir, i))
+			m_vecSkinnedMesh[i].eMotion = DIE;
+			m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();			
+		}
+		if (Shot && PickTheBullet(vPlayerPos, vPlayerDir, i))
+		{
+			//앞에서 맞나 뒤에서 맞나
+			float fAngle = D3DXVec3Dot(vPlayerDir, &m_vecSkinnedMesh[i].vDirection);
+			if (fAngle < 0)
 			{
-				//앞에서 맞나 뒤에서 맞나
-				float fAngle = D3DXVec3Dot(vPlayerDir, &m_vecSkinnedMesh[i].vDirection);
-				if (fAngle < 0)
-				{
-					m_vecSkinnedMesh[i].eMotion = HIT_B;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-				}
-				else
-				{
-					m_vecSkinnedMesh[i].eMotion = HIT_F;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-				}
+				m_vecSkinnedMesh[i].eMotion = HIT_B;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+			}
+			else
+			{
+				m_vecSkinnedMesh[i].eMotion = HIT_F;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
 			}
 
-			D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
-			float fDistance = D3DXVec3Length(&v);
-			D3DXVec3Normalize(&v, &v);
-			
-			if (m_vecSkinnedMesh[i].eMotion == IDLE)
+			m_vecSkinnedMesh[i].nHealth -= 50;
+		}
+		//범위?
+		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
+		float fDistance = D3DXVec3Length(&v);
+		D3DXVec3Normalize(&v, &v);
+		
+		if (m_vecSkinnedMesh[i].eMotion == IDLE)
+		{
+			if ((*vPlayerPos).y < 0)
 			{
 				if (m_vecSkinnedMesh[i].isRecognize == false)
 				{
@@ -242,90 +248,98 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 				}
 			}
-			else if (m_vecSkinnedMesh[i].eMotion == MOVE)
+		}
+		else if (m_vecSkinnedMesh[i].eMotion == MOVE)
+		{
+			if ((*vPlayerPos).y > 0)
 			{
-				if (fDistance < 100.f)
-				{
-					m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-				}
-				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
+				m_vecSkinnedMesh[i].eMotion = IDLE;
+			}
+			if (fDistance < 100.f)
+			{
+				m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+			}
+			std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
-				if (vecRoute.size() < 2)
+			if (vecRoute.size() < 3)
+			{
+				D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vDest));
+				m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+			}
+			else if (vecRoute.size() < 6)
+			{
+				if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
 				{
-					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vDest));
+					D3DXVECTOR3 vNode0 = vecRoute[0] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
+					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode0));
 					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-				}
-				else if (vecRoute.size() < 6)
-				{
-					if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
-					{
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - (vecRoute[0] - CLOTHEIGHT)));
-//						m_vecSkinnedMesh[i].vDirection.y = 0.f;
-						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
 
-						float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - (vecRoute[0] - CLOTHEIGHT)) , &(m_vecSkinnedMesh[i].vPrevPosition - (vecRoute[0] - CLOTHEIGHT)));
-						if (l <= 0)
-						{
-							m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
-						}
-					}
-					else
+					float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vNode0) , &(m_vecSkinnedMesh[i].vPrevPosition - vNode0));
+					if (l <= 0)
 					{
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - (vecRoute[1] - CLOTHEIGHT)));
-//						m_vecSkinnedMesh[i].vDirection.y = 0.f;
-						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-//						m_vecSkinnedMesh[i].vPrevPosition = m_vecSkinnedMesh[i].vPosition;	
+						m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
 					}
 				}
 				else
 				{
-					m_vecSkinnedMesh[i].isRecognize = false;
-					m_vecSkinnedMesh[i].eMotion = IDLE;
+					D3DXVECTOR3 vNode1 = vecRoute[1] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
+					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode1));
+					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
 				}
 			}
-			else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
+			else
 			{
-				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
-				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
-				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
-				{
-					m_vecSkinnedMesh[i].eMotion = IDLE;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-				}
-			}
-			else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
-			{
-				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
-				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
-				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
-				{
-					m_vecSkinnedMesh[i].eMotion = IDLE;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-				}
-			}
-			else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
-			{
-				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
-				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(2);
-				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
-				{
-					m_vecSkinnedMesh[i].eMotion = IDLE;
-					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
-					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
-				}
+				m_vecSkinnedMesh[i].isRecognize = false;
+				m_vecSkinnedMesh[i].eMotion = IDLE;
 			}
 		}
-		else
+		else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
 		{
-			m_vecSkinnedMesh[i].eMotion = IDLE;
+			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
+			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
+			{
+				m_vecSkinnedMesh[i].eMotion = IDLE;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+			}
+		}
+		else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
+		{
+			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
+			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
+			{
+				m_vecSkinnedMesh[i].eMotion = IDLE;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+			}
+		}
+		else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
+		{
+			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(2);
+			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
+			{
+				m_vecSkinnedMesh[i].eMotion = IDLE;
+				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+			}
+		}
+		else if (m_vecSkinnedMesh[i].eMotion == DIE)
+		{
+			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
+			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
+			{
+//				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
+			}
 		}
 
 		D3DXMATRIXA16 matS, matR, matT, mat , matBT, matB ,matBS;
 		SetAnimationIndex(i, m_vecSkinnedMesh[i].eMotion);
-		D3DXMatrixScaling(&matS, 0.6f, 0.6f, 0.6f);
+		D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vecSkinnedMesh[i].vDirection, &D3DXVECTOR3(0, 1, 0));
 		D3DXMatrixTranspose(&matR, &matR);
 		D3DXMatrixTranslation(&matT, m_vecSkinnedMesh[i].vPosition.x, m_vecSkinnedMesh[i].vPosition.y, m_vecSkinnedMesh[i].vPosition.z);

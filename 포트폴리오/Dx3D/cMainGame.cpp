@@ -347,7 +347,6 @@ void cMainGame::Update()
 				int a = 0;
 			}
 			m_fire = true;
-
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -402,11 +401,7 @@ void cMainGame::Render()
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
-
-
 	
-
-
 	// 그림을 그린다.
 	m_pGrid->Render();
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
@@ -440,7 +435,7 @@ void cMainGame::Render()
 	bool Shot = false;
 	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 	{
-		if (Shot)	Shot = false;
+		if (Shot) Shot = false;
 		else Shot = true;
 	}
 	if (m_pEnemyManager)
