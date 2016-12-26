@@ -254,6 +254,7 @@ technique NormalMapping
 {
    pass Pass_0
    {
+    //AlphaBlendEnable =TRUE;
       VertexShader = compile vs_3_0 NormalMapping_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_3_0 NormalMapping_Pass_0_Pixel_Shader_ps_main();
    }

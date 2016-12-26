@@ -2,6 +2,7 @@ float4x4	matWVP;
 float4x4	matInvWorldView;
 float4		CameraRightTop;
 float4x4        matWV;
+float		fFar;
 texture DepthMapTex;
 sampler2D DepthMapSamp = sampler_state
 {
@@ -34,8 +35,8 @@ VS_OUTPUT vs_main( float4 Posistion : POSITION0 )
 float4 ps_main ( VS_OUTPUT In ) : COLOR
 {
 	float4 color = float4(1.0,0.0,0.0,0.0);
-
 	float2 screenPosition = In.ClipPos.xy / In.ClipPos.z;
+	//float3 screenPosition = In.ClipPos.xyz / In.ClipPos.w;	
 
 	float2 depth_uv = screenPosition.xy * float2(0.5f, -0.5f) + float2(0.5f, 0.5f);
 	
@@ -47,7 +48,7 @@ float4 ps_main ( VS_OUTPUT In ) : COLOR
 	
 	float4 ObjPos = mul( ViewPos, matInvWorldView );
 
-	float3 ObjAbs = abs(ObjPos.xyz / ObjPos.w);
+	float3 ObjAbs = abs(ObjPos.xyz/ ObjPos.w);
 	clip( 0.5 - ObjAbs );
 	
 

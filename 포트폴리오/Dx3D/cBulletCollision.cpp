@@ -95,10 +95,6 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 
 	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
 
-	matWV = matWorld * m_matView;
-	matWVP = matWorld * m_matView * m_matProj;
-	m_pEffect->SetMatrix("matWV", &matWV);
-	m_pEffect->SetMatrix("matWVP", &matWVP);
 
 	if (m_test)
 	{
@@ -114,16 +110,22 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 		m_pEffect->SetFloat("fFar", 5000.f);
 	}
 
+	matWV = matWorld * m_matView;
+	matWVP = matWorld * m_matView * m_matProj;
+	m_pEffect->SetMatrix("matWV", &matWV);
+	m_pEffect->SetMatrix("matWVP", &matWVP);
+
 	UINT numPasses = 0;
 	m_pEffect->Begin(&numPasses, NULL);
 
 	for (UINT i = 0; i < numPasses; ++i)
 	{
 		m_pEffect->BeginPass(i);
+		//Map->Render();
 		Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
 		/*Map->Render(
 			&D3DXVECTOR4(*Controller->GetPosition(), 1.f),
-			&D3DXVECTOR4(Controller->GetDirection(), 1.f));*/
+			&D3DXVECTOR4(Controller->GetDirection(), 1.f), &m_vBulletPoint,500.f);*/
 		m_pEffect->EndPass();
 	}
 
@@ -137,19 +139,19 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	D3DXMATRIXA16 matW, matB, matS, matX, matY, matR;
 //	D3DXMATRIXA16 matWorld, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
 	D3DXMatrixTranslation(&matB,
-		m_vBulletPoint.x,
-		m_vBulletPoint.y,
-		m_vBulletPoint.z);//m_vBulletPoint.z);
+		m_vCenterPoint.x,
+		m_vCenterPoint.y,
+		m_vCenterPoint.z);//m_vBulletPoint.z);
 	D3DXMatrixScaling(&matS, 10, 10, 10);
 	D3DXMatrixIdentity(&matWorld);
 	//D3DXMatrixIdentity(&matS);
 	
-	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
 //	matWorld = matS  *matB;
 	matWorld = matS  *matB;
 	matWV = matWorld * m_matView;
 	matWVP = matWorld * m_matView * m_matProj;
 
+	
 	D3DXMatrixInverse(&matInvV, 0, &m_matView);
 	D3DXMatrixInverse(&matInvP, 0, &m_matProj);
 	D3DXMatrixInverse(&matInvWV, 0, &matWV);
@@ -164,6 +166,7 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 	//	D3DXVECTOR3 vRightTop(0,0,0);
 	//	D3DXVec4Transform(&vCamera, &vCamera, &matInvP);
 	//	vCamera /= vCamera.w;
+	m_pBulletholes->SetFloat("fFar", 5000.f);
 	m_pBulletholes->SetMatrix("matWV", &matWV);
 	m_pBulletholes->SetMatrix("matWVP", &matWVP);
 	m_pBulletholes->SetMatrix("matInvWorldView", &matInvWV);
@@ -210,75 +213,6 @@ void cBulletCollision::Render(iMap* Map, cCrtController* Controller)
 
 void cBulletCollision::Fire(iMap* Map, cCrtController* Controller)
 {
-	LPDIRECT3DSURFACE9 pOrgRenderTargetSurface = NULL;
-	LPDIRECT3DSURFACE9 pOrgDepthStencilSurface = NULL;
-	g_pD3DDevice->GetRenderTarget(0, &pOrgRenderTargetSurface);
-	g_pD3DDevice->GetDepthStencilSurface(&pOrgDepthStencilSurface);
-
-	LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-	if (SUCCEEDED(m_pRenderTargetTexture->GetSurfaceLevel(0, &pShadowSurface)))
-	{
-		g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-		pShadowSurface->Release();
-		pShadowSurface = NULL;
-	}
-	g_pD3DDevice->SetDepthStencilSurface(m_pRenderTargetSurface);
-
-	g_pD3DDevice->Clear(NULL,
-		NULL,
-		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_ARGB(255, 255, 255, 255),
-		1.0f,
-		0);
-
-	D3DXMATRIXA16 matWorld, matProj, matWV, matWVP, matInvV, matInvP, matInvWV;
-	D3DXMatrixIdentity(&matWorld);
-	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &m_matView);
-
-
-	// g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &m_matProj);
-
-	//if (m_test)
-	{
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 200.f);
-		//g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-		m_pEffect->SetFloat("fFar", 200.f);
-	}
-
-
-	matWV = matWorld * m_matView;
-	matWVP = matWorld * m_matView * m_matProj;
-	m_pEffect->SetMatrix("matWV", &matWV);
-	m_pEffect->SetMatrix("matWVP", &matWVP);
-
-	/*else
-	{
-		D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
-		g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);
-		m_pEffect->SetFloat("fFar", 2000.f);
-	}*/
-
-	UINT numPasses = 0;
-	m_pEffect->Begin(&numPasses, NULL);
-
-	for (UINT i = 0; i < numPasses; ++i)
-	{
-		m_pEffect->BeginPass(i);
-		Map->Render(&D3DXVECTOR4(*Controller->GetPosition(), 1.f));
-		m_pEffect->EndPass();
-	}
-
-	m_pEffect->End();
-
-
-	g_pD3DDevice->SetRenderTarget(0, pOrgRenderTargetSurface);
-	g_pD3DDevice->SetDepthStencilSurface(pOrgDepthStencilSurface);
-
-	SAFE_RELEASE(pOrgRenderTargetSurface);
-	SAFE_RELEASE(pOrgDepthStencilSurface);
-	//=============================================================
 	
 }
 
@@ -307,7 +241,7 @@ bool cBulletCollision::PickBullet(cCrtController* Controller)
 		{
 			D3DXVECTOR3 BulletPoint(0, 0, 0);
 			BulletPoint = v0 + u * (v1 - v0) + v * (v2 - v0);
-			if (d > 5000.f) return false;
+			//if (d > 5000.f) return false;
 			vecWallNear.push_back(ST_WallNear(BulletPoint, d,i));		
 		}
 	}

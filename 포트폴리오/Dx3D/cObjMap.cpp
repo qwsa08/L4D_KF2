@@ -60,7 +60,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	}*/
 
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
-	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx"); SpotLight(Test)
+	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
 	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test3).fx");
 	m_NomalMapingShader = g_pShader->LoadShader("NomalMaping(2).fx");
 }
@@ -74,29 +74,29 @@ void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox
 }
 void cObjMap::Render(IN D3DXVECTOR4* CameraPosition)
 {
-	D3DXMATRIXA16 matI;
-	D3DXMatrixIdentity(&matI);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
+	//D3DXMATRIXA16 matI;
+	//D3DXMatrixIdentity(&matI);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
 
-	D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
+	//D3DXMATRIXA16 matView, matProj, matWorld, matWorldView, matWorldViewProjection;
 
-	D3DXVECTOR4 gLightPosition(500.f, 1000.f, -500.f, 1.f);
+	//D3DXVECTOR4 gLightPosition(500.f, 1000.f, -500.f, 1.f);
 
-	g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-	D3DXMatrixIdentity(&matWorld);
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+	//D3DXMatrixIdentity(&matWorld);
 
-	D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
-	D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
+	//D3DXMatrixMultiply(&matWorldView, &matWorld, &matView);
+	//D3DXMatrixMultiply(&matWorldViewProjection, &matWorldView, &matProj);
 
-	m_NomalMapingShader->SetMatrix("gWorldMatrix", &matWorld);
-	m_NomalMapingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
+	//m_NomalMapingShader->SetMatrix("gWorldMatrix", &matWorld);
+	//m_NomalMapingShader->SetMatrix("gWorldViewProjectionMatrix", &matWorldViewProjection);
 
-	m_NomalMapingShader->SetVector("gWorldLightPosition", &gLightPosition);
-	m_NomalMapingShader->SetVector("gWorldCameraPosition", CameraPosition);
+	//m_NomalMapingShader->SetVector("gWorldLightPosition", &gLightPosition);
+	//m_NomalMapingShader->SetVector("gWorldCameraPosition", CameraPosition);
 
-	/*float fDepthBias = 0.01;
-	g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
+	///*float fDepthBias = 0.01;
+	//g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
 
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
@@ -177,6 +177,8 @@ void cObjMap::Render(
 		m_pTextureMappingShader->SetTexture("SpecularMap_Tex", m_vecSpecular[i]);
 		m_pTextureMappingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
 
+		
+		
 		m_pTextureMappingShader->Begin(&numPasses, NULL);
 		{
 			for (UINT j = 0; j < numPasses; ++j)
@@ -186,9 +188,11 @@ void cObjMap::Render(
 					m_Map->DrawSubset(i);
 				}
 				m_pTextureMappingShader->EndPass();
+
 			}
 		}
 		m_pTextureMappingShader->End();
+		
 	}
 
 	//m_LightCon->DrawSubset(0);
