@@ -268,3 +268,8 @@ bool cGorefast::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, 
 
 	return false;
 }
+
+bool cGorefast::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
+{
+	return false;
+}

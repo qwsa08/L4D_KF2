@@ -219,8 +219,17 @@ void cMainGame::Update()
 	g_pTimeManager->Update();
 
 	if (m_pController)
-		m_pController->Update(m_pMap);
-
+	{
+		D3DXVECTOR3 monLocation(0,0,0);
+		if (m_pEnemyManager->PickThePlayer(m_pPlayer->GetPlayerBox(), monLocation))
+		{
+			m_pController->Update(m_pMap, &monLocation);
+		}
+		else
+		{
+			m_pController->Update(m_pMap);
+		}
+	}
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
 
@@ -324,13 +333,13 @@ void cMainGame::Update()
 			m_pController->m_fAngleX -= 0.010f;
 		
 			m_pPlayer->SetAni(1);
-			m_fire = true;
-
 			if (m_pPlayer->GetPlayerGun() == HANDGUN || m_pPlayer->GetPlayerGun() == SHOT)
 			{
 				if (m_pPlayer->GetBullet() >0)	m_pPlayer->fireBullet();
 				else m_pPlayer->Reload();
 			}
+
+			m_fire = true;
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -414,7 +423,10 @@ void cMainGame::Render()
 
 	
 	if (m_pEnemyManager)
+	{
 		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), m_fire);
+		
+	}
 	
 
 	if (m_pMap)

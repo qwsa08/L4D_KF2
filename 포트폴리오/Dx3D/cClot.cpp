@@ -199,7 +199,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 				m_vecSkinnedMesh[i].fElapsedTime = 0.f;
 			}
 
-			m_vecSkinnedMesh[i].nHealth -= 50;
+			//m_vecSkinnedMesh[i].nHealth -= 50;
 		}
 		//¹üÀ§?
 		D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
@@ -298,6 +298,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		{
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
+			float test = m_vecSkinnedMesh[i].fElapsedTime;
 			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 			{
 				m_vecSkinnedMesh[i].eMotion = IDLE;
@@ -391,5 +392,18 @@ bool cClot::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int 
 		return true;
 	}
 
+	return false;
+}
+
+bool cClot::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monDirection)
+{
+	for (int i = 0; i < m_vecSkinnedMesh.size(); i++)
+	{
+		if (m_pOBB->IsCollision(sPlayer, &m_vecSkinnedMesh[i].OBBBox))
+		{
+			monDirection = m_vecSkinnedMesh[i].vDirection;
+			return true;
+		}
+	}
 	return false;
 }

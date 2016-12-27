@@ -20,7 +20,7 @@ public:
 	~cCrtController(void);
 
 	void Setup();
-	void Update(iMap* pMap = NULL);
+	void Update(iMap* pMap , D3DXVECTOR3* monLocation = NULL);
 	D3DXVECTOR3* GetPosition()
 	{
 		return &m_vPosition;

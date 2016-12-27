@@ -289,3 +289,7 @@ bool cBloat::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int
 
 	return false;
 }
+bool cBloat::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
+{
+	return false;
+}

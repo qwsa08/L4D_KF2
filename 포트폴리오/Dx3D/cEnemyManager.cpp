@@ -55,6 +55,7 @@ void cEnemyManager::Setup()
 	m_pBoss = new cBoss;
 	m_pBoss->Setup();
 	m_pBoss->SetDijkstraMemoryLink(m_pDijkstra);
+	
 }
 
 void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
@@ -74,4 +75,12 @@ bool cEnemyManager::PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayer
 //	else return false;
 
 	return true;
+}
+bool cEnemyManager::PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monDirection)
+{
+	if (m_pClot->PickThePlayer(s_Player, monDirection))
+	{
+		return true;
+	}
+	return false;
 }

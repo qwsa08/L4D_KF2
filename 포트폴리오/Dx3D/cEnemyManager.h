@@ -12,7 +12,6 @@ private:
 	cZombie*	m_pCrawler;
 	cZombie*	m_pGorefast;
 	cZombie*	m_pBoss;
-
 public:
 	cEnemyManager();
 	~cEnemyManager();
@@ -21,5 +20,7 @@ public:
 	void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot);
 	
 	bool PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
+	bool PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monLocation);
+	
 };
 

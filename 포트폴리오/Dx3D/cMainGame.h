@@ -75,6 +75,9 @@ private:
 	float						m_fTextTimer;
 	bool						m_bText;
 	LPD3DXFONT					m_pFont;
+	//============몬스터 좌표?===============
+	D3DXVECTOR3					m_pMonlocation;
+	//========================================
 	//========================================
 	std::vector<ST_PT_VERTEX>	m_vTexture;
 	D3DXMATRIXA16				matView;

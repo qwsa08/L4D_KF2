@@ -291,3 +291,8 @@ bool cCrawler::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, i
 
 	return false;
 }
+
+bool cCrawler::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
+{
+	return false;
+}

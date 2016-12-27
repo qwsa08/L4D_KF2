@@ -62,5 +62,6 @@ public:
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
 	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex) = 0;
+	virtual bool PickThePlayer(ST_OBB* sPlayer,OUT D3DXVECTOR3& monLocation) = 0;
 };
 

@@ -278,3 +278,7 @@ bool cBoss::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int 
 
 	return false;
 }
+bool cBoss::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
+{
+	return false;
+}
