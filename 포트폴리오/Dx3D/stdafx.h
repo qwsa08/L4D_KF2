@@ -208,5 +208,5 @@ enum GUN_BULLET
 #include "cKeyManager.h"
 #include "dinput.h"
 #include "cInput.h"
-
+#include "soundManager.h"
 

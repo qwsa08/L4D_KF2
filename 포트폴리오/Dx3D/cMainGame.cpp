@@ -88,10 +88,13 @@ cMainGame::~cMainGame(void)
 	g_pObjectManager->Destroy();
 	g_pTextureManager->Destroy();
 	g_pDeviceManager->Destroy();
+	g_pSoundManager->release();
 }
 
 void cMainGame::Setup()
 {
+	g_pSoundManager->init();
+	
 	m_pFrustum = new cFrustum;
 
 	m_pPlayer = new cPlayer;
@@ -107,14 +110,9 @@ void cMainGame::Setup()
 	pObjMap->Load("./Map/House14.ptop");
 	m_pMap = pObjMap;
 
-	
-
 	cMapXfile* pPickObj = new cMapXfile;
 	pPickObj->PickWeaponLoad();
 	m_pObj = pPickObj;
-
-	
-	
 
 	m_pEnemyManager = new cEnemyManager;
 	m_pEnemyManager->Setup();
@@ -140,8 +138,6 @@ void cMainGame::Setup()
 	strcpy_s(fd.FaceName, "HY견고딕");	//글꼴 스타일
 	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
 
-
-
 	D3DXVECTOR3 min;
 	D3DXVECTOR3 max;
 	
@@ -158,15 +154,12 @@ void cMainGame::Setup()
 		}
 		m_pOBB->SetupOBJ(min, max, m_stWall[j]);
 	}
-	
-	
 
 	m_pBulletCollision = new cBulletCollision;
 	//이걸 넣어야하나.. imap을 넣어야하나..
 	m_pBulletCollision->SetUp(pObjMap);
 
 	m_pCrossHead = new cCrossHead;
-
 
 	m_pSky = new cSky;
 	m_pSky->SetUp();
@@ -187,7 +180,6 @@ void cMainGame::Setup()
 	ZeroMemory(&m_stMtlPicked, sizeof(D3DMATERIAL9));
 	m_stMtlPicked.Ambient = m_stMtlPicked.Diffuse = m_stMtlPicked.Specular = D3DXCOLOR(0.8f, 0.0f, 0.0f, 1.0f);
 
-
 	SetLight();
 
 	GetClientRect(g_hWnd, &m_Clientrc);
@@ -200,10 +192,14 @@ void cMainGame::Setup()
 	ClipCursor(&m_Clientrc);	//마우스 가두기
 
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
+
+	g_pSoundManager->addSound("사운드테스트", "Sound/z1l1.mp3", true, true);
 }
 
 void cMainGame::Update()
 {
+	g_pSoundManager->update();
+
 	if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
 	
 	/*bool Shot = false;
@@ -371,6 +367,9 @@ void cMainGame::Update()
 	}
 
 //	m_pBulletCollision->PickCenter(m_pController);
+
+	if (!g_pSoundManager->isPlaySound("사운드테스트"))
+		g_pSoundManager->play("사운드테스트", 0.5f);
 
 	g_pAutoReleasePool->Drain();
 }
