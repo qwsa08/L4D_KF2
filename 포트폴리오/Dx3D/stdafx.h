@@ -187,6 +187,15 @@ enum GUN_NAME
 	HEAL
 };
 
+enum GUN_BULLET
+{
+	H_BULLET = 6,
+	B_BULLET = 30,
+	K_BULLET = 99,
+	S_BULLET = 8,
+	Heal_BULLET = 1
+};
+
 
 #include "cDeviceManager.h"
 #include "cTimeManager.h"

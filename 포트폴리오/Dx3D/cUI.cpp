@@ -4,6 +4,7 @@
 
 cUI::cUI()
 	: m_pSprite(NULL)
+	, m_pFont(NULL)
 {
 }
 
@@ -18,7 +19,12 @@ cUI::~cUI()
 	{
 		SAFE_RELEASE(m_vTWeapon[i]);
 	}
+	for (int i = 0; i < m_vTNum.size(); i++)
+	{
+		SAFE_RELEASE(m_vTNum[i]);
+	}
 	SAFE_RELEASE(m_pSprite);
+	SAFE_RELEASE(m_pFont);
 }
 
 void cUI::SetUp()
@@ -63,6 +69,18 @@ void cUI::SetUp()
 	m_vTHP.push_back(temp);
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	D3DXFONT_DESC fd;
+	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
+	fd.Height = 40;
+	fd.Width = 20;
+	fd.Weight = FW_NORMAL;
+	fd.Italic = false;
+	fd.CharSet = DEFAULT_CHARSET;
+	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+	fd.PitchAndFamily = FF_DONTCARE;
+	strcpy_s(fd.FaceName, "HY견고딕");	//글꼴 스타일
+	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
 }
 void cUI::Update()
 {
@@ -106,4 +124,15 @@ void cUI::Wepon_Render(GUN_NAME _name)
 		&D3DXVECTOR3(0, 0, 0),
 		D3DCOLOR_XRGB(255, 255, 255));
 	m_pSprite->End();
+}
+
+void cUI::Bullet_Render(int currentBullet, int MaxBullet)
+{
+	char s[80];
+	sprintf_s(s, sizeof(s), " %d / %d ", currentBullet, MaxBullet);
+	std::string temp(s);
+	//temp = s;
+	m_pFont->DrawTextA(NULL, temp.c_str(), temp.length(), &rc,
+		DT_RIGHT | DT_BOTTOM,
+		D3DCOLOR_XRGB(255, 255, 255));
 }

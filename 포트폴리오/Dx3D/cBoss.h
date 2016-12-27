@@ -5,9 +5,6 @@ class cBoss : public cZombie
 {
 private:
 	ST_ZOMBIE	m_stBoss;
-	float		m_fTime;
-	bool		m_isRecognize;
-	bool		m_isDirChange;
 
 public:
 	cBoss();
