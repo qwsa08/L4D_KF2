@@ -385,7 +385,7 @@ void cMainGame::Render()
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
-
+	
 	// 그림을 그린다.
 	m_pGrid->Render();
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
