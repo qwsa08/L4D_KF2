@@ -199,5 +199,5 @@ enum GUN_NAME
 #include "cKeyManager.h"
 #include "dinput.h"
 #include "cInput.h"
-
+#include "soundManager.h"
 

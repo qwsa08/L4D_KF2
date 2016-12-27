@@ -107,7 +107,9 @@
     <ClCompile Include="Dx3D.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cUI.cpp" />  </ItemGroup>
+    <ClCompile Include="cUI.cpp" />
+    <ClCompile Include="soundManager.cpp" />
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
     <ClInclude Include="cAction.h" />
@@ -223,7 +225,9 @@
     <ClInclude Include="Dx3D.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cUI.h" />  </ItemGroup>
+    <ClInclude Include="cUI.h" />
+    <ClInclude Include="soundManager.h" />
+  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />
   </ItemGroup>
