@@ -23,6 +23,8 @@ cPlayer::~cPlayer()
 	SAFE_DELETE(m_pOBB);
 	SAFE_RELEASE(m_pSprite);
 	SAFE_RELEASE(m_Tblood);
+
+
 }
 
 
@@ -30,18 +32,33 @@ void cPlayer::SetUp()
 {
 	m_pGun[HANDGUN] = new cSkinnedMesh("Weapon X File/test/", "Idle3.X");
 	m_pGun[HANDGUN]->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_iGunBullet[HANDGUN] = H_BULLET;
+	m_iGunBulletFull[HANDGUN] = 99;
+	m_iCurrentBullet[HANDGUN] = H_BULLET;
 
 	m_pGun[BUSTER] = new cSkinnedMesh("Weapon X File/b/", "Idle3.X");
 	m_pGun[BUSTER]->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_iGunBullet[BUSTER] = B_BULLET;
+	m_iGunBulletFull[BUSTER] = 90;
+	m_iCurrentBullet[BUSTER] = B_BULLET;
 
 	m_pGun[KNIFE] = new cSkinnedMesh("Weapon X File/knife/", "Idle2.X");
 	m_pGun[KNIFE]->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_iGunBullet[KNIFE] = K_BULLET;
+	m_iGunBulletFull[KNIFE] = 99;
+	m_iCurrentBullet[KNIFE] = K_BULLET;
 
 	m_pGun[SHOT] = new cSkinnedMesh("Weapon X File/Shot/", "Idle3.X");
 	m_pGun[SHOT]->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_iGunBullet[SHOT] = S_BULLET;
+	m_iGunBulletFull[SHOT] = 40;
+	m_iCurrentBullet[SHOT] = S_BULLET;
 
 	m_pGun[HEAL] = new cSkinnedMesh("Weapon X File/Heal/", "Idle2.X");
 	m_pGun[HEAL]->SetPosition(D3DXVECTOR3(0, 0, 0));
+	m_iGunBullet[HEAL] = Heal_BULLET;
+	m_iGunBulletFull[HEAL] = 1;
+	m_iCurrentBullet[HEAL] = Heal_BULLET;
 
 	m_pPlayer = m_pGun[HANDGUN];
 	m_eGunName = HANDGUN;
@@ -69,6 +86,8 @@ void cPlayer::SetUp()
 
 	GetClientRect(g_hWnd, &rc);
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	
 
 }
 void cPlayer::Update(D3DXMATRIXA16* pmat)
@@ -98,62 +117,35 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 		m_eGunName = HANDGUN;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetNomalAnimationIndex(0);
-		/*m_pPlayer->SetNomalAnimationIndex(3);
-		m_pPlayer->SetFrameNum(3);
-		m_pPlayer->SetChange(true);*/
-		
 	}
 	if (g_pKeyManager->isOnceKeyDown('1'))
 	{
 		m_eGunName = BUSTER;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetNomalAnimationIndex(0);
-		/*m_pPlayer->SetNomalAnimationIndex(3);
-		m_pPlayer->SetFrameNum(3);
-		m_pPlayer->SetChange(true);*/
-		
 	}
 	if (g_pKeyManager->isOnceKeyDown('2'))
 	{
 		m_eGunName = KNIFE;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetNomalAnimationIndex(0);
-		/*m_pPlayer->SetAnimationIndex(3);
-		m_pPlayer->SetFrameNum(3);
-		m_pPlayer->SetChange(true);*/
-		
 	}
 	if (g_pKeyManager->isOnceKeyDown('3'))
 	{
 		m_eGunName = SHOT;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetNomalAnimationIndex(0);
-		/*m_pPlayer->SetAnimationIndex(3);
-		m_pPlayer->SetFrameNum(3);
-		m_pPlayer->SetChange(true);*/
-		
 	}
 	if (g_pKeyManager->isOnceKeyDown('4'))
 	{
 		m_eGunName = HEAL;
 		m_pPlayer->AnimationReset();
 		m_pPlayer->SetNomalAnimationIndex(0);
-		/*m_pPlayer->SetAnimationIndex(3);
-		m_pPlayer->SetFrameNum(3);
-		m_pPlayer->SetChange(true);*/
-		
 	}
 	m_pPlayer->SetGunName(m_eGunName);
 	if (g_pKeyManager->isOnceKeyDown('R'))
 	{
-		//m_pPlayer->SetFrameNum(2);
-		//두번 호출하는 이유는...?;; 그 한번만하면 보간이된다..그래서 2번호출함으로써.. 초기화;;
-		//이걸 고쳐야한다.. 한번만하면되도록
-		m_bZoomIn = false;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetAnimationIndex(2);
-		m_pPlayer->SetFrameNum(2);
-		
+		Reload();
 	}
 	if (m_eGunName == BUSTER)
 	{
@@ -161,7 +153,6 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 		{
 			m_timer = 0.f;
 			m_bZoomIn = !m_bZoomIn;
-			
 		}
 	}
 
@@ -176,15 +167,11 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	}
 	else
 	{
-		//m_timer += g_pTimeManager->GetDeltaTime();
-		//if (m_timer<0.5)
+		if (m_matT._42 >-0.15)
 		{
-			if (m_matT._42 >-0.15)
-			{
-				m_matT._41 += 0.1;
-				m_matT._42 -= 0.03;
-				m_matT._43 += 0.2;
-			}
+			m_matT._41 += 0.1;
+			m_matT._42 -= 0.03;
+			m_matT._43 += 0.2;
 		}
 	}
 	
@@ -216,4 +203,40 @@ void cPlayer::Blood()
 		&D3DXVECTOR3(0, 0, 0),
 		D3DCOLOR_XRGB(255, 255, 255));
 	m_pSprite->End();
+}
+
+int cPlayer::GetMaxBullet()
+{
+	return m_iGunBulletFull[m_eGunName];
+}
+int cPlayer::GetBullet()
+{
+	return m_iGunBullet[m_eGunName];
+}
+
+void cPlayer::fireBullet()
+{
+	m_iGunBullet[m_eGunName] -= 1;
+}
+
+void cPlayer::Reload()
+{
+	if (m_eGunName == HANDGUN || m_eGunName == BUSTER || m_eGunName == SHOT)
+	{
+		m_bZoomIn = false;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetAnimationIndex(2);
+		m_pPlayer->SetFrameNum(2);
+
+		if (m_iGunBulletFull[m_eGunName] <= m_iCurrentBullet[m_eGunName])
+		{
+			m_iGunBullet[m_eGunName] = m_iGunBulletFull[m_eGunName];
+			m_iGunBulletFull[m_eGunName] = 0;
+		}
+		else
+		{
+			m_iGunBulletFull[m_eGunName] = m_iGunBulletFull[m_eGunName] - (m_iCurrentBullet[m_eGunName] - m_iGunBullet[m_eGunName]);
+			m_iGunBullet[m_eGunName] = m_iCurrentBullet[m_eGunName];
+		}
+	}
 }

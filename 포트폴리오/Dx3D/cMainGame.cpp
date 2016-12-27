@@ -137,7 +137,7 @@ void cMainGame::Setup()
 	fd.CharSet = DEFAULT_CHARSET;
 	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
 	fd.PitchAndFamily = FF_DONTCARE;
-	strcpy_s(fd.FaceName, "궁서체");	//글꼴 스타일
+	strcpy_s(fd.FaceName, "HY견고딕");	//글꼴 스타일
 	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
 
 
@@ -199,13 +199,6 @@ void cMainGame::Setup()
 	SetCursorPos((m_Clientrc.right - m_Clientrc.left) / 2.f, (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
 	ClipCursor(&m_Clientrc);	//마우스 가두기
 
-	//GetWindowRect(g_hWnd, &rc);
-
-	//rc.left += 10;
-	//rc.right -= 10;
-	//rc.top += 55;
-	//rc.bottom -= 10;
-	//SetCursorPos((rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2);	//마우스 시작좌표 고정
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
 }
 
@@ -213,6 +206,12 @@ void cMainGame::Update()
 {
 	if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
 	
+	/*bool Shot = false;
+	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	{
+		if (Shot)	Shot = false;
+		else Shot = true;
+	}*/
 	if (g_pKeyManager->isOnceKeyDown(VK_F2))
 	{
 		OnOff_MOUSE = !OnOff_MOUSE;
@@ -241,24 +240,7 @@ void cMainGame::Update()
 			//	m_pFrustum->Update();
 		}
 	}
-	/*D3DXMATRIXA16 matI;
-	D3DXMatrixIdentity(&matI);
-	for (int i = 0; i < 8; i++)
-	{
-		m_pOBB->Update(&matI, m_stWall[i]);
-	}
-*/
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_stWall[i]))
-	//	{
-	//		//m_pController->SetCrush(true);
-	//		m_cPaint = D3DCOLOR_XRGB(255, 255, 255);
-	//		//충돌
-	//	}
-	//	else 
-	//		m_cPaint = D3DCOLOR_XRGB(255, 255, 0);
-	//}
+
 
 	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
 	{
@@ -313,24 +295,25 @@ void cMainGame::Update()
 
 	if (m_pPlayer->GetPlayerGun() == BUSTER)
 	{
-		if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+		if (m_pPlayer->GetBullet() > 0)
 		{
-			//이거 활성화 하면 총알튀듯이 된다.
-			if(!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
-			//timer가 너무많으니 더 추가해주자 !!
-			timer += g_pTimeManager->GetDeltaTime();
-			if (timer >= 0.1f)
+			if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 			{
-				m_pPlayer->SetAni(1);
-				timer = 0.f;
+
+				//이거 활성화 하면 총알튀듯이 된다.
+				if (!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
+				//timer가 너무많으니 더 추가해주자 !!
+				timer += g_pTimeManager->GetDeltaTime();
+				if (timer >= 0.1f)
+				{
+					m_pPlayer->SetAni(1);
+					timer = 0.f;
+				}
+				m_fire = true;
+				//여기일때만 몬스터 판정 트루
+				m_pPlayer->fireBullet();
 			}
-			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
-			{
-				int a = 0;
-			}
-			m_fire = true;
 		}
-		
 	}
 	else
 	{
@@ -339,15 +322,15 @@ void cMainGame::Update()
 			matView = *m_pCamera->GetViewMatrix();
 			//이거 활성화 하면 총알튀듯이 된다.
 			m_pController->m_fAngleX -= 0.010f;
-			//timer가 너무많으니 더 추가해주자 !!
 		
 			m_pPlayer->SetAni(1);
-			if (m_pEnemyManager->PickTheMonster(m_pController->GetPosition(), &m_pController->GetDirection()))
-			{
-				int a = 0;
-			}
 			m_fire = true;
 
+			if (m_pPlayer->GetPlayerGun() == HANDGUN || m_pPlayer->GetPlayerGun() == SHOT)
+			{
+				if (m_pPlayer->GetBullet() >0)	m_pPlayer->fireBullet();
+				else m_pPlayer->Reload();
+			}
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
@@ -403,10 +386,6 @@ void cMainGame::Render()
 
 	g_pD3DDevice->BeginScene();
 
-
-	
-
-
 	// 그림을 그린다.
 	m_pGrid->Render();
 	D3DXMATRIXA16 matI, matT ,matS , matPosition;
@@ -414,10 +393,6 @@ void cMainGame::Render()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 	
-	//for (int i = 0; i < 8; i++)
-	//{
-	//	m_pOBB->DebugRender(&m_stWall[i], m_cPaint);
-	//}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	if (m_bBlood)
@@ -437,16 +412,10 @@ void cMainGame::Render()
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
-	bool Shot = false;
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
-	{
-		if (Shot)	Shot = false;
-		else Shot = true;
-	}
-	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), Shot);
 	
-	//m_pBulletCollision->Render(m_pMap);
+	if (m_pEnemyManager)
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), m_fire);
+	
 
 	if (m_pMap)
 	{
@@ -456,18 +425,13 @@ void cMainGame::Render()
 		std::vector<ST_PNT_VERTEX> testMap;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 		m_pMap->Render(
 			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
 			&D3DXVECTOR4(m_pController->GetDirection(), 1.f),
 			&D3DXVECTOR4(m_pBulletCollision->GetCenterPosition(), 1.f),
 			100.f, &D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
-		//	g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 	}
 
-
-	//m_pBulletCollision->Fire(m_pMap, m_pController);
-			
 	if (m_bText)
 	{
 		m_fTextTimer += g_pTimeManager->GetDeltaTime();
@@ -510,33 +474,14 @@ void cMainGame::Render()
 		m_pObj->Render();
 	}
 
-	if (m_fire)
-	{
-		timer += g_pTimeManager->GetDeltaTime();
-
-		/*if (timer > 0.4f)
-		{
-			timer = 0;
-			m_fire = false;
-		}
-		else
-		{
-			m_pController->m_fAngleX -= 0.001;
-		}*/
-		m_pBulletCollision->Render(m_pMap, m_pController);
-	}
 	
+	//m_pBulletCollision->Render(m_pMap, m_pController);
 	m_pSky->Render(); 
 	
 	m_pUI->HP_Render();
 	m_pUI->Wepon_Render(m_pPlayer->GetPlayerGun());
-	
-	
-	/*D3DXMATRIXA16 m_matProj;
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	D3DXMatrixPerspectiveFovLH(&m_matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.f, 2000.f);
-	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &m_matProj);*/
+	if (m_pPlayer->GetPlayerGun() != KNIFE)
+		m_pUI->Bullet_Render(m_pPlayer->GetBullet(), m_pPlayer->GetMaxBullet());
 
 	char szTemp[64];
 	sprintf(szTemp, "%f %f %f", 
@@ -553,23 +498,6 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	if (m_pController)
 	{
 		m_pController->WndProc(hWnd, message, wParam, lParam);
-	}
-
-
-	switch (message)
-	{
-	case WM_KEYDOWN:
-	{
-		switch (wParam)
-		{
-		case VK_LBUTTON:
-		{
-			
-		}
-		break;
-		}
-	}
-	break;
 	}
 }
 

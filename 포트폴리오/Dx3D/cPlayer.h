@@ -11,7 +11,13 @@ private:
 	RECT						rc;
 	cSkinnedMesh*				m_pPlayer;
 	cSkinnedMesh*				m_pGun[5];
+	int							m_iGunBullet[5];
+	int							m_iCurrentBullet[5];
+	int							m_iGunBulletFull[5];
 	D3DXMATRIXA16				m_Position;
+	
+
+	
 	//GUN_NAME					m_eGunName;
 
 
@@ -37,6 +43,10 @@ public:
 
 	bool GetZoomIn() { return m_bZoomIn; }
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }
+	void fireBullet();
+	int GetBullet();
+	int GetMaxBullet();
+	void Reload();
 	//GUN_NAME GetPlayerGun() { return m_eGunName; }
 	
 };
