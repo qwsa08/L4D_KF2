@@ -13,6 +13,8 @@ cBoss::cBoss()
 
 cBoss::~cBoss()
 {
+	SAFE_RELEASE(m_pBlood);
+	SAFE_RELEASE(m_pSprite);
 }
 
 void cBoss::Setup()
@@ -38,186 +40,199 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 
 	m_pFrustum->Update();
 
-	if (m_stBoss.nHealth < 0)
+	if (m_stBoss.eMotion == DIE)
 	{
-		m_stBoss.eMotion = DIE;
-		m_stBoss.pSkinnedMesh->ResetTrackPosition();
-	}
-	if (Shot && PickTheBullet(vPlayerPos, vPlayerDir, 0))
-	{
-		//앞에서 맞나 뒤에서 맞나
-		float fAngle = D3DXVec3Dot(vPlayerDir, &m_stBoss.vDirection);
-		if (fAngle < 0)
-		{
-			m_stBoss.eMotion = HIT_B;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-		else
-		{
-			m_stBoss.eMotion = HIT_F;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-
-		m_stBoss.nHealth -= 50;
-	}
-	//범위?
-	D3DXVECTOR3 v = m_stBoss.vPosition - vDest;
-	float fDistance = D3DXVec3Length(&v);
-	D3DXVec3Normalize(&v, &v);
-
-	if (m_stBoss.eMotion == IDLE)
-	{
-		if ((*vPlayerPos).y < 0)
-		{
-			if (fDistance < 1000.f)
-			{
-				//시야
-				float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
-				if (fFov <= 1 && fFov > 0.5f)
-				{
-					float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
-					if (1 - fabs(fFov) < EPSILON)
-					{
-						if (m_stBoss.isRecognize == false)
-						{
-							m_stBoss.isRecognize = true;
-							m_stBoss.eMotion = ENTRANCE;
-							m_stBoss.pSkinnedMesh->ResetTrackPosition();
-						}
-						else
-						{
-							m_stBoss.eMotion = MOVE;
-							m_stBoss.pSkinnedMesh->ResetTrackPosition();
-						}
-					}
-					else
-					{
-						D3DXVECTOR3 v0 = m_stBoss.vPosition + fDistance * m_stBoss.vDirection;
-						D3DXVECTOR3 v1 = vDest;
-						D3DXVECTOR3 vPos(0, 0, 0);
-						D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
-						D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vPos));
-					}
-				}
-
-				if (fDistance < 100.f)
-				{
-					m_stBoss.eMotion = ATTACK_MELEE;
-					m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				}
-			}
-		}
-	}
-	else if (m_stBoss.eMotion == ENTRANCE)
-	{
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(14);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-			m_stBoss.eMotion = ATTACK_CHARGE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
-			m_stBoss.fElapsedTime = 0.f;
-		}
-	}
-	else if (m_stBoss.eMotion == MOVE)
-	{
-		if ((*vPlayerPos).y > 0)
-		{
-			m_stBoss.eMotion = IDLE;
-		}
-		if (fDistance < 100.f)
-		{
-			m_stBoss.eMotion = ATTACK_MELEE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-		}
-		std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_stBoss.vPosition, &vDest);
-
-		if (vecRoute.size() < 3)
-		{
-			D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vDest));
-			m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
-		}
-		else if (vecRoute.size() < 6)
-		{
-			if (m_stBoss.vPrevPosition != vecRoute[0])
-			{
-				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[0])));
-				m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
-
-				float l = D3DXVec3Dot(&(m_stBoss.vPosition - (vecRoute[0])), &(m_stBoss.vPrevPosition - (vecRoute[0])));
-				if (l <= 0)
-				{
-					m_stBoss.vPrevPosition = vecRoute[0];
-				}
-			}
-			else
-			{
-				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[1])));
-				m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
-			}
-		}
-		else
-		{
-			m_stBoss.eMotion = IDLE;
-		}
-	}
-	else if (m_stBoss.eMotion == HIT_F)
-	{
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-			m_stBoss.eMotion = IDLE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-	}
-	else if (m_stBoss.eMotion == HIT_B)
-	{
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-			m_stBoss.eMotion = IDLE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-	}
-	else if (m_stBoss.eMotion == ATTACK_MELEE)
-	{
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(2);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-			m_stBoss.eMotion = IDLE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-	}
-	else if (m_stBoss.eMotion == ATTACK_CHARGE)
-	{
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(6);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-			m_stBoss.eMotion = IDLE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			m_stBoss.fElapsedTime = 0.f;
-		}
-		//
-		D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - m_stBoss.vPrevPosition));
-		m_stBoss.vPosition -= m_stBoss.vDirection * (m_stBoss.fSpeed + 3.f);
-	}
-	else if (m_stBoss.eMotion == DIE)
-	{
+		m_stBoss.vPosition.y -= 1.f;
 		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
 		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(7);
 		if (m_stBoss.fElapsedTime > fActionTime)
 		{
-//			m_stBoss.fElapsedTime = 0.f;
+//			m_vecSkinnedMesh.erase(m_vecSkinnedMesh.begin() + i);
+		}
+	}
+	else
+	{
+		if (m_stBoss.nHealth < 0)
+		{
+			m_stBoss.eMotion = DIE;
+			m_stBoss.pSkinnedMesh->ResetTrackPosition();
+		}
+		if (Shot && PickTheBullet(vPlayerPos, vPlayerDir, 0))
+		{
+			//앞에서 맞나 뒤에서 맞나
+			float fAngle = D3DXVec3Dot(vPlayerDir, &m_stBoss.vDirection);
+			if (fAngle < 0)
+			{
+				m_stBoss.eMotion = HIT_B;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+			else
+			{
+				m_stBoss.eMotion = HIT_F;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+
+			m_stBoss.nHealth -= 50;
+		}
+		//범위?
+		D3DXVECTOR3 v = m_stBoss.vPosition - vDest;
+		float fDistance = D3DXVec3Length(&v);
+		D3DXVec3Normalize(&v, &v);
+
+		if (m_stBoss.eMotion == IDLE)
+		{
+			if ((*vPlayerPos).y < 0)
+			{
+				if (fDistance < 1000.f)
+				{
+					//시야
+					float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
+					if (fFov <= 1 && fFov > 0.5f)
+					{
+						float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
+						if (1 - fabs(fFov) < EPSILON)
+						{
+							if (m_stBoss.isRecognize == false)
+							{
+								m_stBoss.isRecognize = true;
+								m_stBoss.eMotion = ENTRANCE;
+								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+							}
+							else
+							{
+								m_stBoss.eMotion = MOVE;
+								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+							}
+						}
+						else
+						{
+							D3DXVECTOR3 v0 = m_stBoss.vPosition + fDistance * m_stBoss.vDirection;
+							D3DXVECTOR3 v1 = vDest;
+							D3DXVECTOR3 vPos(0, 0, 0);
+							D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
+							D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vPos));
+						}
+					}
+
+					if (fDistance < 100.f)
+					{
+						m_stBoss.eMotion = ATTACK_MELEE;
+						m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					}
+				}
+			}
+		}
+		else if (m_stBoss.eMotion == ENTRANCE)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(14);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				m_stBoss.eMotion = ATTACK_CHARGE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
+				m_stBoss.fElapsedTime = 0.f;
+			}
+		}
+		else if (m_stBoss.eMotion == MOVE)
+		{
+			if ((*vPlayerPos).y > 0)
+			{
+				m_stBoss.eMotion = IDLE;
+			}
+			if (fDistance < 100.f)
+			{
+				m_stBoss.eMotion = ATTACK_MELEE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+			}
+			std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_stBoss.vPosition, &vDest);
+
+			if (vecRoute.size() < 3)
+			{
+				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vDest));
+				m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+			}
+			else if (vecRoute.size() < 6)
+			{
+				if (m_stBoss.vPrevPosition != vecRoute[0])
+				{
+					D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[0])));
+					m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+
+					float l = D3DXVec3Dot(&(m_stBoss.vPosition - (vecRoute[0])), &(m_stBoss.vPrevPosition - (vecRoute[0])));
+					if (l <= 0)
+					{
+						m_stBoss.vPrevPosition = vecRoute[0];
+					}
+				}
+				else
+				{
+					D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[1])));
+					m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+				}
+			}
+			else
+			{
+				m_stBoss.eMotion = IDLE;
+			}
+		}
+		else if (m_stBoss.eMotion == HIT_F)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				m_stBoss.eMotion = IDLE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+		}
+		else if (m_stBoss.eMotion == HIT_B)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				m_stBoss.eMotion = IDLE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+		}
+		else if (m_stBoss.eMotion == ATTACK_MELEE)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(2);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				m_stBoss.eMotion = IDLE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+		}
+		else if (m_stBoss.eMotion == ATTACK_CHARGE)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(6);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				m_stBoss.eMotion = IDLE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+				m_stBoss.fElapsedTime = 0.f;
+			}
+			//
+			D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - m_stBoss.vPrevPosition));
+			m_stBoss.vPosition -= m_stBoss.vDirection * (m_stBoss.fSpeed + 3.f);
+		}
+		else if (m_stBoss.eMotion == DIE)
+		{
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(7);
+			if (m_stBoss.fElapsedTime > fActionTime)
+			{
+				//			m_stBoss.fElapsedTime = 0.f;
+			}
 		}
 	}
 

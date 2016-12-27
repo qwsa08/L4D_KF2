@@ -370,7 +370,7 @@ void cMainGame::Update()
 		m_pController->SetSensitivity(temp);
 	}
 
-	m_pBulletCollision->PickCenter(m_pController);
+//	m_pBulletCollision->PickCenter(m_pController);
 
 	g_pAutoReleasePool->Drain();
 }

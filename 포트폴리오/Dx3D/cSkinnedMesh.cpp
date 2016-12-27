@@ -162,13 +162,13 @@ void cSkinnedMesh::UpdateAndRender(D3DXMATRIXA16* pmat)
 				g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 			}
 		}
-		if (m_stBoundingBox.pBoundingBoxMesh)
-		{
-			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-			m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);
-			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-		}
+//		if (m_stBoundingBox.pBoundingBoxMesh)
+//		{
+//			g_pD3DDevice->SetTransform(D3DTS_WORLD, &mat);
+//			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+//			m_stBoundingBox.pBoundingBoxMesh->DrawSubset(0);
+//			g_pD3DDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+//		}
 	}
 }
 
