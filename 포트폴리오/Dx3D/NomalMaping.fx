@@ -136,7 +136,8 @@ float4 NormalMapping_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
    float3 ambient = float3(0.1f, 0.1f, 0.1f) * albedo;
    
    //float4 depth = float4(ambient + diffuse + specular, 1);
-   depth = In.ClipPos.z / In.ClipPos.w;
+
+   depth = Input.ClipPos.z / Input.ClipPos.w;
    return float4(worldNormal,depth);
 }
 

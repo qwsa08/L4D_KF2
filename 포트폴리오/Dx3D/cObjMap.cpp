@@ -62,7 +62,7 @@ void cObjMap::Load(char* szMap, D3DXMATRIXA16* pmat /*= NULL*/)
 	//m_pTextureMappingShader = g_pShader->LoadShader("NormalMapping(Double).fx");
 	//m_pTextureMappingShader = g_pShader->LoadShader("SpotLight.fx");
 	m_pTextureMappingShader = g_pShader->LoadShader("SpotLight(Test3).fx");
-	m_NomalMapingShader = g_pShader->LoadShader("NomalMaping.fx");
+	m_NomalMapingShader = g_pShader->LoadShader("NomalMaping(2).fx");
 }
 
 void cObjMap::BoxLoad(char* szMap, OUT std::vector<D3DXVECTOR3>& vecBoungdingBox, D3DXMATRIXA16* pmat)
@@ -98,29 +98,27 @@ void cObjMap::Render(IN D3DXVECTOR4* CameraPosition)
 	///*float fDepthBias = 0.01;
 	//g_pD3DDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&fDepthBias);*/
 
-	//for (int i = 0; i < m_vecNomal.size(); i++)
-	//{
-	//	UINT numPasses = 0;
-	//	m_NomalMapingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
-
-	//	m_NomalMapingShader->Begin(&numPasses, NULL);
-	//	{
-	//		for (UINT j = 0; j < numPasses; ++j)
-	//		{
-	//			m_NomalMapingShader->BeginPass(j);
-	//			{
-	//				m_Map->DrawSubset(i);
-	//			}
-	//			m_NomalMapingShader->EndPass();
-	//		}
-	//	}
-	//	m_NomalMapingShader->End();
-	//}
 	for (int i = 0; i < m_pMtltex.size(); i++)
 	{
-		g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
-		g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
-		m_Map->DrawSubset(i);
+		UINT numPasses = 0;
+		m_NomalMapingShader->SetTexture("NormalMap_Tex", m_vecNomal[i]);
+
+		m_NomalMapingShader->Begin(&numPasses, NULL);
+		{
+			for (UINT j = 0; j < numPasses; ++j)
+			{
+				m_NomalMapingShader->BeginPass(j);
+				{
+					m_Map->DrawSubset(i);
+				}
+				m_NomalMapingShader->EndPass();
+			}
+		}
+		m_NomalMapingShader->End();
+
+		//g_pD3DDevice->SetTexture(0, m_pMtltex[i]->GetTexture());
+		//g_pD3DDevice->SetMaterial(&m_pMtltex[i]->GetMtl());
+		//m_Map->DrawSubset(i);
 	}
 }
 void cObjMap::Render(

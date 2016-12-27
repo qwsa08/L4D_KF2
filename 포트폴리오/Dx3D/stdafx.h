@@ -205,6 +205,15 @@ enum PLAYER_MOVE
 	P_RIGHT
 };
 
+enum Gun_Damage
+{
+	H_DAMAGE = 10,
+	B_DAMAGE = 15,
+	K_DAMAGE = 5,
+	S_DAMAGE = 30,
+	H_POWER = 100
+
+};
 
 #include "cDeviceManager.h"
 #include "cTimeManager.h"
@@ -217,5 +226,5 @@ enum PLAYER_MOVE
 #include "cKeyManager.h"
 #include "dinput.h"
 #include "cInput.h"
-
+#include "soundManager.h"
 

@@ -17,10 +17,10 @@ public:
 	~cEnemyManager();
 
 	void Setup();
-	void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot);
+	void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun);
 	
 	bool PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);
-	bool PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monLocation);
+	bool PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monDirection);
 	
 };
 

@@ -58,13 +58,13 @@ void cEnemyManager::Setup()
 	
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot)
+void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
-	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
-	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
-	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
-	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
-	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot);
+	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
+	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
+	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
+	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
+	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 
 //	m_pDijkstra->Update(vPlayerPos);
 //	m_pDijkstra->Render();

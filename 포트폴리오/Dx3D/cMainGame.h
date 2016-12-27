@@ -57,6 +57,7 @@ private:
 	ST_OBB						m_stWall[8];
 	D3DCOLOR					m_cPaint;
 	bool						m_mouseCheck;
+	bool						m_AimDown;
 	bool						m_fire;
 	cCrossHead*					m_pCrossHead;
 
