@@ -2,6 +2,7 @@
 #include "cOBB.h"
 #include "cSkinnedMesh.h"
 #include "cCrtController.h"
+#include "cEffect.h"
 
 cOBB::cOBB(void)
 {
@@ -213,7 +214,7 @@ bool cOBB::GetFaceBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR
 	}
 	return false;
 }
-bool cOBB::GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir)
+bool cOBB::GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir, D3DXMATRIXA16* _World)
 {
 	std::vector<D3DXVECTOR3> vecVertex;
 	vecVertex.reserve(8);
@@ -268,6 +269,14 @@ bool cOBB::GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVEC
 		pOBB1->m_vOrgCenterPos.z + pOBB1->fAxisLen[2] / 2.0f);
 	vecVertex.push_back(vec);
 
+	for (int i = 0; i < vecVertex.size(); i++)
+	{
+		D3DXVec3TransformCoord(
+			&vecVertex[i],
+			&vecVertex[i],
+			_World);
+	}
+
 	//Àü¸é =========================
 	std::vector<D3DXVECTOR3> temp;
 	temp.push_back(vecVertex[0]); temp.push_back(vecVertex[1]); temp.push_back(vecVertex[2]);
@@ -288,9 +297,9 @@ bool cOBB::GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVEC
 	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[7]); temp.push_back(vecVertex[4]);
 	temp.push_back(vecVertex[3]); temp.push_back(vecVertex[4]); temp.push_back(vecVertex[0]);
 
-
-	D3DXVECTOR3 Position = *PlayerPos;
-	D3DXVECTOR3 vRayPos(Position.x, Position.y, Position.z);
+	
+	D3DXVECTOR3 vPosition = *PlayerPos;
+	D3DXVECTOR3 vRayPos(vPosition.x, vPosition.y, vPosition.z);
 	D3DXVECTOR3 vRayDir = *PlayerDir;
 	float u, v, d;
 
@@ -302,8 +311,10 @@ bool cOBB::GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVEC
 
 		if (D3DXIntersectTri(&v0, &v1, &v2, &vRayPos, &vRayDir, &u, &v, &d))
 		{
+			Temp = (v0 + u * (v1 - v0) + v * (v2 - v0));
 			return true;
 		}
+		
 	}
 	return false;
 }

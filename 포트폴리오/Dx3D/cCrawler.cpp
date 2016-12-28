@@ -9,6 +9,7 @@
 #define ATTACKDISTANCE	50.f
 
 cCrawler::cCrawler()
+	:m_Pick(false)
 {
 }
 
@@ -68,6 +69,7 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 	{
 		if (m_vecSkinnedMesh[i].eMotion == DIE)
 		{
+			m_Pick = false;
 			m_vecSkinnedMesh[i].vPosition.y -= 0.5f;
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(8);
@@ -128,6 +130,7 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 
 					m_vecSkinnedMesh[i].nHealth -= damage;
 					if (ePlayerGun != SHOT) *Shot = false;
+					
 				}
 
 				D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
@@ -224,8 +227,10 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 				{
 					m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 					float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
+					m_Pick = true;
 					if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 					{
+						m_Pick = false;
 						m_vecSkinnedMesh[i].eMotion = IDLE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 						m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -233,10 +238,12 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 				}
 				else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
 				{
+					m_Pick = true;
 					m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 					float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
 					if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 					{
+						m_Pick = false;
 						m_vecSkinnedMesh[i].eMotion = IDLE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 						m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -344,15 +351,26 @@ void cCrawler::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 
 bool cCrawler::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
-	if (m_pOBB->GetFaceBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
+	if (m_pOBB->GetMonsterBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
 	{
 		return true;
 	}
-
+	m_Pick = false;
 	return false;
 }
 
 bool cCrawler::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
 {
 	return false;
+}
+
+bool cCrawler::GetZombiePosition()
+{
+	m_pPosition = m_pOBB->GetPosition();
+	return m_Pick;
+}
+
+D3DXVECTOR3 cCrawler::GetPosition()
+{
+	return m_pPosition;
 }

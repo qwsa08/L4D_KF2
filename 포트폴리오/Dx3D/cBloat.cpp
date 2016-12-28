@@ -13,6 +13,7 @@ cBloat::cBloat()
 	, m_pSpriteP(NULL)
 	, m_Vomit(false)
 	, m_fVomitTime(0.f)
+	, m_Pick(false)
 {
 }
 
@@ -122,6 +123,7 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 	{
 		if (m_vecSkinnedMesh[i].eMotion == DIE)
 		{
+			m_Pick = false;
 			m_vecSkinnedMesh[i].vPosition.y -= 1.f;
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(8);
@@ -181,7 +183,7 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 
 				m_vecSkinnedMesh[i].nHealth -= damage;
 				if(ePlayerGun != SHOT) *Shot = false;
-
+				
 			}
 			//¹üÀ§?
 			D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
@@ -280,10 +282,13 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
 			{
+				m_Pick = true;
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
+				if (m_vecSkinnedMesh[i].fElapsedTime > 1.f) m_Pick = false;
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 				{
+					m_Pick = false;
 					m_vecSkinnedMesh[i].eMotion = IDLE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -291,10 +296,13 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
 			{
+				m_Pick = true;
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(5);
+				if (m_vecSkinnedMesh[i].fElapsedTime > 1.f) m_Pick = false;
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 				{
+					m_Pick = false;
 					m_vecSkinnedMesh[i].eMotion = IDLE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -391,14 +399,24 @@ void cBloat::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 
 bool cBloat::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
-	if (m_pOBB->GetFaceBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
+	if (m_pOBB->GetMonsterBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
 	{
 		return true;
 	}
-
+	m_Pick = false;
 	return false;
 }
 bool cBloat::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
 {
 	return false;
+}
+
+bool cBloat::GetZombiePosition()
+{
+	m_pPosition = m_pOBB->GetPosition();
+	return m_Pick;
+}
+D3DXVECTOR3 cBloat::GetPosition()
+{
+	return m_pPosition;
 }

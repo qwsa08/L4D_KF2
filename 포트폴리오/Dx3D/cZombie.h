@@ -54,7 +54,8 @@ protected:
 	cDijkstra*				m_pDijkstra;
 	cOBB*					m_pOBB;
 	cFrustum*				m_pFrustum;
-
+	
+	
 protected:
 	LPDIRECT3DTEXTURE9	m_pBlood;
 	LPD3DXSPRITE		m_pSprite;
@@ -72,6 +73,8 @@ public:
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
 	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex) = 0;
 	virtual bool PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monDirection) = 0;
+	virtual bool GetZombiePosition() = 0;
+	virtual D3DXVECTOR3 GetPosition() = 0;
 	virtual void SetBlood();
 	virtual void AttackBlood();
 };

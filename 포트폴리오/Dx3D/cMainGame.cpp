@@ -19,6 +19,7 @@
 #include "cEnemyManager.h"
 #include "cSky.h"
 #include "cUI.h"
+
 #define RADIUS 3.f
 
 cMainGame::cMainGame(void)
@@ -49,6 +50,7 @@ cMainGame::cMainGame(void)
 	, OnOff_MOUSE(false)
 	, m_pSky(NULL)
 	, m_AimDown(false)
+	
 {
 }
 
@@ -70,6 +72,7 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_DELETE(m_pUI);
+	
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
@@ -348,10 +351,6 @@ void cMainGame::Update()
 		m_pController->m_fAngleX = m_ReboundCamera;
 	}
 	
-	if (g_pKeyManager->isOnceKeyUp('Z'))
-	{
-		m_bBlood = true;
-	}
 	
 	if (g_pKeyManager->isOnceKeyUp('F'))
 	{
@@ -382,6 +381,7 @@ void cMainGame::Update()
 	if (!g_pSoundManager->isPlaySound("사운드테스트"))
 		g_pSoundManager->play("사운드테스트", 0.5f);
 
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -405,20 +405,6 @@ void cMainGame::Render()
 	
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	if (m_bBlood)
-	{
-		m_fBloodTimer += g_pTimeManager->GetDeltaTime();
-
-		if (m_fBloodTimer < 0.5f)
-		{
-			m_pPlayer->Blood();
-		}
-		else
-		{
-			m_fBloodTimer = 0.f;
-			m_bBlood = false;
-		}
-	}
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
@@ -426,7 +412,7 @@ void cMainGame::Render()
 	if (m_pEnemyManager)
 	{
 		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire,m_pPlayer->GetPlayerGun());
-		
+		m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
 	}
 	
 
@@ -478,7 +464,6 @@ void cMainGame::Render()
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
-		std::vector<ST_PNT_VERTEX> testMap;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 		m_pObj->Render(
@@ -499,6 +484,7 @@ void cMainGame::Render()
 	char szTemp[64];
 	sprintf(szTemp, "%f %f %f", 
 		m_pController->GetPosition()->x, m_pController->GetPosition()->y, m_pController->GetPosition()->z);
+	
 	SetWindowText(g_hWnd, szTemp);
 
 	g_pD3DDevice->EndScene();
