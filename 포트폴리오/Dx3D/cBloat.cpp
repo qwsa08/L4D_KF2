@@ -133,7 +133,7 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 		}
 		else
 		{
-			if (m_vecSkinnedMesh[i].nHealth < 0)
+			if (m_vecSkinnedMesh[i].nHealth <= 0)
 			{
 				m_vecSkinnedMesh[i].eMotion = DIE;
 				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();

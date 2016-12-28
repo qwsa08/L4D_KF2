@@ -145,7 +145,7 @@ LPD3DXMESH cObjLoader::Load(OUT cObjMap* ObjMap,
 		}
 		else if(szBuf[0] == 'v')
 		{
-			//if (n == 1) break;
+			if (n == 1) break;
 			if(szBuf[1] == 't')
 			{
 				float u, v;
