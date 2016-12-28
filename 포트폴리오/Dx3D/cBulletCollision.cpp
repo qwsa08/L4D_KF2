@@ -302,6 +302,7 @@ void cBulletCollision::PickCenter(cCrtController* Controller)
 			}
 		}
 		m_vCenterPoint = vecWallNear[0].WallPosition;
+		
 	}
 }
 

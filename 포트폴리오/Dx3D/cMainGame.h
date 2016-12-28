@@ -20,6 +20,8 @@ class cEnemyManager;
 class cSky;
 class cUI;
 
+class cEffect;
+
 class cMainGame
 {
 private:
@@ -66,9 +68,10 @@ private:
 	//std::vector<D3DXVECTOR3> temp;
 	//==================
 	cUI*						m_pUI;
+	cEffect*					m_pEffect;
+	bool						m_bBlood;
 	//==================
 	//============테스트중=======================//
-	bool						m_bBlood;
 	float						timer;
 	bool						OnOff_MOUSE;
 	//============ 플레이어 피 + 감도 =========

@@ -210,7 +210,7 @@ enum Gun_Damage
 	H_DAMAGE = 10,
 	B_DAMAGE = 15,
 	K_DAMAGE = 5,
-	S_DAMAGE = 30,
+	S_DAMAGE = 10,
 	H_POWER = 100
 
 };

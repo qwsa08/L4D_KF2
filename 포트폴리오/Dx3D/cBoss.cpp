@@ -7,6 +7,7 @@
 
 
 cBoss::cBoss()
+	:m_Pick(false)
 {
 }
 
@@ -30,6 +31,8 @@ void cBoss::Setup()
 	D3DXVec3TransformNormal(&m_stBoss.vDirection, &m_stBoss.vPosition, &matR);
 	m_stBoss.vDirection.y = 0;
 	D3DXVec3Normalize(&m_stBoss.vDirection, &m_stBoss.vDirection);
+	m_pOBB->SetupOBJ(m_stBoss.pSkinnedMesh->GetBoundingBox()->_min*0.5f + D3DXVECTOR3(-50, 0, 0),
+		m_stBoss.pSkinnedMesh->GetBoundingBox()->_max*0.5f + D3DXVECTOR3(50,0,0), m_stBoss.OBBBox);
 	m_stBoss.eMotion = IDLE;
 	m_stBoss.fSpeed = 3.f;
 }
@@ -42,6 +45,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 
 	if (m_stBoss.eMotion == DIE)
 	{
+		m_Pick = false;
 		m_stBoss.vPosition.y -= 1.f;
 		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
 		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(7);
@@ -97,6 +101,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 
 			m_stBoss.nHealth -= damage;
 			if (ePlayerGun != SHOT) *Shot = false;
+			
 		}
 		//¹üÀ§?
 		D3DXVECTOR3 v = m_stBoss.vPosition - vDest;
@@ -204,8 +209,10 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		{
 			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
+			m_Pick = true;
 			if (m_stBoss.fElapsedTime > fActionTime)
 			{
+				m_Pick = false;
 				m_stBoss.eMotion = IDLE;
 				m_stBoss.pSkinnedMesh->ResetTrackPosition();
 				m_stBoss.fElapsedTime = 0.f;
@@ -215,8 +222,10 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		{
 			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
+			m_Pick = true;
 			if (m_stBoss.fElapsedTime > fActionTime)
 			{
+				m_Pick = false;
 				m_stBoss.eMotion = IDLE;
 				m_stBoss.pSkinnedMesh->ResetTrackPosition();
 				m_stBoss.fElapsedTime = 0.f;
@@ -308,14 +317,25 @@ void cBoss::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 
 bool cBoss::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
-	if (m_pOBB->GetFaceBoxIntersect(&m_stBoss.OBBBox, vPlayerPos, vPlayerDir, &m_stBoss.matWTM))
+	if (m_pOBB->GetMonsterBoxIntersect(&m_stBoss.OBBBox, vPlayerPos, vPlayerDir, &m_stBoss.matWTM))
 	{
+		
 		return true;
 	}
 
+	m_Pick = false;
 	return false;
 }
 bool cBoss::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
 {
 	return false;
+}
+bool cBoss::GetZombiePosition()
+{
+	m_pPosition = m_pOBB->GetPosition();
+	return m_Pick;
+}
+D3DXVECTOR3 cBoss::GetPosition()
+{
+	return m_pPosition;
 }

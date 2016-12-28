@@ -8,6 +8,7 @@
 #define ATTACKDISTANCE 100.f
 
 cGorefast::cGorefast()
+	:m_Pick(false)
 {
 }
 
@@ -64,6 +65,7 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 	{
 		if (m_vecSkinnedMesh[i].eMotion == DIE)
 		{
+			m_Pick = false;
 			m_vecSkinnedMesh[i].vPosition.y -= 1.f;
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
@@ -126,6 +128,7 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 
 				m_vecSkinnedMesh[i].nHealth -= damage;
 				if (ePlayerGun != SHOT) *Shot = false;
+				
 			}
 			//¹üÀ§?
 			D3DXVECTOR3 v = m_vecSkinnedMesh[i].vPosition - vDest;
@@ -222,8 +225,10 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			{
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
+				m_Pick = true;
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 				{
+					m_Pick = false;
 					m_vecSkinnedMesh[i].eMotion = IDLE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -233,8 +238,10 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			{
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
+				m_Pick = true;
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
 				{
+					m_Pick = false;
 					m_vecSkinnedMesh[i].eMotion = IDLE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
 					m_vecSkinnedMesh[i].fElapsedTime = 0.f;
@@ -315,15 +322,28 @@ void cGorefast::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 
 bool cGorefast::PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex)
 {
-	if (m_pOBB->GetFaceBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
+	if (m_pOBB->GetMonsterBoxIntersect(&m_vecSkinnedMesh[nZombieIndex].OBBBox, vPlayerPos, vPlayerDir, &m_vecSkinnedMesh[nZombieIndex].matWTM))
 	{
+		
 		return true;
 	}
-
+	m_Pick = false;
 	return false;
 }
 
 bool cGorefast::PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monLocation)
 {
 	return false;
+}
+
+bool cGorefast::GetZombiePosition()
+{
+	m_pPosition = m_pOBB->GetPosition();
+	return m_Pick;
+}
+
+
+D3DXVECTOR3 cGorefast::GetPosition()
+{
+	return m_pPosition;
 }
