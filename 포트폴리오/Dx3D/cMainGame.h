@@ -23,6 +23,8 @@ class cScene;
 
 class cEffect;
 
+class cSoundSetting;
+
 class cMainGame
 {
 private:
@@ -35,6 +37,8 @@ private:
 	iMap*						m_pMap;
 	//=========================================
 	cSky*						m_pSky;
+	//=========================================
+	//cSoundSetting				m_SoundSetting;
 	//=========================================
 	cMapXfile*					m_pObj;
 	std::vector<ST_SPHERE>		m_vecSphere;

@@ -19,6 +19,7 @@
 #include "cEnemyManager.h"
 #include "cSky.h"
 #include "cUI.h"
+#include "cSoundSetting.h"
 #include "cScene.h"
 
 #define RADIUS 3.f
@@ -101,6 +102,9 @@ cMainGame::~cMainGame(void)
 void cMainGame::Setup()
 {
 	g_pSoundManager->init();
+
+	cSoundSetting m_SoundSetting;
+	m_SoundSetting.Setup();
 	
 	m_pFrustum = new cFrustum;
 
@@ -203,7 +207,7 @@ void cMainGame::Setup()
 
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
 
-	g_pSoundManager->addSound("사운드테스트", "Sound/z1l1.mp3", true, true);
+	//g_pSoundManager->addSound("사운드테스트", "Sound/z1l1.mp3", true, true);
 }
 
 void cMainGame::Update()
@@ -374,6 +378,8 @@ void cMainGame::Update()
 		}
 
 
+	if (!g_pSoundManager->isPlaySound("테스트"))
+		g_pSoundManager->play("테스트", 0.5f);
 		if (g_pKeyManager->isOnceKeyUp('F'))
 		{
 			m_pBulletCollision->Settest(true);

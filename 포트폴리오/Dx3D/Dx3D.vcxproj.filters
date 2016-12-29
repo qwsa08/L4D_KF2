@@ -109,6 +109,7 @@
     </ClCompile>
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cSoundSetting.cpp" />
     <ClCompile Include="cUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -245,6 +246,7 @@
     </ClInclude>
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cSoundSetting.h" />
     <ClInclude Include="cUI.h">
       <Filter>UI</Filter>
     </ClInclude>
