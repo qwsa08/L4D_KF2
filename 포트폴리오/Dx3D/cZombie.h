@@ -16,6 +16,8 @@ enum ZOMBIE_MOTION
 	ATTACK_LEAP,
 	ATTACK_CHARGE,
 	ATTACK_GUN,
+	ATTACK_GUN_BLINDLY,
+	ATTACK_GUN_RELOAD,
 	BOSS_HEAL,
 	ENTRANCE,
 	VICTORY,
@@ -60,13 +62,14 @@ protected:
 	RECT				m_Rect;
 	bool				m_Blood;
 	float				m_fBloodTime;
+	SYNTHESIZE(bool, m_isDead, IsDead);
 
 public:
 	cZombie();
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun) = 0;
+	virtual bool UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun) = 0;
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
 	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex) = 0;

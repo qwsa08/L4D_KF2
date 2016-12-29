@@ -38,6 +38,7 @@ void cGorefast::Setup()
 	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.3f,
 		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.4f , stZombie.OBBBox);
 	stZombie.eMotion = IDLE;
+	stZombie.nHealth = 50;
 	stZombie.fSpeed = 3.f;
 	m_vecSkinnedMesh.push_back(stZombie);
 	//2
@@ -53,7 +54,7 @@ void cGorefast::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	cZombie::AttackBlood();
 
@@ -66,7 +67,7 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 		if (m_vecSkinnedMesh[i].eMotion == DIE)
 		{
 			m_Pick = false;
-			m_vecSkinnedMesh[i].vPosition.y -= 1.f;
+			m_vecSkinnedMesh[i].vPosition.y -= 2.f;
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
 			if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
@@ -77,7 +78,7 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 		}
 		else
 		{
-			if (m_vecSkinnedMesh[i].nHealth < 0)
+			if (m_vecSkinnedMesh[i].nHealth <= 0)
 			{
 				m_vecSkinnedMesh[i].eMotion = DIE;
 				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
@@ -316,6 +317,8 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
 		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
+
+	return false;
 }
 
 void cGorefast::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)

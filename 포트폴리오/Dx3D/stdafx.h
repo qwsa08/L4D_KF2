@@ -214,7 +214,13 @@ enum Gun_Damage
 	H_POWER = 100
 };
 
-
+struct ST_SIZE
+{
+	float fWidth;
+	float fHeight;
+	ST_SIZE() : fWidth(0.0f), fHeight(0.0f) {}
+	ST_SIZE(float w, float h) : fWidth(w), fHeight(h) {}
+};
 
 #include "cDeviceManager.h"
 #include "cTimeManager.h"
@@ -228,4 +234,5 @@ enum Gun_Damage
 #include "dinput.h"
 #include "cInput.h"
 #include "soundManager.h"
+#include "cUIObject.h"
 

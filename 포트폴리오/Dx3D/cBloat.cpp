@@ -81,7 +81,7 @@ void cBloat::Setup()
 	D3DXCreateSprite(g_pD3DDevice, &m_pSpriteP);
 }
 
-void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	cZombie::AttackBlood();
 
@@ -135,7 +135,7 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 		}
 		else
 		{
-			if (m_vecSkinnedMesh[i].nHealth < 0)
+			if (m_vecSkinnedMesh[i].nHealth <= 0)
 			{
 				m_vecSkinnedMesh[i].eMotion = DIE;
 				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
@@ -393,6 +393,8 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
 		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
+
+	return false;
 }
 
 void cBloat::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)

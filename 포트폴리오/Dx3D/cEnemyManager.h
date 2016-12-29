@@ -18,12 +18,15 @@ private:
 	bool		OnOff;
 	D3DXVECTOR3				m_vTemp;
 	std::vector<D3DXVECTOR3> m_vMonPosition;
+
+	SYNTHESIZE(bool, m_isBossDead, IsBossDead);
+
 public:
 	cEnemyManager();
 	~cEnemyManager();
 
 	void Setup();
-	void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun);
+	bool UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun);
 	
 	void RenderEffect(D3DXMATRIX* Rotation);
 	bool PickTheMonster(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir);

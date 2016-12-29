@@ -9,6 +9,7 @@ cZombie::cZombie()
 	, m_pSprite(NULL)
 	, m_Blood(false)
 	, m_fBloodTime(0.f)
+	, m_isDead(false)
 {
 }
 
@@ -61,7 +62,7 @@ void cZombie::AttackBlood()
 			D3DXMATRIXA16 matS, matW;
 			D3DXMatrixIdentity(&matW);
 			//D3DXMatrixIdentity(&matS);
-			D3DXMatrixScaling(&matS, 1.2f, 1.f, 1.f);
+			D3DXMatrixScaling(&matS, 1.5f, 1.2f, 1.f);
 			matW *= matS;
 			m_pSprite->SetTransform(&matW);
 			g_pD3DDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
@@ -70,7 +71,7 @@ void cZombie::AttackBlood()
 			m_pSprite->Draw(m_pBlood,
 				&m_Rect,
 				&D3DXVECTOR3(0, 0, 0),
-				&D3DXVECTOR3(0, 0, 0),
+				&D3DXVECTOR3(-80, -80, 0),
 				D3DCOLOR_XRGB(255, 255, 255));
 			m_pSprite->End();
 		}

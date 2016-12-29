@@ -19,10 +19,12 @@ class cCrossHead;
 class cEnemyManager;
 class cSky;
 class cUI;
+class cScene;
 
 class cEffect;
 
 class cSoundSetting;
+class cCredit;
 
 class cMainGame
 {
@@ -89,6 +91,11 @@ private:
 	//========================================
 	std::vector<ST_PT_VERTEX>	m_vTexture;
 	D3DXMATRIXA16				matView;
+
+	cScene*						m_pScene;
+	cCredit*					m_pCredit;
+	int							m_nScene;
+
 public:
 	cMainGame(void);
 	~cMainGame(void);

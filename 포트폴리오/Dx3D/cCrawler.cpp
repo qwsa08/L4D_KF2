@@ -37,6 +37,7 @@ void cCrawler::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	stZombie.nHealth = 20;
 	stZombie.fSpeed = 3.f;
 	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
 		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
@@ -56,7 +57,7 @@ void cCrawler::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	cZombie::AttackBlood();
 
@@ -83,7 +84,7 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 		}
 		else
 		{
-			if (m_vecSkinnedMesh[i].nHealth < 0)
+			if (m_vecSkinnedMesh[i].nHealth <= 0)
 			{
 				m_vecSkinnedMesh[i].eMotion = DIE;
 				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
@@ -347,6 +348,8 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
 		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
+
+	return false;
 }
 
 void cCrawler::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)

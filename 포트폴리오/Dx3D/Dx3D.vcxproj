@@ -21,7 +21,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -95,6 +95,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cClot.h" />
     <ClInclude Include="cCrawler.h" />
+    <ClInclude Include="cCredit.h" />
     <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -121,6 +122,7 @@
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPyramid.h" />
     <ClInclude Include="cRay.h" />
+    <ClInclude Include="cScene.h" />
     <ClInclude Include="cShader.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkinnedMeshManager.h" />
@@ -129,6 +131,10 @@
     <ClInclude Include="cTextureManager.h" />
     <ClInclude Include="cTimeManager.h" />
     <ClInclude Include="cUI.h" />
+    <ClInclude Include="cUIButton.h" />
+    <ClInclude Include="cUIImageView.h" />
+    <ClInclude Include="cUIObject.h" />
+    <ClInclude Include="cUITextView.h" />
     <ClInclude Include="cZombie.h" />
     <ClInclude Include="Dx3D.h" />
     <ClInclude Include="iMap.h" />
@@ -150,6 +156,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cClot.cpp" />
     <ClCompile Include="cCrawler.cpp" />
+    <ClCompile Include="cCredit.cpp" />
     <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
@@ -176,6 +183,7 @@
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPyramid.cpp" />
     <ClCompile Include="cRay.cpp" />
+    <ClCompile Include="cScene.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkinnedMeshManager.cpp" />
@@ -184,6 +192,10 @@
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTimeManager.cpp" />
     <ClCompile Include="cUI.cpp" />
+    <ClCompile Include="cUIButton.cpp" />
+    <ClCompile Include="cUIImageView.cpp" />
+    <ClCompile Include="cUIObject.cpp" />
+    <ClCompile Include="cUITextView.cpp" />
     <ClCompile Include="cZombie.cpp" />
     <ClCompile Include="Dx3D.cpp" />
     <ClCompile Include="iMap.cpp" />

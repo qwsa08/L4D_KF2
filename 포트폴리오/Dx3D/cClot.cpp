@@ -37,6 +37,7 @@ void cClot::Setup()
 	stZombie.vDirection.y = 0;
 	D3DXVec3Normalize(&stZombie.vDirection, &stZombie.vDirection);
 	stZombie.eMotion = IDLE;
+	stZombie.nHealth = 30;
 	stZombie.fSpeed = 3.f;
 	m_pOBB->SetupOBJ(stZombie.pSkinnedMesh->GetBoundingBox()->_min*0.5f,
 		stZombie.pSkinnedMesh->GetBoundingBox()->_max*0.5f, stZombie.OBBBox);
@@ -175,7 +176,7 @@ void cClot::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	cZombie::AttackBlood();
 
@@ -199,7 +200,7 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		}
 		else
 		{
-			if (m_vecSkinnedMesh[i].nHealth < 0)
+			if (m_vecSkinnedMesh[i].nHealth <= 0)
 			{
 				m_vecSkinnedMesh[i].eMotion = DIE;
 				m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
@@ -328,39 +329,42 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 
 					StepSoundOff(i);
 				}
-				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
+				else
+				{
+					std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
-				if (vecRoute.size() < 3)
-				{
-					D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vDest));
-					m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-				}
-				else if (vecRoute.size() < 6)
-				{
-					if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
+					if (vecRoute.size() < 3)
 					{
-						D3DXVECTOR3 vNode0 = vecRoute[0] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode0));
+						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vDest));
 						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
-
-						float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vNode0), &(m_vecSkinnedMesh[i].vPrevPosition - vNode0));
-						if (l <= 0)
+					}
+					else if (vecRoute.size() < 6)
+					{
+						if (m_vecSkinnedMesh[i].vPrevPosition != vecRoute[0])
 						{
-							m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
+							D3DXVECTOR3 vNode0 = vecRoute[0] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
+							D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode0));
+							m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+
+							float l = D3DXVec3Dot(&(m_vecSkinnedMesh[i].vPosition - vNode0), &(m_vecSkinnedMesh[i].vPrevPosition - vNode0));
+							if (l <= 0)
+							{
+								m_vecSkinnedMesh[i].vPrevPosition = vecRoute[0];
+							}
+						}
+						else
+						{
+							D3DXVECTOR3 vNode1 = vecRoute[1] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
+							D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode1));
+							m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
 						}
 					}
 					else
 					{
-						D3DXVECTOR3 vNode1 = vecRoute[1] - CLOTHEIGHT - D3DXVECTOR3(rand() % 21 - 10, 0, rand() % 21 - 10);
-						D3DXVec3Normalize(&m_vecSkinnedMesh[i].vDirection, &(m_vecSkinnedMesh[i].vPosition - vNode1));
-						m_vecSkinnedMesh[i].vPosition -= m_vecSkinnedMesh[i].vDirection * m_vecSkinnedMesh[i].fSpeed;
+						m_vecSkinnedMesh[i].isRecognize = false;
+						m_vecSkinnedMesh[i].eMotion = IDLE;
 					}
-				}
-				else
-				{
-					m_vecSkinnedMesh[i].isRecognize = false;
-					m_vecSkinnedMesh[i].eMotion = IDLE;
-				}
+				}				
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
 			{
@@ -439,6 +443,8 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
 		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
+
+	return false;
 }
 
 void cClot::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)

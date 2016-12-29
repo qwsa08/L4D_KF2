@@ -3,6 +3,7 @@
 #include "cSkinnedMesh.h"
 #include "cOBB.h"
 #include "cCrossHead.h"
+#include "cBoss.h"
 
 cPlayer::cPlayer()
 	:m_pPlayer(NULL)
@@ -134,7 +135,7 @@ void cPlayer::SetAni(int num)
 void cPlayer::Render()
 {
 	m_pPlayer->Render(&m_Position);
-	m_pOBB->DebugRender(&m_pPlayerBox,D3DCOLOR_XRGB(255, 0, 255));
+	m_pOBB->DebugRender(&m_pPlayerBox, D3DCOLOR_XRGB(255, 0, 255));
 }
 void cPlayer::Blood()
 {
