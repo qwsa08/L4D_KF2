@@ -212,8 +212,9 @@ enum Gun_Damage
 	K_DAMAGE = 5,
 	S_DAMAGE = 10,
 	H_POWER = 100
-
 };
+
+
 
 #include "cDeviceManager.h"
 #include "cTimeManager.h"

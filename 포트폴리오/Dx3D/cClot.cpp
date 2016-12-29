@@ -261,6 +261,15 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 				{
 					if (m_vecSkinnedMesh[i].isRecognize == false)
 					{
+						if (fDistance < 800.f)
+						{
+							IdleSoundOn(i);
+						}
+						else
+						{
+							IdleSoundOff(i);
+						}
+
 						if (fDistance < 500.f)
 						{
 							//½Ã¾ß
@@ -288,6 +297,8 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 							{
 								m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 								m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff(i);
 							}
 						}
 					}
@@ -295,19 +306,27 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 					{
 						m_vecSkinnedMesh[i].eMotion = MOVE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+						IdleSoundOff(i);
 					}
 				}
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == MOVE)
 			{
+				StepSoundOn(i);
+
 				if ((*vPlayerPos).y > 0)
 				{
 					m_vecSkinnedMesh[i].eMotion = IDLE;
+
+					StepSoundOff(i);
 				}
 				if (fDistance < ATTACKDISTANCE)
 				{
 					m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+					StepSoundOff(i);
 				}
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
@@ -371,6 +390,9 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
 			{
+				if (!g_pSoundManager->isPlaySound("Clot_Attack"))
+					g_pSoundManager->play("Clot_Attack", 0.1f);
+
 				if (fDistance < ATTACKDISTANCE)
 				{
 					m_Blood = true;
@@ -386,6 +408,9 @@ void cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == DIE)
 			{
+				if (!g_pSoundManager->isPlaySound("Clot_Death"))
+					g_pSoundManager->play("Clot_Death", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
@@ -475,4 +500,300 @@ bool cClot::GetZombiePosition()
 D3DXVECTOR3 cClot::GetPosition()
 {
 	return m_pPosition;
+}
+
+void cClot::IdleSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle1"))
+			g_pSoundManager->play("Clot_Idle1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle2"))
+			g_pSoundManager->play("Clot_Idle2", 0.03f);
+	}
+	else if (n == 2)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle3"))
+			g_pSoundManager->play("Clot_Idle3", 0.03f);
+	}
+
+	else if (n == 3)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle4"))
+			g_pSoundManager->play("Clot_Idle4", 0.03f);
+	}
+
+	else if (n == 4)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle5"))
+			g_pSoundManager->play("Clot_Idle5", 0.03f);
+	}
+
+	else if (n == 5)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle6"))
+			g_pSoundManager->play("Clot_Idle6", 0.03f);
+	}
+
+	else if (n == 6)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle7"))
+			g_pSoundManager->play("Clot_Idle7", 0.03f);
+	}
+
+	else if (n == 7)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle8"))
+			g_pSoundManager->play("Clot_Idle8", 0.03f);
+	}
+
+	else if (n == 8)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle9"))
+			g_pSoundManager->play("Clot_Idle9", 0.03f);
+	}
+
+	else if (n == 9)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle10"))
+			g_pSoundManager->play("Clot_Idle10", 0.03f);
+	}
+
+	else if (n == 10)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle11"))
+			g_pSoundManager->play("Clot_Idle11", 0.03f);
+	}
+
+	else if (n == 11)
+	{
+		if (!g_pSoundManager->isPlaySound("Clot_Idle12"))
+			g_pSoundManager->play("Clot_Idle12", 0.03f);
+	}
+}
+
+void cClot::IdleSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle1"))
+			g_pSoundManager->stop("Clot_Idle1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle2"))
+			g_pSoundManager->stop("Clot_Idle2");
+	}
+	else if (n == 2)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle3"))
+			g_pSoundManager->stop("Clot_Idle3");
+	}
+
+	else if (n == 3)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle4"))
+			g_pSoundManager->stop("Clot_Idle4");
+	}
+
+	else if (n == 4)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle5"))
+			g_pSoundManager->stop("Clot_Idle5");
+	}
+
+	else if (n == 5)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle6"))
+			g_pSoundManager->stop("Clot_Idle6");
+	}
+
+	else if (n == 6)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle7"))
+			g_pSoundManager->stop("Clot_Idle7");
+	}
+
+	else if (n == 7)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle8"))
+			g_pSoundManager->stop("Clot_Idle8");
+	}
+
+	else if (n == 8)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle9"))
+			g_pSoundManager->stop("Clot_Idle9");
+	}
+
+	else if (n == 9)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle10"))
+			g_pSoundManager->stop("Clot_Idle10");
+	}
+
+	else if (n == 10)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle11"))
+			g_pSoundManager->stop("Clot_Idle11");
+	}
+
+	else if (n == 11)
+	{
+		if (g_pSoundManager->isPlaySound("Clot_Idle12"))
+			g_pSoundManager->stop("Clot_Idle12");
+	}
+}
+
+void cClot::StepSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->play("Zombie_Step1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->play("Zombie_Step2", 0.03f);
+	}
+	else if (n == 2)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step3"))
+			g_pSoundManager->play("Zombie_Step3", 0.03f);
+	}
+
+	else if (n == 3)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step4"))
+			g_pSoundManager->play("Zombie_Step4", 0.03f);
+	}
+
+	else if (n == 4)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step5"))
+			g_pSoundManager->play("Zombie_Step5", 0.03f);
+	}
+
+	else if (n == 5)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step6"))
+			g_pSoundManager->play("Zombie_Step6", 0.03f);
+	}
+
+	else if (n == 6)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step7"))
+			g_pSoundManager->play("Zombie_Step7", 0.03f);
+	}
+
+	else if (n == 7)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step8"))
+			g_pSoundManager->play("Zombie_Step8", 0.03f);
+	}
+
+	else if (n == 8)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step9"))
+			g_pSoundManager->play("Zombie_Step9", 0.03f);
+	}
+
+	else if (n == 9)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step10"))
+			g_pSoundManager->play("Zombie_Step10", 0.03f);
+	}
+
+	else if (n == 10)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step11"))
+			g_pSoundManager->play("Zombie_Step11", 0.03f);
+	}
+
+	else if (n == 11)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step12"))
+			g_pSoundManager->play("Zombie_Step12", 0.03f);
+	}
+}
+
+void cClot::StepSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->stop("Zombie_Step1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->stop("Zombie_Step2");
+	}
+	else if (n == 2)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step3"))
+			g_pSoundManager->stop("Zombie_Step3");
+	}
+
+	else if (n == 3)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step4"))
+			g_pSoundManager->stop("Zombie_Step4");
+	}
+
+	else if (n == 4)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step5"))
+			g_pSoundManager->stop("Zombie_Step5");
+	}
+
+	else if (n == 5)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step6"))
+			g_pSoundManager->stop("Zombie_Step6");
+	}
+
+	else if (n == 6)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step7"))
+			g_pSoundManager->stop("Zombie_Step7");
+	}
+
+	else if (n == 7)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step8"))
+			g_pSoundManager->stop("Zombie_Step8");
+	}
+
+	else if (n == 8)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step9"))
+			g_pSoundManager->stop("Zombie_Step9");
+	}
+
+	else if (n == 9)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step10"))
+			g_pSoundManager->stop("Zombie_Step10");
+	}
+
+	else if (n == 10)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step11"))
+			g_pSoundManager->stop("Zombie_Step11");
+	}
+
+	else if (n == 11)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step12"))
+			g_pSoundManager->stop("Zombie_Step12");
+	}
 }

@@ -18,5 +18,11 @@ public:
 	virtual bool PickThePlayer(ST_OBB* sPlayer, OUT D3DXVECTOR3& monDirection);
 	virtual bool GetZombiePosition();
 	virtual D3DXVECTOR3 GetPosition();
+
+	void IdleSoundOn();
+	void IdleSoundOff();
+
+	void StepSoundOn();
+	void StepSoundOff();
 };
 

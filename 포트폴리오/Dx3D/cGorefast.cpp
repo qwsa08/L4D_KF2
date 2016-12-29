@@ -141,6 +141,15 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 				{
 					if (m_vecSkinnedMesh[i].isRecognize == false)
 					{
+						if (fDistance < 800.f)
+						{
+							IdleSoundOn(i);
+						}
+						else
+						{
+							IdleSoundOff(i);
+						}
+
 						if (fDistance < 500.f)
 						{
 							//½Ã¾ß
@@ -168,6 +177,8 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 							{
 								m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 								m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff(i);
 							}
 						}
 					}
@@ -175,19 +186,27 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 					{
 						m_vecSkinnedMesh[i].eMotion = MOVE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+						IdleSoundOff(i);
 					}
 				}
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == MOVE)
 			{
+				StepSoundOn(i);
+
 				if ((*vPlayerPos).y > 0)
 				{
 					m_vecSkinnedMesh[i].eMotion = IDLE;
+
+					StepSoundOff(i);
 				}
 				if (fDistance < 100.f)
 				{
 					m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+					StepSoundOff(i);
 				}
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
@@ -249,6 +268,9 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
 			{
+				if (!g_pSoundManager->isPlaySound("Gorefast_Attack"))
+					g_pSoundManager->play("Gorefast_Attack", 0.1f);
+
 				if (fDistance < ATTACKDISTANCE)
 					m_Blood = true;
 
@@ -263,6 +285,9 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == DIE)
 			{
+				if (!g_pSoundManager->isPlaySound("Gorefast_Death"))
+					g_pSoundManager->play("Gorefast_Death", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
@@ -346,4 +371,64 @@ bool cGorefast::GetZombiePosition()
 D3DXVECTOR3 cGorefast::GetPosition()
 {
 	return m_pPosition;
+}
+
+void cGorefast::IdleSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Gorefast_Idle1"))
+			g_pSoundManager->play("Gorefast_Idle1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Gorefast_Idle2"))
+			g_pSoundManager->play("Gorefast_Idle2", 0.03f);
+	}
+}
+
+void cGorefast::IdleSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Gorefast_Idle1"))
+			g_pSoundManager->stop("Gorefast_Idle1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Gorefast_Idle2"))
+			g_pSoundManager->stop("Gorefast_Idle2");
+	}
+}
+
+void cGorefast::StepSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->play("Zombie_Step1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->play("Zombie_Step2", 0.03f);
+	}
+}
+
+void cGorefast::StepSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->stop("Zombie_Step1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->stop("Zombie_Step2");
+	}
 }

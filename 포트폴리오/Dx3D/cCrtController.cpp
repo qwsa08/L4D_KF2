@@ -89,35 +89,61 @@ void cCrtController::Update(iMap* pMap, D3DXVECTOR3* monLocation)
 	if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('A'))
 	{
 		if(!crushPront) vPosition = m_vPosition + (r * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('A'))
 	{
 		if (!crushBack) vPosition = m_vPosition - (l * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('D'))
 	{
 		if (!crushPront) vPosition = m_vPosition + (l * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('D'))
 	{
 		if (!crushBack) vPosition = m_vPosition - (r * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (GetKeyState('W') & 0x8000)
 	{
 		if (!crushPront) vPosition = m_vPosition + (m_vDirection * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (GetKeyState('S') & 0x8000)
 	{
 		if (!crushBack) vPosition = m_vPosition - (m_vDirection * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if (GetKeyState('A') & 0x8000)
 	{
 		if (!crushLeft) vPosition = m_vPosition - (v * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
 	else if(GetKeyState('D') & 0x8000)
 	{
 		if (!crushRight) vPosition = m_vPosition + (v * m_fSpeed);
+
+		if (!g_pSoundManager->isPlaySound("Player_Step"))
+			g_pSoundManager->play("Player_Step", 0.1f);
 	}
+	else
+		g_pSoundManager->stop("Player_Step");
 	
 	if (pMap)
 	{

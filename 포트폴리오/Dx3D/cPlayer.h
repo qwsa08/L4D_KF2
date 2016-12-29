@@ -31,6 +31,11 @@ private:
 	bool						m_bZoomIn;
 	bool						m_bZoomOut;
 	SYNTHESIZE(GUN_NAME, m_eGunName, PlayerGun);
+
+	//Reload Sound Time==========
+	float						m_ReloadTime;
+	bool						m_isReload;
+
 public:
 	cPlayer();
 	~cPlayer();
@@ -40,6 +45,10 @@ public:
 	void Render();
 	void Blood();
 	void SetAni(int num);
+
+	void WeaponSelect();
+	void ReloadButton();
+	void ZoomIn();
 
 	bool GetZoomIn() { return m_bZoomIn; }
 	ST_OBB* GetPlayerBox() { return &m_pPlayerBox; }

@@ -112,6 +112,15 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		{
 			if ((*vPlayerPos).y < 0)
 			{
+				if (fDistance < 1200.f)
+				{
+					IdleSoundOn();
+				}
+				else
+				{
+					IdleSoundOff();
+				}
+
 				if (fDistance < 1000.f)
 				{
 					//½Ã¾ß
@@ -126,11 +135,15 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 								m_stBoss.isRecognize = true;
 								m_stBoss.eMotion = ENTRANCE;
 								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff();
 							}
 							else
 							{
 								m_stBoss.eMotion = MOVE;
 								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff();
 							}
 						}
 						else
@@ -147,6 +160,8 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 					{
 						m_stBoss.eMotion = ATTACK_MELEE;
 						m_stBoss.pSkinnedMesh->ResetTrackPosition();
+
+						IdleSoundOff();
 					}
 				}
 			}
@@ -155,6 +170,7 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 		{
 			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
 			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(14);
+
 			if (m_stBoss.fElapsedTime > fActionTime)
 			{
 				m_stBoss.eMotion = ATTACK_CHARGE;
@@ -168,6 +184,8 @@ void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			if ((*vPlayerPos).y > 0)
 			{
 				m_stBoss.eMotion = IDLE;
+
+				IdleSoundOff();
 			}
 			if (fDistance < 100.f)
 			{
@@ -338,4 +356,28 @@ bool cBoss::GetZombiePosition()
 D3DXVECTOR3 cBoss::GetPosition()
 {
 	return m_pPosition;
+}
+
+void cBoss::IdleSoundOn()
+{
+	if (!g_pSoundManager->isPlaySound("BOSS_Idle"))
+		g_pSoundManager->play("BOSS_Idle", 0.03f);
+}
+
+void cBoss::IdleSoundOff()
+{
+	if (g_pSoundManager->isPlaySound("BOSS_Idle"))
+		g_pSoundManager->stop("BOSS_Idle");
+}
+
+void cBoss::StepSoundOn()
+{
+	if (!g_pSoundManager->isPlaySound("Boss_Step"))
+		g_pSoundManager->play("Boss_Step", 0.03f);
+}
+
+void cBoss::StepSoundOff()
+{
+	if (g_pSoundManager->isPlaySound("Boss_Step"))
+		g_pSoundManager->stop("Boss_Step");
 }

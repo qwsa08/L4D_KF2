@@ -3,6 +3,7 @@
 #include "cSkinnedMesh.h"
 #include "cOBB.h"
 #include "cCrossHead.h"
+
 cPlayer::cPlayer()
 	:m_pPlayer(NULL)
 	, m_pOBB(NULL)
@@ -11,6 +12,7 @@ cPlayer::cPlayer()
 	, m_timer(0.6f)
 	, m_bZoomIn(false)
 	, m_bZoomOut(false)
+	, m_isReload(false)
 {
 	D3DXMatrixIdentity(&m_Position);
 	D3DXMatrixIdentity(&m_matT);
@@ -92,6 +94,8 @@ void cPlayer::SetUp()
 }
 void cPlayer::Update(D3DXMATRIXA16* pmat)
 {
+	if (!g_pSoundManager->isPlaySound("Player_Breath"))
+		g_pSoundManager->play("Player_Breath", 0.02f);
 
 	D3DXMATRIXA16 matS, matR, matT;
 	/*D3DXMatrixIdentity(&matS);
@@ -111,69 +115,13 @@ void cPlayer::Update(D3DXMATRIXA16* pmat)
 	m_pPlayer->Update(&m_Position, 0);
 	m_pOBB->Update(&m_Position, m_pPlayerBox);
 	
-	
-	if (g_pKeyManager->isOnceKeyDown('0'))
-	{
-		m_eGunName = HANDGUN;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetNomalAnimationIndex(0);
-	}
-	if (g_pKeyManager->isOnceKeyDown('1'))
-	{
-		m_eGunName = BUSTER;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetNomalAnimationIndex(0);
-	}
-	if (g_pKeyManager->isOnceKeyDown('2'))
-	{
-		m_eGunName = KNIFE;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetNomalAnimationIndex(0);
-	}
-	if (g_pKeyManager->isOnceKeyDown('3'))
-	{
-		m_eGunName = SHOT;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetNomalAnimationIndex(0);
-	}
-	if (g_pKeyManager->isOnceKeyDown('4'))
-	{
-		m_eGunName = HEAL;
-		m_pPlayer->AnimationReset();
-		m_pPlayer->SetNomalAnimationIndex(0);
-	}
-	m_pPlayer->SetGunName(m_eGunName);
-	if (g_pKeyManager->isOnceKeyDown('R'))
-	{
-		Reload();
-	}
-	if (m_eGunName == BUSTER)
-	{
-		if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
-		{
-			m_timer = 0.f;
-			m_bZoomIn = !m_bZoomIn;
-		}
-	}
+	WeaponSelect();
 
-	if (m_bZoomIn)
-	{
-		if (m_matT._42 < 0.85)
-		{
-			m_matT._41 -= 0.1;
-			m_matT._42 += 0.03;
-			m_matT._43 -= 0.2;
-		}
-	}
-	else
-	{
-		if (m_matT._42 >-0.15)
-		{
-			m_matT._41 += 0.1;
-			m_matT._42 -= 0.03;
-			m_matT._43 += 0.2;
-		}
-	}
+	m_pPlayer->SetGunName(m_eGunName);
+
+	ReloadButton();
+
+	ZoomIn();
 	
 	m_pPlayer = m_pGun[m_eGunName];
 }
@@ -221,6 +169,8 @@ void cPlayer::fireBullet()
 
 void cPlayer::Reload()
 {
+	m_isReload = true;
+
 	if (m_eGunName == HANDGUN || m_eGunName == BUSTER || m_eGunName == SHOT)
 	{
 		m_bZoomIn = false;
@@ -237,6 +187,127 @@ void cPlayer::Reload()
 		{
 			m_iGunBulletFull[m_eGunName] = m_iGunBulletFull[m_eGunName] - (m_iCurrentBullet[m_eGunName] - m_iGunBullet[m_eGunName]);
 			m_iGunBullet[m_eGunName] = m_iCurrentBullet[m_eGunName];
+		}
+	}
+}
+
+void cPlayer::WeaponSelect()
+{
+	if (g_pKeyManager->isOnceKeyDown('0'))
+	{
+		m_eGunName = HANDGUN;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
+		g_pSoundManager->play("9mm_Select", 0.2f);
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('1'))
+	{
+		m_eGunName = BUSTER;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
+		g_pSoundManager->play("Bullpup_Select", 0.2f);
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('2'))
+	{
+		m_eGunName = KNIFE;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
+		g_pSoundManager->play("Knife_Select", 0.2f);
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('3'))
+	{
+		m_eGunName = SHOT;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
+		g_pSoundManager->play("Shotgun_Select", 0.2f);
+	}
+
+	if (g_pKeyManager->isOnceKeyDown('4'))
+	{
+		m_eGunName = HEAL;
+		m_pPlayer->AnimationReset();
+		m_pPlayer->SetNomalAnimationIndex(0);
+		g_pSoundManager->play("Heal_Select", 0.2f);
+	}
+}
+
+void cPlayer::ReloadButton()
+{
+	if (g_pKeyManager->isOnceKeyDown('R'))
+	{
+		Reload();
+
+		if (m_eGunName == BUSTER)
+			g_pSoundManager->stop("Bullpup_Reload");
+
+		if (m_eGunName == SHOT)
+			g_pSoundManager->stop("Shotgun_Reload");
+
+		if (m_eGunName == HANDGUN)
+			g_pSoundManager->stop("9mm_Single_Reload");
+	}
+
+	if (m_isReload)
+	{
+		if (m_eGunName == BUSTER)
+		{
+			if (!g_pSoundManager->isPlaySound("Bullpup_Reload"))
+				g_pSoundManager->play("Bullpup_Reload", 0.2f);
+
+			m_isReload = false;
+		}
+
+		else if (m_eGunName == SHOT)
+		{
+			if (!g_pSoundManager->isPlaySound("Shotgun_Reload"))
+				g_pSoundManager->play("Shotgun_Reload", 0.2f);
+
+			m_isReload = false;
+		}
+		
+		else if (m_eGunName == HANDGUN)
+		{
+			if (!g_pSoundManager->isPlaySound("9mm_Single_Reload"))
+				g_pSoundManager->play("9mm_Single_Reload", 0.2f);
+
+			m_isReload = false;
+		}
+	}
+}
+
+void cPlayer::ZoomIn()
+{
+	if (m_eGunName == BUSTER)
+	{
+		if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
+		{
+			m_timer = 0.f;
+			m_bZoomIn = !m_bZoomIn;
+
+			if (!g_pSoundManager->isPlaySound("Bullpup_Aim"))
+				g_pSoundManager->play("Bullpup_Aim", 0.5f);
+		}
+	}
+
+	if (m_bZoomIn)
+	{
+		if (m_matT._42 < 0.85)
+		{
+			m_matT._41 -= 0.1;
+			m_matT._42 += 0.03;
+			m_matT._43 -= 0.2;
+		}
+	}
+	else
+	{
+		if (m_matT._42 >-0.15)
+		{
+			m_matT._41 += 0.1;
+			m_matT._42 -= 0.03;
+			m_matT._43 += 0.2;
 		}
 	}
 }

@@ -68,6 +68,9 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 	{
 		if (m_vecSkinnedMesh[i].eMotion == DIE)
 		{
+			if (!g_pSoundManager->isPlaySound("Crawler_Death"))
+				g_pSoundManager->play("Crawler_Death", 0.1f);
+
 			m_Pick = false;
 			m_vecSkinnedMesh[i].vPosition.y -= 0.5f;
 			m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
@@ -140,6 +143,15 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 				{
 					if (m_vecSkinnedMesh[i].isRecognize == false)
 					{
+						if (fDistance < 800.f)
+						{
+							IdleSoundOn(i);
+						}
+						else
+						{
+							IdleSoundOff(i);
+						}
+
 						if (fDistance < 500.f)
 						{
 							//½Ã¾ß
@@ -167,6 +179,8 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 							{
 								m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 								m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff(i);
 							}
 						}
 					}
@@ -174,10 +188,14 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 					{
 						m_vecSkinnedMesh[i].eMotion = MOVE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+						IdleSoundOff(i);
 					}
 				}
 				else if (m_vecSkinnedMesh[i].eMotion == MOVE)
 				{
+					StepSoundOn(i);
+
 					if (fDistance < ATTACKDISTANCE)
 					{
 						int nActionNum = rand() % 2;
@@ -189,6 +207,8 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 							m_vecSkinnedMesh[i].vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
 						}
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+						StepSoundOff(i);
 					}
 					std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
@@ -220,6 +240,8 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 					{
 						m_vecSkinnedMesh[i].isRecognize = false;
 						m_vecSkinnedMesh[i].eMotion = IDLE;
+
+						StepSoundOff(i);
 					}
 				}
 				else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
@@ -250,6 +272,9 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 				}
 				else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
 				{
+					if (!g_pSoundManager->isPlaySound("Crawler_Attack"))
+						g_pSoundManager->play("Crawler_Attack", 0.1f);
+
 					if (fDistance < ATTACKDISTANCE)
 					{
 						m_Blood = true;
@@ -265,6 +290,9 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 				}
 				else if (m_vecSkinnedMesh[i].eMotion == ATTACK_LEAP)
 				{
+					if (!g_pSoundManager->isPlaySound("Crawler_LeapAttack"))
+						g_pSoundManager->play("Crawler_LeapAttack", 0.1f);
+
 					if (fDistance < ATTACKDISTANCE)
 					{
 						m_Blood = true;
@@ -284,6 +312,9 @@ void cCrawler::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir,
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == DIE)
 			{
+				if (!g_pSoundManager->isPlaySound("Crawler_Death"))
+					g_pSoundManager->play("Crawler_Death", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
@@ -372,4 +403,64 @@ bool cCrawler::GetZombiePosition()
 D3DXVECTOR3 cCrawler::GetPosition()
 {
 	return m_pPosition;
+}
+
+void cCrawler::IdleSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Crawler_Idle1"))
+			g_pSoundManager->play("Crawler_Idle1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Crawler_Idle2"))
+			g_pSoundManager->play("Crawler_Idle2", 0.03f);
+	}
+}
+
+void cCrawler::IdleSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Crawler_Idle1"))
+			g_pSoundManager->stop("Crawler_Idle1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Crawler_Idle2"))
+			g_pSoundManager->stop("Crawler_Idle2");
+	}
+}
+
+void cCrawler::StepSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->play("Zombie_Step1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->play("Zombie_Step2", 0.03f);
+	}
+}
+
+void cCrawler::StepSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->stop("Zombie_Step1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->stop("Zombie_Step2");
+	}
 }

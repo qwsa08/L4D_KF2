@@ -196,6 +196,15 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 				{
 					if (m_vecSkinnedMesh[i].isRecognize == false)
 					{
+						if (fDistance < 1000.f)
+						{
+							IdleSoundOn(i);
+						}
+						else
+						{
+							IdleSoundOff(i);
+						}
+
 						if (fDistance < 800.f)
 						{
 							//½Ã¾ß
@@ -223,6 +232,8 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 							{
 								m_vecSkinnedMesh[i].eMotion = ATTACK_MELEE;
 								m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+								IdleSoundOff(i);
 							}
 						}
 					}
@@ -230,14 +241,20 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 					{
 						m_vecSkinnedMesh[i].eMotion = MOVE;
 						m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+						IdleSoundOff(i);
 					}
 				}
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == MOVE)
 			{
+				StepSoundOn(i);
+
 				if ((*vPlayerPos).y > 0)
 				{
 					m_vecSkinnedMesh[i].eMotion = IDLE;
+
+					StepSoundOff(i);
 				}
 				if (fDistance < ATTACKDISTANCE)
 				{
@@ -247,6 +264,8 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 						m_vecSkinnedMesh[i].eMotion = ATTACK_VOMIT;
 
 					m_vecSkinnedMesh[i].pSkinnedMesh->ResetTrackPosition();
+
+					StepSoundOff(i);
 				}
 				std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_vecSkinnedMesh[i].vPosition, &vDest);
 
@@ -310,6 +329,9 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == ATTACK_MELEE)
 			{
+				if (!g_pSoundManager->isPlaySound("Bloat_Attack"))
+					g_pSoundManager->play("Bloat_Attack", 0.1f);
+
 				if (fDistance < ATTACKDISTANCE)
 				{
 					m_Blood = true;
@@ -325,6 +347,9 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == ATTACK_VOMIT)
 			{
+				if (!g_pSoundManager->isPlaySound("Bloat_AcidSplash"))
+					g_pSoundManager->play("Bloat_AcidSplash", 0.1f);
+
 				m_Vomit = true;
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(2);
@@ -337,6 +362,9 @@ void cBloat::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, b
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == DIE)
 			{
+				if (!g_pSoundManager->isPlaySound("Bloat_Death"))
+					g_pSoundManager->play("Bloat_Death", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(8);
 				if (m_vecSkinnedMesh[i].fElapsedTime > fActionTime)
@@ -419,4 +447,64 @@ bool cBloat::GetZombiePosition()
 D3DXVECTOR3 cBloat::GetPosition()
 {
 	return m_pPosition;
+}
+
+void cBloat::IdleSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Bloat_Idle1"))
+			g_pSoundManager->play("Bloat_Idle1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Bloat_Idle2"))
+			g_pSoundManager->play("Bloat_Idle2", 0.03f);
+	}
+}
+
+void cBloat::IdleSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Bloat_Idle1"))
+			g_pSoundManager->stop("Bloat_Idle1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Bloat_Idle2"))
+			g_pSoundManager->stop("Bloat_Idle2");
+	}
+}
+
+void cBloat::StepSoundOn(int n)
+{
+	if (n == 0)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->play("Zombie_Step1", 0.03f);
+	}
+
+	else if (n == 1)
+	{
+		if (!g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->play("Zombie_Step2", 0.03f);
+	}
+}
+
+void cBloat::StepSoundOff(int n)
+{
+	if (n == 0)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step1"))
+			g_pSoundManager->stop("Zombie_Step1");
+	}
+
+	else if (n == 1)
+	{
+		if (g_pSoundManager->isPlaySound("Zombie_Step2"))
+			g_pSoundManager->stop("Zombie_Step2");
+	}
 }

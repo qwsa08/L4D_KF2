@@ -198,8 +198,6 @@ void cMainGame::Setup()
 	ClipCursor(&m_Clientrc);	//마우스 가두기
 
 	ShowCursor(m_mouseCheck);	//마우스 숨기기
-
-	//g_pSoundManager->addSound("사운드테스트", "Sound/z1l1.mp3", true, true);
 }
 
 void cMainGame::Update()
@@ -270,9 +268,27 @@ void cMainGame::Update()
 
 				if (g_pKeyManager->isOnceKeyDown('E'))
 				{
-					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
-					else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
-					else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
+					if (i == 0)
+					{
+						m_pPlayer->SetPlayerGun(SHOT);
+
+						if (!g_pSoundManager->isPlaySound("Shotgun_Pickup"))
+							g_pSoundManager->play("Shotgun_Pickup", 0.2f);
+					}
+					else if (i == 1)
+					{
+						m_pPlayer->SetPlayerGun(BUSTER);
+
+						if (!g_pSoundManager->isPlaySound("Bullpup_Pickup"))
+							g_pSoundManager->play("Bullpup_Pickup", 0.2f);
+					}
+					else if (i == 2)
+					{
+						m_pPlayer->SetPlayerGun(HEAL);
+
+						if (!g_pSoundManager->isPlaySound("Heal_Pickup"))
+							g_pSoundManager->play("Heal_Pickup", 0.2f);
+					}
 				}
 			}
 
@@ -310,20 +326,25 @@ void cMainGame::Update()
 		{
 			if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
 			{
-
 				//이거 활성화 하면 총알튀듯이 된다.
 				if (!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
 				//timer가 너무많으니 더 추가해주자 !!
 				timer += g_pTimeManager->GetDeltaTime();
 				if (timer >= 0.1f)
 				{
+					if (g_pSoundManager->isPlaySound("Bullpup_Fire"))
+						g_pSoundManager->stop("Bullpup_Fire");
+
+					if (!g_pSoundManager->isPlaySound("Bullpup_Fire"))
+						g_pSoundManager->play("Bullpup_Fire", 0.1f);
+
 					m_pPlayer->SetAni(1);
 					timer = 0.f;
+					m_fire = true;
+					m_AimDown = true;
+					//여기일때만 몬스터 판정 트루
+					m_pPlayer->fireBullet();
 				}
-				m_fire = true;
-				m_AimDown = true;
-				//여기일때만 몬스터 판정 트루
-				m_pPlayer->fireBullet();
 			}
 		}
 	}
@@ -331,6 +352,42 @@ void cMainGame::Update()
 	{
 		if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 		{
+			if (m_pPlayer->GetPlayerGun() == SHOT)
+			{
+				if (g_pSoundManager->isPlaySound("Shotgun_Fire"))
+					g_pSoundManager->stop("Shotgun_Fire");
+
+				if (!g_pSoundManager->isPlaySound("Shotgun_Fire"))
+					g_pSoundManager->play("Shotgun_Fire", 0.1f);
+			}
+
+			else if (m_pPlayer->GetPlayerGun() == HANDGUN)
+			{
+				if (g_pSoundManager->isPlaySound("9mm_Fire"))
+					g_pSoundManager->stop("9mm_Fire");
+
+				if (!g_pSoundManager->isPlaySound("9mm_Fire"))
+					g_pSoundManager->play("9mm_Fire", 0.1f);
+			}
+
+			else if (m_pPlayer->GetPlayerGun() == KNIFE)
+			{
+				if (g_pSoundManager->isPlaySound("Knife_Fire"))
+					g_pSoundManager->stop("Knife_Fire");
+
+				if (!g_pSoundManager->isPlaySound("Knife_Fire"))
+					g_pSoundManager->play("Knife_Fire", 0.1f);
+			}
+
+			else if (m_pPlayer->GetPlayerGun() == HEAL)
+			{
+				if (g_pSoundManager->isPlaySound("Heal_Self"))
+					g_pSoundManager->stop("Heal_Self");
+
+				if (!g_pSoundManager->isPlaySound("Heal_Self"))
+					g_pSoundManager->play("Heal_Self", 0.3f);
+			}
+
 			matView = *m_pCamera->GetViewMatrix();
 			//이거 활성화 하면 총알튀듯이 된다.
 			m_pController->m_fAngleX -= 0.010f;
@@ -381,9 +438,9 @@ void cMainGame::Update()
 
 	m_pBulletCollision->PickCenter(m_pController);
 
-	if (!g_pSoundManager->isPlaySound("테스트"))
-		g_pSoundManager->play("테스트", 0.5f);
-
+	//BGM===============
+	if (!g_pSoundManager->isPlaySound("BGM"))
+		g_pSoundManager->play("BGM", 0.009f);
 
 	g_pAutoReleasePool->Drain();
 }
