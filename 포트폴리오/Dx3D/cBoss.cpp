@@ -129,12 +129,6 @@ bool cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			{
 				if ((*vPlayerPos).y < 0)
 				{
-					if (fDistance < ATTACKDISTANCE)
-					{
-						m_stBoss.eMotion = ATTACK_MELEE;
-						m_stBoss.pSkinnedMesh->ResetTrackPosition();
-					}
-
 					if (m_stBoss.isRecognize == false)
 					{
 						if (fDistance < 1000.f)
@@ -146,25 +140,17 @@ bool cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 								m_stBoss.isRecognize = true;
 								m_stBoss.eMotion = ENTRANCE;
 								m_stBoss.pSkinnedMesh->ResetTrackPosition();
-								//							if (1 - fabs(fFov) < EPSILON)
-								//							{
-								//								m_stBoss.eMotion = ENTRANCE;
-								//								m_stBoss.pSkinnedMesh->ResetTrackPosition();
-								//							}
-								//							else
-								//							{
-								//								D3DXVECTOR3 v0 = m_stBoss.vPosition + fDistance * m_stBoss.vDirection;
-								//								D3DXVECTOR3 v1 = vDest;
-								//								D3DXVECTOR3 vPos(0, 0, 0);
-								//								D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
-								//								D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vPos));
-								//							}
 							}
 						}
 					}
 					else
-					{
-						if (fDistance < 300.f)
+					{						
+						if (fDistance < ATTACKDISTANCE)
+						{
+							m_stBoss.eMotion = ATTACK_MELEE;
+							m_stBoss.pSkinnedMesh->ResetTrackPosition();
+						}
+						else if (fDistance < 300.f)
 						{
 							m_stBoss.eMotion = MOVE;
 							m_stBoss.pSkinnedMesh->ResetTrackPosition();
@@ -172,6 +158,12 @@ bool cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 						else
 						{
 							m_stBoss.eMotion = ATTACK_GUN_BLINDLY;
+						}
+
+						if (m_stBoss.nHealth < 100)
+						{
+							m_stBoss.eMotion = BOSS_HEAL;
+							m_stBoss.pSkinnedMesh->ResetTrackPosition();
 						}
 					}
 				}
@@ -330,6 +322,18 @@ bool cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 					m_stBoss.fElapsedTime = 0.f;
 				}
 			}
+			else if (m_stBoss.eMotion == BOSS_HEAL)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(7);
+				if (m_stBoss.fElapsedTime > 100)
+				{
+					m_stBoss.nHealth += 150;
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
 			else if (m_stBoss.eMotion == VICTORY)
 			{
 				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
@@ -395,6 +399,9 @@ void cBoss::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 		break;
 	case ATTACK_GUN_RELOAD:
 		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(3);
+		break;
+	case BOSS_HEAL:
+		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(7);
 		break;
 	case ENTRANCE:
 		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(14);
