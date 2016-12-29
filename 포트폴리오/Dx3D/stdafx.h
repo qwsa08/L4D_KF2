@@ -196,6 +196,24 @@ enum GUN_BULLET
 	Heal_BULLET = 1
 };
 
+enum PLAYER_MOVE
+{
+	P_NULL,
+	P_PRONT,
+	P_BACK,
+	P_LEFT,
+	P_RIGHT
+};
+
+enum Gun_Damage
+{
+	H_DAMAGE = 10,
+	B_DAMAGE = 15,
+	K_DAMAGE = 5,
+	S_DAMAGE = 10,
+	H_POWER = 100
+
+};
 
 #include "cDeviceManager.h"
 #include "cTimeManager.h"

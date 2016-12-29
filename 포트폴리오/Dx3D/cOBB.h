@@ -1,5 +1,6 @@
 #pragma once
 class cCrtController;
+
 class cOBB
 {
 private:
@@ -12,6 +13,7 @@ private:
 	float		m_fAxisHalfLen[3];
 
 	D3DXMATRIXA16 m_matWorldTM;
+	D3DXVECTOR3 Temp;
 public:
 	cOBB(void);
 	~cOBB(void);
@@ -23,8 +25,9 @@ public:
 	
 
 	bool GetFaceBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir, D3DXMATRIXA16* _World);
-	bool GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir);
+	bool GetMonsterBoxIntersect(ST_OBB* pOBB1, D3DXVECTOR3* PlayerPos, D3DXVECTOR3* PlayerDir, D3DXMATRIXA16* _World);
 	D3DXMATRIXA16 GetWTM() { return m_matWorldTM; }
+	D3DXVECTOR3 GetPosition() { return Temp; }
 	static bool IsCollision(ST_OBB* pOBB1, ST_OBB* pOBB2);
 };
 

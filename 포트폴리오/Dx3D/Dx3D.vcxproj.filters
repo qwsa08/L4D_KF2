@@ -109,6 +109,7 @@
     </ClCompile>
     <ClCompile Include="cUI.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cSoundSetting.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +229,7 @@
     </ClInclude>
     <ClInclude Include="cUI.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="cEffect.h" />
     <ClInclude Include="cSoundSetting.h" />
   </ItemGroup>
   <ItemGroup>

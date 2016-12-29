@@ -52,15 +52,28 @@ protected:
 	cDijkstra*				m_pDijkstra;
 	cOBB*					m_pOBB;
 	cFrustum*				m_pFrustum;
+	
+	
+protected:
+	LPDIRECT3DTEXTURE9	m_pBlood;
+	LPD3DXSPRITE		m_pSprite;
+	RECT				m_Rect;
+	bool				m_Blood;
+	float				m_fBloodTime;
 
 public:
 	cZombie();
 	virtual ~cZombie();
 
 	virtual void Setup() = 0;
-	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool Shot) = 0;
+	virtual void UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun) = 0;
 	virtual void SetDijkstraMemoryLink(cDijkstra* pDijkstra) { m_pDijkstra = pDijkstra; }
 	virtual void SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion) = 0;
 	virtual bool PickTheBullet(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, int nZombieIndex) = 0;
+	virtual bool PickThePlayer(ST_OBB* s_Player, OUT D3DXVECTOR3& monDirection) = 0;
+	virtual bool GetZombiePosition() = 0;
+	virtual D3DXVECTOR3 GetPosition() = 0;
+	virtual void SetBlood();
+	virtual void AttackBlood();
 };
 

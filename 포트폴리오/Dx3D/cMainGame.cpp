@@ -49,6 +49,8 @@ cMainGame::cMainGame(void)
 	, m_pFont(NULL)
 	, OnOff_MOUSE(false)
 	, m_pSky(NULL)
+	, m_AimDown(false)
+	
 {
 }
 
@@ -70,6 +72,7 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_DELETE(m_pUI);
+	
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
@@ -218,13 +221,22 @@ void cMainGame::Update()
 	g_pTimeManager->Update();
 
 	if (m_pController)
-		m_pController->Update(m_pMap);
-
+	{
+		D3DXVECTOR3 monLocation(0,0,0);
+		if (m_pEnemyManager->PickThePlayer(m_pPlayer->GetPlayerBox(), monLocation))
+		{
+			m_pController->Update(m_pMap, &monLocation);
+		}
+		else
+		{
+			m_pController->Update(m_pMap);
+		}
+	}
 	if (m_pPlayer)
 		m_pPlayer->Update(m_pController->GetWorldTM());
 
 	
-	if (!m_fire)
+	if (!m_AimDown)
 	{
 		// false일때 그 높이를 저장받고 풀리면 다시 위치로
 		m_ReboundCamera = m_pController->m_fAngleX;
@@ -309,6 +321,7 @@ void cMainGame::Update()
 					timer = 0.f;
 				}
 				m_fire = true;
+				m_AimDown = true;
 				//여기일때만 몬스터 판정 트루
 				m_pPlayer->fireBullet();
 			}
@@ -323,27 +336,24 @@ void cMainGame::Update()
 			m_pController->m_fAngleX -= 0.010f;
 		
 			m_pPlayer->SetAni(1);
-			m_fire = true;
-
 			if (m_pPlayer->GetPlayerGun() == HANDGUN || m_pPlayer->GetPlayerGun() == SHOT)
 			{
 				if (m_pPlayer->GetBullet() >0)	m_pPlayer->fireBullet();
 				else m_pPlayer->Reload();
 			}
+			m_AimDown = true;
+			m_fire = true;
 		}
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
 	{
 		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
 		m_fire = false;
-	//	m_pPlayer->SetAni(0);
+		//m_pPlayer->SetAni(0);
+		m_AimDown = false;
 		m_pController->m_fAngleX = m_ReboundCamera;
 	}
 	
-	if (g_pKeyManager->isOnceKeyUp('Z'))
-	{
-		m_bBlood = true;
-	}
 	
 	if (g_pKeyManager->isOnceKeyUp('F'))
 	{
@@ -374,6 +384,7 @@ void cMainGame::Update()
 	if (!g_pSoundManager->isPlaySound("테스트"))
 		g_pSoundManager->play("테스트", 0.5f);
 
+
 	g_pAutoReleasePool->Drain();
 }
 
@@ -397,26 +408,15 @@ void cMainGame::Render()
 	
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	if (m_bBlood)
-	{
-		m_fBloodTimer += g_pTimeManager->GetDeltaTime();
-
-		if (m_fBloodTimer < 0.5f)
-		{
-			m_pPlayer->Blood();
-		}
-		else
-		{
-			m_fBloodTimer = 0.f;
-			m_bBlood = false;
-		}
-	}
 	if (m_pPlayer)
 		m_pPlayer->Render();
 
 	
 	if (m_pEnemyManager)
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), m_fire);
+	{
+		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire,m_pPlayer->GetPlayerGun());
+		m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
+	}
 	
 
 	if (m_pMap)
@@ -467,7 +467,6 @@ void cMainGame::Render()
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
-		std::vector<ST_PNT_VERTEX> testMap;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 		m_pObj->Render(
@@ -488,6 +487,7 @@ void cMainGame::Render()
 	char szTemp[64];
 	sprintf(szTemp, "%f %f %f", 
 		m_pController->GetPosition()->x, m_pController->GetPosition()->y, m_pController->GetPosition()->z);
+	
 	SetWindowText(g_hWnd, szTemp);
 
 	g_pD3DDevice->EndScene();

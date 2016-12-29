@@ -99,6 +99,7 @@
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
     <ClInclude Include="cDijkstra.h" />
+    <ClInclude Include="cEffect.h" />
     <ClInclude Include="cEnemyManager.h" />
     <ClInclude Include="cFrustum.h" />
     <ClInclude Include="cGameObject.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
     <ClCompile Include="cDijkstra.cpp" />
+    <ClCompile Include="cEffect.cpp" />
     <ClCompile Include="cEnemyManager.cpp" />
     <ClCompile Include="cFrustum.cpp" />
     <ClCompile Include="cGameObject.cpp" />

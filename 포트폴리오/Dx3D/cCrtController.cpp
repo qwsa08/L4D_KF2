@@ -26,7 +26,7 @@ void cCrtController::Setup()
 	
 }
 
-void cCrtController::Update(iMap* pMap /*= NULL*/)
+void cCrtController::Update(iMap* pMap, D3DXVECTOR3* monLocation)
 {
 	{	 // 마우스 컨트롤?
 		float nDeltaX = (m_ptPrevMouse.x - MOUSE->GetWindowPos().x)/m_fSensitivity;
@@ -48,6 +48,33 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 	matR = matX * matY;
 
 	D3DXVec3TransformNormal(&m_vDirection, &D3DXVECTOR3(0, 0, 1), &matR);
+	
+	bool crushPront = false;
+	bool crushBack = false;
+	bool crushLeft = false;
+	bool crushRight = false;
+
+	if (monLocation)
+	{
+		/*D3DXVECTOR3 vMonLocation; 
+		vMonLocation = *monLocation - vPosition;
+		D3DXVec3Normalize(&vMonLocation, &vMonLocation);*/
+		float crushAngle = D3DXVec3Dot(&m_vDirection, monLocation);
+		D3DXVECTOR3 vMonLocation = (*monLocation - m_vDirection);
+
+		//float LRlenght = D3DXVec3Length(&(*monLocation - m_vDirection));
+		if (crushAngle > 0) crushPront = true;
+		if (crushAngle < 0) crushBack = true;
+		if (vMonLocation.x < 0) crushLeft = true;
+		if (vMonLocation.x > 0) crushRight = true;
+	}
+	else
+	{
+		crushPront = false;
+		crushBack = false;
+		crushLeft = false;
+		crushRight = false;
+	}
 
 	D3DXVECTOR3 v(0, 0, 1);
 	D3DXMatrixRotationY(&mat, D3DX_PI / 2.0f);
@@ -61,35 +88,35 @@ void cCrtController::Update(iMap* pMap /*= NULL*/)
 
 	if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('A'))
 	{
-		vPosition = m_vPosition + (r * m_fSpeed);
+		if(!crushPront) vPosition = m_vPosition + (r * m_fSpeed);
 	}
 	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('A'))
 	{
-		vPosition = m_vPosition - (l * m_fSpeed);
+		if (!crushBack) vPosition = m_vPosition - (l * m_fSpeed);
 	}
 	else if (g_pKeyManager->isStayKeyDown('W') && g_pKeyManager->isStayKeyDown('D'))
 	{
-		vPosition = m_vPosition + (l * m_fSpeed);
+		if (!crushPront) vPosition = m_vPosition + (l * m_fSpeed);
 	}
 	else if (g_pKeyManager->isStayKeyDown('S') && g_pKeyManager->isStayKeyDown('D'))
 	{
-		vPosition = m_vPosition - (r * m_fSpeed);
+		if (!crushBack) vPosition = m_vPosition - (r * m_fSpeed);
 	}
 	else if (GetKeyState('W') & 0x8000)
 	{
-		vPosition = m_vPosition + (m_vDirection * m_fSpeed);
+		if (!crushPront) vPosition = m_vPosition + (m_vDirection * m_fSpeed);
 	}
 	else if (GetKeyState('S') & 0x8000)
 	{
-		vPosition = m_vPosition - (m_vDirection * m_fSpeed);
+		if (!crushBack) vPosition = m_vPosition - (m_vDirection * m_fSpeed);
 	}
 	else if (GetKeyState('A') & 0x8000)
 	{
-		vPosition = m_vPosition - (v * m_fSpeed);
+		if (!crushLeft) vPosition = m_vPosition - (v * m_fSpeed);
 	}
 	else if(GetKeyState('D') & 0x8000)
 	{
-		vPosition = m_vPosition + (v * m_fSpeed);
+		if (!crushRight) vPosition = m_vPosition + (v * m_fSpeed);
 	}
 	
 	if (pMap)

@@ -22,8 +22,10 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture( std::string sPath )
 	{
 		LPDIRECT3DTEXTURE9 pTexture;
 		D3DXIMAGE_INFO	   m_stImageInfo;
-		//D3DXCreateTextureFromFile(g_pD3DDevice, sPath.c_str(), &pTexture);
-		D3DXCreateTextureFromFileEx(
+		D3DXCreateTextureFromFile(g_pD3DDevice, sPath.c_str(), &pTexture);
+		m_mapTexture[sPath] = pTexture;
+		
+		/*D3DXCreateTextureFromFileEx(
 			g_pD3DDevice,
 			sPath.c_str(),
 			D3DX_DEFAULT_NONPOW2,
@@ -38,7 +40,7 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture( std::string sPath )
 			&m_stImageInfo,
 			NULL,
 			&pTexture);
-		m_mapTexture[sPath] = pTexture;
+		m_mapTexture[sPath] = pTexture;*/
 	}
 	return m_mapTexture[sPath];
 }

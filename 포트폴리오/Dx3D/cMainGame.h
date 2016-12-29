@@ -20,6 +20,8 @@ class cEnemyManager;
 class cSky;
 class cUI;
 
+class cEffect;
+
 class cSoundSetting;
 
 class cMainGame
@@ -61,6 +63,7 @@ private:
 	ST_OBB						m_stWall[8];
 	D3DCOLOR					m_cPaint;
 	bool						m_mouseCheck;
+	bool						m_AimDown;
 	bool						m_fire;
 	cCrossHead*					m_pCrossHead;
 
@@ -69,9 +72,10 @@ private:
 	//std::vector<D3DXVECTOR3> temp;
 	//==================
 	cUI*						m_pUI;
+	cEffect*					m_pEffect;
+	bool						m_bBlood;
 	//==================
 	//============테스트중=======================//
-	bool						m_bBlood;
 	float						timer;
 	bool						OnOff_MOUSE;
 	//============ 플레이어 피 + 감도 =========
@@ -79,6 +83,9 @@ private:
 	float						m_fTextTimer;
 	bool						m_bText;
 	LPD3DXFONT					m_pFont;
+	//============몬스터 좌표?===============
+	D3DXVECTOR3					m_pMonlocation;
+	//========================================
 	//========================================
 	std::vector<ST_PT_VERTEX>	m_vTexture;
 	D3DXMATRIXA16				matView;
