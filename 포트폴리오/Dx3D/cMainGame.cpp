@@ -19,6 +19,7 @@
 #include "cEnemyManager.h"
 #include "cSky.h"
 #include "cUI.h"
+#include "cScene.h"
 
 #define RADIUS 3.f
 
@@ -50,6 +51,9 @@ cMainGame::cMainGame(void)
 	, OnOff_MOUSE(false)
 	, m_pSky(NULL)
 	, m_AimDown(false)
+	, m_pScene(NULL)
+	, m_Main(true)
+	, m_Quit(false)
 	
 {
 }
@@ -72,7 +76,7 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pPyramid);
 	SAFE_RELEASE(m_pMap);
 	SAFE_DELETE(m_pUI);
-	
+	SAFE_DELETE(m_pScene);
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
@@ -191,6 +195,9 @@ void cMainGame::Setup()
 	RECT temp = { pos.x, pos.y, pos.x + (m_Clientrc.right - m_Clientrc.left), pos.y + (m_Clientrc.bottom - m_Clientrc.top) };
 	m_Clientrc = temp;
 
+	m_pScene = new cScene;
+	m_pScene->Setup();
+
 	SetCursorPos((m_Clientrc.right - m_Clientrc.left) / 2.f, (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
 	ClipCursor(&m_Clientrc);	//마우스 가두기
 
@@ -203,181 +210,196 @@ void cMainGame::Update()
 {
 	g_pSoundManager->update();
 
-	if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top)/2.f);
-	
-	/*bool Shot = false;
-	if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+	if (m_Main)
 	{
-		if (Shot)	Shot = false;
-		else Shot = true;
-	}*/
-	if (g_pKeyManager->isOnceKeyDown(VK_F2))
-	{
-		OnOff_MOUSE = !OnOff_MOUSE;
-	}
-	g_pTimeManager->Update();
-
-	if (m_pController)
-	{
-		D3DXVECTOR3 monLocation(0,0,0);
-		if (m_pEnemyManager->PickThePlayer(m_pPlayer->GetPlayerBox(), monLocation))
+		int isStart = 0;
+		m_pScene->Update(&isStart);
+		if (isStart == 1)
 		{
-			m_pController->Update(m_pMap, &monLocation);
+			m_Main = false;
 		}
-		else
+		else if (isStart == 2)
 		{
-			m_pController->Update(m_pMap);
-		}
-	}
-	if (m_pPlayer)
-		m_pPlayer->Update(m_pController->GetWorldTM());
-
-	
-	if (!m_AimDown)
-	{
-		// false일때 그 높이를 저장받고 풀리면 다시 위치로
-		m_ReboundCamera = m_pController->m_fAngleX;
-	}
-	if (m_pCamera)
-		m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
-
-	if (m_pFrustum)
-	{
-		if (GetKeyState(VK_SPACE) & 0x8000)
-		{
-			//	m_pFrustum->Update();
-		}
-	}
-
-
-	if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
-	{
-		for (int i = 0; i < 3; i++)
-		{	
-			if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController->GetPosition(), &m_pController->GetDirection(), &m_pObj->GetBBWTM()[i]))
-			{
-				if (i == 0)
-					m_pObj->SetShotgunOutLine(0.3f);
-
-				else if (i == 1)
-					m_pObj->SetBullpupOutLine(0.3f);
-
-				else if (i == 2)
-					m_pObj->SetHealOutLine(0.3f);
-
-				if (g_pKeyManager->isOnceKeyDown('E'))
-				{
-					if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
-					else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
-					else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
-				}
-			}
-
-			else
-			{
-				if (i == 0)
-					m_pObj->SetShotgunOutLine(-0.2f);
-
-				else if (i == 1)
-					m_pObj->SetBullpupOutLine(-0.2f);
-
-				else if (i == 2)
-					m_pObj->SetHealOutLine(-0.2f);
-			}			
-		}
-	}
-	if (g_pKeyManager->isOnceKeyDown(VK_F1))
-	{
-		if (!m_mouseCheck)
-		{
-			m_mouseCheck = true;
-		}
-		else
-		{
-			m_mouseCheck = false;
-		}
-
-		ShowCursor(m_mouseCheck);
-	}
-
-
-	if (m_pPlayer->GetPlayerGun() == BUSTER)
-	{
-		if (m_pPlayer->GetBullet() > 0)
-		{
-			if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
-			{
-
-				//이거 활성화 하면 총알튀듯이 된다.
-				if (!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
-				//timer가 너무많으니 더 추가해주자 !!
-				timer += g_pTimeManager->GetDeltaTime();
-				if (timer >= 0.1f)
-				{
-					m_pPlayer->SetAni(1);
-					timer = 0.f;
-				}
-				m_fire = true;
-				m_AimDown = true;
-				//여기일때만 몬스터 판정 트루
-				m_pPlayer->fireBullet();
-			}
+			m_Quit = true;
 		}
 	}
 	else
 	{
+		if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
+
+		/*bool Shot = false;
 		if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
 		{
-			matView = *m_pCamera->GetViewMatrix();
-			//이거 활성화 하면 총알튀듯이 된다.
-			m_pController->m_fAngleX -= 0.010f;
-		
-			m_pPlayer->SetAni(1);
-			if (m_pPlayer->GetPlayerGun() == HANDGUN || m_pPlayer->GetPlayerGun() == SHOT)
-			{
-				if (m_pPlayer->GetBullet() >0)	m_pPlayer->fireBullet();
-				else m_pPlayer->Reload();
-			}
-			m_AimDown = true;
-			m_fire = true;
+			if (Shot)	Shot = false;
+			else Shot = true;
+		}*/
+		if (g_pKeyManager->isOnceKeyDown(VK_F2))
+		{
+			OnOff_MOUSE = !OnOff_MOUSE;
 		}
-	}
-	if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
-	{
-		//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
-		m_fire = false;
-		//m_pPlayer->SetAni(0);
-		m_AimDown = false;
-		m_pController->m_fAngleX = m_ReboundCamera;
-	}
-	
-	
-	if (g_pKeyManager->isOnceKeyUp('F'))
-	{
-		m_pBulletCollision->Settest(true);
-	}
-	if (g_pKeyManager->isOnceKeyUp('G'))
-	{
-		m_pBulletCollision->Settest(false);
-	}
-	//====감도==================================
-	float temp = m_pController->GetSensitivity();
-	if (g_pKeyManager->isOnceKeyDown(VK_OEM_4))
-	{
-		m_bText = true;
-		if (temp <1.9)
-		temp += 0.05;
-		m_pController->SetSensitivity(temp);
-	}
-	else if (g_pKeyManager->isOnceKeyDown(VK_OEM_6))
-	{
-		m_bText = true;
-		if (temp >0.1)	temp -= 0.05;
-		m_pController->SetSensitivity(temp);
-	}
+		g_pTimeManager->Update();
 
-	m_pBulletCollision->PickCenter(m_pController);
+		if (m_pController)
+		{
+			D3DXVECTOR3 monLocation(0, 0, 0);
+			if (m_pEnemyManager->PickThePlayer(m_pPlayer->GetPlayerBox(), monLocation))
+			{
+				m_pController->Update(m_pMap, &monLocation);
+			}
+			else
+			{
+				m_pController->Update(m_pMap);
+			}
+		}
+		if (m_pPlayer)
+			m_pPlayer->Update(m_pController->GetWorldTM());
 
+
+		if (!m_AimDown)
+		{
+			// false일때 그 높이를 저장받고 풀리면 다시 위치로
+			m_ReboundCamera = m_pController->m_fAngleX;
+		}
+		if (m_pCamera)
+			m_pCamera->Update(m_pController->GetPosition(), &m_pController->GetDirection());
+
+		if (m_pFrustum)
+		{
+			if (GetKeyState(VK_SPACE) & 0x8000)
+			{
+				//	m_pFrustum->Update();
+			}
+		}
+
+
+		if (m_pOBB->IsCollision(m_pPlayer->GetPlayerBox(), &m_pObj->GetBoundingBox()[3]))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				if (m_pOBB->GetFaceBoxIntersect(&m_pObj->GetBoundingBox()[i], m_pController->GetPosition(), &m_pController->GetDirection(), &m_pObj->GetBBWTM()[i]))
+				{
+					if (i == 0)
+						m_pObj->SetShotgunOutLine(0.3f);
+
+					else if (i == 1)
+						m_pObj->SetBullpupOutLine(0.3f);
+
+					else if (i == 2)
+						m_pObj->SetHealOutLine(0.3f);
+
+					if (g_pKeyManager->isOnceKeyDown('E'))
+					{
+						if (i == 0) m_pPlayer->SetPlayerGun(SHOT);
+						else if (i == 1) m_pPlayer->SetPlayerGun(BUSTER);
+						else if (i == 2) m_pPlayer->SetPlayerGun(HEAL);
+					}
+				}
+
+				else
+				{
+					if (i == 0)
+						m_pObj->SetShotgunOutLine(-0.2f);
+
+					else if (i == 1)
+						m_pObj->SetBullpupOutLine(-0.2f);
+
+					else if (i == 2)
+						m_pObj->SetHealOutLine(-0.2f);
+				}
+			}
+		}
+		if (g_pKeyManager->isOnceKeyDown(VK_F1))
+		{
+			if (!m_mouseCheck)
+			{
+				m_mouseCheck = true;
+			}
+			else
+			{
+				m_mouseCheck = false;
+			}
+
+			ShowCursor(m_mouseCheck);
+		}
+
+
+		if (m_pPlayer->GetPlayerGun() == BUSTER)
+		{
+			if (m_pPlayer->GetBullet() > 0)
+			{
+				if (g_pKeyManager->isStayKeyDown(VK_LBUTTON))
+				{
+
+					//이거 활성화 하면 총알튀듯이 된다.
+					if (!m_pPlayer->GetZoomIn())m_pController->m_fAngleX -= 0.005f;
+					//timer가 너무많으니 더 추가해주자 !!
+					timer += g_pTimeManager->GetDeltaTime();
+					if (timer >= 0.1f)
+					{
+						m_pPlayer->SetAni(1);
+						timer = 0.f;
+					}
+					m_fire = true;
+					m_AimDown = true;
+					//여기일때만 몬스터 판정 트루
+					m_pPlayer->fireBullet();
+				}
+			}
+		}
+		else
+		{
+			if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON))
+			{
+				matView = *m_pCamera->GetViewMatrix();
+				//이거 활성화 하면 총알튀듯이 된다.
+				m_pController->m_fAngleX -= 0.010f;
+
+				m_pPlayer->SetAni(1);
+				if (m_pPlayer->GetPlayerGun() == HANDGUN || m_pPlayer->GetPlayerGun() == SHOT)
+				{
+					if (m_pPlayer->GetBullet() > 0)	m_pPlayer->fireBullet();
+					else m_pPlayer->Reload();
+				}
+				m_AimDown = true;
+				m_fire = true;
+			}
+		}
+		if (g_pKeyManager->isOnceKeyUp(VK_LBUTTON))
+		{
+			//이걸 총발사 시간과 연관을 지으면 그럴싸하겠다....
+			m_fire = false;
+			//m_pPlayer->SetAni(0);
+			m_AimDown = false;
+			m_pController->m_fAngleX = m_ReboundCamera;
+		}
+
+
+		if (g_pKeyManager->isOnceKeyUp('F'))
+		{
+			m_pBulletCollision->Settest(true);
+		}
+		if (g_pKeyManager->isOnceKeyUp('G'))
+		{
+			m_pBulletCollision->Settest(false);
+		}
+		//====감도==================================
+		float temp = m_pController->GetSensitivity();
+		if (g_pKeyManager->isOnceKeyDown(VK_OEM_4))
+		{
+			m_bText = true;
+			if (temp < 1.9)
+				temp += 0.05;
+			m_pController->SetSensitivity(temp);
+		}
+		else if (g_pKeyManager->isOnceKeyDown(VK_OEM_6))
+		{
+			m_bText = true;
+			if (temp > 0.1)	temp -= 0.05;
+			m_pController->SetSensitivity(temp);
+		}
+
+		m_pBulletCollision->PickCenter(m_pController);
+	}
 	if (!g_pSoundManager->isPlaySound("사운드테스트"))
 		g_pSoundManager->play("사운드테스트", 0.5f);
 
@@ -397,89 +419,98 @@ void cMainGame::Render()
 	g_pD3DDevice->BeginScene();
 	
 	// 그림을 그린다.
-	m_pGrid->Render();
-	D3DXMATRIXA16 matI, matT ,matS , matPosition;
-	D3DXMatrixIdentity(&matI);
-	D3DXMatrixIdentity(&matT);
-	D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
-	
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-
-	if (m_pPlayer)
-		m_pPlayer->Render();
-
-	
-	if (m_pEnemyManager)
+	if (m_Main)
 	{
-		m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire,m_pPlayer->GetPlayerGun());
-		m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
+		if (m_pScene)
+			m_pScene->Render();
 	}
-	
-
-	if (m_pMap)
+	else
 	{
+		m_pGrid->Render();
+		D3DXMATRIXA16 matI, matT, matS, matPosition;
+		D3DXMatrixIdentity(&matI);
+		D3DXMatrixIdentity(&matT);
+		D3DXMatrixScaling(&matS, 0.3, 0.5, 0.3);
 
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		std::vector<ST_PNT_VERTEX> testMap;
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-		m_pMap->Render(
-			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
-			&D3DXVECTOR4(m_pController->GetDirection(), 1.f),
-			&D3DXVECTOR4(m_pBulletCollision->GetCenterPosition(), 1.f),
-			100.f, &D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
-	}
+		if (m_pPlayer)
+			m_pPlayer->Render();
 
-	if (m_bText)
-	{
-		m_fTextTimer += g_pTimeManager->GetDeltaTime();
-		if (m_fTextTimer < 0.5f)
-		{ 
-			RECT rc;
-			GetClientRect(g_hWnd, &rc);
-			char s[80];
-			float Sensitivity = 20.f - m_pController->GetSensitivity()*10;
-			sprintf_s(s, sizeof(s), "\n\n\n감도 : %0.1f", Sensitivity);
-			std::string temp(s);
-			//temp = s;
-			m_pFont->DrawTextA(NULL, temp.c_str(), temp.length(), &rc,
-				DT_CENTER | DT_VCENTER,
-				D3DCOLOR_XRGB(255, 255, 255));
 
-		}
-		else
+		if (m_pEnemyManager)
 		{
-			m_bText = false;
-			m_fTextTimer = 0.f;
+			m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire, m_pPlayer->GetPlayerGun());
+			m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
 		}
+
+
+		if (m_pMap)
+		{
+
+			D3DXMATRIXA16 matWorld;
+			D3DXMatrixIdentity(&matWorld);
+			std::vector<ST_PNT_VERTEX> testMap;
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pMap->Render(
+				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
+				&D3DXVECTOR4(m_pController->GetDirection(), 1.f),
+				&D3DXVECTOR4(m_pBulletCollision->GetCenterPosition(), 1.f),
+				100.f, &D3DXVECTOR4(*m_pController->GetPosition(), 1.f));
+		}
+
+		if (m_bText)
+		{
+			m_fTextTimer += g_pTimeManager->GetDeltaTime();
+			if (m_fTextTimer < 0.5f)
+			{
+				RECT rc;
+				GetClientRect(g_hWnd, &rc);
+				char s[80];
+				float Sensitivity = 20.f - m_pController->GetSensitivity() * 10;
+				sprintf_s(s, sizeof(s), "\n\n\n감도 : %0.1f", Sensitivity);
+				std::string temp(s);
+				//temp = s;
+				m_pFont->DrawTextA(NULL, temp.c_str(), temp.length(), &rc,
+					DT_CENTER | DT_VCENTER,
+					D3DCOLOR_XRGB(255, 255, 255));
+
+			}
+			else
+			{
+				m_bText = false;
+				m_fTextTimer = 0.f;
+			}
+		}
+
+		if (m_pPlayer->GetPlayerGun() != BUSTER)
+		{
+			m_pCrossHead->Render();
+		}
+
+		if (m_pObj)
+		{
+			D3DXMATRIXA16 matWorld;
+			D3DXMatrixIdentity(&matWorld);
+			g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+			m_pObj->Render(
+				&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
+				&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
+			m_pObj->Render();
+		}
+
+
+		//m_pBulletCollision->Render(m_pMap, m_pController);
+		m_pSky->Render();
+
+		m_pUI->HP_Render();
+		m_pUI->Wepon_Render(m_pPlayer->GetPlayerGun());
+		if (m_pPlayer->GetPlayerGun() != KNIFE)
+			m_pUI->Bullet_Render(m_pPlayer->GetBullet(), m_pPlayer->GetMaxBullet());
 	}
 	
-	if (m_pPlayer->GetPlayerGun() != BUSTER)
-	{
-		m_pCrossHead->Render();
-	}
-
-	if (m_pObj)
-	{
-		D3DXMATRIXA16 matWorld;
-		D3DXMatrixIdentity(&matWorld);
-		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-
-		m_pObj->Render(
-			&D3DXVECTOR4(*m_pController->GetPosition(), 1.f),
-			&D3DXVECTOR4(m_pController->GetDirection(), 1.f));
-		m_pObj->Render();
-	}
-
-	
-	//m_pBulletCollision->Render(m_pMap, m_pController);
-	m_pSky->Render(); 
-	
-	m_pUI->HP_Render();
-	m_pUI->Wepon_Render(m_pPlayer->GetPlayerGun());
-	if (m_pPlayer->GetPlayerGun() != KNIFE)
-		m_pUI->Bullet_Render(m_pPlayer->GetBullet(), m_pPlayer->GetMaxBullet());
 
 	char szTemp[64];
 	sprintf(szTemp, "%f %f %f", 
@@ -497,6 +528,10 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	if (m_pController)
 	{
 		m_pController->WndProc(hWnd, message, wParam, lParam);
+	}
+	if (m_Quit)
+	{
+		PostQuitMessage(0);
 	}
 }
 

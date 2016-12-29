@@ -107,9 +107,26 @@
     <ClCompile Include="Dx3D.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cUI.cpp" />
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="cEffect.cpp" />
+    <ClCompile Include="cUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIButton.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIImageView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cUIObject.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cUITextView.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="cScene.cpp">
+      <Filter>SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -226,9 +243,26 @@
     <ClInclude Include="Dx3D.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cUI.h" />
     <ClInclude Include="soundManager.h" />
     <ClInclude Include="cEffect.h" />
+    <ClInclude Include="cUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cUIButton.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cUIImageView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cUIObject.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cUITextView.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cScene.h">
+      <Filter>SceneManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Dx3D.rc" />
@@ -256,6 +290,12 @@
     </Filter>
     <Filter Include="Frustum">
       <UniqueIdentifier>{8865ea30-c568-4dd3-9859-a4d51d589fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{bb80c21f-5884-4002-ab32-cbb12ef4b3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneManager">
+      <UniqueIdentifier>{4c838525-d61c-4deb-a7b7-05970671b619}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
