@@ -9,6 +9,7 @@ cZombie::cZombie()
 	, m_pSprite(NULL)
 	, m_Blood(false)
 	, m_fBloodTime(0.f)
+	, m_isDead(false)
 {
 }
 

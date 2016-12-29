@@ -5,7 +5,6 @@ class cBoss : public cZombie
 {
 private:
 	ST_ZOMBIE	m_stBoss;
-	bool		m_isDead;
 	bool		m_Pick;
 	D3DXVECTOR3			m_pPosition;
 

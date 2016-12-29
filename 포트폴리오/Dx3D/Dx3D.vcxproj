@@ -95,6 +95,7 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cClot.h" />
     <ClInclude Include="cCrawler.h" />
+    <ClInclude Include="cCredit.h" />
     <ClInclude Include="cCrossHead.h" />
     <ClInclude Include="cCrtController.h" />
     <ClInclude Include="cDeviceManager.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cClot.cpp" />
     <ClCompile Include="cCrawler.cpp" />
+    <ClCompile Include="cCredit.cpp" />
     <ClCompile Include="cCrossHead.cpp" />
     <ClCompile Include="cCrtController.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />

@@ -20,6 +20,7 @@ cEnemyManager::cEnemyManager()
 	, m_pBoss(NULL)
 	, m_pEffect(NULL)
 	, OnOff(false)
+	, m_isBossDead(false)
 {
 }
 
@@ -71,8 +72,6 @@ bool cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlaye
 	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
-	if (m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun)) return true;
-	else return false;
 
 	if (m_pBloat->GetZombiePosition())
 	{
@@ -100,6 +99,15 @@ bool cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlaye
 		OnOff = true;
 	}
 
+	if (m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun))
+	{
+		if (m_pBoss->GetIsDead())
+		{
+			m_isBossDead = true;
+		}
+		return true;
+	}
+	else return false;
 	
 //	m_pDijkstra->Update(vPlayerPos);
 //	m_pDijkstra->Render();

@@ -24,6 +24,7 @@ class cScene;
 class cEffect;
 
 class cSoundSetting;
+class cCredit;
 
 class cMainGame
 {
@@ -92,8 +93,8 @@ private:
 	D3DXMATRIXA16				matView;
 
 	cScene*						m_pScene;
-	bool						m_Main;
-	bool						m_Quit;
+	cCredit*					m_pCredit;
+	int							m_nScene;
 
 public:
 	cMainGame(void);

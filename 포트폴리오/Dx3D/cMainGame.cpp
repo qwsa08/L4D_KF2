@@ -21,6 +21,7 @@
 #include "cUI.h"
 #include "cSoundSetting.h"
 #include "cScene.h"
+#include "cCredit.h"
 
 #define RADIUS 3.f
 
@@ -53,9 +54,8 @@ cMainGame::cMainGame(void)
 	, m_pSky(NULL)
 	, m_AimDown(false)
 	, m_pScene(NULL)
-	, m_Main(true)
-	, m_Quit(false)
-	
+	, m_pCredit(NULL)
+	, m_nScene(0)	
 {
 }
 
@@ -78,6 +78,7 @@ cMainGame::~cMainGame(void)
 	SAFE_RELEASE(m_pMap);
 	SAFE_DELETE(m_pUI);
 	SAFE_DELETE(m_pScene);
+	SAFE_DELETE(m_pCredit);
 
 	SAFE_RELEASE(m_pMesh);
 	SAFE_RELEASE(m_pMapMesh);
@@ -202,6 +203,9 @@ void cMainGame::Setup()
 	m_pScene = new cScene;
 	m_pScene->Setup();
 
+	m_pCredit = new cCredit;
+	m_pCredit->Setup();
+
 	SetCursorPos((m_Clientrc.right - m_Clientrc.left) / 2.f, (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
 	ClipCursor(&m_Clientrc);	//마우스 가두기
 
@@ -214,20 +218,20 @@ void cMainGame::Update()
 {
 	g_pSoundManager->update();
 
-	if (m_Main)
+	if (m_nScene == 0)
 	{
 		int isStart = 0;
 		m_pScene->Update(&isStart);
 		if (isStart == 1)
 		{
-			m_Main = false;
+			m_nScene = 1;
 		}
 		else if (isStart == 2)
 		{
-			m_Quit = true;
+			m_nScene = 3;
 		}
 	}
-	else
+	else if (m_nScene == 1)
 	{
 		if (!OnOff_MOUSE) SetCursorPos(m_Clientrc.left + (m_Clientrc.right - m_Clientrc.left) / 2.f, m_Clientrc.top + (m_Clientrc.bottom - m_Clientrc.top) / 2.f);
 
@@ -406,6 +410,10 @@ void cMainGame::Update()
 
 		m_pBulletCollision->PickCenter(m_pController);
 	}
+	else if (m_nScene == 2)
+	{
+		m_pCredit->Update();
+	}
 	if (!g_pSoundManager->isPlaySound("사운드테스트"))
 		g_pSoundManager->play("사운드테스트", 0.5f);
 
@@ -418,19 +426,19 @@ void cMainGame::Render()
 	g_pD3DDevice->Clear(NULL,
 		NULL,
 		D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-		D3DCOLOR_XRGB(100, 20, 20),
+		D3DCOLOR_XRGB(0, 0, 0),
 		//D3DCOLOR_XRGB(0, 0, 255),
 		1.0f, 0);
 
 	g_pD3DDevice->BeginScene();
 	
 	// 그림을 그린다.
-	if (m_Main)
+	if (m_nScene == 0)
 	{
 		if (m_pScene)
 			m_pScene->Render();
 	}
-	else
+	else if (m_nScene == 1)
 	{
 		m_pGrid->Render();
 		D3DXMATRIXA16 matI, matT, matS, matPosition;
@@ -443,7 +451,7 @@ void cMainGame::Render()
 		bool bossDie = false;
 		if (m_pEnemyManager)
 		{
-			bossDie=m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire, m_pPlayer->GetPlayerGun());
+			bossDie = m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire, m_pPlayer->GetPlayerGun());
 			m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
 		}
 
@@ -452,7 +460,13 @@ void cMainGame::Render()
 			if (m_pPlayer)
 				m_pPlayer->Render();
 		}
-
+		else
+		{
+			if (m_pEnemyManager->GetIsBossDead() == true)
+			{
+				m_nScene = 2;
+			}
+		}
 
 		if (m_pMap)
 		{
@@ -519,6 +533,10 @@ void cMainGame::Render()
 		if (m_pPlayer->GetPlayerGun() != KNIFE)
 			m_pUI->Bullet_Render(m_pPlayer->GetBullet(), m_pPlayer->GetMaxBullet());
 	}
+	else if (m_nScene == 2)
+	{
+		m_pCredit->Render();
+	}
 	
 
 	char szTemp[64];
@@ -538,7 +556,7 @@ void cMainGame::WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 	{
 		m_pController->WndProc(hWnd, message, wParam, lParam);
 	}
-	if (m_Quit)
+	if (m_nScene == 3)
 	{
 		PostQuitMessage(0);
 	}

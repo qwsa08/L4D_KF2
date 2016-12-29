@@ -62,6 +62,7 @@ protected:
 	RECT				m_Rect;
 	bool				m_Blood;
 	float				m_fBloodTime;
+	SYNTHESIZE(bool, m_isDead, IsDead);
 
 public:
 	cZombie();

@@ -128,6 +128,9 @@
     <ClCompile Include="cScene.cpp">
       <Filter>SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="cCredit.cpp">
+      <Filter>SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asciitok.h" />
@@ -263,6 +266,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="cScene.h">
+      <Filter>SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cCredit.h">
       <Filter>SceneManager</Filter>
     </ClInclude>
   </ItemGroup>

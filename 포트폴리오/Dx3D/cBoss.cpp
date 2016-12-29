@@ -10,7 +10,6 @@
 
 cBoss::cBoss()
 	: m_Pick(false)
-	, m_isDead(false)
 {
 }
 

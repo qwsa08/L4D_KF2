@@ -18,6 +18,9 @@ private:
 	bool		OnOff;
 	D3DXVECTOR3				m_vTemp;
 	std::vector<D3DXVECTOR3> m_vMonPosition;
+
+	SYNTHESIZE(bool, m_isBossDead, IsBossDead);
+
 public:
 	cEnemyManager();
 	~cEnemyManager();
