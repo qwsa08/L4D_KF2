@@ -243,6 +243,9 @@ bool cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
 			{
+				if (!g_pSoundManager->isPlaySound("Zombie_Hit1"))
+					g_pSoundManager->play("Zombie_Hit1", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
 				m_Pick = true;
@@ -256,6 +259,9 @@ bool cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
 			{
+				if (!g_pSoundManager->isPlaySound("Zombie_Hit1"))
+					g_pSoundManager->play("Zombie_Hit1", 0.1f);
+
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
 				m_Pick = true;
@@ -288,6 +294,8 @@ bool cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 			{
 				if (!g_pSoundManager->isPlaySound("Gorefast_Death"))
 					g_pSoundManager->play("Gorefast_Death", 0.1f);
+
+				IdleSoundOff(i);
 
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);

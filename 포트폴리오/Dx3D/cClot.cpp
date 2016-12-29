@@ -368,6 +368,9 @@ bool cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_F)
 			{
+				if (!g_pSoundManager->isPlaySound("Zombie_Hit1"))
+					g_pSoundManager->play("Zombie_Hit1", 0.1f);
+
 				m_Pick = true;
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(3);
@@ -381,6 +384,9 @@ bool cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			}
 			else if (m_vecSkinnedMesh[i].eMotion == HIT_B)
 			{
+				if (!g_pSoundManager->isPlaySound("Zombie_Hit1"))
+					g_pSoundManager->play("Zombie_Hit1", 0.1f);
+
 				m_Pick = true;
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(4);
@@ -414,6 +420,8 @@ bool cClot::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bo
 			{
 				if (!g_pSoundManager->isPlaySound("Clot_Death"))
 					g_pSoundManager->play("Clot_Death", 0.1f);
+
+				IdleSoundOff(i);
 
 				m_vecSkinnedMesh[i].fElapsedTime += g_pTimeManager->GetDeltaTime();
 				float fActionTime = m_vecSkinnedMesh[i].pSkinnedMesh->AnimationFrame(7);

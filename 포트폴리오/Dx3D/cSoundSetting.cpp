@@ -141,5 +141,5 @@ void cSoundSetting::Zombie_Sound_Setting()
 	g_pSoundManager->addSound("BOSS_Victory", "Sound/Zombie/Boss_Patriarch/Kev_Victory7.wav", false, false);
 	g_pSoundManager->addSound("BOSS_Idle", "Sound/Zombie/Boss_Patriarch/Kev_IdleLoop.wav", false, true);
 	g_pSoundManager->addSound("BOSS_Gunfire", "Sound/Zombie/Boss_Patriarch/Kev_MG_GunfireLoop.wav", false, true);
-	g_pSoundManager->addSound("BOSS_Charge", "Sound/Zombie/Boss_Patriarch/Kev_Entrance_Scream3.wav", false, true);
+	g_pSoundManager->addSound("BOSS_Charge", "Sound/Zombie/Boss_Patriarch/Kev_Entrance_Scream3.wav", false, false);
 }
