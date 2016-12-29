@@ -440,14 +440,17 @@ void cMainGame::Render()
 
 		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-		if (m_pPlayer)
-			m_pPlayer->Render();
-
-
+		bool bossDie = false;
 		if (m_pEnemyManager)
 		{
-			m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire, m_pPlayer->GetPlayerGun());
+			bossDie=m_pEnemyManager->UpdateAndRender(m_pController->GetPosition(), &m_pController->GetDirection(), &m_fire, m_pPlayer->GetPlayerGun());
 			m_pEnemyManager->RenderEffect(&m_pController->GetRotation());
+		}
+
+		if (bossDie == false)
+		{
+			if (m_pPlayer)
+				m_pPlayer->Render();
 		}
 
 

@@ -54,7 +54,7 @@ void cGorefast::Setup()
 	m_vecSkinnedMesh.push_back(stZombie);
 }
 
-void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	cZombie::AttackBlood();
 
@@ -292,6 +292,8 @@ void cGorefast::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir
 		m_pOBB->Update(&matB, m_vecSkinnedMesh[i].OBBBox);
 		m_pOBB->DebugRender(&m_vecSkinnedMesh[i].OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
+
+	return false;
 }
 
 void cGorefast::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)

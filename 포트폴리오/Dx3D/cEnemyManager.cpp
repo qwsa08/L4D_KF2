@@ -10,6 +10,7 @@
 #include "cCrtController.h"
 #include "cEffect.h"
 
+
 cEnemyManager::cEnemyManager()
 	: m_pDijkstra(NULL)
 	, m_pBloat(NULL)
@@ -63,14 +64,15 @@ void cEnemyManager::Setup()
 	m_pEffect->Setup("Effect/MonBlood2.png", 3);
 }
 
-void cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cEnemyManager::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
 	m_vMonPosition.clear();
 	m_pBloat->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 	m_pClot->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 	m_pCrawler->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
 	m_pGorefast->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
-	m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun);
+	if (m_pBoss->UpdateAndRender(vPlayerPos, vPlayerDir, Shot, ePlayerGun)) return true;
+	else return false;
 
 	if (m_pBloat->GetZombiePosition())
 	{

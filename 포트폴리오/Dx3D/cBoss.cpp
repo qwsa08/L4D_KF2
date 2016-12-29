@@ -7,8 +7,10 @@
 
 #define ATTACKDISTANCE	100.f
 
+
 cBoss::cBoss()
-	:m_Pick(false)
+	: m_Pick(false)
+	, m_isDead(false)
 {
 }
 
@@ -37,348 +39,336 @@ void cBoss::Setup()
 	m_pOBB->SetupOBJ(m_stBoss.pSkinnedMesh->GetBoundingBox()->_min*0.5f + D3DXVECTOR3(-50, 0, 0),
 		m_stBoss.pSkinnedMesh->GetBoundingBox()->_max*0.5f + D3DXVECTOR3(50,0,0), m_stBoss.OBBBox);
 	m_stBoss.eMotion = IDLE;
-	m_stBoss.nHealth = 500;
+	m_stBoss.nHealth = 300;
 	m_stBoss.fSpeed = 3.f;
 	m_pOBB->SetupOBJ(m_stBoss.pSkinnedMesh->GetBoundingBox()->_min*0.5f + D3DXVECTOR3(-50, 0, 0),
 		m_stBoss.pSkinnedMesh->GetBoundingBox()->_max*0.5f + D3DXVECTOR3(50, 0, 0), m_stBoss.OBBBox);
 }
 
-void cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
+bool cBoss::UpdateAndRender(D3DXVECTOR3* vPlayerPos, D3DXVECTOR3* vPlayerDir, bool* Shot, GUN_NAME ePlayerGun)
 {
-	cZombie::AttackBlood();
-
-	D3DXVECTOR3 vDest = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
-
-	m_pFrustum->Update();
-
-	if (m_stBoss.eMotion == DIE)
+	if (!m_isDead)
 	{
-		m_Pick = false;
-		m_stBoss.vPosition.y -= 1.f;
-		m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-		float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(7);
-		if (m_stBoss.fElapsedTime > fActionTime)
-		{
-//			m_vecSkinnedMesh.erase(m_vecSkinnedMesh.begin() + i);
-//			SAFE_DELETE(m_stBoss.pSkinnedMesh);
-		}
-	}
-	else
-	{
-		if (m_stBoss.nHealth <= 0)
-		{
-			m_stBoss.eMotion = DIE;
-			m_stBoss.pSkinnedMesh->ResetTrackPosition();
-		}
-		if (*Shot && PickTheBullet(vPlayerPos, vPlayerDir, 0))
-		{
-			//앞에서 맞나 뒤에서 맞나
-			float fAngle = D3DXVec3Dot(vPlayerDir, &m_stBoss.vDirection);
-			if (fAngle < 0)
-			{
-				m_stBoss.eMotion = HIT_B;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-			else
-			{
-				m_stBoss.eMotion = HIT_F;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-			int damage = 0;
-			switch (ePlayerGun)
-			{
-			case HANDGUN:
-				damage = H_DAMAGE;
-				break;
-			case BUSTER:
-				damage = B_DAMAGE;
-				break;
-			case KNIFE:
-				damage = K_DAMAGE;
-				break;
-			case SHOT:
-				damage = S_DAMAGE;
-				break;
-			case HEAL:
-				*Shot = false;
-				break;
-			default:
-				break;
-			}
+		cZombie::AttackBlood();
 
-			m_stBoss.nHealth -= damage;
-			if (ePlayerGun != SHOT) *Shot = false;
-			
-		}
-		//범위?
-		D3DXVECTOR3 v = m_stBoss.vPosition - vDest;
-		float fDistance = D3DXVec3Length(&v);
-		D3DXVec3Normalize(&v, &v);
+		D3DXVECTOR3 vDest = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
 
-		if (m_stBoss.eMotion == IDLE)
+		m_pFrustum->Update();
+
+		if (m_stBoss.eMotion == DIE)
 		{
-			if ((*vPlayerPos).y < 0)
+			D3DXMATRIXA16 matView;
+			D3DXMatrixLookAtLH(&matView, &D3DXVECTOR3(m_stBoss.vPosition.x-100, m_stBoss.vPosition.y+300, m_stBoss.vPosition.z-100),
+				&D3DXVECTOR3(m_stBoss.vPosition.x, m_stBoss.vPosition.y, m_stBoss.vPosition.z),
+				&D3DXVECTOR3(0, 1, 0));
+			g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+			m_Pick = false;
+			m_stBoss.vPosition.y -= 0.5f;
+			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(12);
+			if (m_stBoss.fElapsedTime > fActionTime)
 			{
-				if (m_stBoss.isRecognize == false)
+				m_isDead = true;
+			}
+		}
+		else
+		{
+			if (m_stBoss.nHealth <= 0)
+			{
+				m_stBoss.eMotion = DIE;
+				m_stBoss.pSkinnedMesh->ResetTrackPosition();
+			}
+			if (*Shot && PickTheBullet(vPlayerPos, vPlayerDir, 0))
+			{
+				//앞에서 맞나 뒤에서 맞나
+				float fAngle = D3DXVec3Dot(vPlayerDir, &m_stBoss.vDirection);
+				if (fAngle < 0)
 				{
-					if (fDistance < 1000.f)
-					{
-						//시야
-						float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
-						if (fFov <= 1 && fFov > 0.5f)
-						{
-							m_stBoss.isRecognize = true;
-							m_stBoss.eMotion = ENTRANCE;
-							m_stBoss.pSkinnedMesh->ResetTrackPosition();
-//							if (1 - fabs(fFov) < EPSILON)
-//							{
-//								m_stBoss.eMotion = ENTRANCE;
-//								m_stBoss.pSkinnedMesh->ResetTrackPosition();
-//							}
-//							else
-//							{
-//								D3DXVECTOR3 v0 = m_stBoss.vPosition + fDistance * m_stBoss.vDirection;
-//								D3DXVECTOR3 v1 = vDest;
-//								D3DXVECTOR3 vPos(0, 0, 0);
-//								D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
-//								D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vPos));
-//							}
-						}
-					}
+					m_stBoss.eMotion = HIT_B;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
 				}
 				else
 				{
-					if (fDistance < 500.f)
+					m_stBoss.eMotion = HIT_F;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+				int damage = 0;
+				switch (ePlayerGun)
+				{
+				case HANDGUN:
+					damage = H_DAMAGE;
+					break;
+				case BUSTER:
+					damage = B_DAMAGE;
+					break;
+				case KNIFE:
+					damage = K_DAMAGE;
+					break;
+				case SHOT:
+					damage = S_DAMAGE;
+					break;
+				case HEAL:
+					*Shot = false;
+					break;
+				default:
+					break;
+				}
+
+				m_stBoss.nHealth -= damage;
+				if (ePlayerGun != SHOT) *Shot = false;
+
+			}
+			//범위?
+			D3DXVECTOR3 v = m_stBoss.vPosition - vDest;
+			float fDistance = D3DXVec3Length(&v);
+			D3DXVec3Normalize(&v, &v);
+
+			if (m_stBoss.eMotion == IDLE)
+			{
+				if ((*vPlayerPos).y < 0)
+				{
+					if (fDistance < ATTACKDISTANCE)
 					{
-						m_stBoss.eMotion = MOVE;
+						m_stBoss.eMotion = ATTACK_MELEE;
 						m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					}
+
+					if (m_stBoss.isRecognize == false)
+					{
+						if (fDistance < 1000.f)
+						{
+							//시야
+							float fFov = D3DXVec3Dot(&m_stBoss.vDirection, &v);
+							if (fFov <= 1 && fFov > 0.5f)
+							{
+								m_stBoss.isRecognize = true;
+								m_stBoss.eMotion = ENTRANCE;
+								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+								//							if (1 - fabs(fFov) < EPSILON)
+								//							{
+								//								m_stBoss.eMotion = ENTRANCE;
+								//								m_stBoss.pSkinnedMesh->ResetTrackPosition();
+								//							}
+								//							else
+								//							{
+								//								D3DXVECTOR3 v0 = m_stBoss.vPosition + fDistance * m_stBoss.vDirection;
+								//								D3DXVECTOR3 v1 = vDest;
+								//								D3DXVECTOR3 vPos(0, 0, 0);
+								//								D3DXVec3Lerp(&vPos, &v0, &v1, D3DXVec3Length(&v0) / fDistance);
+								//								D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vPos));
+								//							}
+							}
+						}
 					}
 					else
 					{
-						if (m_stBoss.nHealth < 200)
-							m_stBoss.eMotion = ATTACK_GUN_BLINDLY;
+						if (fDistance < 300.f)
+						{
+							m_stBoss.eMotion = MOVE;
+							m_stBoss.pSkinnedMesh->ResetTrackPosition();
+						}
 						else
-							m_stBoss.eMotion = ATTACK_GUN;
+						{
+							m_stBoss.eMotion = ATTACK_GUN_BLINDLY;
+						}
 					}
 				}
-
+			}
+			else if (m_stBoss.eMotion == ENTRANCE)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(14);
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_stBoss.eMotion = ATTACK_CHARGE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == MOVE)
+			{
+				if ((*vPlayerPos).y > 0)
+				{
+					m_stBoss.eMotion = IDLE;
+				}
 				if (fDistance < ATTACKDISTANCE)
 				{
 					m_stBoss.eMotion = ATTACK_MELEE;
 					m_stBoss.pSkinnedMesh->ResetTrackPosition();
 				}
-			}
-		}
-		else if (m_stBoss.eMotion == ENTRANCE)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(14);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				m_stBoss.eMotion = ATTACK_CHARGE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == MOVE)
-		{
-			if ((*vPlayerPos).y > 0)
-			{
-				m_stBoss.eMotion = IDLE;
-			}
-			if (fDistance < ATTACKDISTANCE)
-			{
-				m_stBoss.eMotion = ATTACK_MELEE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-			}
-			else
-			{
-				//총은 언제 쏘게 하지
-				if (fDistance > 500.f)
-				{
-					if (m_stBoss.nHealth < 200)
-						m_stBoss.eMotion = ATTACK_GUN_BLINDLY;
-					else
-						m_stBoss.eMotion = ATTACK_GUN;
-				}
 				else
 				{
-					std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_stBoss.vPosition, &vDest);
-
-					if (vecRoute.size() < 3)
+					//총은 언제 쏘게 하지
+					if (fDistance > 300.f)
 					{
-						D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vDest));
-						m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+						m_stBoss.eMotion = ATTACK_GUN_BLINDLY;
 					}
-					else if (vecRoute.size() < 6)
+					else
 					{
-						if (m_stBoss.vPrevPosition != vecRoute[0])
-						{
-							D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[0])));
-							m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+						std::vector<D3DXVECTOR3> vecRoute = m_pDijkstra->GetRoute(&m_stBoss.vPosition, &vDest);
 
-							float l = D3DXVec3Dot(&(m_stBoss.vPosition - (vecRoute[0])), &(m_stBoss.vPrevPosition - (vecRoute[0])));
-							if (l <= 0)
+						if (vecRoute.size() < 3)
+						{
+							D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - vDest));
+							m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+						}
+						else if (vecRoute.size() < 6)
+						{
+							if (m_stBoss.vPrevPosition != vecRoute[0])
 							{
-								m_stBoss.vPrevPosition = vecRoute[0];
+								D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[0])));
+								m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+
+								float l = D3DXVec3Dot(&(m_stBoss.vPosition - (vecRoute[0])), &(m_stBoss.vPrevPosition - (vecRoute[0])));
+								if (l <= 0)
+								{
+									m_stBoss.vPrevPosition = vecRoute[0];
+								}
+							}
+							else
+							{
+								D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[1])));
+								m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
 							}
 						}
 						else
 						{
-							D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (vecRoute[1])));
-							m_stBoss.vPosition -= m_stBoss.vDirection * m_stBoss.fSpeed;
+							m_stBoss.eMotion = IDLE;
 						}
 					}
-					else
+				}
+			}
+			else if (m_stBoss.eMotion == HIT_F)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
+				m_Pick = true;
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_Pick = false;
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == HIT_B)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
+				m_Pick = true;
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_Pick = false;
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == ATTACK_MELEE)
+			{
+				if (fDistance < ATTACKDISTANCE)
+				{
+					m_Blood = true;
+				}
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(2);
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == ATTACK_CHARGE)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(6);
+
+				if (fDistance < ATTACKDISTANCE)
+				{
+					m_stBoss.eMotion = ATTACK_MELEE;
+				}
+
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+				//
+				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - m_stBoss.vPrevPosition));
+				m_stBoss.vPosition -= m_stBoss.vDirection * (m_stBoss.fSpeed + 15.f);
+			}
+			else if (m_stBoss.eMotion == ATTACK_GUN_BLINDLY)
+			{
+				D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - (*vPlayerPos - D3DXVECTOR3(0, 70, 0))));
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(5);
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					//if (fDistance < ATTACKDISTANCE)
+					//{
+					//	m_Blood = true;
+					//}
+					m_stBoss.eMotion = ATTACK_GUN_RELOAD;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == ATTACK_GUN_RELOAD)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					m_stBoss.vPrevPosition = *vPlayerPos - D3DXVECTOR3(0, 70, 0);
+					m_stBoss.eMotion = ATTACK_CHARGE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
+				}
+			}
+			else if (m_stBoss.eMotion == VICTORY)
+			{
+				m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
+				float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(13);
+				if (m_stBoss.fElapsedTime > fActionTime)
+				{
+					if (fDistance < ATTACKDISTANCE)
 					{
-						m_stBoss.eMotion = IDLE;
+						m_Blood = true;
 					}
-				}				
-			}			
-		}
-		else if (m_stBoss.eMotion == HIT_F)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
-			m_Pick = true;
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				m_Pick = false;
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == HIT_B)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
-			m_Pick = true;
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				m_Pick = false;
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == ATTACK_MELEE)
-		{
-			if (fDistance < ATTACKDISTANCE)
-			{
-				m_Blood = true;
-			}
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(2);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == ATTACK_CHARGE)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(6);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				if (fDistance < ATTACKDISTANCE)
-				{
-					m_Blood = true;
+					m_stBoss.eMotion = IDLE;
+					m_stBoss.pSkinnedMesh->ResetTrackPosition();
+					m_stBoss.fElapsedTime = 0.f;
 				}
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-			//
-			D3DXVec3Normalize(&m_stBoss.vDirection, &(m_stBoss.vPosition - m_stBoss.vPrevPosition));
-			m_stBoss.vPosition -= m_stBoss.vDirection * (m_stBoss.fSpeed + 4.f);
-		}
-		else if (m_stBoss.eMotion == ATTACK_GUN)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(4);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				if (fDistance < ATTACKDISTANCE)
-				{
-					m_Blood = true;
-				}
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
 			}
 		}
-		else if (m_stBoss.eMotion == ATTACK_GUN_BLINDLY)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(5);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				if (fDistance < ATTACKDISTANCE)
-				{
-					m_Blood = true;
-				}
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == ATTACK_GUN_RELOAD)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(3);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				if (fDistance < ATTACKDISTANCE)
-				{
-					m_Blood = true;
-				}
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
-		else if (m_stBoss.eMotion == VICTORY)
-		{
-			m_stBoss.fElapsedTime += g_pTimeManager->GetDeltaTime();
-			float fActionTime = m_stBoss.pSkinnedMesh->AnimationFrame(13);
-			if (m_stBoss.fElapsedTime > fActionTime)
-			{
-				if (fDistance < ATTACKDISTANCE)
-				{
-					m_Blood = true;
-				}
-				m_stBoss.eMotion = IDLE;
-				m_stBoss.pSkinnedMesh->ResetTrackPosition();
-				m_stBoss.fElapsedTime = 0.f;
-			}
-		}
+
+		D3DXMATRIXA16 matS, matR, matT, mat, matBT, matB, matBS;
+		SetAnimationIndex(0, m_stBoss.eMotion);
+		D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
+		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_stBoss.vDirection, &D3DXVECTOR3(0, 1, 0));
+		D3DXMatrixTranspose(&matR, &matR);
+		D3DXMatrixTranslation(&matT, m_stBoss.vPosition.x, m_stBoss.vPosition.y, m_stBoss.vPosition.z);
+
+		mat = matS * matR * matT;
+
+		if (m_pFrustum->IsIn(m_stBoss.pSkinnedMesh->GetBoundingSphere()))
+			m_stBoss.pSkinnedMesh->UpdateAndRender(&mat);
+		//
+		D3DXMatrixScaling(&matBS, 0.6f, 0.8f, 0.6f);
+		D3DXMatrixTranslation(&matBT, m_stBoss.vPosition.x, m_stBoss.vPosition.y + 30.f, m_stBoss.vPosition.z);
+		matB = matBS * matR *matBT;
+		m_stBoss.matWTM = matB;
+		m_pOBB->Update(&matB, m_stBoss.OBBBox);
+		m_pOBB->DebugRender(&m_stBoss.OBBBox, D3DCOLOR_XRGB(255, 0, 255));
 	}
 
-	D3DXMATRIXA16 matS, matR, matT, mat, matBT, matB, matBS;
-	SetAnimationIndex(0, m_stBoss.eMotion);
-	D3DXMatrixScaling(&matS, 0.5f, 0.5f, 0.5f);
-	D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_stBoss.vDirection, &D3DXVECTOR3(0, 1, 0));
-	D3DXMatrixTranspose(&matR, &matR);
-	D3DXMatrixTranslation(&matT, m_stBoss.vPosition.x, m_stBoss.vPosition.y, m_stBoss.vPosition.z);
-
-	mat = matS * matR * matT;
-
-	if (m_pFrustum->IsIn(m_stBoss.pSkinnedMesh->GetBoundingSphere()))
-		m_stBoss.pSkinnedMesh->UpdateAndRender(&mat);
-	//
-	D3DXMatrixScaling(&matBS, 0.6f, 0.8f, 0.6f);
-	D3DXMatrixTranslation(&matBT, m_stBoss.vPosition.x, m_stBoss.vPosition.y + 30.f, m_stBoss.vPosition.z);
-	matB = matBS * matR *matBT;
-	m_stBoss.matWTM = matB;
-	m_pOBB->Update(&matB, m_stBoss.OBBBox);
-	m_pOBB->DebugRender(&m_stBoss.OBBBox, D3DCOLOR_XRGB(255, 0, 255));
-	
+	if (m_stBoss.eMotion == DIE) return true;
+	else return false;
 }
 
 void cBoss::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
@@ -413,7 +403,7 @@ void cBoss::SetAnimationIndex(int nIndex, ZOMBIE_MOTION eMotion)
 		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(13);
 		break;
 	case DIE:
-		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(7);
+		m_stBoss.pSkinnedMesh->SetNomalAnimationIndex(12);
 		break;
 	default:
 		break;
